@@ -179,3 +179,21 @@
 - Ergebnis: Checks erfolgreich; nur harmlose Secret-Suchtreffer wie
   Passwort-Input-Felder und Paketnamen.
 - Naechster Schritt: Commit auf `main` erstellen und nach `origin/main` pushen.
+
+## 2026-06-07 - Testdeployment auf theovina.de
+
+- Ziel: ChallengeHub testweise ueber eine bereits auf den VPS zeigende Domain
+  erreichbar machen.
+- Aenderungen auf dem VPS: Repo nach `/home/stefan/projects/challengehub`
+  geklont, `npm ci` und `npm run build` ausgefuehrt, Stack-Service
+  `challengehub` mit `node:24-bookworm-slim` angelegt und Caddy-Route
+  `theovina.de, www.theovina.de -> challengehub:3000` ergaenzt.
+- Verifikation: `docker compose config`, laufender Container
+  `stack-challengehub-1`, interner Caddy-Container-HTTP-Check und externe
+  HTTPS-Checks fuer `https://theovina.de` und `https://www.theovina.de/wissen`
+  mit Inhaltsmarkern.
+- Offene Risiken: Testdomain ist nicht die finale Marke; Metadaten wie `og:url`
+  zeigen weiterhin auf `https://challengehub.de`.
+- Naechster Schritt: Nach visueller Abnahme final entscheiden, ob DNS fuer
+  `challengehub.de` auf den VPS umgestellt und die Caddy-Route auf die echte
+  Domain umgezogen wird.
