@@ -2,8 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { challenges, levelLabels, type ChallengeLevel } from "@/data/challenges";
+import {
+  readUserChallenges,
+  subscribeToUserChallenges,
+  type UserChallenge
+} from "./user-challenges-storage";
 import styles from "./challenge-hub-app.module.css";
 
 type Dialog = "login" | "register" | "forgot" | "filter" | null;
@@ -18,15 +23,42 @@ export function ChallengeHubApp() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLevels, setSelectedLevels] = useState<ChallengeLevel[]>([]);
   const [minimumRating, setMinimumRating] = useState(0);
+  const [userChallenges, setUserChallenges] = useState<UserChallenge[]>([]);
+
+  useEffect(() => {
+    function syncUserChallenges() {
+      setUserChallenges(readUserChallenges());
+    }
+
+    syncUserChallenges();
+    return subscribeToUserChallenges(syncUserChallenges);
+  }, []);
 
   const visibleChallenges = useMemo(() => {
     const normalizedSearch = normalizeSearchText(searchQuery);
-    const filtered = challenges.filter((challenge) => {
+    const allChallenges = [
+      ...userChallenges.map((challenge) => ({
+        ...challenge,
+        participants: 0,
+        rating: 0,
+        duration: `${challenge.durationDays} Tage`,
+        isUserCreated: true
+      })),
+      ...challenges.map((challenge) => ({
+        ...challenge,
+        category: "Kuratierte Challenge",
+        durationDays: undefined,
+        isUserCreated: false
+      }))
+    ];
+    const filtered = allChallenges.filter((challenge) => {
       const levelMatches = selectedLevels.length === 0 || selectedLevels.includes(challenge.level);
       const ratingMatches = challenge.rating >= minimumRating;
       const searchMatches =
         normalizedSearch.length === 0 ||
-        normalizeSearchText(`${challenge.title} ${levelLabels[challenge.level]}`).includes(normalizedSearch);
+        normalizeSearchText(`${challenge.title} ${levelLabels[challenge.level]} ${challenge.category}`).includes(
+          normalizedSearch
+        );
 
       return levelMatches && ratingMatches && searchMatches;
     });
@@ -46,7 +78,7 @@ export function ChallengeHubApp() {
 
       return 0;
     });
-  }, [minimumRating, searchQuery, selectedLevels, sortKey]);
+  }, [minimumRating, searchQuery, selectedLevels, sortKey, userChallenges]);
 
   function toggleLevel(level: ChallengeLevel) {
     setSelectedLevels((current) =>
@@ -78,6 +110,7 @@ export function ChallengeHubApp() {
         </button>
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Hauptnavigation">
           <a href="#challenges">Challenges</a>
+          <Link href="/challenges/neu">Erstellen</Link>
           <Link href="/meine-challenges">Meine Challenges</Link>
           <Link href="/wissen">Wissen</Link>
           <a href="#ranking">Ranking</a>
@@ -182,8 +215,11 @@ export function ChallengeHubApp() {
               </select>
             </label>
             <button className={styles.addButton} type="button" onClick={() => setDialog("login")}>
-              Add new Challenge
+              Login
             </button>
+            <Link className={styles.addButton} href="/challenges/neu">
+              Challenge erstellen
+            </Link>
           </div>
 
           <div className={styles.grid}>
@@ -191,7 +227,7 @@ export function ChallengeHubApp() {
               <Link className={styles.tileLink} href={`/challenges/${challenge.slug}`} key={challenge.slug}>
                 <article className={`${styles.tile} ${styles[challenge.level]}`}>
                   <h2>{challenge.title}</h2>
-                  <p>{levelLabels[challenge.level]}</p>
+                  <p>{challenge.isUserCreated ? "Oeffentliche User Challenge" : levelLabels[challenge.level]}</p>
                   <div className={styles.tileMeta}>
                     <span>
                       <Image src="/images/icon_participants.png" width={24} height={24} alt="" />

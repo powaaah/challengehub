@@ -5,6 +5,7 @@ export type ActiveChallenge = {
   title: string;
   goal: string;
   duration: string;
+  targetDays?: number;
   startedAt: string;
   checkIns: string[];
   safetyAccepted: boolean;
@@ -48,4 +49,12 @@ export function calculateStreak(checkIns: string[], today = todayKey()) {
   }
 
   return streak;
+}
+
+export function calculateProgress(checkIns: string[], targetDays?: number) {
+  if (!targetDays || targetDays <= 0) {
+    return 0;
+  }
+
+  return Math.min(100, Math.round((new Set(checkIns).size / targetDays) * 100));
 }

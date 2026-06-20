@@ -16,6 +16,7 @@ type ChallengeStartProps = {
     title: string;
     goal: string;
     duration: string;
+    targetDays?: number;
   };
 };
 
@@ -34,6 +35,7 @@ export function ChallengeStart({ challenge }: ChallengeStartProps) {
       title: challenge.title,
       goal: challenge.goal,
       duration: challenge.duration,
+      targetDays: challenge.targetDays,
       startedAt: startDate,
       checkIns: [],
       safetyAccepted

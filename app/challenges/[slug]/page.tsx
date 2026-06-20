@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { ChallengeStart } from "@/components/challenge-start";
+import { UserChallengeDetail } from "@/components/user-challenge-detail";
 import { challenges, getChallengeBySlug, levelLabels } from "@/data/challenges";
 import styles from "./page.module.css";
 
@@ -26,7 +26,8 @@ export async function generateMetadata({ params }: ChallengePageProps): Promise<
 
   if (!challenge) {
     return {
-      title: "Challenge nicht gefunden - ChallengeHub"
+      title: "Oeffentliche Challenge | ChallengeHub",
+      description: "Eine von der Community erstellte oeffentliche Challenge auf ChallengeHub."
     };
   }
 
@@ -62,7 +63,7 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
   const challenge = getChallengeBySlug(slug);
 
   if (!challenge) {
-    notFound();
+    return <UserChallengeDetail slug={slug} />;
   }
 
   const pageUrl = `${siteUrl}/challenges/${challenge.slug}`;
@@ -143,6 +144,7 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
         </Link>
         <nav className={styles.nav} aria-label="Challenge Navigation">
           <Link href="/#challenges">Challenges</Link>
+          <Link href="/challenges/neu">Erstellen</Link>
           <Link href="/meine-challenges">Meine Challenges</Link>
           <Link href="/wissen">Wissen</Link>
           <Link href="/#ranking">Ranking</Link>

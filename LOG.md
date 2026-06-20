@@ -197,3 +197,21 @@
 - Naechster Schritt: Nach visueller Abnahme final entscheiden, ob DNS fuer
   `challengehub.de` auf den VPS umgestellt und die Caddy-Route auf die echte
   Domain umgezogen wird.
+
+## 2026-06-20 - Lokale Challenge-Erstellung und Fortschritt
+
+- Ziel: MVP-Kern erweitern, sodass Nutzer Challenges finden, oeffentlich
+  erstellen, starten, abhaken und Fortschritt sehen koennen.
+- Aenderungen: `/challenges/neu` mit Formular und Live-Vorschau erstellt,
+  lokale User-Challenges in `localStorage` gespeichert, Startseite mit
+  kuratierten und erstellten Challenges zusammengefuehrt, dynamischen
+  Detailseiten-Fallback fuer lokale Challenges ergaenzt, Start-Flow um
+  Ziel-Tage erweitert und `/meine-challenges` um Fortschrittsbalken sowie
+  Erstellen-Links verbessert.
+- Verifikation: `npm run lint`, `npm run build`, Playwright-Smoke-Test fuer
+  Erstellen -> Detailseite -> Starten -> Dashboard -> Check-in -> Katalog sowie
+  mobile/Desktop-Layoutcheck fuer `/challenges/neu`.
+- Offene Risiken: User-Challenges und Check-ins sind weiterhin nur lokal im
+  Browser gespeichert; keine Account-, Moderations- oder Serverpersistenz.
+- Naechster Schritt: Auth-/Datenbankmodell fuer User, Challenges,
+  Teilnahmen und Check-ins festlegen und die lokale Persistenz ersetzen.

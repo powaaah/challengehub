@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
+  calculateProgress,
   calculateStreak,
   readActiveChallenges,
   todayKey,
@@ -66,6 +67,7 @@ export function MyChallengesApp() {
         </Link>
         <nav className={styles.nav} aria-label="Meine Challenges Navigation">
           <Link href="/#challenges">Challenges</Link>
+          <Link href="/challenges/neu">Erstellen</Link>
           <Link href="/wissen">Wissen</Link>
         </nav>
       </header>
@@ -74,8 +76,8 @@ export function MyChallengesApp() {
         <p className={styles.kicker}>Dein Dashboard</p>
         <h1>Meine Challenges</h1>
         <p>
-          Dieser MVP speichert deine gestarteten Challenges lokal in deinem Browser.
-          So koennen wir den Produktflow testen, bevor Login und Datenbank dazukommen.
+          Sieh, was heute offen ist, hake erledigte Tage ab und beobachte deinen Fortschritt.
+          Aktuell speichert ChallengeHub diese MVP-Daten lokal in deinem Browser.
         </p>
       </section>
 
@@ -83,13 +85,17 @@ export function MyChallengesApp() {
         <section className={styles.emptyState}>
           <h2>Noch keine aktive Challenge</h2>
           <p>Starte eine Challenge auf einer Detailseite und mache hier deinen ersten Check-in.</p>
-          <Link href="/#challenges">Challenges entdecken</Link>
+          <div className={styles.emptyActions}>
+            <Link href="/#challenges">Challenges entdecken</Link>
+            <Link href="/challenges/neu">Challenge erstellen</Link>
+          </div>
         </section>
       ) : (
         <section className={styles.grid} aria-label="Aktive Challenges">
           {activeChallenges.map((challenge) => {
             const hasCheckedInToday = challenge.checkIns.includes(today);
             const streak = calculateStreak(challenge.checkIns, today);
+            const progress = calculateProgress(challenge.checkIns, challenge.targetDays);
 
             return (
               <article className={styles.card} key={challenge.slug}>
@@ -108,10 +114,15 @@ export function MyChallengesApp() {
                     <dd>{challenge.checkIns.length}</dd>
                   </div>
                   <div>
-                    <dt>Dauer</dt>
-                    <dd>{challenge.duration}</dd>
+                    <dt>Fortschritt</dt>
+                    <dd>{challenge.targetDays ? `${progress}%` : challenge.duration}</dd>
                   </div>
                 </dl>
+                {challenge.targetDays && (
+                  <div className={styles.progressTrack} aria-label={`${progress}% Fortschritt`}>
+                    <span style={{ width: `${progress}%` }} />
+                  </div>
+                )}
                 <div className={styles.actions}>
                   <button
                     className={hasCheckedInToday ? styles.checkedButton : styles.checkButton}
