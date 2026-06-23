@@ -19,6 +19,7 @@ Stand: 2026-06-23
 - [x] Lokale oeffentliche Challenge-Erstellung mit Katalog, Detailseite, Start und Fortschritt umsetzen.
 - [x] Account-Flow und serverseitig gespeicherte oeffentliche Challenges mit SQLite-Fundament umsetzen.
 - [x] Startseiten-Layout nach Account-Slice bereinigen.
+- [x] Challenge-Katalog von der Startseite auf `/challenges` auslagern.
 
 ## Later
 

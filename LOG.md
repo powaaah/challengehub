@@ -262,3 +262,16 @@
   Warnung im Build.
 - Naechster Schritt: Layout gegen die gewuenschte Markenwirkung feinabstimmen
   oder mit persistenter Teilnahme/Check-ins fortfahren.
+
+## 2026-06-23 - Challenge-Katalog ausgelagert
+
+- Ziel: Startseite auf Hero und Social-Einstieg reduzieren und Challenges als
+  eigene Unterseite fuehren.
+- Aenderungen: Neue Route `/challenges` mit Suche, Filter, Sortierung und
+  Challenge-Kacheln erstellt; Startseite vom Katalog getrennt, Hero-H1 auf
+  `5rem` gesetzt, untere Hero-Buttons entfernt, Social-Icons transparent mit
+  grauem Hover gestaltet.
+- Verifikation: `npm run lint`, `npm run build`; Playwright-Screenshots fuer
+  Startseite und `/challenges` jeweils Desktop und Mobile.
+- Offene Risiken: Live/Testdomain braucht ein separates Deployment-Update.
+- Naechster Schritt: Visuelle Abnahme der neuen Startseite und Katalogseite.

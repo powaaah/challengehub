@@ -28,8 +28,7 @@
   font-weight: 700;
 }
 
-.nav a:not(.primaryButton),
-.navButton {
+.nav a:not(.primaryButton) {
   border: 0;
   background: transparent;
   color: var(--text);
@@ -38,8 +37,7 @@
   font-weight: 800;
 }
 
-.nav a:not(.primaryButton):hover,
-.navButton:hover {
+.nav a:not(.primaryButton):hover {
   color: var(--brand-dark);
 }
 
@@ -118,15 +116,19 @@
   transform: translateY(-1px);
 }
 
+.homeMain {
+  min-height: calc(100svh - 70px);
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
   gap: 3rem;
   align-items: center;
   width: min(1180px, calc(100% - 32px));
-  min-height: calc(100svh - 72px);
+  min-height: calc(100svh - 158px);
   margin: 0 auto;
-  padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
+  padding: 2rem 0;
 }
 
 .heroCopy {
@@ -146,7 +148,7 @@
   margin: 0;
   color: var(--background-deep);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.8rem, 6vw, 5.6rem);
+  font-size: 5rem;
   line-height: 0.96;
 }
 
@@ -193,13 +195,6 @@
 
 .heroSearch button {
   white-space: nowrap;
-}
-
-.heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 2rem;
 }
 
 .visuallyHidden {
@@ -258,7 +253,7 @@
   justify-content: center;
   gap: 1.2rem;
   width: min(1180px, calc(100% - 32px));
-  margin: -2rem auto 2rem;
+  margin: 0 auto 1.5rem;
 }
 
 .socialBar a {
@@ -267,8 +262,39 @@
   width: 58px;
   height: 58px;
   border-radius: 8px;
-  background: var(--surface);
-  box-shadow: 0 10px 24px rgba(18, 32, 43, 0.08);
+  background: transparent;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.socialBar a:hover {
+  background: rgba(68, 68, 68, 0.12);
+  transform: translateY(-1px);
+}
+
+.catalogPage {
+  min-height: calc(100svh - 70px);
+}
+
+.catalogHero {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 4rem 0 1rem;
+}
+
+.catalogHero h1 {
+  max-width: 12ch;
+  margin: 0;
+  color: var(--background-deep);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.catalogHero p:not(.kicker) {
+  max-width: 58ch;
+  color: var(--text-muted);
+  font-size: 1.08rem;
+  line-height: 1.7;
 }
 
 .challengeIntro {
@@ -597,7 +623,7 @@
   }
 
   .hero h1 {
-    font-size: clamp(2.45rem, 12vw, 3.45rem);
+    font-size: 3.25rem;
     line-height: 1;
   }
 
@@ -608,6 +634,14 @@
 
   .heroSearch button {
     width: 100%;
+  }
+
+  .catalogHero {
+    padding-top: 2.5rem;
+  }
+
+  .catalogHero h1 {
+    font-size: 3rem;
   }
 
   .toolbar {
