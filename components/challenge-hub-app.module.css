@@ -1,29 +1,46 @@
 .header {
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  width: min(1180px, calc(100% - 32px));
-  margin: 0 auto;
-  padding: 1rem 0;
-  background: rgba(245, 245, 245, 0.92);
+  gap: 1.5rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.75rem max(1rem, calc((100% - 1180px) / 2));
+  border-bottom: 1px solid rgba(18, 32, 43, 0.08);
+  background: rgba(245, 245, 245, 0.96);
   backdrop-filter: blur(16px);
+  box-shadow: 0 8px 28px rgba(18, 32, 43, 0.06);
 }
 
 .logoLink img {
-  width: 150px;
+  width: 148px;
   height: auto;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.15rem;
   color: var(--text);
   font-weight: 700;
+}
+
+.nav a:not(.primaryButton),
+.navButton {
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  padding: 0.4rem 0;
+  font: inherit;
+  font-weight: 800;
+}
+
+.nav a:not(.primaryButton):hover,
+.navButton:hover {
+  color: var(--brand-dark);
 }
 
 .menuButton {
@@ -50,6 +67,9 @@
 .secondaryButton,
 .filterButton,
 .addButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 44px;
   border-radius: 8px;
   border: 0;
@@ -75,11 +95,20 @@
 
 .filterButton,
 .addButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   background: var(--background-deep);
   color: white;
+}
+
+.filterButton {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.addButton {
+  background: var(--brand);
+  color: white;
+  box-shadow: 0 12px 28px rgba(0, 137, 179, 0.18);
 }
 
 .primaryButton:hover,
@@ -95,9 +124,9 @@
   gap: 3rem;
   align-items: center;
   width: min(1180px, calc(100% - 32px));
-  min-height: calc(100vh - 92px);
+  min-height: calc(100svh - 72px);
   margin: 0 auto;
-  padding: 2rem 0 4rem;
+  padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
 }
 
 .heroCopy {
@@ -117,8 +146,8 @@
   margin: 0;
   color: var(--background-deep);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(3rem, 7vw, 6.6rem);
-  line-height: 0.9;
+  font-size: clamp(2.8rem, 6vw, 5.6rem);
+  line-height: 0.96;
 }
 
 .hero p {
@@ -243,52 +272,71 @@
 }
 
 .challengeIntro {
-  background: var(--background-deep);
-  color: white;
-  padding: 3rem 1rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 1.25rem 1rem;
 }
 
 .challengeIntro blockquote {
-  max-width: 850px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1180px;
   margin: 0 auto;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  line-height: 1.2;
-  text-align: center;
+  font-size: clamp(1.05rem, 1.8vw, 1.55rem);
+  line-height: 1.35;
 }
 
 .challengeIntro cite {
   display: block;
-  margin-top: 1rem;
+  flex: 0 0 auto;
+  margin-top: 0;
   color: var(--orange);
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-style: normal;
   font-weight: 800;
 }
 
 .challengeSection {
   width: min(1180px, calc(100% - 32px));
-  scroll-margin-top: 6rem;
+  scroll-margin-top: 5.5rem;
   margin: 0 auto;
-  padding: 3rem 0 5rem;
+  padding: 2rem 0 5rem;
 }
 
 .toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: auto minmax(16rem, 1fr) minmax(12rem, auto) auto;
+  align-items: end;
+  gap: 0.9rem;
   margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 0.9rem;
+  box-shadow: 0 12px 28px rgba(18, 32, 43, 0.08);
 }
 
 .searchLabel,
 .sortLabel {
   display: flex;
-  align-items: center;
-  gap: 0.8rem;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 0.35rem;
   color: var(--text-muted);
   font-weight: 800;
+}
+
+.searchLabel span,
+.sortLabel span {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .searchLabel {
@@ -316,8 +364,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(21.25rem, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(22rem, 100%), 1fr));
+  gap: 1rem;
 }
 
 .tileLink {
@@ -345,44 +393,47 @@
 
 .tile {
   display: flex;
-  height: 11.25rem;
+  min-height: 12.5rem;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
   border-radius: 0.625rem;
-  padding: 1.25rem;
+  padding: 1.35rem;
   color: white;
   box-shadow: var(--shadow);
-  transition: transform 160ms ease;
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .tile:hover {
-  transform: scale(1.02);
+  box-shadow: 0 20px 48px rgba(18, 32, 43, 0.2);
+  transform: translateY(-2px);
 }
 
 .tile h2 {
   margin: 0;
-  height: 5.625rem;
-  font-size: 1.375rem;
-  font-weight: 200;
-  line-height: 1.2;
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  font-weight: 700;
+  line-height: 1.22;
   text-wrap: balance;
 }
 
 .tile p {
   margin: 0;
-  font-size: 1.125rem;
-  font-weight: 400;
-  line-height: 1;
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.25;
 }
 
 .tileMeta {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 0.7rem;
-  font-size: 1.125rem;
-  font-weight: 400;
+  margin-top: 1rem;
+  border-top: 1px solid currentColor;
+  padding-top: 0.85rem;
+  font-size: 1rem;
+  font-weight: 800;
+  opacity: 0.85;
 }
 
 .tileMeta span {
@@ -513,6 +564,7 @@
 @media (max-width: 820px) {
   .header {
     align-items: flex-start;
+    padding-block: 0.65rem;
   }
 
   .menuButton {
@@ -521,8 +573,8 @@
 
   .nav {
     position: absolute;
-    top: 74px;
-    right: 0;
+    top: 66px;
+    right: 1rem;
     display: none;
     width: min(280px, calc(100vw - 32px));
     flex-direction: column;
@@ -545,7 +597,8 @@
   }
 
   .hero h1 {
-    font-size: clamp(2.8rem, 16vw, 4.4rem);
+    font-size: clamp(2.45rem, 12vw, 3.45rem);
+    line-height: 1;
   }
 
   .heroSearch {
@@ -558,14 +611,13 @@
   }
 
   .toolbar {
+    grid-template-columns: 1fr;
     align-items: stretch;
-    flex-direction: column;
   }
 
   .searchLabel,
   .sortLabel {
     align-items: stretch;
-    flex-direction: column;
   }
 
   .searchLabel input {
@@ -574,6 +626,11 @@
 
   .grid {
     grid-template-columns: repeat(auto-fill, minmax(min(21.25rem, 100%), 1fr));
+  }
+
+  .challengeIntro blockquote {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 

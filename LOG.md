@@ -247,3 +247,18 @@
   Warnung; Teilnahmen und Check-ins sind noch nicht serverseitig angebunden.
 - Naechster Schritt: Persistente Teilnahmen und Check-ins fuer eingeloggte
   Nutzer umsetzen.
+
+## 2026-06-23 - Startseiten-Layout bereinigt
+
+- Ziel: Merkwuerdige Startseiten-Darstellung nach Account-Slice korrigieren.
+- Aenderungen: Header auf volle Breite gesetzt, Ranking-Link an die
+  Challenge-Liste statt an den Quote-Block gekoppelt, Leitsatz als kompakten
+  Streifen gestaltet, Toolbar und Challenge-Kacheln ruhiger ausgerichtet,
+  englische Rest-CTAs entfernt.
+- Verifikation: `npm run lint`, `npm run build`; Playwright-Screenshots fuer
+  Desktop und Mobile an Hero und Challenge-Liste.
+- Offene Risiken: Visuelle Feinabstimmung kann nach Stefans Review weiter
+  iteriert werden; `node:sqlite` meldet weiterhin die bekannte Experimental-
+  Warnung im Build.
+- Naechster Schritt: Layout gegen die gewuenschte Markenwirkung feinabstimmen
+  oder mit persistenter Teilnahme/Check-ins fortfahren.

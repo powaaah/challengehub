@@ -12,7 +12,7 @@ import {
 } from "./user-challenges-storage";
 import styles from "./challenge-hub-app.module.css";
 
-type Dialog = "login" | "register" | "forgot" | "filter" | null;
+type Dialog = "filter" | null;
 type SortKey = "standard" | "newest" | "participants" | "rating";
 
 const levelOptions: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
@@ -124,7 +124,16 @@ export function ChallengeHubApp({ serverChallenges }: { serverChallenges: DbPubl
           <Link href="/challenges/neu">Erstellen</Link>
           <Link href="/meine-challenges">Meine Challenges</Link>
           <Link href="/wissen">Wissen</Link>
-          <a href="#ranking">Ranking</a>
+          <button
+            className={styles.navButton}
+            type="button"
+            onClick={() => {
+              setSortKey("rating");
+              document.getElementById("challenges")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+          >
+            Ranking
+          </button>
           <Link className={styles.primaryButton} href="/auth">
             Login
           </Link>
@@ -138,7 +147,7 @@ export function ChallengeHubApp({ serverChallenges }: { serverChallenges: DbPubl
             <h1>Unleash Your Potential and Reach Your Goals</h1>
             <p>
               Wir wollen, dass jeder Mensch happy ist. Als Gemeinschaft halten wir zusammen,
-              motivieren uns gegenseitig und bewältigen dadurch auch große Herausforderungen.
+              motivieren uns gegenseitig und meistern dadurch auch grosse Herausforderungen.
             </p>
             <form className={styles.heroSearch} role="search" onSubmit={handleHeroSearchSubmit}>
               <label className={styles.visuallyHidden} htmlFor="hero-challenge-search">
@@ -152,7 +161,7 @@ export function ChallengeHubApp({ serverChallenges }: { serverChallenges: DbPubl
                 onChange={(event) => setSearchQuery(event.target.value)}
               />
               <button className={styles.primaryButton} type="submit">
-                Find your challenge
+                Challenge finden
               </button>
             </form>
             <div className={styles.heroActions}>
@@ -195,7 +204,7 @@ export function ChallengeHubApp({ serverChallenges }: { serverChallenges: DbPubl
           </a>
         </section>
 
-        <section className={styles.challengeIntro} id="ranking">
+        <section className={styles.challengeIntro} aria-label="ChallengeHub Leitsatz">
           <blockquote>
             &quot;Die beste Moeglichkeit, die Zukunft vorauszusagen, ist, sie zu erschaffen.&quot;
             <cite>Peter Drucker</cite>
@@ -225,11 +234,8 @@ export function ChallengeHubApp({ serverChallenges }: { serverChallenges: DbPubl
                 <option value="rating">Bewertung</option>
               </select>
             </label>
-            <Link className={styles.addButton} href="/auth">
-              Login
-            </Link>
             <Link className={styles.addButton} href="/challenges/neu">
-              Challenge erstellen
+              Neue Challenge
             </Link>
           </div>
 
@@ -270,71 +276,6 @@ export function ChallengeHubApp({ serverChallenges }: { serverChallenges: DbPubl
           Merch
         </a>
       </footer>
-
-      {dialog === "login" && (
-        <Modal title="Login" onClose={() => setDialog(null)}>
-          <form className={styles.form}>
-            <label>
-              Benutzername oder E-Mail:
-              <input type="email" required />
-            </label>
-            <label>
-              Passwort:
-              <input type="password" required />
-            </label>
-            <div className={styles.formRow}>
-              <button className={styles.primaryButton} type="button">
-                Login
-              </button>
-              <button className={styles.linkButton} type="button" onClick={() => setDialog("forgot")}>
-                Passwort vergessen?
-              </button>
-            </div>
-          </form>
-          <p>
-            Du hast noch keinen Account?{" "}
-            <button className={styles.inlineButton} type="button" onClick={() => setDialog("register")}>
-              Registrieren
-            </button>
-          </p>
-        </Modal>
-      )}
-
-      {dialog === "register" && (
-        <Modal title="Registrieren" onClose={() => setDialog(null)}>
-          <form className={styles.form}>
-            <label>
-              E-Mail:
-              <input type="email" required />
-            </label>
-            <label>
-              Passwort:
-              <input type="password" required />
-            </label>
-            <button className={styles.primaryButton} type="button">
-              Registrieren
-            </button>
-          </form>
-        </Modal>
-      )}
-
-      {dialog === "forgot" && (
-        <Modal title="Passwort vergessen" onClose={() => setDialog(null)}>
-          <p>
-            Gib bitte deine E-Mail-Adresse ein, mit der du dich auf ChallengeHub registriert hast.
-            Dann senden wir dir einen Link zur Erneuerung deines Passworts.
-          </p>
-          <form className={styles.form}>
-            <label>
-              E-Mail:
-              <input type="email" required />
-            </label>
-            <button className={styles.primaryButton} type="button">
-              Passwort wiederherstellen starten
-            </button>
-          </form>
-        </Modal>
-      )}
 
       {dialog === "filter" && (
         <Modal title="Filter" onClose={() => setDialog(null)}>
