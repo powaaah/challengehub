@@ -325,3 +325,21 @@
   werden.
 - Naechster Schritt: Challenge-Erstellung mit Abgleich gegen bestehende
   Challenges fachlich ausarbeiten.
+
+## 2026-06-23 - Testdomain mit Profilmenue aktualisiert
+
+- Ziel: Den aktuellen Header-/Profilmenue-Stand auf der Testdomain sichtbar
+  machen.
+- Aenderungen: VPS-Checkout von `67eb416` auf `5857f6a` per Fast-Forward
+  aktualisiert, Dependencies installiert, frischen Next.js-Build erzeugt und
+  bestehenden `challengehub`-Service neu gestartet.
+- Verifikation: `https://theovina.de` liefert HTTP 200 mit `Login`,
+  `Challenges` und `Ranking` ohne oeffentlichen `Challenge Mate finden`-Marker;
+  `https://theovina.de/challenges?suche=zzzzzzzzzzzz` zeigt
+  `Keine passende Challenge gefunden? Neue Challenge vorschlagen`;
+  `https://theovina.de/challenge-mate` leitet ausgeloggt per 307 auf
+  `/auth?next=/challenge-mate`; Auth-Seite enthaelt Account-/Formularmarker.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde;
+  Container-Logs zeigten alte Server-Action-Requests aus vorherigen Builds,
+  der neue Prozess startet aber sauber.
+- Naechster Schritt: Visuelle Abnahme auf der Testdomain.
