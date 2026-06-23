@@ -275,3 +275,19 @@
   Startseite und `/challenges` jeweils Desktop und Mobile.
 - Offene Risiken: Live/Testdomain braucht ein separates Deployment-Update.
 - Naechster Schritt: Visuelle Abnahme der neuen Startseite und Katalogseite.
+
+## 2026-06-23 - Testdomain aktualisiert
+
+- Ziel: Aktuellen GitHub-Stand auf der bestehenden Testdomain sichtbar machen.
+- Aenderungen: VPS-Checkout per Fast-Forward von `445ab57` auf `28e2ef6`
+  aktualisiert, `npm ci` und `npm run build` ausgefuehrt, bestehenden
+  `challengehub`-Service neu gestartet.
+- Verifikation: Container laeuft; `https://theovina.de` liefert den neuen
+  Startseiten-Marker `Find your challenge` ohne Katalog-Marker;
+  `https://theovina.de/challenges?sort=rating` liefert `Challenge-Katalog`,
+  `Neue Challenge` und `Bewertung`; `www`-Variante mit Suche nach `burpees`
+  liefert `100 Burpees pro Tag`.
+- Offene Risiken: `npm ci` meldet zwei moderate Audit-Funde; Testdomain ist
+  weiterhin nicht die finale Domain.
+- Naechster Schritt: Visuelle Abnahme im Browser; spaeter Deployment-Strategie
+  fuer die finale Domain abstimmen.
