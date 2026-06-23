@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import type { CurrentUser } from "@/lib/auth";
 import {
   calculateProgress,
   calculateStreak,
@@ -11,9 +11,10 @@ import {
   type ActiveChallenge,
   writeActiveChallenges
 } from "./challenge-storage";
+import { SiteHeader } from "./challenge-hub-app";
 import styles from "./my-challenges-app.module.css";
 
-export function MyChallengesApp() {
+export function MyChallengesApp({ user }: { user: CurrentUser }) {
   const [activeChallenges, setActiveChallenges] = useState<ActiveChallenge[]>([]);
   const today = useMemo(() => todayKey(), []);
 
@@ -60,18 +61,9 @@ export function MyChallengesApp() {
   }
 
   return (
-    <main className={styles.page}>
-      <header className={styles.header}>
-        <Link className={styles.logoLink} href="/" aria-label="ChallengeHub Startseite">
-          <Image src="/logo.png" width={214} height={70} alt="ChallengeHub" priority />
-        </Link>
-        <nav className={styles.nav} aria-label="Meine Challenges Navigation">
-          <Link href="/#challenges">Challenges</Link>
-          <Link href="/challenges/neu">Erstellen</Link>
-          <Link href="/wissen">Wissen</Link>
-        </nav>
-      </header>
-
+    <>
+      <SiteHeader user={user} />
+      <main className={styles.page}>
       <section className={styles.hero}>
         <p className={styles.kicker}>Dein Dashboard</p>
         <h1>Meine Challenges</h1>
@@ -86,8 +78,7 @@ export function MyChallengesApp() {
           <h2>Noch keine aktive Challenge</h2>
           <p>Starte eine Challenge auf einer Detailseite und mache hier deinen ersten Check-in.</p>
           <div className={styles.emptyActions}>
-            <Link href="/#challenges">Challenges entdecken</Link>
-            <Link href="/challenges/neu">Challenge erstellen</Link>
+            <Link href="/challenges">Challenges entdecken</Link>
           </div>
         </section>
       ) : (
@@ -141,7 +132,8 @@ export function MyChallengesApp() {
           })}
         </section>
       )}
-    </main>
+      </main>
+    </>
   );
 }
 

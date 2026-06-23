@@ -305,3 +305,23 @@
 - Offene Risiken: Umsetzung steht noch aus.
 - Naechster Schritt: Header-Navigation und eingeloggtes Profilmenue als kleine
   UI/Auth-Slice umsetzen.
+
+## 2026-06-23 - Header-Profilmenue umgesetzt
+
+- Ziel: Die letzten Produktentscheidungen fuer Header und eingeloggte
+  Nutzerfuehrung in Code umsetzen.
+- Aenderungen: Gemeinsamer Header entfernt `Wissen`, zeigt ausgeloggt nur
+  `Challenges`, `Ranking` und `Login`, zeigt eingeloggt ein Profilmenue mit
+  `Konto`, `Meine Challenges`, `Challenge Mate finden` und `Logout`;
+  `/meine-challenges` ist fuer ausgeloggte Nutzer auf Login umgeleitet;
+  `/challenge-mate` als vorbereitete eingeloggte Route angelegt; prominente
+  `Neue Challenge`-CTA aus dem Katalog entfernt und nur noch im Empty State als
+  Vorschlag angezeigt.
+- Verifikation: `npm run lint`, `npm run build`; Browser-Smoke fuer
+  ausgeloggten Header, eingeloggtes Profilmenue, `/challenge-mate`,
+  Login-Redirect von `/meine-challenges` und Empty-State-CTA im Katalog.
+- Offene Risiken: Detail-, Legal- und Wissensseiten haben noch teils eigene
+  Mini-Navigationen und sollten spaeter auf einen gemeinsamen Header umgestellt
+  werden.
+- Naechster Schritt: Challenge-Erstellung mit Abgleich gegen bestehende
+  Challenges fachlich ausarbeiten.

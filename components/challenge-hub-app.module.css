@@ -337,7 +337,7 @@
 
 .toolbar {
   display: grid;
-  grid-template-columns: auto minmax(16rem, 1fr) minmax(12rem, auto) auto;
+  grid-template-columns: auto minmax(16rem, 1fr) minmax(12rem, auto);
   align-items: end;
   gap: 0.9rem;
   margin-bottom: 1.25rem;
@@ -415,6 +415,23 @@
   color: var(--text-muted);
   font-weight: 700;
   text-align: center;
+}
+
+.emptyState p {
+  margin: 0 0 1rem;
+}
+
+.emptyState a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 8px;
+  background: var(--brand);
+  color: white;
+  padding: 0.75rem 1rem;
+  font-weight: 900;
+  box-shadow: 0 12px 28px rgba(0, 137, 179, 0.18);
 }
 
 .tile {
@@ -497,6 +514,78 @@
   background: var(--background-deep);
   color: rgba(255, 255, 255, 0.82);
   font-weight: 800;
+}
+
+.profileMenu {
+  position: relative;
+}
+
+.profileButton {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(0, 137, 179, 0.2);
+  border-radius: 999px;
+  background: var(--brand);
+  color: white;
+  font-weight: 900;
+  box-shadow: 0 12px 28px rgba(0, 137, 179, 0.24);
+}
+
+.profileButton:hover {
+  background: var(--brand-dark);
+}
+
+.profileDropdown {
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  right: 0;
+  z-index: 40;
+  display: grid;
+  min-width: 240px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.profileSummary {
+  display: grid;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 1rem;
+}
+
+.profileSummary strong {
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.profileSummary span {
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.profileDropdown a,
+.profileDropdown button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font: inherit;
+  font-weight: 800;
+}
+
+.profileDropdown a:hover,
+.profileDropdown button:hover {
+  background: var(--surface-muted);
+  color: var(--brand-dark);
 }
 
 .modalBackdrop {
@@ -647,6 +736,21 @@
   .toolbar {
     grid-template-columns: 1fr;
     align-items: stretch;
+  }
+
+  .profileMenu {
+    width: 100%;
+  }
+
+  .profileButton {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .profileDropdown {
+    position: static;
+    margin-top: 0.75rem;
+    min-width: 0;
   }
 
   .searchLabel,

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ChallengeCatalogApp, type SortKey } from "@/components/challenge-hub-app";
+import { getCurrentUser } from "@/lib/auth";
 import { getPublishedChallenges } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -20,9 +21,11 @@ export default async function ChallengesPage({ searchParams }: ChallengesPagePro
   const { suche = "", sort = "standard" } = await searchParams;
   const initialSortKey = getInitialSortKey(sort);
   const serverChallenges = getPublishedChallenges();
+  const user = await getCurrentUser();
 
   return (
     <ChallengeCatalogApp
+      user={user}
       serverChallenges={serverChallenges}
       initialSearchQuery={suche}
       initialSortKey={initialSortKey}

@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import { levelLabels, type ChallengeLevel } from "@/data/challenges";
 import type { CurrentUser } from "@/lib/auth";
 import type { CreateChallengeState } from "@/app/challenges/neu/actions";
+import { SiteHeader } from "./challenge-hub-app";
 import styles from "./challenge-create-app.module.css";
 
 const levelOptions: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
@@ -36,18 +36,9 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
   const previewTips = useMemo(() => parseLines(tipsText), [tipsText]);
 
   return (
-    <main className={styles.page}>
-      <header className={styles.header}>
-        <Link className={styles.logoLink} href="/" aria-label="ChallengeHub Startseite">
-          <Image src="/logo.png" width={214} height={70} alt="ChallengeHub" priority />
-        </Link>
-        <nav className={styles.nav} aria-label="Challenge erstellen Navigation">
-          <Link href="/#challenges">Challenges</Link>
-          <Link href="/meine-challenges">Meine Challenges</Link>
-          <Link href="/wissen">Wissen</Link>
-        </nav>
-      </header>
-
+    <>
+      <SiteHeader user={user} />
+      <main className={styles.page}>
       <section className={styles.hero}>
         <p className={styles.kicker}>Public by default</p>
         <h1>Challenge erstellen</h1>
@@ -156,7 +147,8 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
           )}
         </aside>
       </section>
-    </main>
+      </main>
+    </>
   );
 }
 

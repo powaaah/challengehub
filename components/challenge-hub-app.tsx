@@ -3,7 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { logoutAction } from "@/app/auth/actions";
 import { challenges, levelLabels, type ChallengeLevel } from "@/data/challenges";
+import type { CurrentUser } from "@/lib/auth";
 import type { DbPublicChallenge } from "@/lib/db";
 import {
   readUserChallenges,
@@ -17,10 +19,10 @@ export type SortKey = "standard" | "newest" | "participants" | "rating";
 
 const levelOptions: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
 
-export function ChallengeHubApp() {
+export function ChallengeHubApp({ user }: { user: CurrentUser | null }) {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader user={user} />
 
       <main className={styles.homeMain}>
         <section className={styles.hero}>
@@ -84,12 +86,14 @@ export function ChallengeHubApp() {
 }
 
 type ChallengeCatalogAppProps = {
+  user: CurrentUser | null;
   serverChallenges: DbPublicChallenge[];
   initialSearchQuery?: string;
   initialSortKey?: SortKey;
 };
 
 export function ChallengeCatalogApp({
+  user,
   serverChallenges,
   initialSearchQuery = "",
   initialSortKey = "standard"
@@ -174,7 +178,7 @@ export function ChallengeCatalogApp({
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader user={user} />
 
       <main className={styles.catalogPage}>
         <section className={styles.catalogHero}>
@@ -209,9 +213,6 @@ export function ChallengeCatalogApp({
                 <option value="rating">Bewertung</option>
               </select>
             </label>
-            <Link className={styles.addButton} href="/challenges/neu">
-              Neue Challenge
-            </Link>
           </div>
 
           <div className={styles.grid}>
@@ -234,9 +235,7 @@ export function ChallengeCatalogApp({
               </Link>
             ))}
           </div>
-          {visibleChallenges.length === 0 && (
-            <p className={styles.emptyState}>Keine Challenge passt zu deiner Suche oder den aktiven Filtern.</p>
-          )}
+          {visibleChallenges.length === 0 && <EmptyChallengeState />}
         </section>
       </main>
 
@@ -289,7 +288,16 @@ export function ChallengeCatalogApp({
   );
 }
 
-function SiteHeader() {
+function EmptyChallengeState() {
+  return (
+    <div className={styles.emptyState}>
+      <p>Keine Challenge passt zu deiner Suche oder den aktiven Filtern.</p>
+      <Link href="/challenges/neu">Keine passende Challenge gefunden? Neue Challenge vorschlagen</Link>
+    </div>
+  );
+}
+
+export function SiteHeader({ user }: { user: CurrentUser | null }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -310,18 +318,56 @@ function SiteHeader() {
       </button>
       <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Hauptnavigation">
         <Link href="/challenges">Challenges</Link>
-        <Link href="/meine-challenges">Meine Challenges</Link>
-        <Link href="/wissen">Wissen</Link>
         <Link href="/challenges?sort=rating">Ranking</Link>
-        <Link className={styles.primaryButton} href="/auth">
-          Login
-        </Link>
+        {user ? <ProfileMenu user={user} /> : <Link className={styles.primaryButton} href="/auth">Login</Link>}
       </nav>
     </header>
   );
 }
 
-function SiteFooter() {
+function ProfileMenu({ user }: { user: CurrentUser }) {
+  const [open, setOpen] = useState(false);
+  const initials = getUserInitials(user.name || user.email);
+
+  return (
+    <div className={styles.profileMenu}>
+      <button
+        className={styles.profileButton}
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={() => setOpen((current) => !current)}
+      >
+        <span aria-hidden="true">{initials}</span>
+        <span className={styles.visuallyHidden}>Profilmenue oeffnen</span>
+      </button>
+      {open && (
+        <div className={styles.profileDropdown} role="menu">
+          <div className={styles.profileSummary}>
+            <strong>{user.name}</strong>
+            <span>{user.email}</span>
+          </div>
+          <Link href="/auth" role="menuitem">
+            Konto
+          </Link>
+          <Link href="/meine-challenges" role="menuitem">
+            Meine Challenges
+          </Link>
+          <Link href="/challenge-mate" role="menuitem">
+            Challenge Mate finden
+          </Link>
+          <form action={logoutAction}>
+            <button type="submit" role="menuitem">
+              Logout
+            </button>
+          </form>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function SiteFooter() {
   return (
     <footer className={styles.footer}>
       <Link href="/meine-challenges">Meine Challenges</Link>
@@ -335,6 +381,18 @@ function SiteFooter() {
       </a>
     </footer>
   );
+}
+
+function getUserInitials(value: string) {
+  const parts = value
+    .split(/[\s@._-]+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  return parts
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
 }
 
 function normalizeSearchText(value: string) {

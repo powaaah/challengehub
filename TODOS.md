@@ -32,8 +32,8 @@ Stand: 2026-06-23
 - [x] Lokale Challenge-Erstellung spaeter auf Account-/Datenbankpersistenz umstellen.
 - [ ] Teilnahme-Flow fuer `Challenge starten` fachlich klaeren und anbinden.
 - [ ] Lokalen Teilnahme-MVP spaeter durch echte Auth-/Datenbankpersistenz ersetzen.
-- [ ] Header-Navigation anpassen: `Wissen` entfernen und eingeloggtes Profilmenue einbauen.
-- [ ] `Challenge Mate finden` als vorbereitete eingeloggte Route planen/umsetzen.
+- [x] Header-Navigation anpassen: `Wissen` entfernen und eingeloggtes Profilmenue einbauen.
+- [x] `Challenge Mate finden` als vorbereitete eingeloggte Route planen/umsetzen.
 - [ ] Challenge-Erstellung mit Abgleich gegen bestehende Challenges fachlich ausarbeiten.
 - [ ] Finale SEO-Texte, Keywords und echte Social-Preview-Bilder pro Challenge festlegen.
 - [ ] Medizinische/gesundheitliche Disclaimer und sichere Teilnahmehinweise final abstimmen.
