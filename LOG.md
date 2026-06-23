@@ -291,3 +291,17 @@
   weiterhin nicht die finale Domain.
 - Naechster Schritt: Visuelle Abnahme im Browser; spaeter Deployment-Strategie
   fuer die finale Domain abstimmen.
+
+## 2026-06-23 - Produktentscheidungen Header und Profilmenue
+
+- Ziel: Besprochene Produktentscheidungen zu Header, Profilmenue,
+  Challenge-Erstellung und Challenge Mate dauerhaft festhalten.
+- Aenderungen: `docs/product-decisions.md` angelegt mit Entscheidungen:
+  `Wissen` raus aus Header, `Meine Challenges` nur eingeloggt, Profilmenue mit
+  Konto/Meine Challenges/Challenge Mate finden/Logout, keine prominente
+  Challenge-Erstellung ohne vorherigen Abgleich, Challenge-Mate-Idee mit
+  Privacy-Anforderungen.
+- Verifikation: Dokumentationsaenderung, keine Codechecks erforderlich.
+- Offene Risiken: Umsetzung steht noch aus.
+- Naechster Schritt: Header-Navigation und eingeloggtes Profilmenue als kleine
+  UI/Auth-Slice umsetzen.
