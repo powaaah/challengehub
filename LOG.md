@@ -343,3 +343,16 @@
   Container-Logs zeigten alte Server-Action-Requests aus vorherigen Builds,
   der neue Prozess startet aber sauber.
 - Naechster Schritt: Visuelle Abnahme auf der Testdomain.
+
+## 2026-06-23 - Typografie-Varianten als HTML-Prototyp
+
+- Ziel: Drei Schriftbild-Richtungen fuer die Challenge-Seite schnell
+  vergleichbar machen.
+- Aenderungen: `typography-variants.html` als statische Vergleichsseite mit
+  Dropdown fuer Modern, Editorial und Sportlich angelegt.
+- Verifikation: Playwright-Datei-Smoke; Dropdown schaltet alle Varianten,
+  Hero und Challenge-Karten sind sichtbar.
+- Offene Risiken: Nutzt Google Fonts im Browser; finale Einbindung in Next.js
+  ist noch nicht umgesetzt.
+- Naechster Schritt: Bevorzugte Richtung auswaehlen und als kleine
+  Typografie-Slice in die App uebertragen.

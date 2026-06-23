@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ChallengeHub Typografie-Vergleich</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Barlow:wght@500;600;700;800&family=Barlow+Condensed:wght@700;800&family=Bricolage+Grotesque:wght@600;700;800&family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --brand: #0093be;
+        --brand-dark: #006f91;
+        --ink: #2d3036;
+        --muted: #6d7480;
+        --paper: #f7f7f5;
+        --surface: #ffffff;
+        --line: #dfe5e8;
+        --deep: #103849;
+        --accent: #ff7a1a;
+        --card-a: #9fbfb9;
+        --card-b: #3f3f3f;
+        --card-c: #438b94;
+        --font-display: "Fraunces", Georgia, serif;
+        --font-body: "Manrope", system-ui, sans-serif;
+        --font-ui: "Manrope", system-ui, sans-serif;
+        --hero-weight: 850;
+        --hero-size: clamp(3rem, 7vw, 5.8rem);
+        --hero-line: 0.94;
+        --nav-weight: 760;
+        --body-size: 1.03rem;
+        --radius: 8px;
+      }
+
+      body[data-variant="editorial"] {
+        --font-display: "Libre Baskerville", Georgia, serif;
+        --font-body: "IBM Plex Sans", system-ui, sans-serif;
+        --font-ui: "IBM Plex Sans", system-ui, sans-serif;
+        --hero-weight: 700;
+        --hero-size: clamp(2.8rem, 6.4vw, 5.25rem);
+        --hero-line: 1.02;
+        --nav-weight: 650;
+        --body-size: 1.06rem;
+        --paper: #faf9f6;
+        --ink: #333238;
+        --deep: #173846;
+      }
+
+      body[data-variant="sport"] {
+        --font-display: "Barlow Condensed", "Archivo", system-ui, sans-serif;
+        --font-body: "Barlow", system-ui, sans-serif;
+        --font-ui: "Archivo", system-ui, sans-serif;
+        --hero-weight: 800;
+        --hero-size: clamp(3.25rem, 7.4vw, 6.2rem);
+        --hero-line: 0.86;
+        --nav-weight: 800;
+        --body-size: 1.05rem;
+        --paper: #f4f7f7;
+        --ink: #202832;
+        --deep: #0b3442;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-size: var(--body-size);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+        border-bottom: 1px solid rgba(20, 40, 50, 0.08);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0 7vw;
+        backdrop-filter: blur(14px);
+      }
+
+      .logo {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .logo img {
+        width: 150px;
+        height: auto;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 1.45rem;
+        color: var(--ink);
+        font-family: var(--font-ui);
+        font-size: 0.94rem;
+        font-weight: var(--nav-weight);
+      }
+
+      .login {
+        border-radius: var(--radius);
+        background: var(--brand);
+        color: white;
+        padding: 0.85rem 1.15rem;
+        box-shadow: 0 16px 34px rgba(0, 147, 190, 0.22);
+      }
+
+      .switcher {
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.94);
+        padding: 0.75rem;
+        box-shadow: 0 18px 50px rgba(18, 32, 43, 0.16);
+      }
+
+      .switcher label {
+        color: var(--muted);
+        font-family: var(--font-ui);
+        font-size: 0.82rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .switcher select {
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: white;
+        color: var(--ink);
+        font: 800 0.95rem var(--font-ui);
+        padding: 0 2.4rem 0 0.75rem;
+      }
+
+      .main {
+        width: min(1180px, calc(100% - 44px));
+        margin: 0 auto;
+        padding: 4.8rem 0 7rem;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(290px, 0.95fr);
+        align-items: end;
+        gap: clamp(2rem, 6vw, 5rem);
+        margin-bottom: 4rem;
+      }
+
+      .kicker {
+        margin: 0 0 1.4rem;
+        color: var(--ink);
+        font-family: var(--font-ui);
+        font-size: 0.9rem;
+        font-weight: 850;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+
+      body[data-variant="editorial"] .kicker {
+        letter-spacing: 0.14em;
+        font-weight: 700;
+      }
+
+      body[data-variant="sport"] .kicker {
+        color: var(--brand-dark);
+        letter-spacing: 0.18em;
+      }
+
+      h1 {
+        max-width: 10.5ch;
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--font-display);
+        font-size: var(--hero-size);
+        font-weight: var(--hero-weight);
+        line-height: var(--hero-line);
+      }
+
+      body[data-variant="sport"] h1 {
+        max-width: 9ch;
+        text-transform: uppercase;
+      }
+
+      .lead {
+        max-width: 56ch;
+        margin: 1.5rem 0 0;
+        color: var(--muted);
+        line-height: 1.72;
+      }
+
+      .heroPanel {
+        display: grid;
+        gap: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--radius);
+        background: var(--deep);
+        padding: 1rem;
+        box-shadow: 0 18px 36px rgba(18, 32, 43, 0.22);
+      }
+
+      .feature {
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.08);
+        padding: 1.25rem;
+        color: white;
+      }
+
+      .feature span {
+        display: inline-flex;
+        border-radius: 999px;
+        background: var(--accent);
+        padding: 0.28rem 0.6rem;
+        font-family: var(--font-ui);
+        font-size: 0.75rem;
+        font-weight: 850;
+      }
+
+      .feature h2 {
+        margin: 0.75rem 0 0.4rem;
+        font-family: var(--font-display);
+        font-size: clamp(1.7rem, 3vw, 2.2rem);
+        line-height: 1.02;
+      }
+
+      body[data-variant="sport"] .feature h2 {
+        text-transform: uppercase;
+      }
+
+      .feature p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 0.92rem;
+      }
+
+      .toolbar {
+        display: grid;
+        grid-template-columns: auto minmax(220px, 1fr) minmax(180px, auto);
+        align-items: end;
+        gap: 1rem;
+        margin-bottom: 1.4rem;
+      }
+
+      .filterButton {
+        min-height: 46px;
+        border: 0;
+        border-radius: var(--radius);
+        background: #3f3f3f;
+        color: white;
+        font-family: var(--font-ui);
+        font-weight: 850;
+        padding: 0 1rem;
+      }
+
+      .field {
+        display: grid;
+        gap: 0.42rem;
+        color: var(--ink);
+        font-family: var(--font-ui);
+        font-size: 0.86rem;
+        font-weight: 800;
+      }
+
+      .field input,
+      .field select {
+        min-height: 46px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: white;
+        color: var(--ink);
+        font: 800 0.95rem var(--font-ui);
+        padding: 0 0.9rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.2rem;
+      }
+
+      .tile {
+        min-height: 225px;
+        border-radius: var(--radius);
+        color: white;
+        padding: 1.25rem;
+        box-shadow: 0 14px 26px rgba(18, 32, 43, 0.18);
+      }
+
+      .tile:nth-child(1) {
+        background: var(--card-a);
+      }
+
+      .tile:nth-child(2) {
+        background: var(--card-b);
+      }
+
+      .tile:nth-child(3) {
+        background: var(--card-c);
+      }
+
+      .tile h3 {
+        margin: 0 0 3rem;
+        font-family: var(--font-display);
+        font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+        font-weight: var(--hero-weight);
+        line-height: 1.05;
+      }
+
+      body[data-variant="sport"] .tile h3 {
+        text-transform: uppercase;
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: auto;
+        color: rgba(255, 255, 255, 0.9);
+        font-family: var(--font-ui);
+        font-weight: 750;
+      }
+
+      .tag {
+        color: #ffc94a;
+        font-family: var(--font-ui);
+        font-weight: 850;
+      }
+
+      .notes {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 2.5rem;
+      }
+
+      .note {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        padding: 1rem;
+      }
+
+      .note strong {
+        display: block;
+        margin-bottom: 0.4rem;
+        font-family: var(--font-ui);
+      }
+
+      .note p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      @media (max-width: 850px) {
+        .header {
+          padding: 0 22px;
+        }
+
+        .nav {
+          gap: 0.85rem;
+          font-size: 0.86rem;
+        }
+
+        .hero,
+        .toolbar,
+        .grid,
+        .notes {
+          grid-template-columns: 1fr;
+        }
+
+        .switcher {
+          left: 1rem;
+          right: 1rem;
+          justify-content: space-between;
+        }
+      }
+    </style>
+  </head>
+  <body data-variant="modern">
+    <header class="header">
+      <a class="logo" href="#" aria-label="ChallengeHub Startseite">
+        <img src="public/logo.png" alt="ChallengeHub" />
+      </a>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a href="#">Challenges</a>
+        <a href="#">Ranking</a>
+        <a class="login" href="#">Login</a>
+      </nav>
+    </header>
+
+    <div class="switcher">
+      <label for="variant">Schriftbild</label>
+      <select id="variant">
+        <option value="modern">A: Modern + motivierend</option>
+        <option value="editorial">B: Editorial + hochwertig</option>
+        <option value="sport">C: Sportlich + direkt</option>
+      </select>
+    </div>
+
+    <main class="main">
+      <section class="hero">
+        <div>
+          <p class="kicker">Challenge Katalog</p>
+          <h1>Finde deine naechste Challenge.</h1>
+          <p class="lead">
+            Waehle ein Ziel, starte klein und bleib sichtbar dran. ChallengeHub hilft dir,
+            aus guten Vorsaetzen echte Routinen zu machen.
+          </p>
+        </div>
+
+        <aside class="heroPanel" aria-label="Beliebte Challenges">
+          <article class="feature">
+            <span>Heute</span>
+            <h2>10.000 Schritte am Tag</h2>
+            <p>65 Teilnehmer | 4.8/5 Bewertung</p>
+          </article>
+          <article class="feature">
+            <span>30 Tage</span>
+            <h2>Ohne Zucker</h2>
+            <p>Premium Challenge</p>
+          </article>
+          <article class="feature">
+            <span>Fokus</span>
+            <h2>100 Tage ohne soziale Medien</h2>
+            <p>Advanced Challenge</p>
+          </article>
+        </aside>
+      </section>
+
+      <section aria-label="Challenge Suche">
+        <div class="toolbar">
+          <button class="filterButton" type="button">Filter</button>
+          <label class="field">
+            Suche:
+            <input value="Challenge suchen" aria-label="Challenge suchen" />
+          </label>
+          <label class="field">
+            Sortieren nach:
+            <select aria-label="Sortierung">
+              <option>Standard</option>
+              <option>Bewertung</option>
+              <option>Neueste</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid">
+          <article class="tile">
+            <h3>10.000 Schritte am Tag</h3>
+            <p>Beginner Challenge</p>
+            <div class="meta">
+              <span>65 Teilnehmer</span>
+              <span class="tag">4.8/5</span>
+            </div>
+          </article>
+          <article class="tile">
+            <h3>100 Liegestuetze am Stueck</h3>
+            <p>Premium Challenge</p>
+            <div class="meta">
+              <span>12 Teilnehmer</span>
+              <span class="tag">4.2/5</span>
+            </div>
+          </article>
+          <article class="tile">
+            <h3>100 Burpees pro Tag</h3>
+            <p>Advanced Challenge</p>
+            <div class="meta">
+              <span>27 Teilnehmer</span>
+              <span class="tag">3.2/5</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="notes" aria-label="Bewertung der Varianten">
+        <article class="note">
+          <strong>A: Modern + motivierend</strong>
+          <p>Freundlich, digital, klar. Gute Balance aus Marke, Community und Alltagstauglichkeit.</p>
+        </article>
+        <article class="note">
+          <strong>B: Editorial + hochwertig</strong>
+          <p>Ruhiger und erwachsener. Wirkt mehr wie Magazin, weniger wie Sport-Tool.</p>
+        </article>
+        <article class="note">
+          <strong>C: Sportlich + direkt</strong>
+          <p>Mehr Energie und Druck. Gut fuer Fitness, kann aber bei Wissen/Community haerter wirken.</p>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const select = document.querySelector("#variant");
+      select.addEventListener("change", (event) => {
+        document.body.dataset.variant = event.target.value;
+      });
+    </script>
+  </body>
+</html>
