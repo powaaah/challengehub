@@ -2,11 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ChallengeStart } from "@/components/challenge-start";
+import { DbChallengeDetail } from "@/components/db-challenge-detail";
 import { UserChallengeDetail } from "@/components/user-challenge-detail";
 import { challenges, getChallengeBySlug, levelLabels } from "@/data/challenges";
+import { getPublishedChallengeBySlug } from "@/lib/db";
 import styles from "./page.module.css";
 
 const siteUrl = "https://challengehub.de";
+export const dynamic = "force-dynamic";
 
 type ChallengePageProps = {
   params: Promise<{
@@ -63,6 +66,11 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
   const challenge = getChallengeBySlug(slug);
 
   if (!challenge) {
+    const dbChallenge = getPublishedChallengeBySlug(slug);
+    if (dbChallenge) {
+      return <DbChallengeDetail challenge={dbChallenge} />;
+    }
+
     return <UserChallengeDetail slug={slug} />;
   }
 

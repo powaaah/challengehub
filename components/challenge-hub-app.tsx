@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { challenges, levelLabels, type ChallengeLevel } from "@/data/challenges";
+import type { DbPublicChallenge } from "@/lib/db";
 import {
   readUserChallenges,
   subscribeToUserChallenges,
@@ -16,7 +17,7 @@ type SortKey = "standard" | "newest" | "participants" | "rating";
 
 const levelOptions: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
 
-export function ChallengeHubApp() {
+export function ChallengeHubApp({ serverChallenges }: { serverChallenges: DbPublicChallenge[] }) {
   const [dialog, setDialog] = useState<Dialog>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sortKey, setSortKey] = useState<SortKey>("standard");
@@ -37,18 +38,28 @@ export function ChallengeHubApp() {
   const visibleChallenges = useMemo(() => {
     const normalizedSearch = normalizeSearchText(searchQuery);
     const allChallenges = [
+      ...serverChallenges.map((challenge) => ({
+        ...challenge,
+        participants: 0,
+        rating: 0,
+        duration: `${challenge.durationDays} Tage`,
+        isUserCreated: true,
+        sourceLabel: `Von ${challenge.creatorName}`
+      })),
       ...userChallenges.map((challenge) => ({
         ...challenge,
         participants: 0,
         rating: 0,
         duration: `${challenge.durationDays} Tage`,
-        isUserCreated: true
+        isUserCreated: true,
+        sourceLabel: "Lokale User Challenge"
       })),
       ...challenges.map((challenge) => ({
         ...challenge,
         category: "Kuratierte Challenge",
         durationDays: undefined,
-        isUserCreated: false
+        isUserCreated: false,
+        sourceLabel: levelLabels[challenge.level]
       }))
     ];
     const filtered = allChallenges.filter((challenge) => {
@@ -78,7 +89,7 @@ export function ChallengeHubApp() {
 
       return 0;
     });
-  }, [minimumRating, searchQuery, selectedLevels, sortKey, userChallenges]);
+  }, [minimumRating, searchQuery, selectedLevels, sortKey, userChallenges, serverChallenges]);
 
   function toggleLevel(level: ChallengeLevel) {
     setSelectedLevels((current) =>
@@ -114,9 +125,9 @@ export function ChallengeHubApp() {
           <Link href="/meine-challenges">Meine Challenges</Link>
           <Link href="/wissen">Wissen</Link>
           <a href="#ranking">Ranking</a>
-          <button className={styles.primaryButton} type="button" onClick={() => setDialog("login")}>
+          <Link className={styles.primaryButton} href="/auth">
             Login
-          </button>
+          </Link>
         </nav>
       </header>
 
@@ -145,9 +156,9 @@ export function ChallengeHubApp() {
               </button>
             </form>
             <div className={styles.heroActions}>
-              <button className={styles.primaryButton} type="button" onClick={() => setDialog("register")}>
+              <Link className={styles.primaryButton} href="/auth?next=/challenges/neu">
                 Registriere dich jetzt
-              </button>
+              </Link>
               <a className={styles.secondaryButton} href="#challenges">
                 Challenges
               </a>
@@ -214,9 +225,9 @@ export function ChallengeHubApp() {
                 <option value="rating">Bewertung</option>
               </select>
             </label>
-            <button className={styles.addButton} type="button" onClick={() => setDialog("login")}>
+            <Link className={styles.addButton} href="/auth">
               Login
-            </button>
+            </Link>
             <Link className={styles.addButton} href="/challenges/neu">
               Challenge erstellen
             </Link>
@@ -227,7 +238,7 @@ export function ChallengeHubApp() {
               <Link className={styles.tileLink} href={`/challenges/${challenge.slug}`} key={challenge.slug}>
                 <article className={`${styles.tile} ${styles[challenge.level]}`}>
                   <h2>{challenge.title}</h2>
-                  <p>{challenge.isUserCreated ? "Oeffentliche User Challenge" : levelLabels[challenge.level]}</p>
+                  <p>{challenge.sourceLabel}</p>
                   <div className={styles.tileMeta}>
                     <span>
                       <Image src="/images/icon_participants.png" width={24} height={24} alt="" />

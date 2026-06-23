@@ -215,3 +215,35 @@
   Browser gespeichert; keine Account-, Moderations- oder Serverpersistenz.
 - Naechster Schritt: Auth-/Datenbankmodell fuer User, Challenges,
   Teilnahmen und Check-ins festlegen und die lokale Persistenz ersetzen.
+
+## 2026-06-20 - Account und serverseitige Challenge-Erstellung
+
+- Ziel: Naechsten MVP-Schritt umsetzen: Account-Basis und serverseitig
+  gespeicherte oeffentliche Challenges als Fundament fuer echte Persistenz.
+- Aenderungen: Native SQLite-Persistenz ueber Node 24 `node:sqlite` angelegt,
+  Tabellen fuer User, Sessions, Challenges, Teilnahmen und Check-ins erstellt,
+  E-Mail/Passwort-Registrierung, Login und Logout mit HTTP-only Session-Cookie
+  umgesetzt, `/challenges/neu` auf serverseitige Speicherung fuer eingeloggte
+  Nutzer umgestellt, Startseite und Challenge-Detailseiten um gespeicherte
+  oeffentliche Challenges erweitert.
+- Verifikation: `npm run lint`, `npm run build`, Playwright-Smoke-Test fuer
+  Registrierung -> Challenge-Erstellung -> Detailseite -> Katalog sowie
+  mobile/Desktop-Layoutchecks fuer `/auth` und `/challenges/neu`.
+- Offene Risiken: `node:sqlite` ist in Node 24 noch als experimental markiert;
+  Teilnahme und Check-ins nutzen weiterhin den lokalen Browser-MVP und muessen
+  im naechsten Slice auf die SQLite-Tabellen umgezogen werden.
+- Naechster Schritt: `Challenge starten`, aktive Challenges und taegliche
+  Check-ins fuer eingeloggte Nutzer serverseitig speichern.
+
+## 2026-06-23 - Account-Slice committen und pushen
+
+- Ziel: Lokalen Account-/SQLite-Stand pruefen, dokumentieren und nach GitHub
+  bringen.
+- Aenderungen: README an den aktuellen MVP-Stand angepasst; bestehende
+  Account-/SQLite-Slice fuer Commit vorbereitet.
+- Verifikation: `npm run lint`, `npm run build`; lokaler Produktions-Smoke-Test
+  fuer `/`, `/auth` und `/challenges/neu` mit Inhaltsmarkern.
+- Offene Risiken: `node:sqlite` meldet weiterhin die erwartete Experimental-
+  Warnung; Teilnahmen und Check-ins sind noch nicht serverseitig angebunden.
+- Naechster Schritt: Persistente Teilnahmen und Check-ins fuer eingeloggte
+  Nutzer umsetzen.

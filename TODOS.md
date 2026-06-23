@@ -1,6 +1,6 @@
 # ChallengeHub.de Todos
 
-Stand: 2026-06-20
+Stand: 2026-06-23
 
 ## Active
 
@@ -17,14 +17,15 @@ Stand: 2026-06-20
 - [x] Lokalen Teilnahme-MVP mit `Challenge starten`, Check-ins und `/meine-challenges` umsetzen.
 - [x] Hero-Suche auf der Startseite mit Challenge-Liste koppeln.
 - [x] Lokale oeffentliche Challenge-Erstellung mit Katalog, Detailseite, Start und Fortschritt umsetzen.
+- [x] Account-Flow und serverseitig gespeicherte oeffentliche Challenges mit SQLite-Fundament umsetzen.
 
 ## Later
 
 - [x] Lokale Entwicklung einrichten und dokumentieren.
 - [x] Build-, Lint- und Preview-Verifikation etablieren.
 - [ ] Footer-Seiten `/impressum`, `/karriere` und Datenschutz mit final freigegebenem Inhalt nachziehen.
-- [ ] Login, Registrierung, Challenge-Erstellung und Datenpersistenz fachlich klaeren.
-- [ ] Lokale Challenge-Erstellung spaeter auf Account-/Datenbankpersistenz umstellen.
+- [x] Login, Registrierung, Challenge-Erstellung und Datenpersistenz fachlich klaeren.
+- [x] Lokale Challenge-Erstellung spaeter auf Account-/Datenbankpersistenz umstellen.
 - [ ] Teilnahme-Flow fuer `Challenge starten` fachlich klaeren und anbinden.
 - [ ] Lokalen Teilnahme-MVP spaeter durch echte Auth-/Datenbankpersistenz ersetzen.
 - [ ] Finale SEO-Texte, Keywords und echte Social-Preview-Bilder pro Challenge festlegen.

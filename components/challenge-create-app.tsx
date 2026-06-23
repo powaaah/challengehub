@@ -2,23 +2,27 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { challenges, levelLabels, type ChallengeLevel } from "@/data/challenges";
-import {
-  createSlug,
-  readUserChallenges,
-  type UserChallenge,
-  writeUserChallenges
-} from "./user-challenges-storage";
+import { useActionState, useMemo, useState } from "react";
+import { levelLabels, type ChallengeLevel } from "@/data/challenges";
+import type { CurrentUser } from "@/lib/auth";
+import type { CreateChallengeState } from "@/app/challenges/neu/actions";
 import styles from "./challenge-create-app.module.css";
 
 const levelOptions: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
 
 const categoryOptions = ["Fitness", "Ernaehrung", "Fokus", "Schlaf", "Produktivitaet", "Mindset", "Digital Detox"];
 
-export function ChallengeCreateApp() {
-  const router = useRouter();
+const initialState = {
+  error: ""
+};
+
+type ChallengeCreateAppProps = {
+  user: CurrentUser | null;
+  createChallenge: (state: CreateChallengeState, formData: FormData) => Promise<CreateChallengeState>;
+};
+
+export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateAppProps) {
+  const [formState, formAction, pending] = useActionState(createChallenge, initialState);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState(categoryOptions[0]);
   const [level, setLevel] = useState<ChallengeLevel>("User");
@@ -27,41 +31,9 @@ export function ChallengeCreateApp() {
   const [description, setDescription] = useState("");
   const [rulesText, setRulesText] = useState("");
   const [tipsText, setTipsText] = useState("");
-  const [error, setError] = useState("");
 
   const previewRules = useMemo(() => parseLines(rulesText), [rulesText]);
   const previewTips = useMemo(() => parseLines(tipsText), [tipsText]);
-
-  function saveChallenge(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError("");
-
-    const rules = parseLines(rulesText);
-
-    if (!title.trim() || !goal.trim() || !description.trim() || rules.length === 0) {
-      setError("Titel, Ziel, Beschreibung und mindestens eine Regel sind Pflicht.");
-      return;
-    }
-
-    const userChallenges = readUserChallenges();
-    const existingSlugs = [...challenges.map((challenge) => challenge.slug), ...userChallenges.map((challenge) => challenge.slug)];
-    const slug = createSlug(title, existingSlugs);
-    const nextChallenge: UserChallenge = {
-      slug,
-      title: title.trim(),
-      level,
-      category,
-      durationDays,
-      goal: goal.trim(),
-      description: description.trim(),
-      rules,
-      tips: parseLines(tipsText),
-      createdAt: new Date().toISOString()
-    };
-
-    writeUserChallenges([nextChallenge, ...userChallenges]);
-    router.push(`/challenges/${slug}`);
-  }
 
   return (
     <main className={styles.page}>
@@ -80,30 +52,42 @@ export function ChallengeCreateApp() {
         <p className={styles.kicker}>Public by default</p>
         <h1>Challenge erstellen</h1>
         <p>
-          Erstelle eine oeffentliche Challenge mit klarer Aufgabe, Dauer und Regeln. Nach dem Speichern
-          erscheint sie direkt im Katalog und kann gestartet werden.
+          Erstelle eine oeffentliche Challenge mit klarer Aufgabe, Dauer und Regeln. Eingeloggt wird
+          sie serverseitig gespeichert und erscheint direkt im Katalog.
         </p>
       </section>
 
       <section className={styles.workspace}>
-        <form className={styles.form} onSubmit={saveChallenge}>
-          {error && <p className={styles.error}>{error}</p>}
+        <form className={styles.form} action={formAction}>
+          {!user && (
+            <div className={styles.notice}>
+              <strong>Account erforderlich.</strong>
+              <p>Neue Challenges werden ab jetzt serverseitig gespeichert. Logge dich ein oder erstelle einen Account.</p>
+              <Link href="/auth?next=/challenges/neu">Zum Login</Link>
+            </div>
+          )}
+          {formState.error && <p className={styles.error}>{formState.error}</p>}
           <label>
             Titel
-            <input value={title} maxLength={80} onChange={(event) => setTitle(event.target.value)} />
+            <input name="title" value={title} maxLength={80} onChange={(event) => setTitle(event.target.value)} />
           </label>
           <label>
             Ziel
-            <input value={goal} maxLength={140} onChange={(event) => setGoal(event.target.value)} />
+            <input name="goal" value={goal} maxLength={140} onChange={(event) => setGoal(event.target.value)} />
           </label>
           <label>
             Beschreibung
-            <textarea value={description} rows={4} onChange={(event) => setDescription(event.target.value)} />
+            <textarea
+              name="description"
+              value={description}
+              rows={4}
+              onChange={(event) => setDescription(event.target.value)}
+            />
           </label>
           <div className={styles.split}>
             <label>
               Kategorie
-              <select value={category} onChange={(event) => setCategory(event.target.value)}>
+              <select name="category" value={category} onChange={(event) => setCategory(event.target.value)}>
                 {categoryOptions.map((option) => (
                   <option value={option} key={option}>
                     {option}
@@ -113,7 +97,7 @@ export function ChallengeCreateApp() {
             </label>
             <label>
               Schwierigkeit
-              <select value={level} onChange={(event) => setLevel(event.target.value as ChallengeLevel)}>
+              <select name="level" value={level} onChange={(event) => setLevel(event.target.value as ChallengeLevel)}>
                 {levelOptions.map((option) => (
                   <option value={option} key={option}>
                     {levelLabels[option]}
@@ -126,6 +110,7 @@ export function ChallengeCreateApp() {
             Dauer in Tagen
             <input
               type="number"
+              name="durationDays"
               min="1"
               max="365"
               value={durationDays}
@@ -134,14 +119,14 @@ export function ChallengeCreateApp() {
           </label>
           <label>
             Regeln, eine pro Zeile
-            <textarea value={rulesText} rows={5} onChange={(event) => setRulesText(event.target.value)} />
+            <textarea name="rules" value={rulesText} rows={5} onChange={(event) => setRulesText(event.target.value)} />
           </label>
           <label>
             Tipps, optional eine pro Zeile
-            <textarea value={tipsText} rows={4} onChange={(event) => setTipsText(event.target.value)} />
+            <textarea name="tips" value={tipsText} rows={4} onChange={(event) => setTipsText(event.target.value)} />
           </label>
-          <button className={styles.primaryButton} type="submit">
-            Oeffentlich speichern
+          <button className={styles.primaryButton} type="submit" disabled={!user || pending}>
+            {pending ? "Speichert..." : "Oeffentlich speichern"}
           </button>
         </form>
 
