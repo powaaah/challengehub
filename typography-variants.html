@@ -63,6 +63,21 @@
         --deep: #0b3442;
       }
 
+      body[data-variant="segoe"] {
+        --font-display: "Segoe UI", "Segoe UI Variable Display", system-ui, sans-serif;
+        --font-body: "Segoe UI", "Segoe UI Variable Text", system-ui, sans-serif;
+        --font-ui: "Segoe UI", "Segoe UI Variable Text", system-ui, sans-serif;
+        --hero-weight: 750;
+        --hero-size: clamp(3rem, 6.8vw, 5.6rem);
+        --hero-line: 0.96;
+        --nav-weight: 700;
+        --body-size: 1.04rem;
+        --paper: #f6f8f9;
+        --ink: #252b31;
+        --muted: #69727d;
+        --deep: #123f51;
+      }
+
       * {
         box-sizing: border-box;
       }
@@ -187,6 +202,12 @@
       body[data-variant="sport"] .kicker {
         color: var(--brand-dark);
         letter-spacing: 0.18em;
+      }
+
+      body[data-variant="segoe"] .kicker {
+        color: var(--brand-dark);
+        letter-spacing: 0.16em;
+        font-weight: 800;
       }
 
       h1 {
@@ -350,7 +371,7 @@
 
       .notes {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 1rem;
         margin-top: 2.5rem;
       }
@@ -417,6 +438,7 @@
         <option value="modern">A: Modern + motivierend</option>
         <option value="editorial">B: Editorial + hochwertig</option>
         <option value="sport">C: Sportlich + direkt</option>
+        <option value="segoe">D: Segoe UI + native</option>
       </select>
     </div>
 
@@ -507,6 +529,10 @@
         <article class="note">
           <strong>C: Sportlich + direkt</strong>
           <p>Mehr Energie und Druck. Gut fuer Fitness, kann aber bei Wissen/Community haerter wirken.</p>
+        </article>
+        <article class="note">
+          <strong>D: Segoe UI + native</strong>
+          <p>Sehr klar, vertraut und Windows-nah. Weniger eigenstaendig, dafuer ruhig und gut lesbar.</p>
         </article>
       </section>
     </main>

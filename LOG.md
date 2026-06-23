@@ -356,3 +356,13 @@
   ist noch nicht umgesetzt.
 - Naechster Schritt: Bevorzugte Richtung auswaehlen und als kleine
   Typografie-Slice in die App uebertragen.
+
+## 2026-06-23 - Segoe-UI-Variante ergaenzt
+
+- Ziel: Eine systemnahe Segoe-UI-Richtung im Typografie-Prototyp vergleichen.
+- Aenderungen: `typography-variants.html` um Variante D mit Segoe UI fuer
+  Display-, Body- und UI-Schrift erweitert.
+- Verifikation: Playwright-Datei-Smoke fuer Modern, Editorial, Sportlich und
+  Segoe UI erfolgreich.
+- Offene Risiken: Statischer Prototyp; keine Aenderung an der Next.js-App.
+- Naechster Schritt: Favorisierte Richtung fuer die App auswaehlen.
