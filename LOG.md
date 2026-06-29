@@ -381,3 +381,20 @@
   werden; Build meldet weiterhin Node-Warnungen zu experimentellem SQLite.
 - Naechster Schritt: Typografie im Browser abnehmen und danach die
   Challenge-Erstellung mit Abgleich gegen bestehende Challenges ausarbeiten.
+
+## 2026-06-29 - Segoe-UI-Typografie auf Testdomain deployed
+
+- Ziel: Den filigraneren Segoe-UI-Stand auf der bestehenden Testdomain sichtbar
+  machen.
+- Aenderungen: Commit `882946b` nach GitHub gepusht, VPS-Checkout
+  `/home/stefan/projects/challengehub` per Fast-Forward aktualisiert,
+  Dependencies installiert, frischen Next.js-Build erzeugt und bestehenden
+  `challengehub`-Service neu gestartet.
+- Verifikation: `https://theovina.de`, `/challenges` und
+  `www.theovina.de/challenges?suche=burpees` liefern HTTP 200;
+  `/challenge-mate` leitet ausgeloggt per 307 auf Auth um; Live-Screenshots
+  fuer Desktop/Mobile geprueft; berechnete H1-Styles nutzen
+  `Segoe UI Variable Display` mit `font-weight: 600`.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde; alte
+  Server-Action-Requests erschienen vor dem Neustart noch in Container-Logs.
+- Naechster Schritt: Visuelle Abnahme auf `https://theovina.de`.
