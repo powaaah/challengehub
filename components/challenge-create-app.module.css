@@ -27,7 +27,7 @@
   display: flex;
   gap: 1.5rem;
   color: var(--text);
-  font-weight: 800;
+  font-weight: 650;
 }
 
 .hero,
@@ -45,7 +45,7 @@
   margin: 0 0 1rem;
   color: var(--brand);
   font-size: 0.85rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -53,7 +53,7 @@
 .hero h1 {
   margin: 0;
   color: var(--background-deep);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(3.2rem, 8vw, 7rem);
   line-height: 0.92;
 }
@@ -61,7 +61,7 @@
 .hero p {
   max-width: 68ch;
   color: var(--text-muted);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.7;
 }
 
@@ -91,7 +91,7 @@
   display: grid;
   gap: 0.45rem;
   color: var(--text-muted);
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .form input,
@@ -104,7 +104,7 @@
   color: var(--text);
   padding: 0.8rem;
   font: inherit;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .form input,
@@ -129,7 +129,7 @@
   background: var(--brand);
   color: white;
   padding: 0.8rem 1rem;
-  font-weight: 900;
+  font-weight: 600;
   box-shadow: 0 12px 28px rgba(0, 137, 179, 0.24);
 }
 
@@ -146,7 +146,7 @@
   background: rgba(234, 115, 23, 0.08);
   color: var(--background-deep);
   padding: 0.8rem;
-  font-weight: 800;
+  font-weight: 650;
 }
 
 .notice {
@@ -162,7 +162,7 @@
 
 .notice a {
   color: var(--brand-dark);
-  font-weight: 900;
+  font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 0.2rem;
 }
@@ -175,7 +175,7 @@
 
 .preview h2 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3.6rem);
   line-height: 1;
 }
@@ -208,7 +208,7 @@
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.16);
   padding: 0.45rem 0.65rem;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .Beginner {

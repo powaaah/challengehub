@@ -14,7 +14,7 @@
   margin: 0;
   color: var(--brand);
   font-size: 0.9rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
@@ -23,7 +23,7 @@
   max-width: 13ch;
   margin: 0;
   color: var(--background-deep);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 4rem;
   line-height: 1;
 }
@@ -68,7 +68,7 @@
   background: var(--brand);
   color: white;
   padding: 0.8rem 1rem;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 @media (max-width: 820px) {

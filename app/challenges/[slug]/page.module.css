@@ -28,7 +28,7 @@
   align-items: center;
   gap: 1.5rem;
   color: var(--text);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .hero {
@@ -63,7 +63,7 @@
   display: inline-flex;
   margin-bottom: 2rem;
   color: inherit;
-  font-weight: 800;
+  font-weight: 650;
   text-decoration: underline;
   text-underline-offset: 0.25rem;
 }
@@ -72,7 +72,7 @@
 .eyebrow {
   margin: 0 0 1rem;
   font-size: 0.88rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -80,7 +80,7 @@
 .hero h1 {
   max-width: 12ch;
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(3.2rem, 9vw, 7.8rem);
   line-height: 0.92;
 }
@@ -108,7 +108,7 @@
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.14);
   padding: 0.6rem 0.85rem;
-  font-weight: 800;
+  font-weight: 650;
 }
 
 .content,
@@ -143,7 +143,7 @@
 .primaryPanel h2 {
   margin: 0;
   color: var(--background-deep);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 4rem);
   line-height: 1;
 }
@@ -161,7 +161,7 @@
   margin: 0;
   padding-left: 1.4rem;
   color: var(--text-muted);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.5;
 }
 
@@ -180,13 +180,13 @@
 .safetyNotice p {
   margin: 0.45rem 0;
   color: var(--text-muted);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.55;
 }
 
 .safetyNotice a {
   color: var(--brand-dark);
-  font-weight: 900;
+  font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 0.2rem;
 }
@@ -194,7 +194,7 @@
 .textPanel h2 {
   margin: 0 0 1rem;
   color: var(--background-deep);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.8rem, 4vw, 3.2rem);
   line-height: 1;
 }
@@ -202,7 +202,7 @@
 .textPanel > p:not(.eyebrow) {
   max-width: 72ch;
   color: var(--text-muted);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.65;
 }
 
@@ -223,7 +223,7 @@
 .textPanel li,
 .faqList p {
   color: var(--text-muted);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.6;
 }
 
@@ -253,13 +253,13 @@
 .stackGrid p {
   margin: 0.35rem 0 0.75rem;
   color: var(--text-muted);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.6;
 }
 
 .benefitList a {
   color: var(--brand-dark);
-  font-weight: 900;
+  font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 0.2rem;
 }
@@ -281,7 +281,7 @@
   color: white;
   padding: 0.25rem 0.55rem;
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .planList ul {

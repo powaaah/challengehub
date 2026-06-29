@@ -366,3 +366,18 @@
   Segoe UI erfolgreich.
 - Offene Risiken: Statischer Prototyp; keine Aenderung an der Next.js-App.
 - Naechster Schritt: Favorisierte Richtung fuer die App auswaehlen.
+
+## 2026-06-29 - Segoe-UI-Typografie in App uebertragen
+
+- Ziel: Die ausgewaehlte Segoe-UI-Richtung in die Next.js-App uebernehmen und
+  bewusst filigraner halten.
+- Aenderungen: Globale Font-Variablen fuer Segoe UI Display/Text/UI angelegt,
+  alte Georgia-/Trebuchet-Sonderfaelle in CSS-Modulen ersetzt und sehr schwere
+  800/900er-Schriftgewichte auf leichtere 650/600er-Gewichte reduziert.
+- Verifikation: `npm run lint`, `npm run build`, `git diff --check`;
+  Playwright-Screenshots fuer Startseite und Challenge-Katalog in Desktop und
+  Mobile visuell geprueft.
+- Offene Risiken: Visueller Geschmack muss noch final von Stefan abgenommen
+  werden; Build meldet weiterhin Node-Warnungen zu experimentellem SQLite.
+- Naechster Schritt: Typografie im Browser abnehmen und danach die
+  Challenge-Erstellung mit Abgleich gegen bestehende Challenges ausarbeiten.
