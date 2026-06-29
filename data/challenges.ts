@@ -112,16 +112,16 @@ export const challenges: Challenge[] = [
     rules: ["Zaehle deine Schritte mit Uhr, Smartphone oder Schrittzaehler.", "Der Tageswert muss vor Mitternacht erreicht sein.", "Pausentage starten die Serie neu."]
   },
   {
-    title: "100 Liegestuetze am Stueck",
+    title: "100 Liegestütze am Stück",
     slug: "100-liegestuetze-am-stueck",
     level: "Premium",
     participants: 12,
     rating: 4.2,
     createdAt: "2023-08-15",
     duration: "Einmalig",
-    goal: "100 saubere Liegestuetze ohne Unterbrechung schaffen.",
+    goal: "100 saubere Liegestütze ohne Unterbrechung schaffen.",
     description: "Eine Kraft- und Durchhalte-Challenge fuer Brust, Schultern, Arme und mentale Staerke.",
-    seoDescription: "Trainiere fuer 100 Liegestuetze am Stueck: Challenge-Ziel, Regeln, Tipps und saubere Ausfuehrung.",
+    seoDescription: "Trainiere für 100 Liegestütze am Stück: Challenge-Ziel, Regeln, Tipps und saubere Ausführung.",
     tips: ["Trainiere mit festen Saetzen statt jeden Versuch bis ans Limit zu gehen.", "Erhoehe das Volumen schrittweise.", "Filme einzelne Saetze, um die Technik zu pruefen."],
     faq: [
       { question: "Wie streng ist die Technik?", answer: "Eine Wiederholung zaehlt, wenn Koerperlinie, Tiefe und Streckung kontrolliert bleiben." },
@@ -159,7 +159,7 @@ export const challenges: Challenge[] = [
     seoDescription: "100 Burpees pro Tag als 30-Tage-Challenge: Regeln, Ziel, Trainingshinweise und Motivation.",
     tips: ["Teile die Wiederholungen in kleine Bloecke auf.", "Starte mit sauberem Tempo statt maximaler Geschwindigkeit.", "Plane leichte Mobility nach dem Training ein."],
     faq: [
-      { question: "Muss ich alle Burpees am Stueck machen?", answer: "Nein, du kannst die 100 Wiederholungen ueber den Tag verteilen." },
+      { question: "Muss ich alle Burpees am Stück machen?", answer: "Nein, du kannst die 100 Wiederholungen über den Tag verteilen." },
       { question: "Ist die Challenge fuer Anfaenger geeignet?", answer: "Sie ist eher fortgeschritten und sollte an Fitnesslevel und Gesundheit angepasst werden." }
     ],
     benefits: [
@@ -222,19 +222,19 @@ export const challenges: Challenge[] = [
     rules: ["Die Zeit muss aus einem offiziellen Rennen stammen.", "Die Distanz betraegt 42,195 km.", "Gesundheit und Regeneration haben Prioritaet."]
   },
   {
-    title: "1.000 Liegestuetze Challenge",
+    title: "1.000 Liegestütze Challenge",
     slug: "1000-liegestuetze-challenge",
     level: "Premium",
     participants: 0,
     rating: 2.1,
     createdAt: "2023-11-18",
     duration: "Einmalig",
-    goal: "1.000 Liegestuetze an einem Tag absolvieren.",
+    goal: "1.000 Liegestütze an einem Tag absolvieren.",
     description: "Ein grosser Tagesblock fuer Kraftausdauer, Planung und saubere Einteilung.",
-    seoDescription: "1.000 Liegestuetze Challenge: Ziel, Tagesstrategie, Regeln und Tipps fuer Kraftausdauer.",
+    seoDescription: "1.000 Liegestütze Challenge: Ziel, Tagesstrategie, Regeln und Tipps für Kraftausdauer.",
     tips: ["Plane kleine Saetze mit festen Pausen.", "Starte deutlich leichter als du dich fuehlst.", "Schuetze Handgelenke, Schultern und Ellbogen."],
     faq: [
-      { question: "Darf ich die Liegestuetze aufteilen?", answer: "Ja, alle Wiederholungen duerfen ueber den Tag verteilt werden." },
+      { question: "Darf ich die Liegestütze aufteilen?", answer: "Ja, alle Wiederholungen dürfen über den Tag verteilt werden." },
       { question: "Zaehlen unsaubere Wiederholungen?", answer: "Nein, nur kontrollierte Wiederholungen sollten gezaehlt werden." }
     ],
     benefits: [
@@ -372,7 +372,7 @@ export const challenges: Challenge[] = [
     rules: ["Nur teilnehmen, wenn gesundheitlich unbedenklich.", "Trinke ausreichend Wasser.", "Brich ab, wenn du dich schlecht fuehlst."]
   },
   {
-    title: "10min am Stueck planken Challenge",
+    title: "10min am Stück planken Challenge",
     slug: "10min-am-stueck-planken-challenge",
     level: "Premium",
     participants: 0,

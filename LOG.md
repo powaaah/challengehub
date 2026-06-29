@@ -410,3 +410,15 @@
 - Offene Risiken: Weitere Daten-/Wissensartikel enthalten noch bewusst
   unveränderte ASCII-Transliterationen aus frueheren Inhalten.
 - Naechster Schritt: Fix auf die Testdomain deployen.
+
+## 2026-06-29 - Liegestuetze/Stueck-Umlaute korrigiert
+
+- Ziel: Sichtbare Challenge-Texte mit `Liegestuetze` und `Stueck` korrigieren.
+- Aenderungen: Titel, Goals, SEO-Beschreibungen und FAQ-Texte in
+  `data/challenges.ts` auf `Liegestütze`, `Stück`, `für`, `über` und
+  `Ausführung` umgestellt; Slugs bewusst unverändert gelassen.
+- Verifikation: `npm run lint`, `npm run build`; alte `Liegestuetze`/`Stueck`
+  Treffer bleiben nur noch in stabilen Slugs.
+- Offene Risiken: Weitere ASCII-Transliterationen in älteren Daten- und
+  Wissensinhalten sind noch nicht flächig bereinigt.
+- Naechster Schritt: Fix auf die Testdomain deployen.
