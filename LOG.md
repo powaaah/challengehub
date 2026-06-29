@@ -398,3 +398,15 @@
 - Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde; alte
   Server-Action-Requests erschienen vor dem Neustart noch in Container-Logs.
 - Naechster Schritt: Visuelle Abnahme auf `https://theovina.de`.
+
+## 2026-06-29 - Katalog-Umlaut korrigiert
+
+- Ziel: Sichtbare ASCII-Transliteration im Challenge-Katalog entfernen.
+- Aenderungen: Katalog-Headline von `Finde deine naechste Challenge` auf
+  `Finde deine nächste Challenge` korrigiert und `oeffentlichen` im selben
+  Textblock auf `öffentlichen` umgestellt.
+- Verifikation: `npm run lint`, `npm run build`; alter sichtbarer String nicht
+  mehr im App-/Component-Code gefunden.
+- Offene Risiken: Weitere Daten-/Wissensartikel enthalten noch bewusst
+  unveränderte ASCII-Transliterationen aus frueheren Inhalten.
+- Naechster Schritt: Fix auf die Testdomain deployen.

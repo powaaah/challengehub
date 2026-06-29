@@ -183,9 +183,9 @@ export function ChallengeCatalogApp({
       <main className={styles.catalogPage}>
         <section className={styles.catalogHero}>
           <p className={styles.kicker}>Challenge-Katalog</p>
-          <h1>Finde deine naechste Challenge</h1>
+          <h1>Finde deine nächste Challenge</h1>
           <p>
-            Suche nach kuratierten und oeffentlichen Challenges, filtere nach Level
+            Suche nach kuratierten und öffentlichen Challenges, filtere nach Level
             und starte die Aufgabe, die zu deinem Ziel passt.
           </p>
         </section>
