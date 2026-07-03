@@ -477,3 +477,21 @@
   `box-shadow: none`.
 - Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde.
 - Naechster Schritt: Visuelle Abnahme auf der Testdomain.
+
+## 2026-07-03 - 10.000-Schritte-Detailseite neu ausgerichtet
+
+- Ziel: Die 10.000-Schritte-Challenge einfacher, direkter und weniger wie ein
+  Trainingsprogramm darstellen.
+- Aenderungen: Hero-Subline, Zieltext, Regeln, Tipps und FAQ geschaerft;
+  Aufbauplan und grosse Wissenschaftssektion fuer diese Challenge ausgeblendet;
+  Ranking mit Top 20 plus eigener Position, Reststrecken-Rechner,
+  Kalorien-/Jahresrechnung und Wissenswertes zu Schritten ergaenzt;
+  Detailseiten-Standardreihenfolge auf Ranking, Q&A, Challenge Mate und danach
+  Content umgestellt.
+- Verifikation: `npm run lint`, `npm run build`; lokale Playwright-Screenshots
+  fuer Desktop und Mobile; DOM-Check bestaetigt neue Reihenfolge, Rechner,
+  Wissenssektion, entfernten Aufbauplan und entfernte alte Wissenschaftsheadline.
+- Offene Risiken: Ranking-Daten sind aktuell statisch und muessen spaeter an
+  echte Teilnahme-/Streak-Daten angebunden werden.
+- Naechster Schritt: Aenderung committen und auf die Testdomain deployen, wenn
+  Stefan die neue Detailseite live abnehmen moechte.

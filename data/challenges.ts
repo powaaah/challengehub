@@ -84,32 +84,23 @@ export const challenges: Challenge[] = [
     rating: 4.8,
     createdAt: "2023-08-01",
     duration: "Dauerhaft",
-    goal: "Jeden Tag mindestens 10.000 Schritte sammeln.",
-    description: "Eine einfache, alltagstaugliche Challenge fuer mehr Bewegung und einen stabilen Tagesrhythmus.",
-    seoDescription: "Starte die 10.000 Schritte am Tag Challenge: Ziel, Regeln, Tipps und Motivation fuer mehr Bewegung im Alltag.",
-    tips: ["Lege kurze Spaziergaenge direkt in den Kalender.", "Nutze Treppen und kleine Wege bewusst.", "Pruefe deinen Stand am Nachmittag, nicht erst abends."],
+    goal: "Jeden Tag 10.000 Schritte vollmachen.",
+    description: "Zeig, dass du diszipliniert bist: Lauf einfach jeden Tag deine 10.000 Schritte. Heute erst 8.000? Dann geh noch eine Runde und mach die 10.000 voll.",
+    seoDescription: "Starte die 10.000 Schritte am Tag Challenge: jeden Tag Schritte vollmachen, Streak halten, Ranking knacken und praktische Rechner nutzen.",
+    tips: ["Checke deinen Stand am Nachmittag, nicht erst kurz vor Mitternacht.", "Speichere dir eine feste Abendrunde für fehlende Schritte.", "Mach Telefonate im Gehen.", "Steig eine Haltestelle früher aus oder parke weiter weg.", "Wenn noch 2.000 Schritte offen sind: Schuhe an und Runde fertig machen."],
     faq: [
-      { question: "Zaehlen Schritte aus dem Alltag?", answer: "Ja, alle Schritte zaehlen, egal ob Spaziergang, Arbeitsweg oder Training." },
-      { question: "Brauche ich eine Smartwatch?", answer: "Nein, ein Smartphone oder einfacher Schrittzaehler reicht fuer den Start aus." }
+      { question: "Zählen Schritte aus dem Alltag?", answer: "Ja, alle Schritte zählen: Spaziergang, Arbeitsweg, Einkauf, Treppen und die kleine Extrarunde am Abend." },
+      { question: "Brauche ich eine Smartwatch?", answer: "Nein. Smartphone, Smartwatch oder einfacher Schrittzähler reichen. Wichtig ist nur, dass du jeden Tag gleich zählst." },
+      { question: "Was passiert, wenn ich nur 8.000 Schritte habe?", answer: "Dann fehlen noch 2.000. Genau darum geht es: rausgehen, Runde drehen, 10.000 vollmachen." }
     ],
     benefits: [
       {
-        title: "Mehr Schritte sind ein starker Gesundheitshebel.",
-        text: "Eine Meta-Analyse mit 15 internationalen Kohorten fand, dass hoehere taegliche Schrittzahlen mit niedrigerer Gesamtsterblichkeit verbunden waren.",
+        title: "Mehr Schritte sind eine einfache Orientierung.",
+        text: "10.000 Schritte sind keine magische Grenze, aber eine klare Zahl: leicht zu verstehen, leicht zu tracken und gut genug, um jeden Tag Bewegung sichtbar zu machen.",
         source: sources.stepsMortality
       }
     ],
-    plan: {
-      title: "4-Wochen-Aufbauplan",
-      intro: "Der Plan hilft dir, die 10.000 Schritte nicht als einmaligen Kraftakt, sondern als stabile Routine aufzubauen.",
-      weeks: [
-        { label: "Woche 1", focus: "Ausgangspunkt finden", tasks: ["3 Tage normal tracken.", "Danach jeden Tag 1.000 Schritte ueber deinem Durchschnitt anpeilen."] },
-        { label: "Woche 2", focus: "Feste Gehfenster", tasks: ["10 Minuten morgens gehen.", "10 Minuten nach dem Mittagessen gehen."] },
-        { label: "Woche 3", focus: "10.000 erreichen", tasks: ["An 4 Tagen die 10.000 knacken.", "Abends nur noch kleine Reststrecken offen lassen."] },
-        { label: "Woche 4", focus: "Routine stabilisieren", tasks: ["7 Tage in Folge schaffen.", "Eine Ersatzroute fuer Regen oder Stress festlegen."] }
-      ]
-    },
-    rules: ["Zaehle deine Schritte mit Uhr, Smartphone oder Schrittzaehler.", "Der Tageswert muss vor Mitternacht erreicht sein.", "Pausentage starten die Serie neu."]
+    rules: ["10.000 Schritte zählen pro Kalendertag.", "Der Tageswert muss vor Mitternacht erreicht sein.", "Verpasst ist verpasst: Der Streak startet wieder bei 0."]
   },
   {
     title: "100 Liegestütze am Stück",

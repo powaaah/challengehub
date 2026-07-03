@@ -111,9 +111,33 @@
   font-weight: 650;
 }
 
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.heroActions button,
+.heroActions a {
+  width: auto;
+  min-width: 220px;
+  margin-top: 0;
+}
+
+.heroActions p {
+  margin: 0;
+  max-width: 32ch;
+  color: inherit;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
 .content,
 .seoContent,
-.evidenceSection {
+.evidenceSection,
+.qaMateSection {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(300px, 0.42fr);
   gap: 1.25rem;
@@ -126,9 +150,17 @@
   margin-bottom: 1.25rem;
 }
 
+.content {
+  margin-bottom: 1.25rem;
+}
+
 .seoContent {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: -3.75rem;
+  grid-template-columns: 1fr;
+  margin-top: 1.25rem;
+}
+
+.stepsSeoContent {
+  margin-top: 1.25rem;
 }
 
 .primaryPanel,
@@ -138,6 +170,32 @@
   border-radius: 0.625rem;
   background: var(--surface);
   padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.qaMateSection {
+  margin-bottom: 1.25rem;
+}
+
+.matePanel {
+  align-content: start;
+}
+
+.mateLink {
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 1rem;
+  border-radius: 8px;
+  background: var(--brand);
+  color: white;
+  padding: 0.8rem 1rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.mateLink:hover {
+  background: var(--brand-dark);
 }
 
 .primaryPanel h2 {
@@ -293,6 +351,171 @@
   margin: 0;
 }
 
+.rankingSection,
+.stepsToolsGrid {
+  width: min(1180px, calc(100% - 32px));
+  margin: 1.25rem auto;
+}
+
+.stepsToolsGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+  gap: 1.25rem;
+}
+
+.rankingTable,
+.ownRankBlock,
+.calculatorGrid,
+.resultGrid,
+.factNumbers,
+.knowledgeGrid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.rankingTable {
+  margin-top: 1.25rem;
+}
+
+.rankingHeader,
+.rankingRow {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr) 7rem 5rem;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rankingHeader {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rankingRow {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  padding: 0.65rem 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.rankingRow strong {
+  color: var(--text);
+}
+
+.ownRankBlock {
+  margin-top: 1rem;
+}
+
+.ownRankBlock > span {
+  color: var(--text-muted);
+  text-align: center;
+  font-weight: 650;
+}
+
+.ownRank {
+  border-color: rgba(0, 137, 179, 0.38);
+  background: rgba(0, 137, 179, 0.08);
+  color: var(--background-deep);
+}
+
+.calculatorGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1.25rem;
+}
+
+.calculatorGrid label,
+.weightInput {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--text-muted);
+  font-weight: 650;
+}
+
+.calculatorGrid input,
+.weightInput input {
+  min-height: 46px;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-muted);
+  color: var(--text);
+  padding: 0 0.85rem;
+  font: inherit;
+  font-weight: 600;
+}
+
+.resultGrid,
+.factNumbers {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 1.25rem;
+}
+
+.factNumbers {
+  grid-template-columns: 1fr;
+}
+
+.resultGrid article,
+.factNumbers article,
+.knowledgeGrid article {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  padding: 1rem;
+}
+
+.resultGrid span,
+.factNumbers span {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.resultGrid strong,
+.factNumbers strong {
+  display: block;
+  color: var(--background-deep);
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  line-height: 1;
+}
+
+.resultGrid small,
+.factNumbers small {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.weightInput {
+  margin-top: 1.25rem;
+}
+
+.knowledgeGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 1.25rem;
+}
+
+.knowledgeGrid h3 {
+  margin: 0 0 0.45rem;
+  color: var(--text);
+}
+
+.knowledgeGrid p {
+  margin: 0;
+  color: var(--text-muted);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
 @media (max-width: 820px) {
   .header {
     align-items: flex-start;
@@ -315,12 +538,37 @@
     grid-template-columns: 1fr;
   }
 
-  .seoContent {
+  .seoContent,
+  .qaMateSection {
     grid-template-columns: 1fr;
-    margin-top: -3.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .stepsSeoContent {
+    margin-top: 1.25rem;
   }
 
   .evidenceSection {
     grid-template-columns: 1fr;
+  }
+
+  .stepsToolsGrid,
+  .calculatorGrid,
+  .resultGrid,
+  .knowledgeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .rankingHeader {
+    display: none;
+  }
+
+  .rankingRow {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+  }
+
+  .rankingRow span:nth-child(3),
+  .rankingRow span:nth-child(4) {
+    grid-column: 2;
   }
 }

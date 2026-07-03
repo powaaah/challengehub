@@ -24,6 +24,8 @@ Stand: 2026-07-03
 - [x] Produktentscheidungen fuer Header, Profilmenue und Challenge Mate dokumentieren.
 - [x] Segoe-UI-Typografie filigraner in die Next.js-App uebertragen.
 - [x] Challenge-Katalog-Toolbar mit CTA und weissem Beginner-Text anpassen.
+- [x] Detailseite `10.000 Schritte am Tag` auf simple Challenge, Ranking und Rechner umstellen.
+- [x] Challenge-Detailseiten auf Standard-Reihenfolge Ranking, Q&A, Challenge Mate, Content umstellen.
 
 ## Later
 

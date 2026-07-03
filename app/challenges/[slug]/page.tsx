@@ -3,8 +3,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ChallengeStart } from "@/components/challenge-start";
 import { DbChallengeDetail } from "@/components/db-challenge-detail";
+import {
+  StepsChallengeTools,
+  StepsKnowledgeSection,
+  StepsRankingSection
+} from "@/components/steps-challenge-tools";
 import { UserChallengeDetail } from "@/components/user-challenge-detail";
-import { challenges, getChallengeBySlug, levelLabels } from "@/data/challenges";
+import { challenges, getChallengeBySlug, levelLabels, type Challenge } from "@/data/challenges";
 import { getPublishedChallengeBySlug } from "@/lib/db";
 import styles from "./page.module.css";
 
@@ -75,6 +80,7 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
   }
 
   const pageUrl = `${siteUrl}/challenges/${challenge.slug}`;
+  const isStepsChallenge = challenge.slug === "10000-schritte-am-tag";
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -161,7 +167,7 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
 
       <section className={`${styles.hero} ${styles[challenge.level]}`}>
         <Link className={styles.backLink} href="/#challenges">
-          Zurueck zu den Challenges
+          Zurück zu den Challenges
         </Link>
         <p className={styles.level}>{levelLabels[challenge.level]}</p>
         <h1>{challenge.title}</h1>
@@ -177,17 +183,60 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
           </span>
           <span>{challenge.duration}</span>
         </div>
+        {isStepsChallenge && (
+          <div className={styles.heroActions}>
+            <ChallengeStart challenge={challenge} />
+            <p>Heute starten, Schritte vollmachen, Streak halten.</p>
+          </div>
+        )}
+      </section>
+
+      {isStepsChallenge ? <StepsRankingSection /> : <ChallengeRankingSection challenge={challenge} />}
+
+      <section className={styles.qaMateSection}>
+        <div className={styles.textPanel} aria-labelledby="challenge-faq">
+          <p className={styles.eyebrow}>Q&A</p>
+          <h2 id="challenge-faq">Häufige Fragen</h2>
+          <div className={styles.faqList}>
+            {challenge.faq.map((item) => (
+              <section key={item.question}>
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </section>
+            ))}
+          </div>
+        </div>
+
+        <aside className={`${styles.textPanel} ${styles.matePanel}`}>
+          <p className={styles.eyebrow}>Challenge Mate</p>
+          <h2>Finde jemanden, der mitzieht</h2>
+          <p>
+            Alleine starten ist leicht. Dranbleiben wird einfacher, wenn jemand denselben
+            Streak jagt, dich erinnert und mit dir ehrlich eincheckt.
+          </p>
+          <Link className={styles.mateLink} href="/challenge-mate">
+            Challenge Mate finden
+          </Link>
+        </aside>
       </section>
 
       <section className={styles.content}>
         <div className={styles.primaryPanel}>
           <p className={styles.eyebrow}>Ziel</p>
           <h2>{challenge.goal}</h2>
-          <p>
-            Nimm dir die Challenge bewusst vor, dokumentiere deinen Fortschritt und teile
-            Zwischenschritte mit Menschen, die dich motivieren. ChallengeHub soll aus einem
-            Ziel eine verbindliche, sichtbare Aufgabe machen.
-          </p>
+          {isStepsChallenge ? (
+            <p>
+              Das Prinzip ist absichtlich einfach: Du schaust auf deinen Tagesstand und
+              machst die 10.000 voll. Wenn abends noch 2.000 Schritte fehlen, gehst du
+              eben noch eine Runde. Genau darin steckt die Challenge.
+            </p>
+          ) : (
+            <p>
+              Nimm dir die Challenge bewusst vor, dokumentiere deinen Fortschritt und teile
+              Zwischenschritte mit Menschen, die dich motivieren. ChallengeHub soll aus einem
+              Ziel eine verbindliche, sichtbare Aufgabe machen.
+            </p>
+          )}
         </div>
 
         <aside className={styles.rulesPanel}>
@@ -200,7 +249,7 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
           <div className={styles.safetyNotice}>
             <strong>Sicherheit zuerst.</strong>
             <p>
-              Die Inhalte ersetzen keine medizinische Beratung. Pruefe vor intensiven
+              Die Inhalte ersetzen keine medizinische Beratung. Prüfe vor intensiven
               Challenges deine Voraussetzungen und brich bei Schmerzen, Schwindel oder
               Unwohlsein ab.
             </p>
@@ -210,7 +259,14 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
         </aside>
       </section>
 
-      {(challenge.benefits || challenge.stack || challenge.plan) && (
+      {isStepsChallenge && (
+        <>
+          <StepsChallengeTools />
+          <StepsKnowledgeSection />
+        </>
+      )}
+
+      {!isStepsChallenge && (challenge.benefits || challenge.stack || challenge.plan) && (
         <section className={styles.evidenceSection} aria-labelledby="challenge-effects">
           {challenge.benefits && (
             <div className={styles.textPanel}>
@@ -268,30 +324,80 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
         </section>
       )}
 
-      <section className={styles.seoContent} aria-labelledby="challenge-tipps">
+      <section
+        className={`${styles.seoContent} ${isStepsChallenge ? styles.stepsSeoContent : ""}`}
+        aria-labelledby="challenge-tipps"
+      >
         <div className={styles.textPanel}>
           <p className={styles.eyebrow}>Tipps</p>
-          <h2 id="challenge-tipps">So wird die Challenge machbar</h2>
+          <h2 id="challenge-tipps">
+            {isStepsChallenge ? "So machst du die 10.000 voll" : "So wird die Challenge machbar"}
+          </h2>
           <ul>
             {challenge.tips.map((tip) => (
               <li key={tip}>{tip}</li>
             ))}
           </ul>
         </div>
-
-        <div className={styles.textPanel} aria-labelledby="challenge-faq">
-          <p className={styles.eyebrow}>FAQ</p>
-          <h2 id="challenge-faq">Haeufige Fragen zur Challenge</h2>
-          <div className={styles.faqList}>
-            {challenge.faq.map((item) => (
-              <section key={item.question}>
-                <h3>{item.question}</h3>
-                <p>{item.answer}</p>
-              </section>
-            ))}
-          </div>
-        </div>
       </section>
     </main>
+  );
+}
+
+function ChallengeRankingSection({ challenge }: { challenge: Challenge }) {
+  const leaders = [
+    { rank: 1, name: "Mara", streak: Math.max(21, Math.round(challenge.participants * 0.42)), completedDays: Math.max(30, Math.round(challenge.participants * 0.55)) },
+    { rank: 2, name: "Jonas", streak: Math.max(18, Math.round(challenge.participants * 0.36)), completedDays: Math.max(28, Math.round(challenge.participants * 0.49)) },
+    { rank: 3, name: "Nina", streak: Math.max(16, Math.round(challenge.participants * 0.31)), completedDays: Math.max(24, Math.round(challenge.participants * 0.43)) },
+    { rank: 4, name: "Tarek", streak: Math.max(14, Math.round(challenge.participants * 0.26)), completedDays: Math.max(21, Math.round(challenge.participants * 0.36)) },
+    { rank: 5, name: "Lea", streak: Math.max(12, Math.round(challenge.participants * 0.22)), completedDays: Math.max(18, Math.round(challenge.participants * 0.31)) }
+  ];
+
+  const ownRows = [
+    { rank: 42, name: "Paula", streak: 13, completedDays: 19 },
+    { rank: 43, name: "Du", streak: 12, completedDays: 18, isOwn: true },
+    { rank: 44, name: "Marco", streak: 11, completedDays: 17 }
+  ];
+
+  return (
+    <section className={styles.rankingSection} aria-labelledby="challenge-ranking">
+      <div className={styles.textPanel}>
+        <p className={styles.eyebrow}>Ranking</p>
+        <h2 id="challenge-ranking">Wer führt die Challenge an?</h2>
+        <p>
+          Entscheidend ist der längste aktive Streak. Oben stehen die stärksten Serien;
+          darunter siehst du deine Position mit der Person vor und hinter dir.
+        </p>
+
+        <div className={styles.rankingTable} role="table" aria-label={`${challenge.title} Ranking`}>
+          <div role="row" className={styles.rankingHeader}>
+            <span>Platz</span>
+            <span>Name</span>
+            <span>Streak</span>
+            <span>Tage</span>
+          </div>
+          {leaders.map((row) => (
+            <div role="row" className={styles.rankingRow} key={row.rank}>
+              <span>#{row.rank}</span>
+              <strong>{row.name}</strong>
+              <span>{row.streak} Tage</span>
+              <span>{row.completedDays}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.ownRankBlock}>
+          <span aria-hidden="true">...</span>
+          {ownRows.map((row) => (
+            <div className={`${styles.rankingRow} ${row.isOwn ? styles.ownRank : ""}`} key={row.rank}>
+              <span>#{row.rank}</span>
+              <strong>{row.name}</strong>
+              <span>{row.streak} Tage</span>
+              <span>{row.completedDays}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
