@@ -422,3 +422,20 @@
 - Offene Risiken: Weitere ASCII-Transliterationen in älteren Daten- und
   Wissensinhalten sind noch nicht flächig bereinigt.
 - Naechster Schritt: Fix auf die Testdomain deployen.
+
+## 2026-07-03 - Katalog-Toolbar und Beginner-Text angepasst
+
+- Ziel: Die im Screenshot markierten Katalog-Toolbar-Styles uebernehmen,
+  Beginner-Karten lesbarer machen und einen direkten CTA zur Challenge-Erstellung
+  ergaenzen.
+- Aenderungen: `--beginner-text` auf weiss gestellt, Toolbar-Rahmen,
+  Hintergrund und Radius entfernt, Toolbar-Grid um eine CTA-Spalte erweitert und
+  `Neue Challenge hinzufuegen` als Button-Link zu `/challenges/neu` neben dem
+  Sortier-Dropdown eingefuegt.
+- Verifikation: `npm run lint`, `npm run build`; lokale Playwright-Screenshots
+  fuer Desktop/Mobile; DOM-Check bestaetigt Button-Link, blauen CTA,
+  weissen Beginner-Text sowie transparente Toolbar ohne Border.
+- Offene Risiken: Keine bekannt; visuelle Feinabnahme auf Testdomain steht nach
+  Deployment noch aus.
+- Naechster Schritt: Aenderung committen und auf die Testdomain deployen, falls
+  Stefan das live sehen moechte.

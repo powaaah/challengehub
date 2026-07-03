@@ -1,6 +1,6 @@
 # ChallengeHub.de Todos
 
-Stand: 2026-06-29
+Stand: 2026-07-03
 
 ## Active
 
@@ -23,6 +23,7 @@ Stand: 2026-06-29
 - [x] Testdomain mit aktuellem Stand deployen.
 - [x] Produktentscheidungen fuer Header, Profilmenue und Challenge Mate dokumentieren.
 - [x] Segoe-UI-Typografie filigraner in die Next.js-App uebertragen.
+- [x] Challenge-Katalog-Toolbar mit CTA und weissem Beginner-Text anpassen.
 
 ## Later
 

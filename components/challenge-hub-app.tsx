@@ -213,6 +213,9 @@ export function ChallengeCatalogApp({
                 <option value="rating">Bewertung</option>
               </select>
             </label>
+            <Link className={styles.addButton} href="/challenges/neu">
+              Neue Challenge hinzufügen
+            </Link>
           </div>
 
           <div className={styles.grid}>

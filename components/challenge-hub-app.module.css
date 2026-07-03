@@ -337,14 +337,11 @@
 
 .toolbar {
   display: grid;
-  grid-template-columns: auto minmax(16rem, 1fr) minmax(12rem, auto);
+  grid-template-columns: auto minmax(16rem, 1fr) minmax(12rem, auto) auto;
   align-items: end;
   gap: 0.9rem;
   margin-bottom: 1.25rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-  padding: 0.9rem;
+  padding: 0 0.9rem 0;
   box-shadow: 0 12px 28px rgba(18, 32, 43, 0.08);
 }
 
@@ -386,6 +383,15 @@
 
 .sortLabel select {
   padding: 0 2.2rem 0 0.8rem;
+}
+
+.toolbar .addButton {
+  min-width: 178px;
+  min-height: 46px;
+  align-self: end;
+  border-radius: 4px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .grid {
@@ -736,6 +742,7 @@
   .toolbar {
     grid-template-columns: 1fr;
     align-items: stretch;
+    padding-inline: 0;
   }
 
   .profileMenu {
@@ -760,6 +767,10 @@
 
   .searchLabel input {
     min-width: 0;
+  }
+
+  .toolbar .addButton {
+    width: 100%;
   }
 
   .grid {
