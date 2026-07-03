@@ -439,3 +439,17 @@
   Deployment noch aus.
 - Naechster Schritt: Aenderung committen und auf die Testdomain deployen, falls
   Stefan das live sehen moechte.
+
+## 2026-07-03 - Katalog-Toolbar-CTA auf Testdomain deployed
+
+- Ziel: Den angepassten Katalog mit CTA und weissem Beginner-Text auf
+  `theovina.de` sichtbar machen.
+- Aenderungen: Commit `d2b7c18` nach GitHub gepusht, VPS-Checkout per
+  Fast-Forward aktualisiert, Dependencies installiert, frischen Next.js-Build
+  erzeugt und bestehenden `challengehub`-Service neu gestartet.
+- Verifikation: `https://theovina.de/challenges` liefert HTTP 200; Live-DOM-Check
+  bestaetigt `Neue Challenge hinzufügen` mit Link auf `/challenges/neu`, blauen
+  CTA, weissen Beginner-Text und transparente Toolbar ohne Border.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde; alte
+  Server-Action-Requests erschienen vor dem Neustart noch in Container-Logs.
+- Naechster Schritt: Visuelle Abnahme auf der Testdomain.
