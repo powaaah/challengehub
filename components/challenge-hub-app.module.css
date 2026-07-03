@@ -341,8 +341,8 @@
   align-items: end;
   gap: 0.9rem;
   margin-bottom: 1.25rem;
-  padding: 0 0.9rem 0;
-  box-shadow: 0 12px 28px rgba(18, 32, 43, 0.08);
+  padding: 0 0 1.9rem 0;
+  /* box-shadow: 0 12px 28px rgba(18, 32, 43, 0.08); */
 }
 
 .searchLabel,
