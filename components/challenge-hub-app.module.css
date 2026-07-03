@@ -282,7 +282,7 @@
 }
 
 .catalogHero h1 {
-  max-width: 12ch;
+  max-width: 32ch;
   margin: 0;
   color: var(--background-deep);
   font-family: var(--font-display);
