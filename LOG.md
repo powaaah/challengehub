@@ -453,3 +453,15 @@
 - Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde; alte
   Server-Action-Requests erschienen vor dem Neustart noch in Container-Logs.
 - Naechster Schritt: Visuelle Abnahme auf der Testdomain.
+
+## 2026-07-03 - Katalog-Toolbar-Spacing deployed
+
+- Ziel: Stefans nachgezogene Toolbar-CSS-Anpassung live stellen.
+- Aenderungen: Toolbar-Padding auf `0 0 1.9rem 0` geaendert und
+  `box-shadow` entfernt.
+- Verifikation: `npm run lint`, `npm run build`; VPS-Build erfolgreich;
+  `https://theovina.de/challenges` liefert HTTP 200; Live-DOM-Check bestaetigt
+  Toolbar-Padding `0px 0px 30.4px`, `box-shadow: none`, transparente Toolbar
+  und vorhandenen CTA `Neue Challenge hinzufügen`.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde.
+- Naechster Schritt: Visuelle Abnahme auf der Testdomain.
