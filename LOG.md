@@ -465,3 +465,15 @@
   und vorhandenen CTA `Neue Challenge hinzufügen`.
 - Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde.
 - Naechster Schritt: Visuelle Abnahme auf der Testdomain.
+
+## 2026-07-03 - Katalog-Hero-Breite deployed
+
+- Ziel: Nachtraegliche lokale CSS-Aenderung an der Katalog-Hero-Headline live
+  stellen.
+- Aenderungen: `.catalogHero h1` von `max-width: 12ch` auf `32ch` erweitert.
+- Verifikation: `npm run lint`, `npm run build`; VPS-Build erfolgreich;
+  `https://theovina.de/challenges` liefert HTTP 200; Live-DOM-Check bestaetigt
+  H1-Max-Width `1137px`, Toolbar-Padding `0px 0px 30.4px` und
+  `box-shadow: none`.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde.
+- Naechster Schritt: Visuelle Abnahme auf der Testdomain.
