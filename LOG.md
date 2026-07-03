@@ -495,3 +495,19 @@
   echte Teilnahme-/Streak-Daten angebunden werden.
 - Naechster Schritt: Aenderung committen und auf die Testdomain deployen, wenn
   Stefan die neue Detailseite live abnehmen moechte.
+
+## 2026-07-03 - Challenge-Detailstruktur auf Testdomain deployed
+
+- Ziel: Neue Detailseiten-Struktur und 10.000-Schritte-Umbau live auf
+  `theovina.de` sichtbar machen.
+- Aenderungen: Commit `257d01d` nach GitHub gepusht, VPS-Checkout per
+  Fast-Forward aktualisiert, Dependencies installiert, frischen Next.js-Build
+  erzeugt und bestehenden `challengehub`-Service neu gestartet.
+- Verifikation: `https://theovina.de/challenges/10000-schritte-am-tag` liefert
+  HTTP 200; Live-DOM-Check bestaetigt Ranking, Q&A, Challenge-Mate-CTA, Ziel und
+  Rechner in der gewuenschten Reihenfolge; alter Aufbauplan und alte
+  Wissenschaftsheadline sind nicht mehr vorhanden.
+- Offene Risiken: Ranking-Daten sind weiterhin statisch; `npm ci` meldet
+  weiterhin zwei moderate Audit-Funde; `.next`-Bereinigung meldete bekannte
+  Permission-Warnungen fuer alte Cache-Bilder, Build war erfolgreich.
+- Naechster Schritt: Visuelle Abnahme auf der Testdomain.
