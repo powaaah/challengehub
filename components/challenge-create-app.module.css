@@ -3,36 +3,9 @@
   background: var(--background);
 }
 
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  width: min(1180px, calc(100% - 32px));
-  margin: 0 auto;
-  padding: 1rem 0;
-  background: rgba(245, 245, 245, 0.92);
-  backdrop-filter: blur(16px);
-}
-
-.logoLink img {
-  width: 150px;
-  height: auto;
-}
-
-.nav {
-  display: flex;
-  gap: 1.5rem;
-  color: var(--text);
-  font-weight: 650;
-}
-
 .hero,
 .workspace {
-  width: min(1180px, calc(100% - 32px));
+  width: min(var(--content-width), calc(100% - (var(--page-gutter) * 2)));
   margin: 0 auto;
 }
 
@@ -232,18 +205,6 @@
 }
 
 @media (max-width: 860px) {
-  .header {
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .nav {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 1rem;
-    font-size: 0.95rem;
-  }
-
   .workspace,
   .split {
     grid-template-columns: 1fr;

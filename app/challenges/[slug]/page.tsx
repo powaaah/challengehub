@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ChallengeStart } from "@/components/challenge-start";
+import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { DbChallengeDetail } from "@/components/db-challenge-detail";
 import {
   StepsChallengeTools,
@@ -9,6 +10,7 @@ import {
 } from "@/components/steps-challenge-tools";
 import { UserChallengeDetail } from "@/components/user-challenge-detail";
 import { challenges, getChallengeBySlug, levelLabels, type Challenge } from "@/data/challenges";
+import { getCurrentUser } from "@/lib/auth";
 import { getPublishedChallengeBySlug } from "@/lib/db";
 import styles from "./page.module.css";
 
@@ -68,14 +70,15 @@ export async function generateMetadata({ params }: ChallengePageProps): Promise<
 export default async function ChallengePage({ params }: ChallengePageProps) {
   const { slug } = await params;
   const challenge = getChallengeBySlug(slug);
+  const user = await getCurrentUser();
 
   if (!challenge) {
     const dbChallenge = getPublishedChallengeBySlug(slug);
     if (dbChallenge) {
-      return <DbChallengeDetail challenge={dbChallenge} />;
+      return <DbChallengeDetail challenge={dbChallenge} user={user} />;
     }
 
-    return <UserChallengeDetail slug={slug} />;
+    return <UserChallengeDetail slug={slug} user={user} />;
   }
 
   const pageUrl = `${siteUrl}/challenges/${challenge.slug}`;
@@ -144,6 +147,8 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
   };
 
   return (
+    <>
+    <SiteHeader user={user} />
     <main className={styles.page}>
       <script
         type="application/ld+json"
@@ -151,21 +156,8 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c")
         }}
       />
-      <header className={styles.header}>
-        <Link className={styles.logoLink} href="/" aria-label="ChallengeHub Startseite">
-          <Image src="/logo.png" width={214} height={70} alt="ChallengeHub" priority />
-        </Link>
-        <nav className={styles.nav} aria-label="Challenge Navigation">
-          <Link href="/#challenges">Challenges</Link>
-          <Link href="/challenges/neu">Erstellen</Link>
-          <Link href="/meine-challenges">Meine Challenges</Link>
-          <Link href="/wissen">Wissen</Link>
-          <Link href="/#ranking">Ranking</Link>
-        </nav>
-      </header>
-
       <section className={`${styles.hero} ${styles[challenge.level]}`}>
-        <Link className={styles.backLink} href="/#challenges">
+        <Link className={styles.backLink} href="/challenges">
           Zurück zu den Challenges
         </Link>
         <p className={styles.level}>{levelLabels[challenge.level]}</p>
@@ -317,6 +309,8 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
         </div>
       </section>
     </main>
+    <SiteFooter />
+    </>
   );
 }
 

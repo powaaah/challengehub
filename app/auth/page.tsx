@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { AuthForms } from "@/components/auth-forms";
-import { SiteHeader } from "@/components/challenge-hub-app";
+import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { logoutAction } from "./actions";
 import styles from "./page.module.css";
 
@@ -50,6 +50,7 @@ export default async function AuthPage({ searchParams }: AuthPageProps) {
         <AuthForms next={next} />
       )}
       </main>
+      <SiteFooter />
     </>
   );
 }

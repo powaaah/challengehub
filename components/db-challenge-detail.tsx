@@ -1,27 +1,24 @@
-import Image from "next/image";
 import Link from "next/link";
+import { SiteFooter, SiteHeader } from "./site-shell";
 import { ChallengeStart } from "./challenge-start";
 import { levelLabels } from "@/data/challenges";
+import type { CurrentUser } from "@/lib/auth";
 import type { DbPublicChallenge } from "@/lib/db";
 import styles from "./user-challenge-detail.module.css";
 
-export function DbChallengeDetail({ challenge }: { challenge: DbPublicChallenge }) {
+export function DbChallengeDetail({
+  challenge,
+  user
+}: {
+  challenge: DbPublicChallenge;
+  user: CurrentUser | null;
+}) {
   return (
+    <>
+    <SiteHeader user={user} />
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Link className={styles.logoLink} href="/" aria-label="ChallengeHub Startseite">
-          <Image src="/logo.png" width={214} height={70} alt="ChallengeHub" priority />
-        </Link>
-        <nav className={styles.nav} aria-label="Challenge Navigation">
-          <Link href="/#challenges">Challenges</Link>
-          <Link href="/challenges/neu">Erstellen</Link>
-          <Link href="/meine-challenges">Meine Challenges</Link>
-          <Link href="/wissen">Wissen</Link>
-        </nav>
-      </header>
-
       <section className={`${styles.hero} ${styles[challenge.level]}`}>
-        <Link className={styles.backLink} href="/#challenges">
+        <Link className={styles.backLink} href="/challenges">
           Zurueck zu den Challenges
         </Link>
         <p className={styles.level}>Oeffentliche Challenge | {levelLabels[challenge.level]}</p>
@@ -82,5 +79,7 @@ export function DbChallengeDetail({ challenge }: { challenge: DbPublicChallenge 
         )}
       </section>
     </main>
+    <SiteFooter />
+    </>
   );
 }

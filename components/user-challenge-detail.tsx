@@ -1,14 +1,15 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useSyncExternalStore } from "react";
+import { SiteFooter, SiteHeader } from "./site-shell";
 import { ChallengeStart } from "./challenge-start";
 import { readUserChallenges, subscribeToUserChallenges, type UserChallenge } from "./user-challenges-storage";
 import { levelLabels } from "@/data/challenges";
+import type { CurrentUser } from "@/lib/auth";
 import styles from "./user-challenge-detail.module.css";
 
-export function UserChallengeDetail({ slug }: { slug: string }) {
+export function UserChallengeDetail({ slug, user }: { slug: string; user: CurrentUser | null }) {
   const serializedChallenges = useSyncExternalStore(
     subscribeToUserChallenges,
     getUserChallengesSnapshot,
@@ -21,26 +22,30 @@ export function UserChallengeDetail({ slug }: { slug: string }) {
 
   if (!challenge) {
     return (
+      <>
+      <SiteHeader user={user} />
       <main className={styles.page}>
-        <Header />
         <section className={styles.notFound}>
           <p className={styles.eyebrow}>Nicht gefunden</p>
           <h1>Diese Challenge gibt es hier noch nicht.</h1>
           <p>Lokale User-Challenges sind an diesen Browser gebunden. Erstelle eine neue Challenge oder gehe zur Uebersicht.</p>
           <div className={styles.actions}>
             <Link href="/challenges/neu">Challenge erstellen</Link>
-            <Link href="/#challenges">Challenges entdecken</Link>
+            <Link href="/challenges">Challenges entdecken</Link>
           </div>
         </section>
       </main>
+      <SiteFooter />
+      </>
     );
   }
 
   return (
+    <>
+    <SiteHeader user={user} />
     <main className={styles.page}>
-      <Header />
       <section className={`${styles.hero} ${styles[challenge.level]}`}>
-        <Link className={styles.backLink} href="/#challenges">
+        <Link className={styles.backLink} href="/challenges">
           Zurueck zu den Challenges
         </Link>
         <p className={styles.level}>Oeffentliche User Challenge | {levelLabels[challenge.level]}</p>
@@ -101,25 +106,11 @@ export function UserChallengeDetail({ slug }: { slug: string }) {
         )}
       </section>
     </main>
+    <SiteFooter />
+    </>
   );
 }
 
 function getUserChallengesSnapshot() {
   return JSON.stringify(readUserChallenges());
-}
-
-function Header() {
-  return (
-    <header className={styles.header}>
-      <Link className={styles.logoLink} href="/" aria-label="ChallengeHub Startseite">
-        <Image src="/logo.png" width={214} height={70} alt="ChallengeHub" priority />
-      </Link>
-      <nav className={styles.nav} aria-label="Challenge Navigation">
-        <Link href="/#challenges">Challenges</Link>
-        <Link href="/challenges/neu">Erstellen</Link>
-        <Link href="/meine-challenges">Meine Challenges</Link>
-        <Link href="/wissen">Wissen</Link>
-      </nav>
-    </header>
-  );
 }

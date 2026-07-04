@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { SiteFooter, SiteHeader } from "@/components/challenge-hub-app";
+import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getCurrentUser } from "@/lib/auth";
 import styles from "./page.module.css";
 

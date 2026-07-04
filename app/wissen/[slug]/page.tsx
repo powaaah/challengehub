@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getHabitArticleBySlug, habitArticles } from "@/data/habit-articles";
+import { getCurrentUser } from "@/lib/auth";
 import styles from "./page.module.css";
 
 const siteUrl = "https://challengehub.de";
+export const dynamic = "force-dynamic";
 
 type ArticlePageProps = {
   params: Promise<{
@@ -57,6 +59,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
+  const user = await getCurrentUser();
   const article = getHabitArticleBySlug(slug);
 
   if (!article) {
@@ -88,6 +91,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   };
 
   return (
+    <>
+    <SiteHeader user={user} />
     <main className={styles.page}>
       <script
         type="application/ld+json"
@@ -95,16 +100,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c")
         }}
       />
-      <header className={styles.header}>
-        <Link className={styles.logoLink} href="/" aria-label="ChallengeHub Startseite">
-          <Image src="/logo.png" width={214} height={70} alt="ChallengeHub" priority />
-        </Link>
-        <nav className={styles.nav} aria-label="Artikel Navigation">
-          <Link href="/#challenges">Challenges</Link>
-          <Link href="/wissen">Wissen</Link>
-        </nav>
-      </header>
-
       <article className={styles.article}>
         <Link className={styles.backLink} href="/wissen">
           Zurueck zum Wissen
@@ -150,5 +145,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </section>
       </article>
     </main>
+    <SiteFooter />
+    </>
   );
 }

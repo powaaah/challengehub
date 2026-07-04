@@ -545,3 +545,24 @@
   Cache-Bilder; Q&A/Ranking/Mate-Daten sind weiterhin statische UI-Modelle.
 - Naechster Schritt: Visuelle Abnahme auf der Testdomain und danach echte
   Datenanbindung fuer Ranking/Q&A/Mate planen.
+
+## 2026-07-04 - Site-Shell und CSS-Stueckwerk bereinigt
+
+- Ziel: Lokale Header-/Footer-Sonderfaelle und stueckwerkhafte CSS-Basis
+  projektweit entfernen.
+- Aenderungen: `components/site-shell.tsx` und `site-shell.module.css`
+  eingefuehrt; alle Seitentypen auf gemeinsamen `SiteHeader`/`SiteFooter`
+  umgestellt; lokale Header-Funktionen und Header-CSS aus Detailseiten, Wissen,
+  Legal, Auth, Meine Challenges und Challenge-Erstellung entfernt; eingeloggtes
+  Profilmenue auf Inhaltsseiten vereinheitlicht; globale Layout-Tokens fuer
+  Content-Breite, Gutter, Radien und Focus-Ring ergaenzt; alte `/#challenges`-
+  Backlinks auf `/challenges` korrigiert.
+- Verifikation: `npm run lint`, `npm run build`; lokaler Produktionsstart mit
+  `npm run start -- --port 3001`; Playwright-Smoke-Test auf Desktop 1440px und
+  Mobile 390px ueber Startseite, Katalog, Detailseite, Erstellung, Auth, Wissen,
+  Wissensartikel, Sicherheit, Datenschutz, Impressum, Karriere und
+  Challenge-Mate. Geprueft wurden genau ein Top-Level-Header, Footer, keine
+  alten Anchor-Links und kein horizontaler Overflow.
+- Offene Risiken: Build meldet weiterhin die bekannte Node-SQLite-
+  Experimentalwarnung.
+- Naechster Schritt: Commit nach GitHub pushen und Testdomain deployen.

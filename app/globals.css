@@ -18,6 +18,11 @@
   --user-text: #f5f5f5;
   --border: #dddddd;
   --shadow: 0 18px 42px rgba(18, 32, 43, 0.16);
+  --content-width: 1180px;
+  --page-gutter: 16px;
+  --radius: 8px;
+  --radius-card: 10px;
+  --focus-ring: 0 0 0 3px rgba(0, 137, 179, 0.28);
   --font-display: "Segoe UI Variable Display", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --font-body: "Segoe UI Variable Text", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --font-ui: "Segoe UI Variable Text", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -37,6 +42,7 @@ body {
   background: var(--background);
   font-family: var(--font-body);
   font-weight: 400;
+  line-height: 1.5;
 }
 
 a {
@@ -64,4 +70,9 @@ button {
 
 img {
   display: block;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }

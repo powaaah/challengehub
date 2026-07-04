@@ -11,7 +11,7 @@ import {
   type ActiveChallenge,
   writeActiveChallenges
 } from "./challenge-storage";
-import { SiteHeader } from "./challenge-hub-app";
+import { SiteFooter, SiteHeader } from "./site-shell";
 import styles from "./my-challenges-app.module.css";
 
 export function MyChallengesApp({ user }: { user: CurrentUser }) {
@@ -133,6 +133,7 @@ export function MyChallengesApp({ user }: { user: CurrentUser }) {
         </section>
       )}
       </main>
+      <SiteFooter />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
+import { SiteFooter, SiteHeader } from "@/components/site-shell";
+import { getCurrentUser } from "@/lib/auth";
 import styles from "../legal-pages.module.css";
 
 export const metadata: Metadata = {
@@ -11,10 +11,15 @@ export const metadata: Metadata = {
   }
 };
 
-export default function KarrierePage() {
+export const dynamic = "force-dynamic";
+
+export default async function KarrierePage() {
+  const user = await getCurrentUser();
+
   return (
+    <>
+    <SiteHeader user={user} />
     <main className={styles.page}>
-      <LegalHeader />
       <section className={styles.content}>
         <p className={styles.kicker}>Karriere</p>
         <h1>Mitbauen an besseren Challenges.</h1>
@@ -42,19 +47,7 @@ export default function KarrierePage() {
         </div>
       </section>
     </main>
-  );
-}
-
-function LegalHeader() {
-  return (
-    <header className={styles.header}>
-      <Link className={styles.logoLink} href="/" aria-label="ChallengeHub Startseite">
-        <Image src="/logo.png" width={214} height={70} alt="ChallengeHub" priority />
-      </Link>
-      <nav className={styles.nav} aria-label="Karriere Navigation">
-        <Link href="/#challenges">Challenges</Link>
-        <Link href="/wissen">Wissen</Link>
-      </nav>
-    </header>
+    <SiteFooter />
+    </>
   );
 }

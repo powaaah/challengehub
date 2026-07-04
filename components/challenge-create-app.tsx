@@ -5,7 +5,7 @@ import { useActionState, useMemo, useState } from "react";
 import { levelLabels, type ChallengeLevel } from "@/data/challenges";
 import type { CurrentUser } from "@/lib/auth";
 import type { CreateChallengeState } from "@/app/challenges/neu/actions";
-import { SiteHeader } from "./challenge-hub-app";
+import { SiteFooter, SiteHeader } from "./site-shell";
 import styles from "./challenge-create-app.module.css";
 
 const levelOptions: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
@@ -148,6 +148,7 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
         </aside>
       </section>
       </main>
+      <SiteFooter />
     </>
   );
 }

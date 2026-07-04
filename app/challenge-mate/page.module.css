@@ -1,6 +1,6 @@
 .page {
   min-height: calc(100svh - 70px);
-  width: min(980px, calc(100% - 32px));
+  width: min(980px, calc(100% - (var(--page-gutter) * 2)));
   margin: 0 auto;
   padding: 4rem 0 5rem;
 }
