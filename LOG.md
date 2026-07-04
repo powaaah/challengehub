@@ -511,3 +511,19 @@
   weiterhin zwei moderate Audit-Funde; `.next`-Bereinigung meldete bekannte
   Permission-Warnungen fuer alte Cache-Bilder, Build war erfolgreich.
 - Naechster Schritt: Visuelle Abnahme auf der Testdomain.
+
+## 2026-07-03 - Challenge-Detailseiten-Pulse-Grid verfeinert
+
+- Ziel: Stefans Feedback zu Start-Popup, Community-Q&A, kompakterem Ranking,
+  dreispaltigem Top-Grid und Schritte-Rechner umsetzen.
+- Aenderungen: Startbutton startet ohne Sicherheits-Checkbox und zeigt ein
+  motivierendes `Du bist drin`-Popup; Ranking, Q&A und Challenge Mate in ein
+  gemeinsames Pulse-Grid gesetzt; Ranking als kompakte Tabelle mit Scrollbereich
+  gestaltet; Q&A als Community-Fragen mit Top-Antwort nach Likes modelliert;
+  Schritte-Rechner von manueller Schrittlaenge auf Koerpergroesse plus
+  Naeherungsformel `Koerpergroesse x 0,414` umgestellt.
+- Verifikation: `npm run lint`, `npm run build`; lokale Playwright-Screenshots
+  fuer Desktop und Mobile; Start-Popup per Browser-Check getestet.
+- Offene Risiken: Q&A, Likes, Ranking und Challenge-Mate-Matching sind weiterhin
+  statische UI-Modelle und noch nicht an echte Nutzerdaten angebunden.
+- Naechster Schritt: Visuelle Abnahme lokal oder Deploy auf Testdomain.

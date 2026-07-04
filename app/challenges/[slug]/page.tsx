@@ -5,8 +5,7 @@ import { ChallengeStart } from "@/components/challenge-start";
 import { DbChallengeDetail } from "@/components/db-challenge-detail";
 import {
   StepsChallengeTools,
-  StepsKnowledgeSection,
-  StepsRankingSection
+  StepsKnowledgeSection
 } from "@/components/steps-challenge-tools";
 import { UserChallengeDetail } from "@/components/user-challenge-detail";
 import { challenges, getChallengeBySlug, levelLabels, type Challenge } from "@/data/challenges";
@@ -191,33 +190,10 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
         )}
       </section>
 
-      {isStepsChallenge ? <StepsRankingSection /> : <ChallengeRankingSection challenge={challenge} />}
-
-      <section className={styles.qaMateSection}>
-        <div className={styles.textPanel} aria-labelledby="challenge-faq">
-          <p className={styles.eyebrow}>Q&A</p>
-          <h2 id="challenge-faq">Häufige Fragen</h2>
-          <div className={styles.faqList}>
-            {challenge.faq.map((item) => (
-              <section key={item.question}>
-                <h3>{item.question}</h3>
-                <p>{item.answer}</p>
-              </section>
-            ))}
-          </div>
-        </div>
-
-        <aside className={`${styles.textPanel} ${styles.matePanel}`}>
-          <p className={styles.eyebrow}>Challenge Mate</p>
-          <h2>Finde jemanden, der mitzieht</h2>
-          <p>
-            Alleine starten ist leicht. Dranbleiben wird einfacher, wenn jemand denselben
-            Streak jagt, dich erinnert und mit dir ehrlich eincheckt.
-          </p>
-          <Link className={styles.mateLink} href="/challenge-mate">
-            Challenge Mate finden
-          </Link>
-        </aside>
+      <section className={styles.pulseGrid} aria-label="Challenge Aktivität">
+        <ChallengeRankingPanel challenge={challenge} isStepsChallenge={isStepsChallenge} />
+        <CommunityQuestionsPanel challenge={challenge} />
+        <ChallengeMatePanel />
       </section>
 
       <section className={styles.content}>
@@ -344,14 +320,43 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
   );
 }
 
-function ChallengeRankingSection({ challenge }: { challenge: Challenge }) {
-  const leaders = [
-    { rank: 1, name: "Mara", streak: Math.max(21, Math.round(challenge.participants * 0.42)), completedDays: Math.max(30, Math.round(challenge.participants * 0.55)) },
-    { rank: 2, name: "Jonas", streak: Math.max(18, Math.round(challenge.participants * 0.36)), completedDays: Math.max(28, Math.round(challenge.participants * 0.49)) },
-    { rank: 3, name: "Nina", streak: Math.max(16, Math.round(challenge.participants * 0.31)), completedDays: Math.max(24, Math.round(challenge.participants * 0.43)) },
-    { rank: 4, name: "Tarek", streak: Math.max(14, Math.round(challenge.participants * 0.26)), completedDays: Math.max(21, Math.round(challenge.participants * 0.36)) },
-    { rank: 5, name: "Lea", streak: Math.max(12, Math.round(challenge.participants * 0.22)), completedDays: Math.max(18, Math.round(challenge.participants * 0.31)) }
-  ];
+function ChallengeRankingPanel({
+  challenge,
+  isStepsChallenge
+}: {
+  challenge: Challenge;
+  isStepsChallenge: boolean;
+}) {
+  const leaders = isStepsChallenge
+    ? [
+        { rank: 1, name: "Mara", streak: 184, completedDays: 219 },
+        { rank: 2, name: "Jonas", streak: 172, completedDays: 201 },
+        { rank: 3, name: "Nina", streak: 149, completedDays: 190 },
+        { rank: 4, name: "Tarek", streak: 131, completedDays: 177 },
+        { rank: 5, name: "Lea", streak: 118, completedDays: 141 },
+        { rank: 6, name: "Chris", streak: 101, completedDays: 132 },
+        { rank: 7, name: "Sven", streak: 96, completedDays: 120 },
+        { rank: 8, name: "Aylin", streak: 88, completedDays: 116 },
+        { rank: 9, name: "Mika", streak: 81, completedDays: 109 },
+        { rank: 10, name: "Karo", streak: 74, completedDays: 98 },
+        { rank: 11, name: "Ben", streak: 69, completedDays: 90 },
+        { rank: 12, name: "Jule", streak: 61, completedDays: 85 },
+        { rank: 13, name: "Olli", streak: 55, completedDays: 76 },
+        { rank: 14, name: "Sam", streak: 48, completedDays: 68 },
+        { rank: 15, name: "Rina", streak: 43, completedDays: 57 },
+        { rank: 16, name: "Noah", streak: 39, completedDays: 51 },
+        { rank: 17, name: "Elli", streak: 34, completedDays: 49 },
+        { rank: 18, name: "Malik", streak: 30, completedDays: 44 },
+        { rank: 19, name: "Lena", streak: 26, completedDays: 39 },
+        { rank: 20, name: "Tom", streak: 24, completedDays: 36 }
+      ]
+    : [
+        { rank: 1, name: "Mara", streak: Math.max(21, Math.round(challenge.participants * 0.42)), completedDays: Math.max(30, Math.round(challenge.participants * 0.55)) },
+        { rank: 2, name: "Jonas", streak: Math.max(18, Math.round(challenge.participants * 0.36)), completedDays: Math.max(28, Math.round(challenge.participants * 0.49)) },
+        { rank: 3, name: "Nina", streak: Math.max(16, Math.round(challenge.participants * 0.31)), completedDays: Math.max(24, Math.round(challenge.participants * 0.43)) },
+        { rank: 4, name: "Tarek", streak: Math.max(14, Math.round(challenge.participants * 0.26)), completedDays: Math.max(21, Math.round(challenge.participants * 0.36)) },
+        { rank: 5, name: "Lea", streak: Math.max(12, Math.round(challenge.participants * 0.22)), completedDays: Math.max(18, Math.round(challenge.participants * 0.31)) }
+      ];
 
   const ownRows = [
     { rank: 42, name: "Paula", streak: 13, completedDays: 19 },
@@ -360,15 +365,16 @@ function ChallengeRankingSection({ challenge }: { challenge: Challenge }) {
   ];
 
   return (
-    <section className={styles.rankingSection} aria-labelledby="challenge-ranking">
-      <div className={styles.textPanel}>
-        <p className={styles.eyebrow}>Ranking</p>
-        <h2 id="challenge-ranking">Wer führt die Challenge an?</h2>
-        <p>
-          Entscheidend ist der längste aktive Streak. Oben stehen die stärksten Serien;
-          darunter siehst du deine Position mit der Person vor und hinter dir.
-        </p>
+    <article className={`${styles.pulsePanel} ${styles.rankingPanel}`} aria-labelledby="challenge-ranking">
+      <div className={styles.panelHeader}>
+        <div>
+          <p className={styles.eyebrow}>Ranking</p>
+          <h2 id="challenge-ranking">Streak Leaderboard</h2>
+        </div>
+        <span>{leaders.length > 5 ? "Top 20" : "Top 5"}</span>
+      </div>
 
+      <div className={styles.rankingScroll}>
         <div className={styles.rankingTable} role="table" aria-label={`${challenge.title} Ranking`}>
           <div role="row" className={styles.rankingHeader}>
             <span>Platz</span>
@@ -385,19 +391,85 @@ function ChallengeRankingSection({ challenge }: { challenge: Challenge }) {
             </div>
           ))}
         </div>
+      </div>
 
-        <div className={styles.ownRankBlock}>
-          <span aria-hidden="true">...</span>
-          {ownRows.map((row) => (
-            <div className={`${styles.rankingRow} ${row.isOwn ? styles.ownRank : ""}`} key={row.rank}>
-              <span>#{row.rank}</span>
-              <strong>{row.name}</strong>
-              <span>{row.streak} Tage</span>
-              <span>{row.completedDays}</span>
-            </div>
-          ))}
+      <div className={styles.ownRankBlock}>
+        <span aria-hidden="true">...</span>
+        {ownRows.map((row) => (
+          <div className={`${styles.rankingRow} ${row.isOwn ? styles.ownRank : ""}`} key={row.rank}>
+            <span>#{row.rank}</span>
+            <strong>{row.name}</strong>
+            <span>{row.streak} Tage</span>
+            <span>{row.completedDays}</span>
+          </div>
+        ))}
+      </div>
+    </article>
+  );
+}
+
+function CommunityQuestionsPanel({ challenge }: { challenge: Challenge }) {
+  const questions = challenge.faq.slice(0, 2).map((item, index) => ({
+    question: item.question,
+    answers: [
+      { author: index === 0 ? "Mara" : "Jonas", likes: index === 0 ? 42 : 31, text: item.answer },
+      {
+        author: index === 0 ? "Lea" : "Nina",
+        likes: index === 0 ? 18 : 16,
+        text: index === 0
+          ? "Kurz halten, klar tracken, nicht diskutieren. Genau dann bleibt die Challenge simpel."
+          : "Die Antwort mit den meisten Likes steht oben. Gute Hinweise steigen dadurch automatisch nach vorne."
+      }
+    ]
+  }));
+
+  return (
+    <article className={`${styles.pulsePanel} ${styles.qaPanel}`} aria-labelledby="challenge-questions">
+      <div className={styles.panelHeader}>
+        <div>
+          <p className={styles.eyebrow}>Q&A</p>
+          <h2 id="challenge-questions">Community-Fragen</h2>
+        </div>
+        <button type="button">Frage stellen</button>
+      </div>
+
+      <div className={styles.questionList}>
+        {questions.map((item) => (
+          <section className={styles.questionItem} key={item.question}>
+            <h3>{item.question}</h3>
+            {item.answers
+              .sort((a, b) => b.likes - a.likes)
+              .slice(0, 1)
+              .map((answer) => (
+                <div className={styles.answerItem} key={answer.author}>
+                  <span>{answer.likes} Likes</span>
+                  <p>{answer.text}</p>
+                  <small>{answer.author}</small>
+                </div>
+              ))}
+          </section>
+        ))}
+      </div>
+    </article>
+  );
+}
+
+function ChallengeMatePanel() {
+  return (
+    <aside className={`${styles.pulsePanel} ${styles.matePanel}`}>
+      <div className={styles.panelHeader}>
+        <div>
+          <p className={styles.eyebrow}>Challenge Mate</p>
+          <h2>Zu zweit hält besser</h2>
         </div>
       </div>
-    </section>
+      <p>
+        Such dir jemanden mit ähnlichem Ziel. Ihr seht euren Streak, pusht euch kurz
+        an und macht aus „ich sollte mal“ ein klares „wir ziehen das durch“.
+      </p>
+      <Link className={styles.mateLink} href="/challenge-mate">
+        Challenge Mate finden
+      </Link>
+    </aside>
   );
 }

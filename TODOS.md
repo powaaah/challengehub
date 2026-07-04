@@ -26,6 +26,7 @@ Stand: 2026-07-03
 - [x] Challenge-Katalog-Toolbar mit CTA und weissem Beginner-Text anpassen.
 - [x] Detailseite `10.000 Schritte am Tag` auf simple Challenge, Ranking und Rechner umstellen.
 - [x] Challenge-Detailseiten auf Standard-Reihenfolge Ranking, Q&A, Challenge Mate, Content umstellen.
+- [x] Challenge-Detailseiten-Pulse-Grid, Community-Q&A, kompakte Ranking-Tabelle und Start-Popup verfeinern.
 
 ## Later
 

@@ -136,8 +136,7 @@
 
 .content,
 .seoContent,
-.evidenceSection,
-.qaMateSection {
+.evidenceSection {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(300px, 0.42fr);
   gap: 1.25rem;
@@ -172,12 +171,68 @@
   padding: clamp(1.25rem, 4vw, 2rem);
 }
 
-.qaMateSection {
-  margin-bottom: 1.25rem;
+.pulseGrid {
+  display: grid;
+  grid-template-columns: minmax(420px, 1.15fr) minmax(320px, 0.9fr) minmax(260px, 0.68fr);
+  gap: 1rem;
+  width: min(1180px, calc(100% - 32px));
+  margin: 1.25rem auto;
+}
+
+.pulsePanel {
+  min-width: 0;
+  border: 1px solid rgba(20, 42, 55, 0.1);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), var(--surface));
+  padding: 1rem;
+  box-shadow: 0 18px 44px rgba(18, 34, 52, 0.07);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.panelHeader h2 {
+  margin: 0;
+  color: var(--background-deep);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  line-height: 1;
+}
+
+.panelHeader .eyebrow {
+  margin-bottom: 0.45rem;
+}
+
+.panelHeader > span,
+.panelHeader button {
+  flex: 0 0 auto;
+  min-height: 34px;
+  border: 1px solid rgba(0, 137, 179, 0.2);
+  border-radius: 8px;
+  background: rgba(0, 137, 179, 0.08);
+  color: var(--brand-dark);
+  padding: 0.45rem 0.65rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 650;
 }
 
 .matePanel {
+  display: flex;
+  flex-direction: column;
   align-content: start;
+}
+
+.matePanel p {
+  margin: 0;
+  color: var(--text-muted);
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 .mateLink {
@@ -185,7 +240,7 @@
   justify-content: center;
   width: 100%;
   min-height: 44px;
-  margin-top: 1rem;
+  margin-top: auto;
   border-radius: 8px;
   background: var(--brand);
   color: white;
@@ -351,6 +406,59 @@
   margin: 0;
 }
 
+.questionList {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.questionItem {
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+.questionItem:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.questionItem h3 {
+  margin: 0 0 0.55rem;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.answerItem {
+  border-radius: 8px;
+  background: var(--surface-muted);
+  padding: 0.75rem;
+}
+
+.answerItem span {
+  display: inline-flex;
+  margin-bottom: 0.4rem;
+  border-radius: 999px;
+  background: rgba(234, 115, 23, 0.12);
+  color: var(--orange);
+  padding: 0.18rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.answerItem p {
+  margin: 0;
+  color: var(--text-muted);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.answerItem small {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--text);
+  font-weight: 650;
+}
+
 .rankingSection,
 .stepsToolsGrid {
   width: min(1180px, calc(100% - 32px));
@@ -374,32 +482,44 @@
 }
 
 .rankingTable {
-  margin-top: 1.25rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+}
+
+.rankingScroll {
+  max-height: 376px;
+  overflow: auto;
 }
 
 .rankingHeader,
 .rankingRow {
   display: grid;
-  grid-template-columns: 4.5rem minmax(0, 1fr) 7rem 5rem;
+  grid-template-columns: 3.6rem minmax(0, 1fr) 5.8rem 4rem;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.55rem;
 }
 
 .rankingHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface-muted);
   color: var(--text-muted);
-  font-size: 0.78rem;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.72rem;
   font-weight: 650;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .rankingRow {
-  min-height: 44px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--background);
-  padding: 0.65rem 0.8rem;
+  min-height: 34px;
+  border-top: 1px solid var(--border);
+  padding: 0.42rem 0.65rem;
   color: var(--text-muted);
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
@@ -408,17 +528,24 @@
 }
 
 .ownRankBlock {
-  margin-top: 1rem;
+  display: grid;
+  gap: 0;
+  overflow: hidden;
+  margin-top: 0.7rem;
+  border: 1px solid rgba(0, 137, 179, 0.26);
+  border-radius: 8px;
+  background: rgba(0, 137, 179, 0.04);
 }
 
 .ownRankBlock > span {
+  padding: 0.2rem 0;
   color: var(--text-muted);
   text-align: center;
   font-weight: 650;
 }
 
 .ownRank {
-  border-color: rgba(0, 137, 179, 0.38);
+  border-color: rgba(0, 137, 179, 0.2);
   background: rgba(0, 137, 179, 0.08);
   color: var(--background-deep);
 }
@@ -447,6 +574,14 @@
   padding: 0 0.85rem;
   font: inherit;
   font-weight: 600;
+}
+
+.formulaNote {
+  margin: 0.75rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.45;
 }
 
 .resultGrid,
@@ -538,10 +673,13 @@
     grid-template-columns: 1fr;
   }
 
-  .seoContent,
-  .qaMateSection {
+  .seoContent {
     grid-template-columns: 1fr;
     margin-top: 1.25rem;
+  }
+
+  .pulseGrid {
+    grid-template-columns: 1fr;
   }
 
   .stepsSeoContent {
@@ -560,15 +698,10 @@
   }
 
   .rankingHeader {
-    display: none;
+    grid-template-columns: 3rem minmax(0, 1fr) 5rem 3.6rem;
   }
 
   .rankingRow {
-    grid-template-columns: 3.5rem minmax(0, 1fr);
-  }
-
-  .rankingRow span:nth-child(3),
-  .rankingRow span:nth-child(4) {
-    grid-column: 2;
+    grid-template-columns: 3rem minmax(0, 1fr) 5rem 3.6rem;
   }
 }

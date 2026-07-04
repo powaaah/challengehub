@@ -3,85 +3,12 @@
 import { useMemo, useState } from "react";
 import styles from "@/app/challenges/[slug]/page.module.css";
 
-const rankingRows = [
-  { rank: 1, name: "Mara", streak: 184, completedDays: 219 },
-  { rank: 2, name: "Jonas", streak: 172, completedDays: 201 },
-  { rank: 3, name: "Nina", streak: 149, completedDays: 190 },
-  { rank: 4, name: "Tarek", streak: 131, completedDays: 177 },
-  { rank: 5, name: "Lea", streak: 118, completedDays: 141 },
-  { rank: 6, name: "Chris", streak: 101, completedDays: 132 },
-  { rank: 7, name: "Sven", streak: 96, completedDays: 120 },
-  { rank: 8, name: "Aylin", streak: 88, completedDays: 116 },
-  { rank: 9, name: "Mika", streak: 81, completedDays: 109 },
-  { rank: 10, name: "Karo", streak: 74, completedDays: 98 },
-  { rank: 11, name: "Ben", streak: 69, completedDays: 90 },
-  { rank: 12, name: "Jule", streak: 61, completedDays: 85 },
-  { rank: 13, name: "Olli", streak: 55, completedDays: 76 },
-  { rank: 14, name: "Sam", streak: 48, completedDays: 68 },
-  { rank: 15, name: "Rina", streak: 43, completedDays: 57 },
-  { rank: 16, name: "Noah", streak: 39, completedDays: 51 },
-  { rank: 17, name: "Elli", streak: 34, completedDays: 49 },
-  { rank: 18, name: "Malik", streak: 30, completedDays: 44 },
-  { rank: 19, name: "Lena", streak: 26, completedDays: 39 },
-  { rank: 20, name: "Tom", streak: 24, completedDays: 36 }
-];
-
-const ownRankingRows = [
-  { rank: 42, name: "Paula", streak: 13, completedDays: 19 },
-  { rank: 43, name: "Du", streak: 12, completedDays: 18, isOwn: true },
-  { rank: 44, name: "Marco", streak: 11, completedDays: 17 }
-];
-
-export function StepsRankingSection() {
-  return (
-    <section className={styles.rankingSection} aria-labelledby="steps-ranking">
-      <div className={styles.textPanel}>
-        <p className={styles.eyebrow}>Ranking</p>
-        <h2 id="steps-ranking">Wer hält den Streak?</h2>
-        <p>
-          Bei dieser Challenge zählt nicht Talent, sondern Dranbleiben. Die Top 20
-          führen das Feld an; darunter siehst du deine Position mit der Person vor
-          und hinter dir.
-        </p>
-
-        <div className={styles.rankingTable} role="table" aria-label="Top 20 Streak Ranking">
-          <div role="row" className={styles.rankingHeader}>
-            <span>Platz</span>
-            <span>Name</span>
-            <span>Streak</span>
-            <span>Tage</span>
-          </div>
-          {rankingRows.map((row) => (
-            <div role="row" className={styles.rankingRow} key={row.rank}>
-              <span>#{row.rank}</span>
-              <strong>{row.name}</strong>
-              <span>{row.streak} Tage</span>
-              <span>{row.completedDays}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className={styles.ownRankBlock}>
-          <span aria-hidden="true">...</span>
-          {ownRankingRows.map((row) => (
-            <div className={`${styles.rankingRow} ${row.isOwn ? styles.ownRank : ""}`} key={row.rank}>
-              <span>#{row.rank}</span>
-              <strong>{row.name}</strong>
-              <span>{row.streak} Tage</span>
-              <span>{row.completedDays}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function StepsChallengeTools() {
   const [currentSteps, setCurrentSteps] = useState(8000);
-  const [stepLength, setStepLength] = useState(70);
+  const [height, setHeight] = useState(176);
   const [weight, setWeight] = useState(80);
 
+  const stepLength = height * 0.414;
   const remainingSteps = Math.max(10000 - currentSteps, 0);
   const remainingKm = (remainingSteps * stepLength) / 100000;
   const dailyKm = (10000 * stepLength) / 100000;
@@ -118,16 +45,20 @@ export function StepsChallengeTools() {
             />
           </label>
           <label>
-            Schrittlänge in cm
+            Körpergröße in cm
             <input
               type="number"
-              min="40"
-              max="110"
-              value={stepLength}
-              onChange={(event) => setStepLength(Number(event.target.value))}
+              min="120"
+              max="220"
+              value={height}
+              onChange={(event) => setHeight(Number(event.target.value))}
             />
           </label>
         </div>
+        <p className={styles.formulaNote}>
+          Näherung: Schrittlänge = Körpergröße × 0,414. Für die Challenge reicht
+          das völlig, weil es um Orientierung statt Vermessung geht.
+        </p>
 
         <div className={styles.resultGrid}>
           <article>
@@ -171,7 +102,7 @@ export function StepsChallengeTools() {
           <article>
             <span>10.000 Schritte</span>
             <strong>{dailyKm.toFixed(1)} km</strong>
-            <small>bei {stepLength} cm Schrittlänge</small>
+            <small>bei ca. {Math.round(stepLength)} cm Schrittlänge</small>
           </article>
           <article>
             <span>Pro Tag</span>

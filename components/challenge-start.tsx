@@ -22,8 +22,6 @@ type ChallengeStartProps = {
 
 export function ChallengeStart({ challenge }: ChallengeStartProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [startDate, setStartDate] = useState(todayKey());
-  const [safetyAccepted, setSafetyAccepted] = useState(false);
   const [started, setStarted] = useState(false);
   const activeSlugsSnapshot = useSyncExternalStore(subscribeToActiveChallenges, getActiveSlugsSnapshot, () => "");
   const alreadyActive = activeSlugsSnapshot.split("|").includes(challenge.slug);
@@ -36,9 +34,9 @@ export function ChallengeStart({ challenge }: ChallengeStartProps) {
       goal: challenge.goal,
       duration: challenge.duration,
       targetDays: challenge.targetDays,
-      startedAt: startDate,
+      startedAt: todayKey(),
       checkIns: [],
-      safetyAccepted
+      safetyAccepted: true
     };
 
     const nextChallenges = [
@@ -48,9 +46,10 @@ export function ChallengeStart({ challenge }: ChallengeStartProps) {
 
     writeActiveChallenges(nextChallenges);
     setStarted(true);
+    setIsOpen(true);
   }
 
-  if (alreadyActive && !started) {
+  if ((alreadyActive || started) && !isOpen) {
     return (
       <Link className={styles.dashboardLink} href="/meine-challenges">
         In meinen Challenges ansehen
@@ -60,11 +59,11 @@ export function ChallengeStart({ challenge }: ChallengeStartProps) {
 
   return (
     <>
-      <button className={styles.startButton} type="button" onClick={() => setIsOpen(true)}>
+      <button className={styles.startButton} type="button" onClick={startChallenge}>
         Challenge starten
       </button>
 
-      {isOpen && (
+      {isOpen && started && (
         <div className={styles.backdrop} role="presentation" onMouseDown={() => setIsOpen(false)}>
           <section
             className={styles.modal}
@@ -76,49 +75,21 @@ export function ChallengeStart({ challenge }: ChallengeStartProps) {
             <button className={styles.closeButton} type="button" onClick={() => setIsOpen(false)}>
               x
             </button>
-            {started ? (
-              <>
-                <p className={styles.kicker}>Gestartet</p>
-                <h2 id="start-challenge-title">{challenge.title}</h2>
-                <p>
-                  Die Challenge liegt jetzt lokal in deinem Browser unter
-                  &quot;Meine Challenges&quot;. Dort kannst du heute einchecken.
-                </p>
-                <Link className={styles.dashboardLink} href="/meine-challenges">
-                  Zu meinen Challenges
-                </Link>
-              </>
-            ) : (
-              <>
-                <p className={styles.kicker}>Challenge starten</p>
-                <h2 id="start-challenge-title">{challenge.title}</h2>
-                <p>{challenge.goal}</p>
-                <label className={styles.field}>
-                  Startdatum
-                  <input
-                    type="date"
-                    value={startDate}
-                    onChange={(event) => setStartDate(event.target.value)}
-                  />
-                </label>
-                <label className={styles.checkbox}>
-                  <input
-                    type="checkbox"
-                    checked={safetyAccepted}
-                    onChange={(event) => setSafetyAccepted(event.target.checked)}
-                  />
-                  Ich habe die Sicherheitshinweise gelesen und starte eigenverantwortlich.
-                </label>
-                <button
-                  className={styles.startButton}
-                  type="button"
-                  disabled={!safetyAccepted}
-                  onClick={startChallenge}
-                >
-                  Jetzt starten
-                </button>
-              </>
-            )}
+            <p className={styles.kicker}>Du bist drin</p>
+            <h2 id="start-challenge-title">{challenge.title}</h2>
+            <p>
+              Stark. Ab jetzt zählt nicht mehr „irgendwann“, sondern heute. Dein
+              erster Eintrag wartet schon. Mach den Tag voll und setz den ersten
+              Haken.
+            </p>
+            <div className={styles.modalActions}>
+              <Link className={styles.dashboardLink} href="/meine-challenges">
+                Zum Check-in
+              </Link>
+              <button className={styles.secondaryButton} type="button" onClick={() => setIsOpen(false)}>
+                Erst Seite ansehen
+              </button>
+            </div>
           </section>
         </div>
       )}
