@@ -28,6 +28,7 @@ Stand: 2026-07-04
 - [x] Challenge-Detailseiten auf Standard-Reihenfolge Ranking, Q&A, Challenge Mate, Content umstellen.
 - [x] Challenge-Detailseiten-Pulse-Grid, Community-Q&A, kompakte Ranking-Tabelle und Start-Popup verfeinern.
 - [x] Alle Seitentypen auf gemeinsame Site-Shell und globale Layout-Tokens umstellen.
+- [x] Fake-Q&A, Beispiel-Rankings und simulierte Mate-Daten von Challenge-Detailseiten entfernen.
 
 ## Later
 
@@ -38,6 +39,7 @@ Stand: 2026-07-04
 - [x] Lokale Challenge-Erstellung spaeter auf Account-/Datenbankpersistenz umstellen.
 - [ ] Teilnahme-Flow fuer `Challenge starten` fachlich klaeren und anbinden.
 - [ ] Lokalen Teilnahme-MVP spaeter durch echte Auth-/Datenbankpersistenz ersetzen.
+- [ ] Echte serverseitige Teilnahme-, Check-in-, Streak- und Durchhaltequoten fuer Challenge-Seiten anbinden.
 - [x] Header-Navigation anpassen: `Wissen` entfernen und eingeloggtes Profilmenue einbauen.
 - [x] `Challenge Mate finden` als vorbereitete eingeloggte Route planen/umsetzen.
 - [ ] Challenge-Erstellung mit Abgleich gegen bestehende Challenges fachlich ausarbeiten.

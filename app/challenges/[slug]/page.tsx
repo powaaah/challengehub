@@ -130,18 +130,6 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
           description: benefit.text,
           url: benefit.source.url
         }))
-      },
-      {
-        "@type": "FAQPage",
-        "@id": `${pageUrl}#faq`,
-        mainEntity: challenge.faq.map((item) => ({
-          "@type": "Question",
-          name: item.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: item.answer
-          }
-        }))
       }
     ]
   };
@@ -183,9 +171,9 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
       </section>
 
       <section className={styles.pulseGrid} aria-label="Challenge Aktivität">
-        <ChallengeRankingPanel challenge={challenge} isStepsChallenge={isStepsChallenge} />
-        <CommunityQuestionsPanel challenge={challenge} />
-        <ChallengeMatePanel />
+        <ChallengeParticipationPanel challenge={challenge} />
+        <ChallengeRankingPanel />
+        <RealChallengeMatePanel />
       </section>
 
       <section className={styles.content}>
@@ -314,155 +302,80 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
   );
 }
 
-function ChallengeRankingPanel({
-  challenge,
-  isStepsChallenge
-}: {
-  challenge: Challenge;
-  isStepsChallenge: boolean;
-}) {
-  const leaders = isStepsChallenge
-    ? [
-        { rank: 1, name: "Mara", streak: 184, completedDays: 219 },
-        { rank: 2, name: "Jonas", streak: 172, completedDays: 201 },
-        { rank: 3, name: "Nina", streak: 149, completedDays: 190 },
-        { rank: 4, name: "Tarek", streak: 131, completedDays: 177 },
-        { rank: 5, name: "Lea", streak: 118, completedDays: 141 },
-        { rank: 6, name: "Chris", streak: 101, completedDays: 132 },
-        { rank: 7, name: "Sven", streak: 96, completedDays: 120 },
-        { rank: 8, name: "Aylin", streak: 88, completedDays: 116 },
-        { rank: 9, name: "Mika", streak: 81, completedDays: 109 },
-        { rank: 10, name: "Karo", streak: 74, completedDays: 98 },
-        { rank: 11, name: "Ben", streak: 69, completedDays: 90 },
-        { rank: 12, name: "Jule", streak: 61, completedDays: 85 },
-        { rank: 13, name: "Olli", streak: 55, completedDays: 76 },
-        { rank: 14, name: "Sam", streak: 48, completedDays: 68 },
-        { rank: 15, name: "Rina", streak: 43, completedDays: 57 },
-        { rank: 16, name: "Noah", streak: 39, completedDays: 51 },
-        { rank: 17, name: "Elli", streak: 34, completedDays: 49 },
-        { rank: 18, name: "Malik", streak: 30, completedDays: 44 },
-        { rank: 19, name: "Lena", streak: 26, completedDays: 39 },
-        { rank: 20, name: "Tom", streak: 24, completedDays: 36 }
-      ]
-    : [
-        { rank: 1, name: "Mara", streak: Math.max(21, Math.round(challenge.participants * 0.42)), completedDays: Math.max(30, Math.round(challenge.participants * 0.55)) },
-        { rank: 2, name: "Jonas", streak: Math.max(18, Math.round(challenge.participants * 0.36)), completedDays: Math.max(28, Math.round(challenge.participants * 0.49)) },
-        { rank: 3, name: "Nina", streak: Math.max(16, Math.round(challenge.participants * 0.31)), completedDays: Math.max(24, Math.round(challenge.participants * 0.43)) },
-        { rank: 4, name: "Tarek", streak: Math.max(14, Math.round(challenge.participants * 0.26)), completedDays: Math.max(21, Math.round(challenge.participants * 0.36)) },
-        { rank: 5, name: "Lea", streak: Math.max(12, Math.round(challenge.participants * 0.22)), completedDays: Math.max(18, Math.round(challenge.participants * 0.31)) }
-      ];
-
-  const ownRows = [
-    { rank: 42, name: "Paula", streak: 13, completedDays: 19 },
-    { rank: 43, name: "Du", streak: 12, completedDays: 18, isOwn: true },
-    { rank: 44, name: "Marco", streak: 11, completedDays: 17 }
-  ];
+function ChallengeParticipationPanel({ challenge }: { challenge: Challenge }) {
+  const hasCatalogParticipants = challenge.participants > 0;
 
   return (
-    <article className={`${styles.pulsePanel} ${styles.rankingPanel}`} aria-labelledby="challenge-ranking">
+    <article className={styles.pulsePanel} aria-labelledby="challenge-participation">
+      <div className={styles.panelHeader}>
+        <div>
+          <p className={styles.eyebrow}>Teilnahme</p>
+          <h2 id="challenge-participation">Echte Datenlage</h2>
+        </div>
+        <span>Katalog</span>
+      </div>
+      <div className={styles.statGrid}>
+        <article>
+          <span>Gestartet</span>
+          <strong>{hasCatalogParticipants ? challenge.participants : "0"}</strong>
+          <small>{hasCatalogParticipants ? "aus dem aktuellen Katalogbestand" : "noch keine erfassten Starts"}</small>
+        </article>
+        <article>
+          <span>30 Tage</span>
+          <strong>-</strong>
+          <small>noch keine serverseitige Durchhaltequote</small>
+        </article>
+        <article>
+          <span>180 Tage</span>
+          <strong>-</strong>
+          <small>wartet auf echte Check-in-Daten</small>
+        </article>
+        <article>
+          <span>1 Jahr</span>
+          <strong>-</strong>
+          <small>wartet auf echte Check-in-Daten</small>
+        </article>
+      </div>
+      <p className={styles.dataNote}>
+        Streaks und Durchhaltequoten werden erst angezeigt, wenn Starts und Check-ins
+        serverseitig gespeichert werden. Keine Beispielpersonen, keine geschätzten Rankings.
+      </p>
+    </article>
+  );
+}
+
+function ChallengeRankingPanel() {
+  return (
+    <article className={styles.pulsePanel} aria-labelledby="challenge-ranking">
       <div className={styles.panelHeader}>
         <div>
           <p className={styles.eyebrow}>Ranking</p>
-          <h2 id="challenge-ranking">Streak Leaderboard</h2>
-        </div>
-        <span>{leaders.length > 5 ? "Top 20" : "Top 5"}</span>
-      </div>
-
-      <div className={styles.rankingScroll}>
-        <div className={styles.rankingTable} role="table" aria-label={`${challenge.title} Ranking`}>
-          <div role="row" className={styles.rankingHeader}>
-            <span>Platz</span>
-            <span>Name</span>
-            <span>Streak</span>
-            <span>Tage</span>
-          </div>
-          {leaders.map((row) => (
-            <div role="row" className={styles.rankingRow} key={row.rank}>
-              <span>#{row.rank}</span>
-              <strong>{row.name}</strong>
-              <span>{row.streak} Tage</span>
-              <span>{row.completedDays}</span>
-            </div>
-          ))}
+          <h2 id="challenge-ranking">Noch keine echten Ranglisten</h2>
         </div>
       </div>
-
-      <div className={styles.ownRankBlock}>
-        <span aria-hidden="true">...</span>
-        {ownRows.map((row) => (
-          <div className={`${styles.rankingRow} ${row.isOwn ? styles.ownRank : ""}`} key={row.rank}>
-            <span>#{row.rank}</span>
-            <strong>{row.name}</strong>
-            <span>{row.streak} Tage</span>
-            <span>{row.completedDays}</span>
-          </div>
-        ))}
-      </div>
+      <p className={styles.emptyPanelText}>
+        Die Rangliste wird erst sichtbar, wenn echte Teilnehmer, Streaks und Check-ins
+        serverseitig vorliegen. Bis dahin zeigen wir hier keine Namen oder Platzierungen.
+      </p>
     </article>
   );
 }
 
-function CommunityQuestionsPanel({ challenge }: { challenge: Challenge }) {
-  const questions = challenge.faq.slice(0, 2).map((item, index) => ({
-    question: item.question,
-    answers: [
-      { author: index === 0 ? "Mara" : "Jonas", likes: index === 0 ? 42 : 31, text: item.answer },
-      {
-        author: index === 0 ? "Lea" : "Nina",
-        likes: index === 0 ? 18 : 16,
-        text: index === 0
-          ? "Kurz halten, klar tracken, nicht diskutieren. Genau dann bleibt die Challenge simpel."
-          : "Die Antwort mit den meisten Likes steht oben. Gute Hinweise steigen dadurch automatisch nach vorne."
-      }
-    ]
-  }));
-
-  return (
-    <article className={`${styles.pulsePanel} ${styles.qaPanel}`} aria-labelledby="challenge-questions">
-      <div className={styles.panelHeader}>
-        <div>
-          <p className={styles.eyebrow}>Q&A</p>
-          <h2 id="challenge-questions">Community-Fragen</h2>
-        </div>
-        <button type="button">Frage stellen</button>
-      </div>
-
-      <div className={styles.questionList}>
-        {questions.map((item) => (
-          <section className={styles.questionItem} key={item.question}>
-            <h3>{item.question}</h3>
-            {item.answers
-              .sort((a, b) => b.likes - a.likes)
-              .slice(0, 1)
-              .map((answer) => (
-                <div className={styles.answerItem} key={answer.author}>
-                  <span>{answer.likes} Likes</span>
-                  <p>{answer.text}</p>
-                  <small>{answer.author}</small>
-                </div>
-              ))}
-          </section>
-        ))}
-      </div>
-    </article>
-  );
-}
-
-function ChallengeMatePanel() {
+function RealChallengeMatePanel() {
   return (
     <aside className={`${styles.pulsePanel} ${styles.matePanel}`}>
       <div className={styles.panelHeader}>
         <div>
           <p className={styles.eyebrow}>Challenge Mate</p>
-          <h2>Zu zweit hält besser</h2>
+          <h2>Noch kein echtes Matching</h2>
         </div>
       </div>
       <p>
-        Such dir jemanden mit ähnlichem Ziel. Ihr seht euren Streak, pusht euch kurz
-        an und macht aus „ich sollte mal“ ein klares „wir ziehen das durch“.
+        Das Matching wird erst aktiviert, wenn Profil- und Standortdaten freiwillig
+        hinterlegt werden. Dann kann ChallengeHub echte passende Mitstreiter anzeigen.
       </p>
       <Link className={styles.mateLink} href="/challenge-mate">
-        Challenge Mate finden
+        Challenge Mate vorbereiten
       </Link>
     </aside>
   );

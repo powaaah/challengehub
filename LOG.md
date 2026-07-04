@@ -584,3 +584,23 @@
   Container-Log-Tail steht noch eine alte Server-Action-Anfrage aus einem
   frueheren Build, der aktuelle Start war sauber.
 - Naechster Schritt: Visuelle Abnahme der Testdomain.
+
+## 2026-07-04 - Fake-Community-Daten entfernt
+
+- Ziel: Challenge-Seiten nur noch mit echten Daten bzw. ehrlichen Leerzustaenden
+  darstellen und Q&A vorerst entfernen.
+- Aenderungen: Statische Community-Q&A-Komponente entfernt; FAQPage-JSON-LD von
+  Challenge-Detailseiten entfernt; erfundene Leaderboard-Namen, Streaks, Likes
+  und eigene Beispielposition entfernt; Activity-Bereich durch echte
+  Datenlage, Ranking-Leerzustand und ehrlichen Challenge-Mate-Leerzustand
+  ersetzt; ungenutzte Q&A-/Ranking-CSS bereinigt.
+- Verifikation: `npm run lint`, `npm run build`; lokaler Produktionsstart mit
+  `npm run start -- --port 3002`; Playwright-DOM-Check auf Desktop 1440px und
+  Mobile 390px fuer `/challenges/10000-schritte-am-tag` bestaetigt keine
+  Q&A-Texte, keine Fake-Namen/Likes, kein `FAQPage`-Schema und keinen
+  horizontalen Overflow.
+- Offene Risiken: Echte Ranking-, Stadt-, Mate- und Durchhaltequoten-Daten sind
+  noch nicht serverseitig angebunden; Build meldet weiterhin die bekannte
+  Node-SQLite-Experimentalwarnung.
+- Naechster Schritt: Teilnahme-/Check-in-Persistenz fachlich klaeren und danach
+  echte Durchhaltequoten wie 30/180/365 Tage anzeigen.
