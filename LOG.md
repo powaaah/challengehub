@@ -527,3 +527,21 @@
 - Offene Risiken: Q&A, Likes, Ranking und Challenge-Mate-Matching sind weiterhin
   statische UI-Modelle und noch nicht an echte Nutzerdaten angebunden.
 - Naechster Schritt: Visuelle Abnahme lokal oder Deploy auf Testdomain.
+
+## 2026-07-04 - Pulse-Grid-Detailseite deployed
+
+- Ziel: Die verfeinerte Challenge-Detailseite mit Pulse-Grid und neuem
+  Start-Popup auf `theovina.de` live stellen.
+- Aenderungen: Commit `23b6483` nach GitHub gepusht, VPS-Checkout per
+  Fast-Forward aktualisiert, Dependencies installiert, frischen Next.js-Build
+  erzeugt und bestehenden `challengehub`-Service neu gestartet.
+- Verifikation: `https://theovina.de/challenges/10000-schritte-am-tag` liefert
+  HTTP 200; Server-Checkout steht auf `23b6483`; Live-Browsercheck bestaetigt
+  `Streak Leaderboard`, `Community-Fragen`, `Challenge Mate finden`,
+  `Koerpergroesse in cm`, Formel `0,414` und neues `Du bist drin`-Popup ohne
+  Sicherheits-Checkbox.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde;
+  `.next`-Bereinigung meldete bekannte Permission-Warnungen fuer alte
+  Cache-Bilder; Q&A/Ranking/Mate-Daten sind weiterhin statische UI-Modelle.
+- Naechster Schritt: Visuelle Abnahme auf der Testdomain und danach echte
+  Datenanbindung fuer Ranking/Q&A/Mate planen.
