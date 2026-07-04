@@ -566,3 +566,21 @@
 - Offene Risiken: Build meldet weiterhin die bekannte Node-SQLite-
   Experimentalwarnung.
 - Naechster Schritt: Commit nach GitHub pushen und Testdomain deployen.
+
+## 2026-07-04 - Site-Shell-Konsolidierung deployed
+
+- Ziel: Bereinigte gemeinsame Site-Shell auf der Testdomain live stellen.
+- Aenderungen: Commit `6f78bf1` (`refactor: consolidate site shell`) nach
+  GitHub gepusht, VPS-Checkout per Fast-Forward aktualisiert, `npm ci` und
+  `npm run build` ausgefuehrt, bestehenden `challengehub`-Service neu
+  gestartet.
+- Verifikation: `https://theovina.de/`, `/challenges`,
+  `/challenges/10000-schritte-am-tag`, `/wissen`, `/sicherheit`,
+  `/datenschutz`, `/impressum` und `/karriere` liefern HTTP 200; Live-
+  Playwright-Smoke-Test auf Desktop 1440px und Mobile 390px ueber 11 Routen
+  bestaetigt genau einen Top-Level-Header, Footer, keine alten `/#challenges`-
+  oder `/#ranking`-Links und keinen horizontalen Overflow.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde; im
+  Container-Log-Tail steht noch eine alte Server-Action-Anfrage aus einem
+  frueheren Build, der aktuelle Start war sauber.
+- Naechster Schritt: Visuelle Abnahme der Testdomain.
