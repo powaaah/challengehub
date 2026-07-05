@@ -44,6 +44,7 @@ Stand: 2026-07-04
 - [ ] Teilnahme-Flow fuer `Challenge starten` fachlich klaeren und anbinden.
 - [ ] Lokalen Teilnahme-MVP spaeter durch echte Auth-/Datenbankpersistenz ersetzen.
 - [ ] Echte serverseitige Teilnahme-, Check-in-, Streak- und Durchhaltequoten fuer Challenge-Seiten anbinden.
+- [ ] Challenge-Unterseiten bewusst schlank halten: Starten, Ranking, Challenge Mate, echter Aktivitaetsfeed und SEO-Infoteil; Reminder, Verlauf/Heatmap, persoenlicher Fortschritt und Freund-herausfordern gehoeren in `Meine Challenges`.
 - [x] Header-Navigation anpassen: `Wissen` entfernen und eingeloggtes Profilmenue einbauen.
 - [x] `Challenge Mate finden` als vorbereitete eingeloggte Route planen/umsetzen.
 - [ ] Challenge-Erstellung mit Abgleich gegen bestehende Challenges fachlich ausarbeiten.
