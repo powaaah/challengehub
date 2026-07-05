@@ -604,3 +604,21 @@
   Node-SQLite-Experimentalwarnung.
 - Naechster Schritt: Teilnahme-/Check-in-Persistenz fachlich klaeren und danach
   echte Durchhaltequoten wie 30/180/365 Tage anzeigen.
+
+## 2026-07-05 - Fake-Community-Daten deployed
+
+- Ziel: Challenge-Detailseiten ohne simulierte Q&A-, Ranking- oder Mate-Daten
+  auf der Testdomain ausliefern.
+- Aenderungen: Commit `dbcef22` nach GitHub gepusht, VPS-Checkout per
+  Fast-Forward aktualisiert, `npm ci` und `npm run build` ausgefuehrt,
+  bestehenden `challengehub`-Service neu gestartet.
+- Verifikation: `https://theovina.de/challenges/10000-schritte-am-tag`,
+  `/challenges` und `/` liefern HTTP 200; Live-Playwright-Check auf Desktop
+  1440px und Mobile 390px bestaetigt keine Q&A-Texte, keine Fake-Namen/Likes,
+  kein `FAQPage`-Schema, vorhandene ehrliche Leerzustaende und keinen
+  horizontalen Overflow.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde; im
+  Container-Log-Tail stehen alte Server-Action-Anfragen aus vorherigen Builds,
+  der aktuelle Next-Start war sauber.
+- Naechster Schritt: Echte serverseitige Teilnahme-/Check-in-Daten fuer
+  Durchhaltequoten und Ranglisten planen.
