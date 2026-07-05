@@ -696,3 +696,22 @@
   Experimentalwarnung; Ranglisten bleiben bis zur echten Check-in-Anbindung
   ohne Personen/Platzierungen.
 - Naechster Schritt: Visuelle Abnahme und danach deployen.
+
+## 2026-07-05 - Ranking-Tabelle mit lokaler Quote
+
+- Ziel: Das Ranking im Hero als hochwertige Tabelle darstellen und fuer
+  Dauer-Challenges eine echte Durchfuehrungsquote seit Start anzeigen.
+- Aenderungen: Client-Komponente `ChallengeRankingTable` ergaenzt; Ranking-
+  Panel zeigt jetzt eine Tabelle mit Teilnehmer, Streak, erledigten Tagen und
+  Quote; bei lokal gestarteter Challenge werden echte Browserdaten aus
+  `challengehub.activeChallenges.v1` genutzt; Quote wird als Check-in-Tage
+  geteilt durch Kalendertage seit Start berechnet; ohne lokale Teilnahme bleibt
+  eine leere Tabellenzeile ohne Fake-Namen sichtbar.
+- Verifikation: `npm run lint`, `npm run build`; lokaler Produktionsstart mit
+  `npm run start -- --port 3012`; Playwright prueft leeren Desktop-Zustand und
+  mobilen Zustand mit lokaler Testteilnahme. Testfall mit 3 Check-ins in 4
+  Tagen zeigt korrekt `75%` und `3/4`, kein horizontaler Overflow.
+- Offene Risiken: Ranking ist weiterhin nur lokal fuer den eigenen Stand
+  befuellt; globale Plaetze, Staedte und andere Personen warten auf echte
+  serverseitige Check-in-/Profil-Daten.
+- Naechster Schritt: Visuelle Abnahme und danach deployen.

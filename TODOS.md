@@ -32,6 +32,7 @@ Stand: 2026-07-04
 - [x] Teilnahme-CTA auf allen Challenge-Detailseiten sichtbar im Hero platzieren.
 - [x] Teilnahme-/Durchhaltewerte als kompakte Kennzahlen-Leiste unter dem Hero darstellen.
 - [x] Challenge-Hero als neutrale 2/3-1/3-Flaeche mit Ranking neben dem CTA umsetzen.
+- [x] Ranking im Hero als Tabelle mit echter lokaler Durchfuehrungsquote seit Start darstellen.
 
 ## Later
 

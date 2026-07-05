@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { ChallengeRankingTable } from "@/components/challenge-ranking-table";
 import { ChallengeStart } from "@/components/challenge-start";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { DbChallengeDetail } from "@/components/db-challenge-detail";
@@ -354,20 +355,12 @@ function ChallengeRankingPanel({ challenge }: { challenge: Challenge }) {
           <h2 id="challenge-ranking">Noch keine Platzierungen</h2>
         </div>
       </div>
-      <div className={styles.rankingFacts}>
-        <article>
-          <span>Gestartet</span>
-          <strong>{challenge.participants}</strong>
-        </article>
-        <article>
-          <span>Aktive Streaks</span>
-          <strong>-</strong>
-        </article>
-      </div>
-      <p className={styles.emptyPanelText}>
-        Sobald echte Check-ins vorliegen, erscheinen hier Streaks und Plaetze.
-        Bis dahin zeigen wir keine erfundenen Namen.
-      </p>
+      <ChallengeRankingTable
+        challenge={{
+          slug: challenge.slug,
+          participants: challenge.participants
+        }}
+      />
     </article>
   );
 }
