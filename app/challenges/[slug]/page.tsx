@@ -145,6 +145,7 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
         }}
       />
       <section className={`${styles.hero} ${styles[challenge.level]}`}>
+        <div className={styles.heroMain}>
         <Link className={styles.backLink} href="/challenges">
           Zurück zu den Challenges
         </Link>
@@ -170,12 +171,13 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
           </span>
           <span>{challenge.duration}</span>
         </div>
+        </div>
+        <ChallengeRankingPanel challenge={challenge} />
       </section>
 
       <ChallengeStatsBand challenge={challenge} />
 
       <section className={styles.pulseGrid} aria-label="Challenge Aktivität">
-        <ChallengeRankingPanel />
         <RealChallengeMatePanel />
       </section>
 
@@ -343,18 +345,28 @@ function ChallengeStatsBand({ challenge }: { challenge: Challenge }) {
   );
 }
 
-function ChallengeRankingPanel() {
+function ChallengeRankingPanel({ challenge }: { challenge: Challenge }) {
   return (
-    <article className={styles.pulsePanel} aria-labelledby="challenge-ranking">
+    <article className={`${styles.pulsePanel} ${styles.heroRanking}`} aria-labelledby="challenge-ranking">
       <div className={styles.panelHeader}>
         <div>
           <p className={styles.eyebrow}>Ranking</p>
-          <h2 id="challenge-ranking">Noch keine echten Ranglisten</h2>
+          <h2 id="challenge-ranking">Noch keine Platzierungen</h2>
         </div>
       </div>
+      <div className={styles.rankingFacts}>
+        <article>
+          <span>Gestartet</span>
+          <strong>{challenge.participants}</strong>
+        </article>
+        <article>
+          <span>Aktive Streaks</span>
+          <strong>-</strong>
+        </article>
+      </div>
       <p className={styles.emptyPanelText}>
-        Die Rangliste wird erst sichtbar, wenn echte Teilnehmer, Streaks und Check-ins
-        serverseitig vorliegen. Bis dahin zeigen wir hier keine Namen oder Platzierungen.
+        Sobald echte Check-ins vorliegen, erscheinen hier Streaks und Plaetze.
+        Bis dahin zeigen wir keine erfundenen Namen.
       </p>
     </article>
   );

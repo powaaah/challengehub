@@ -675,3 +675,24 @@
   Experimentalwarnung; Durchhaltequoten bleiben bis zur echten serverseitigen
   Check-in-Anbindung als `noch nicht erfasst` markiert.
 - Naechster Schritt: Visuelle Abnahme und danach bei Freigabe deployen.
+
+## 2026-07-05 - Option-B-Hero mit Ranking rechts
+
+- Ziel: Den Fokus im Challenge-Hero staerker auf `Jetzt teilnehmen` legen und
+  Ranking/Wettbewerb trotzdem sofort sichtbar halten.
+- Aenderungen: Hero von farbdominanter Challenge-Flaeche auf neutrale helle
+  Flaeche umgestellt; 2/3-1/3-Grid eingefuehrt; Challenge-Info und CTA links,
+  Ranking-Panel rechts; Level-Farbe nur noch als dezente obere Akzentkante;
+  CTA wieder als blauer Hauptbutton hervorgehoben; Ranking-Panel kompakter mit
+  echten Startzahlen und ehrlichem Leerzustand formuliert; Challenge-Mate unter
+  der Statusleiste als separate Flaeche belassen.
+- Verifikation: `npm run lint`, `npm run build`; lokaler Produktionsstart mit
+  `npm run start -- --port 3012`; Playwright-Smoke-Test auf Desktop 1440px und
+  Mobile 390px fuer `/challenges/100-burpees-pro-tag` und
+  `/challenges/10000-schritte-am-tag` bestaetigt Ranking rechts neben dem CTA
+  auf Desktop, sauberes Stapeln auf Mobile, entfernten `Echte Datenlage`-Text
+  und keinen horizontalen Overflow.
+- Offene Risiken: Build meldet weiterhin die bekannte Node-SQLite-
+  Experimentalwarnung; Ranglisten bleiben bis zur echten Check-in-Anbindung
+  ohne Personen/Platzierungen.
+- Naechster Schritt: Visuelle Abnahme und danach deployen.
