@@ -641,3 +641,17 @@
   `next start`-Prozess blockiert und nach Stoppen des Prozesses erfolgreich
   wiederholt.
 - Naechster Schritt: Bei Freigabe auf die Testdomain deployen.
+
+## 2026-07-05 - Teilnahme-CTA deployed
+
+- Ziel: Den sichtbaren Hero-CTA auf der Testdomain ausliefern.
+- Aenderungen: Commit `aa36b3f` nach GitHub gepusht, VPS-Checkout per
+  Fast-Forward aktualisiert, `npm ci` und `npm run build` auf dem VPS
+  ausgefuehrt, bestehenden `challengehub`-Service neu gestartet.
+- Verifikation: Live-Playwright-Test auf `https://theovina.de` fuer
+  `/challenges/10000-schritte-am-tag`, `/challenges/100-burpees-pro-tag` und
+  `/challenges/30-tage-ohne-zucker` auf Desktop 1440px und Mobile 390px:
+  HTTP 200, `Jetzt teilnehmen` im ersten Viewport, kein horizontaler Overflow,
+  Start-Modal und anschliessender Link zu `Meine Challenges` funktionieren.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde.
+- Naechster Schritt: Visuelle Abnahme der Testdomain.
