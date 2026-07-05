@@ -51,6 +51,18 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
         <p className={styles.level}>Oeffentliche User Challenge | {levelLabels[challenge.level]}</p>
         <h1>{challenge.title}</h1>
         <p className={styles.description}>{challenge.description}</p>
+        <div className={styles.heroActions}>
+          <ChallengeStart
+            challenge={{
+              slug: challenge.slug,
+              title: challenge.title,
+              goal: challenge.goal,
+              duration: `${challenge.durationDays} Tage`,
+              targetDays: challenge.durationDays
+            }}
+          />
+          <p>Jetzt teilnehmen und deinen Fortschritt unter Meine Challenges tracken.</p>
+        </div>
         <div className={styles.metrics}>
           <span>{challenge.category}</span>
           <span>{challenge.durationDays} Tage</span>

@@ -29,6 +29,7 @@ Stand: 2026-07-04
 - [x] Challenge-Detailseiten-Pulse-Grid, Community-Q&A, kompakte Ranking-Tabelle und Start-Popup verfeinern.
 - [x] Alle Seitentypen auf gemeinsame Site-Shell und globale Layout-Tokens umstellen.
 - [x] Fake-Q&A, Beispiel-Rankings und simulierte Mate-Daten von Challenge-Detailseiten entfernen.
+- [x] Teilnahme-CTA auf allen Challenge-Detailseiten sichtbar im Hero platzieren.
 
 ## Later
 

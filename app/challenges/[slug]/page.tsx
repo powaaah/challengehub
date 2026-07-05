@@ -151,6 +151,14 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
         <p className={styles.level}>{levelLabels[challenge.level]}</p>
         <h1>{challenge.title}</h1>
         <p className={styles.description}>{challenge.description}</p>
+        <div className={styles.heroActions}>
+          <ChallengeStart challenge={challenge} />
+          <p>
+            {isStepsChallenge
+              ? "Heute starten, Schritte vollmachen, Streak halten."
+              : "Jetzt teilnehmen und deinen Fortschritt unter Meine Challenges tracken."}
+          </p>
+        </div>
         <div className={styles.metrics} aria-label="Challenge Kennzahlen">
           <span>
             <Image src="/images/icon_participants.png" width={24} height={24} alt="" />
@@ -162,12 +170,6 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
           </span>
           <span>{challenge.duration}</span>
         </div>
-        {isStepsChallenge && (
-          <div className={styles.heroActions}>
-            <ChallengeStart challenge={challenge} />
-            <p>Heute starten, Schritte vollmachen, Streak halten.</p>
-          </div>
-        )}
       </section>
 
       <section className={styles.pulseGrid} aria-label="Challenge Aktivität">

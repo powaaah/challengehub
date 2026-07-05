@@ -60,7 +60,7 @@ export function ChallengeStart({ challenge }: ChallengeStartProps) {
   return (
     <>
       <button className={styles.startButton} type="button" onClick={startChallenge}>
-        Challenge starten
+        Jetzt teilnehmen
       </button>
 
       {isOpen && started && (

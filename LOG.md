@@ -622,3 +622,22 @@
   der aktuelle Next-Start war sauber.
 - Naechster Schritt: Echte serverseitige Teilnahme-/Check-in-Daten fuer
   Durchhaltequoten und Ranglisten planen.
+
+## 2026-07-05 - Teilnahme-CTA auf Challenge-Seiten
+
+- Ziel: Den Teilnahme-Button auf Challenge-Detailseiten sofort sichtbar machen.
+- Aenderungen: Hero-CTA fuer kuratierte, serverseitige und lokale
+  User-Challenges ergaenzt; Buttontext auf `Jetzt teilnehmen` umgestellt; CTA
+  vor die Kennzahlen gesetzt, damit Starten der Challenge klar primaere Aktion
+  ist.
+- Verifikation: `npm run lint`, `npm run build`; lokaler Produktionsstart mit
+  `npm run start -- --port 3010`; Playwright-Smoke-Test auf Desktop 1440px und
+  Mobile 390px fuer `/challenges/10000-schritte-am-tag`,
+  `/challenges/100-burpees-pro-tag` und `/challenges/30-tage-ohne-zucker`
+  bestaetigt sichtbaren CTA im ersten Viewport, keinen horizontalen Overflow
+  und erfolgreichen Start-Flow mit Modal und Link zu `Meine Challenges`.
+- Offene Risiken: Build meldet weiterhin die bekannte Node-SQLite-
+  Experimentalwarnung; der erste Buildversuch wurde von einem alten lokalen
+  `next start`-Prozess blockiert und nach Stoppen des Prozesses erfolgreich
+  wiederholt.
+- Naechster Schritt: Bei Freigabe auf die Testdomain deployen.

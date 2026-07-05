@@ -96,6 +96,29 @@
   font-weight: 650;
 }
 
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.heroActions button,
+.heroActions a {
+  width: auto;
+  min-width: 220px;
+  margin-top: 0;
+}
+
+.heroActions p {
+  margin: 0;
+  max-width: 34ch;
+  color: inherit;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
 .content {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(300px, 0.42fr);
