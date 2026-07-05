@@ -172,8 +172,9 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
         </div>
       </section>
 
+      <ChallengeStatsBand challenge={challenge} />
+
       <section className={styles.pulseGrid} aria-label="Challenge Aktivität">
-        <ChallengeParticipationPanel challenge={challenge} />
         <ChallengeRankingPanel />
         <RealChallengeMatePanel />
       </section>
@@ -304,45 +305,41 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
   );
 }
 
-function ChallengeParticipationPanel({ challenge }: { challenge: Challenge }) {
+function ChallengeStatsBand({ challenge }: { challenge: Challenge }) {
   const hasCatalogParticipants = challenge.participants > 0;
+  const items = [
+    {
+      label: "Gestartet",
+      value: hasCatalogParticipants ? challenge.participants.toString() : "0",
+      note: hasCatalogParticipants ? "Teilnehmer" : "noch keine Starts"
+    },
+    {
+      label: "30 Tage geschafft",
+      value: "-",
+      note: "noch nicht erfasst"
+    },
+    {
+      label: "180 Tage geschafft",
+      value: "-",
+      note: "noch nicht erfasst"
+    },
+    {
+      label: "1 Jahr geschafft",
+      value: "-",
+      note: "noch nicht erfasst"
+    }
+  ];
 
   return (
-    <article className={styles.pulsePanel} aria-labelledby="challenge-participation">
-      <div className={styles.panelHeader}>
-        <div>
-          <p className={styles.eyebrow}>Teilnahme</p>
-          <h2 id="challenge-participation">Echte Datenlage</h2>
-        </div>
-        <span>Katalog</span>
-      </div>
-      <div className={styles.statGrid}>
-        <article>
-          <span>Gestartet</span>
-          <strong>{hasCatalogParticipants ? challenge.participants : "0"}</strong>
-          <small>{hasCatalogParticipants ? "aus dem aktuellen Katalogbestand" : "noch keine erfassten Starts"}</small>
+    <section className={styles.statsBand} aria-label="Teilnahme und Durchhaltequoten">
+      {items.map((item) => (
+        <article key={item.label}>
+          <span>{item.label}</span>
+          <strong>{item.value}</strong>
+          <small>{item.note}</small>
         </article>
-        <article>
-          <span>30 Tage</span>
-          <strong>-</strong>
-          <small>noch keine serverseitige Durchhaltequote</small>
-        </article>
-        <article>
-          <span>180 Tage</span>
-          <strong>-</strong>
-          <small>wartet auf echte Check-in-Daten</small>
-        </article>
-        <article>
-          <span>1 Jahr</span>
-          <strong>-</strong>
-          <small>wartet auf echte Check-in-Daten</small>
-        </article>
-      </div>
-      <p className={styles.dataNote}>
-        Streaks und Durchhaltequoten werden erst angezeigt, wenn Starts und Check-ins
-        serverseitig gespeichert werden. Keine Beispielpersonen, keine geschätzten Rankings.
-      </p>
-    </article>
+      ))}
+    </section>
   );
 }
 

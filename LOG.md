@@ -655,3 +655,23 @@
   Start-Modal und anschliessender Link zu `Meine Challenges` funktionieren.
 - Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde.
 - Naechster Schritt: Visuelle Abnahme der Testdomain.
+
+## 2026-07-05 - Challenge-Statusleiste statt Datenlage-Panel
+
+- Ziel: Den Bereich unter dem Hero weniger technisch und weniger ablenkend
+  gestalten.
+- Aenderungen: Altes Teilnahme-Panel mit `Echte Datenlage` und langem
+  Erklaertext entfernt; kompakte Kennzahlen-Leiste direkt unter dem Hero
+  eingefuehrt; Hero-Hoehe und H1-Groesse reduziert; Hero-CTA farblich staerker
+  hervorgehoben; Ranking und Challenge-Mate darunter zweispaltig angeordnet;
+  ungenutzte alte Statistik-CSS-Regeln entfernt.
+- Verifikation: `npm run lint`, `npm run build`; lokaler Produktionsstart mit
+  `npm run start -- --port 3011`; Playwright-Smoke-Test auf Desktop 1440px und
+  Mobile 390px fuer `/challenges/100-burpees-pro-tag` und
+  `/challenges/10000-schritte-am-tag` bestaetigt entfernten `Echte Datenlage`-
+  Text, sichtbare Statusleiste, sichtbaren CTA, Ranking darunter und keinen
+  horizontalen Overflow.
+- Offene Risiken: Build meldet weiterhin die bekannte Node-SQLite-
+  Experimentalwarnung; Durchhaltequoten bleiben bis zur echten serverseitigen
+  Check-in-Anbindung als `noch nicht erfasst` markiert.
+- Naechster Schritt: Visuelle Abnahme und danach bei Freigabe deployen.
