@@ -1,16 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
-import {
-  readActiveChallenges,
-  todayKey,
-  type ActiveChallenge,
-  writeActiveChallenges
-} from "./challenge-storage";
+import { useActionState, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { loginAction } from "@/app/auth/actions";
+import { startChallengeAction } from "@/app/challenges/[slug]/actions";
 import styles from "./challenge-start.module.css";
 
 type ChallengeStartProps = {
+  isAuthenticated: boolean;
+  loginNext: string;
   challenge: {
     slug: string;
     title: string;
@@ -20,76 +20,66 @@ type ChallengeStartProps = {
   };
 };
 
-export function ChallengeStart({ challenge }: ChallengeStartProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [started, setStarted] = useState(false);
-  const activeSlugsSnapshot = useSyncExternalStore(subscribeToActiveChallenges, getActiveSlugsSnapshot, () => "");
-  const alreadyActive = activeSlugsSnapshot.split("|").includes(challenge.slug);
+const initialLoginState = {
+  error: ""
+};
 
-  function startChallenge() {
-    const activeChallenges = readActiveChallenges();
-    const nextChallenge: ActiveChallenge = {
-      slug: challenge.slug,
-      title: challenge.title,
-      goal: challenge.goal,
-      duration: challenge.duration,
-      targetDays: challenge.targetDays,
-      startedAt: todayKey(),
-      checkIns: [],
-      safetyAccepted: true
-    };
+export function ChallengeStart({ challenge, isAuthenticated, loginNext }: ChallengeStartProps) {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [loginState, loginFormAction] = useActionState(loginAction, initialLoginState);
 
-    const nextChallenges = [
-      nextChallenge,
-      ...activeChallenges.filter((active) => active.slug !== challenge.slug)
-    ];
-
-    writeActiveChallenges(nextChallenges);
-    setStarted(true);
-    setIsOpen(true);
-  }
-
-  if ((alreadyActive || started) && !isOpen) {
+  if (isAuthenticated) {
     return (
-      <Link className={styles.dashboardLink} href="/meine-challenges">
-        In meinen Challenges ansehen
-      </Link>
+      <form action={startChallengeAction}>
+        <input type="hidden" name="slug" value={challenge.slug} />
+        <StartButton />
+      </form>
     );
   }
 
   return (
     <>
-      <button className={styles.startButton} type="button" onClick={startChallenge}>
+      <button className={styles.startButton} type="button" onClick={() => setIsLoginOpen(true)}>
         Jetzt teilnehmen
       </button>
 
-      {isOpen && started && (
-        <div className={styles.backdrop} role="presentation" onMouseDown={() => setIsOpen(false)}>
+      {isLoginOpen && (
+        <div className={styles.backdrop} role="presentation" onMouseDown={() => setIsLoginOpen(false)}>
           <section
-            className={styles.modal}
+            className={`${styles.modal} ${styles.loginModal}`}
             role="dialog"
             aria-modal="true"
-            aria-labelledby="start-challenge-title"
+            aria-labelledby="login-challenge-title"
             onMouseDown={(event) => event.stopPropagation()}
           >
-            <button className={styles.closeButton} type="button" onClick={() => setIsOpen(false)}>
+            <button className={styles.closeButton} type="button" onClick={() => setIsLoginOpen(false)}>
               x
             </button>
-            <p className={styles.kicker}>Du bist drin</p>
-            <h2 id="start-challenge-title">{challenge.title}</h2>
-            <p>
-              Stark. Ab jetzt zählt nicht mehr „irgendwann“, sondern heute. Dein
-              erster Eintrag wartet schon. Mach den Tag voll und setz den ersten
-              Haken.
+            <Image className={styles.modalLogo} src="/logo.png" width={154} height={50} alt="ChallengeHub" />
+            <p className={styles.kicker}>Teilnahme freischalten</p>
+            <h2 id="login-challenge-title">Bei ChallengeHub anmelden</h2>
+            <p className={styles.loginIntro}>
+              Melde dich an, um an {challenge.title} teilzunehmen und deinen Fortschritt unter Meine Challenges
+              zu speichern.
             </p>
-            <div className={styles.modalActions}>
-              <Link className={styles.dashboardLink} href="/meine-challenges">
-                Zum Check-in
-              </Link>
-              <button className={styles.secondaryButton} type="button" onClick={() => setIsOpen(false)}>
-                Erst Seite ansehen
-              </button>
-            </div>
+            <form className={styles.loginForm} action={loginFormAction}>
+              <input type="hidden" name="next" value={loginNext} />
+              {loginState.error && <p className={styles.error}>{loginState.error}</p>}
+              <label>
+                <span>E-Mail-Adresse</span>
+                <input name="email" type="email" autoComplete="email" required />
+              </label>
+              <label>
+                <span>Passwort</span>
+                <input name="password" type="password" autoComplete="current-password" required />
+              </label>
+              <LoginButton />
+            </form>
+            <p className={styles.smallPrint}>
+              Noch nicht registriert? <Link href={`/auth?next=${encodeURIComponent(loginNext)}`}>Registrieren</Link>
+              {" oder "}
+              <Link href={`/auth?next=${encodeURIComponent(loginNext)}`}>Passwort vergessen?</Link>
+            </p>
           </section>
         </div>
       )}
@@ -97,19 +87,22 @@ export function ChallengeStart({ challenge }: ChallengeStartProps) {
   );
 }
 
-function subscribeToActiveChallenges(onStoreChange: () => void) {
-  window.addEventListener("storage", onStoreChange);
-  window.addEventListener("challengehub:active-challenges", onStoreChange);
+function StartButton() {
+  const { pending } = useFormStatus();
 
-  return () => {
-    window.removeEventListener("storage", onStoreChange);
-    window.removeEventListener("challengehub:active-challenges", onStoreChange);
-  };
+  return (
+    <button className={styles.startButton} type="submit" disabled={pending}>
+      {pending ? "Wird gestartet..." : "Jetzt teilnehmen"}
+    </button>
+  );
 }
 
-function getActiveSlugsSnapshot() {
-  return readActiveChallenges()
-    .map((active) => active.slug)
-    .sort()
-    .join("|");
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button className={styles.loginButton} type="submit" disabled={pending}>
+      {pending ? "Meldet an..." : "Anmelden"}
+    </button>
+  );
 }

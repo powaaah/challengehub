@@ -154,7 +154,11 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
         <h1>{challenge.title}</h1>
         <p className={styles.description}>{challenge.description}</p>
         <div className={styles.heroActions}>
-          <ChallengeStart challenge={challenge} />
+          <ChallengeStart
+            challenge={challenge}
+            isAuthenticated={Boolean(user)}
+            loginNext={`/challenges/${challenge.slug}`}
+          />
           <p>
             {isStepsChallenge
               ? "Heute starten, Schritte vollmachen, Streak halten."
@@ -217,7 +221,11 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
             </p>
             <Link href="/sicherheit">Sicherheitshinweise lesen</Link>
           </div>
-          <ChallengeStart challenge={challenge} />
+          <ChallengeStart
+            challenge={challenge}
+            isAuthenticated={Boolean(user)}
+            loginNext={`/challenges/${challenge.slug}`}
+          />
         </aside>
       </section>
 

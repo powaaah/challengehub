@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { MyChallengesApp } from "@/components/my-challenges-app";
 import { getCurrentUser } from "@/lib/auth";
+import { getParticipationsForUser } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Meine Challenges | ChallengeHub",
@@ -24,5 +25,7 @@ export default async function MyChallengesPage() {
     redirect("/auth?next=/meine-challenges");
   }
 
-  return <MyChallengesApp user={user} />;
+  const participations = getParticipationsForUser(user.id);
+
+  return <MyChallengesApp user={user} participations={participations} />;
 }

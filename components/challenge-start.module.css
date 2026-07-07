@@ -43,6 +43,19 @@
   box-shadow: 0 28px 80px rgba(7, 17, 31, 0.32);
 }
 
+.loginModal {
+  width: min(560px, 100%);
+  background: var(--surface);
+  padding: clamp(1.5rem, 5vw, 2.25rem);
+}
+
+.modalLogo {
+  display: block;
+  width: 150px;
+  height: auto;
+  margin: 0 auto 1.25rem;
+}
+
 .closeButton {
   position: absolute;
   top: 0.8rem;
@@ -73,10 +86,85 @@
   line-height: 1;
 }
 
+.loginModal h2 {
+  font-family: inherit;
+  font-size: clamp(1.7rem, 5vw, 2.4rem);
+  line-height: 1.15;
+  text-align: center;
+}
+
 .modal p {
   color: var(--text-muted);
   font-weight: 600;
   line-height: 1.65;
+}
+
+.loginIntro {
+  margin: 0.8rem auto 1.25rem;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.loginForm {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.loginForm label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.loginForm input {
+  min-height: 58px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-muted);
+  color: var(--text);
+  padding: 0 1rem;
+  font: inherit;
+  font-weight: 600;
+}
+
+.loginButton {
+  min-height: 52px;
+  margin-top: 0.45rem;
+  border: 0;
+  border-radius: 8px;
+  background: var(--brand);
+  color: white;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  font-weight: 700;
+}
+
+.loginButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.error {
+  margin: 0;
+  border: 1px solid rgba(234, 115, 23, 0.35);
+  border-radius: 8px;
+  background: rgba(234, 115, 23, 0.08);
+  color: var(--background-deep);
+  padding: 0.8rem;
+  font-weight: 650;
+}
+
+.smallPrint {
+  margin: 1rem 0 0;
+  text-align: center;
+}
+
+.smallPrint a {
+  color: var(--brand);
+  font-weight: 750;
+  text-decoration: none;
 }
 
 .modalActions {

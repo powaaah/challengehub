@@ -1,6 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+import { randomUUID } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
+import { getChallengeBySlug } from "@/data/challenges";
 import type { ChallengeLevel } from "@/data/challenges";
 
 const globalForDb = globalThis as unknown as {
@@ -29,6 +31,18 @@ export type DbPublicChallenge = {
   tips: string[];
   createdAt: string;
   creatorName: string;
+};
+
+export type DbParticipation = {
+  id: string;
+  userId: string;
+  challengeId: string;
+  challengeSlug: string;
+  challengeTitle: string;
+  challengeGoal: string;
+  startedAt: string;
+  status: string;
+  completedAt: string | null;
 };
 
 export function getDb() {
@@ -179,6 +193,195 @@ export function createPublicChallenge(input: {
       now,
       now
     );
+}
+
+export function startParticipationForUser(input: { userId: string; challengeSlug: string }) {
+  const challengeId = ensureChallengeRow(input.challengeSlug);
+  const now = new Date().toISOString();
+  const participationId = randomUUID();
+
+  getDb()
+    .prepare(
+      `
+      INSERT OR IGNORE INTO participations (id, user_id, challenge_id, started_at, status)
+      VALUES (?, ?, ?, ?, 'active')
+    `
+    )
+    .run(participationId, input.userId, challengeId, now);
+
+  return getParticipationByUserAndChallenge(input.userId, challengeId);
+}
+
+export function getParticipationByIdForUser(input: { participationId: string; userId: string }) {
+  const row = getDb()
+    .prepare(
+      `
+      SELECT
+        participations.id,
+        participations.user_id as userId,
+        participations.challenge_id as challengeId,
+        participations.started_at as startedAt,
+        participations.status,
+        participations.completed_at as completedAt,
+        challenges.slug as challengeSlug,
+        challenges.title as challengeTitle,
+        challenges.goal as challengeGoal
+      FROM participations
+      JOIN challenges ON challenges.id = participations.challenge_id
+      WHERE participations.id = ? AND participations.user_id = ?
+    `
+    )
+    .get(input.participationId, input.userId) as DbParticipation | undefined;
+
+  return row ? mapParticipationRow(row) : undefined;
+}
+
+export function getParticipationsForUser(userId: string) {
+  const rows = getDb()
+    .prepare(
+      `
+      SELECT
+        participations.id,
+        participations.user_id as userId,
+        participations.challenge_id as challengeId,
+        participations.started_at as startedAt,
+        participations.status,
+        participations.completed_at as completedAt,
+        challenges.slug as challengeSlug,
+        challenges.title as challengeTitle,
+        challenges.goal as challengeGoal
+      FROM participations
+      JOIN challenges ON challenges.id = participations.challenge_id
+      WHERE participations.user_id = ?
+      ORDER BY participations.started_at DESC
+    `
+    )
+    .all(userId) as DbParticipation[];
+
+  return rows.map(mapParticipationRow);
+}
+
+export function getCheckInDatesForParticipation(input: { participationId: string; userId: string }) {
+  const rows = getDb()
+    .prepare(
+      `
+      SELECT check_ins.date
+      FROM check_ins
+      JOIN participations ON participations.id = check_ins.participation_id
+      WHERE check_ins.participation_id = ? AND participations.user_id = ?
+      ORDER BY check_ins.date ASC
+    `
+    )
+    .all(input.participationId, input.userId) as Array<{ date: string }>;
+
+  return rows.map((row) => row.date);
+}
+
+export function createCheckInForParticipation(input: { participationId: string; userId: string; date: string }) {
+  const participation = getParticipationByIdForUser({
+    participationId: input.participationId,
+    userId: input.userId
+  });
+
+  if (!participation) {
+    throw new Error("Participation not found.");
+  }
+
+  getDb()
+    .prepare(
+      `
+      INSERT OR IGNORE INTO check_ins (id, participation_id, date, note, created_at)
+      VALUES (?, ?, ?, NULL, ?)
+    `
+    )
+    .run(randomUUID(), input.participationId, input.date, new Date().toISOString());
+}
+
+function getParticipationByUserAndChallenge(userId: string, challengeId: string) {
+  const participation = getDb()
+    .prepare(
+      `
+      SELECT id FROM participations
+      WHERE user_id = ? AND challenge_id = ?
+    `
+    )
+    .get(userId, challengeId) as { id: string } | undefined;
+
+  if (!participation) {
+    throw new Error("Participation could not be created.");
+  }
+
+  return participation;
+}
+
+function mapParticipationRow(row: DbParticipation): DbParticipation {
+  return {
+    id: row.id,
+    userId: row.userId,
+    challengeId: row.challengeId,
+    challengeSlug: row.challengeSlug,
+    challengeTitle: row.challengeTitle,
+    challengeGoal: row.challengeGoal,
+    startedAt: row.startedAt,
+    status: row.status,
+    completedAt: row.completedAt
+  };
+}
+
+function ensureChallengeRow(slug: string) {
+  const existing = getDb().prepare("SELECT id FROM challenges WHERE slug = ?").get(slug) as { id: string } | undefined;
+
+  if (existing) {
+    return existing.id;
+  }
+
+  const challenge = getChallengeBySlug(slug);
+
+  if (!challenge) {
+    throw new Error("Challenge not found.");
+  }
+
+  ensureSystemUser();
+
+  const now = new Date().toISOString();
+  const challengeId = `curated:${challenge.slug}`;
+
+  getDb()
+    .prepare(
+      `
+      INSERT INTO challenges (
+        id, creator_id, slug, title, level, category, duration_days, goal, description,
+        rules_json, tips_json, visibility, status, created_at, updated_at
+      )
+      VALUES (?, 'system', ?, ?, ?, 'Kuratierte Challenge', 0, ?, ?, ?, ?, 'internal', 'published', ?, ?)
+    `
+    )
+    .run(
+      challengeId,
+      challenge.slug,
+      challenge.title,
+      challenge.level,
+      challenge.goal,
+      challenge.description,
+      JSON.stringify(challenge.rules),
+      JSON.stringify(challenge.tips),
+      now,
+      now
+    );
+
+  return challengeId;
+}
+
+function ensureSystemUser() {
+  const existing = getDb().prepare("SELECT id FROM users WHERE id = 'system'").get();
+
+  if (existing) {
+    return;
+  }
+
+  getDb()
+    .prepare("INSERT INTO users (id, email, name, password_hash, created_at) VALUES ('system', ?, 'ChallengeHub', 'disabled:disabled', ?)")
+    .run("system@challengehub.local", new Date().toISOString());
 }
 
 export function getPublishedChallenges() {

@@ -53,6 +53,8 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
         <p className={styles.description}>{challenge.description}</p>
         <div className={styles.heroActions}>
           <ChallengeStart
+            isAuthenticated={Boolean(user)}
+            loginNext={`/challenges/${challenge.slug}`}
             challenge={{
               slug: challenge.slug,
               title: challenge.title,
@@ -93,6 +95,8 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
             <Link href="/sicherheit">Sicherheitshinweise lesen</Link>
           </div>
           <ChallengeStart
+            isAuthenticated={Boolean(user)}
+            loginNext={`/challenges/${challenge.slug}`}
             challenge={{
               slug: challenge.slug,
               title: challenge.title,

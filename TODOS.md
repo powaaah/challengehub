@@ -35,6 +35,7 @@ Stand: 2026-07-04
 - [x] Ranking im Hero als Tabelle mit echter lokaler Durchfuehrungsquote seit Start darstellen.
 - [x] Pflichtenheft aus `challengehub-lastenheft.md` fuer die Umsetzung im bestehenden Projekt ableiten.
 - [x] Produktentscheidungen fuer Server-MVP dokumentieren: 10.000 Schritte, Login-Popup, Check-in-Button, automatische Fehl-Tage, Challenge-Raum und Invite-Slice.
+- [x] Server-MVP-Slice 1 umsetzen: Login-Popup, serverseitiger Start der 10.000-Schritte-Challenge, Challenge-Raum und heutiger Check-in.
 
 ## Later
 
@@ -46,7 +47,7 @@ Stand: 2026-07-04
 - [ ] Teilnahme-Flow fuer `Challenge starten` fachlich klaeren und anbinden.
 - [ ] Lokalen Teilnahme-MVP spaeter durch echte Auth-/Datenbankpersistenz ersetzen.
 - [ ] Echte serverseitige Teilnahme-, Check-in-, Streak- und Durchhaltequoten fuer Challenge-Seiten anbinden.
-- [ ] Server-MVP fuer 10.000-Schritte-Dauer-Challenge umsetzen: Login-Popup, serverseitige Teilnahme, `Challenge heute durchgefuehrt`-Check-in, automatisch berechnete verpasste Tage, Challenge-Raum unter `/meine-challenges/[id]`, Ranking und `/meine-challenges` ohne LocalStorage.
+- [ ] Server-MVP fuer 10.000-Schritte-Dauer-Challenge vervollstaendigen: Ranking aus serverseitigen Check-ins, Streak-Berechnung, LocalStorage-Fallback entfernen und `/meine-challenges` final ohne Browserdaten betreiben.
 - [ ] Challenge-Unterseiten bewusst schlank halten: Starten, Ranking, Challenge Mate, echter Aktivitaetsfeed und SEO-Infoteil; Reminder, Verlauf/Heatmap, persoenlicher Fortschritt und Freund-herausfordern gehoeren in `Meine Challenges`.
 - [x] Header-Navigation anpassen: `Wissen` entfernen und eingeloggtes Profilmenue einbauen.
 - [x] `Challenge Mate finden` als vorbereitete eingeloggte Route planen/umsetzen.

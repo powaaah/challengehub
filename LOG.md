@@ -751,3 +751,43 @@
   noch nicht implementiert.
 - Naechster Schritt: Server-MVP fuer 10.000-Schritte-Teilnahme, Check-in,
   Challenge-Raum und Ranking umsetzen.
+
+## 2026-07-07 - ChallengeHub-Testdomain mit Hero-/Ranking-Stand aktualisiert
+
+- Ziel: Den aktuellen lokalen Stand mit neutralem Challenge-Hero,
+  Ranking-Tabelle und Pflichtenheft auf die Testdomain deployen.
+- Aenderungen: Lokale Commits bis `f7ebf78` nach GitHub `main` gepusht; VPS-
+  Checkout `/home/stefan/projects/challengehub` per Fast-Forward aktualisiert;
+  `npm ci` und `npm run build` auf dem Server ausgefuehrt; bestehenden
+  `challengehub`-Service neu gestartet.
+- Verifikation: Lokal `npm run lint` und `npm run build` erfolgreich; live
+  liefern `https://theovina.de/`, `/challenges`,
+  `/challenges/10000-schritte-am-tag`, `/challenges/100-burpees-pro-tag` und
+  `/meine-challenges` HTTP 200; Marker `Jetzt teilnehmen`, `Ranking`, `Quote`
+  und `10.000 Schritte am Tag` auf der 10.000-Schritte-Seite bestaetigt.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde; echte
+  serverseitige Teilnahme und Check-ins sind noch nicht umgesetzt.
+- Naechster Schritt: Server-MVP fuer 10.000-Schritte-Teilnahme beginnen.
+
+## 2026-07-07 - Server-MVP-Slice 1 fuer Challenge-Teilnahme
+
+- Ziel: `Jetzt teilnehmen` fuer die 10.000-Schritte-Challenge mit Login-
+  Pflicht, serverseitiger Teilnahme, Challenge-Raum und heutigem Check-in
+  nutzbar machen.
+- Aenderungen: Challenge-Start von LocalStorage auf Server Action umgestellt;
+  Login-Popup fuer ausgeloggte Nutzer nach ChallengeHub-Vorgabe ergaenzt;
+  kuratierte Challenges intern in SQLite aufloesbar gemacht; Teilnahme in
+  `participations` gespeichert; `/meine-challenges/[id]` als persoenlicher
+  Challenge-Raum angelegt; heutiger Check-in schreibt in `check_ins`;
+  `/meine-challenges` zeigt serverseitige Teilnahmen zusaetzlich zum alten
+  lokalen Fallback.
+- Verifikation: `npm run lint`; `npm run build` nach frischem `.next`-
+  Verzeichnis erfolgreich; lokaler Production-Server auf Port 3013; Playwright-
+  Smoke-Test fuer ausgeloggtes Login-Popup, Registrierung, Challenge-Start,
+  Redirect in Raum, `Challenge heute durchgefuehrt`-Check-in, Quote `100%` und
+  Dashboard-Link erfolgreich; Mobile-Check 390px ohne horizontalen Overflow.
+- Offene Risiken: Ranking und Streak nutzen noch nicht serverseitige Check-ins;
+  LocalStorage-Fallback ist noch sichtbar; Passwort-vergessen-Link fuehrt
+  vorerst zur Auth-Seite, weil kein Reset-Flow existiert.
+- Naechster Schritt: Serverseitige Ranking-/Streak-Berechnung fuer die
+  10.000-Schritte-Challenge anbinden.

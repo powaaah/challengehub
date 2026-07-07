@@ -12,9 +12,16 @@ import {
   writeActiveChallenges
 } from "./challenge-storage";
 import { SiteFooter, SiteHeader } from "./site-shell";
+import type { DbParticipation } from "@/lib/db";
 import styles from "./my-challenges-app.module.css";
 
-export function MyChallengesApp({ user }: { user: CurrentUser }) {
+export function MyChallengesApp({
+  user,
+  participations
+}: {
+  user: CurrentUser;
+  participations: DbParticipation[];
+}) {
   const [activeChallenges, setActiveChallenges] = useState<ActiveChallenge[]>([]);
   const today = useMemo(() => todayKey(), []);
 
@@ -69,11 +76,43 @@ export function MyChallengesApp({ user }: { user: CurrentUser }) {
         <h1>Meine Challenges</h1>
         <p>
           Sieh, was heute offen ist, hake erledigte Tage ab und beobachte deinen Fortschritt.
-          Aktuell speichert ChallengeHub diese MVP-Daten lokal in deinem Browser.
+          Neue Teilnahmen werden serverseitig gespeichert.
         </p>
       </section>
 
-      {activeChallenges.length === 0 ? (
+      {participations.length > 0 && (
+        <section className={styles.grid} aria-label="Serverseitige Challenges">
+          {participations.map((participation) => (
+            <article className={styles.card} key={participation.id}>
+              <div>
+                <p className={styles.cardKicker}>Gestartet am {formatIsoDate(participation.startedAt)}</p>
+                <h2>{participation.challengeTitle}</h2>
+                <p>{participation.challengeGoal}</p>
+              </div>
+              <dl className={styles.stats}>
+                <div>
+                  <dt>Status</dt>
+                  <dd>{participation.status}</dd>
+                </div>
+                <div>
+                  <dt>Speicherung</dt>
+                  <dd>Server</dd>
+                </div>
+                <div>
+                  <dt>Raum</dt>
+                  <dd>aktiv</dd>
+                </div>
+              </dl>
+              <div className={styles.actions}>
+                <Link href={`/meine-challenges/${participation.id}`}>Challenge-Raum</Link>
+                <Link href={`/challenges/${participation.challengeSlug}`}>Detailseite</Link>
+              </div>
+            </article>
+          ))}
+        </section>
+      )}
+
+      {activeChallenges.length === 0 && participations.length === 0 && (
         <section className={styles.emptyState}>
           <h2>Noch keine aktive Challenge</h2>
           <p>Starte eine Challenge auf einer Detailseite und mache hier deinen ersten Check-in.</p>
@@ -81,7 +120,9 @@ export function MyChallengesApp({ user }: { user: CurrentUser }) {
             <Link href="/challenges">Challenges entdecken</Link>
           </div>
         </section>
-      ) : (
+      )}
+
+      {activeChallenges.length > 0 && (
         <section className={styles.grid} aria-label="Aktive Challenges">
           {activeChallenges.map((challenge) => {
             const hasCheckedInToday = challenge.checkIns.includes(today);
@@ -144,4 +185,12 @@ function formatDate(value: string) {
     month: "2-digit",
     year: "numeric"
   }).format(new Date(`${value}T12:00:00`));
+}
+
+function formatIsoDate(value: string) {
+  return new Intl.DateTimeFormat("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  }).format(new Date(value));
 }
