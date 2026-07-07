@@ -733,3 +733,21 @@
   Commits sind weiterhin lokal ahead und noch nicht deployed.
 - Naechster Schritt: Pflichtenheft fachlich abnehmen, danach Server-MVP-Slice
   fuer offene Dauer-Challenge beginnen.
+
+## 2026-07-07 - Server-MVP-Produktentscheidungen dokumentiert
+
+- Ziel: Stefans fachliche Entscheidungen fuer den ersten Server-MVP verbindlich
+  ins Pflichtenheft uebernehmen.
+- Aenderungen: Erste MVP-Challenge auf `10.000 Schritte am Tag` festgelegt;
+  Login-Pflicht und Login-Popup fuer nicht eingeloggte Startversuche
+  dokumentiert; Check-in-Button auf `Challenge heute durchgefuehrt`
+  festgelegt; verpasste Tage als automatische Berechnung definiert;
+  Challenge-Raum unter `/meine-challenges/[id]` als Teilnahme-Kontext
+  erklaert; Freund-einladen als naechster Slice nach Server-Check-in
+  eingeordnet; `TODOS.md` aktualisiert.
+- Verifikation: Dokument-Review per Diff; keine Build-/Lint-Pruefung, da nur
+  Dokumentation geaendert wurde.
+- Offene Risiken: Visuelles Login-Popup und serverseitiger Challenge-Flow sind
+  noch nicht implementiert.
+- Naechster Schritt: Server-MVP fuer 10.000-Schritte-Teilnahme, Check-in,
+  Challenge-Raum und Ranking umsetzen.

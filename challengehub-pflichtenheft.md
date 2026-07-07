@@ -83,16 +83,29 @@ Der Nutzer kann:
 Fuer den ersten echten technischen Slice wird eine offene Dauer-Challenge
 umgesetzt:
 
-> Ab heute jeden Tag 30 Minuten lesen
+> 10.000 Schritte am Tag
 
 Begruendung:
 
 - Sie zeigt den Kern von ChallengeHub: dranbleiben, Quote, Streak, Ranking.
 - Sie braucht im ersten Schritt keinen Video-Proof.
-- Sie ist niedrigschwellig und mobil gut nutzbar.
-- Sie reduziert technische Ablenkung durch Upload, Tracking oder Formpruefung.
+- Sie ist fuer viele Nutzer sofort verstaendlich und alltagsnah.
+- Sie macht Erfuellungsquote, verpasste Tage und Wettbewerb gut sichtbar.
+- Sie kann im ersten Slice per eigenem Check-in ohne externe Tracking-
+  Integration umgesetzt werden.
 
-Danach werden `30 Tage 10.000 Schritte`, `30 Tage kein Zucker`,
+Teilnahme erfordert Login. Nicht eingeloggte Nutzer sehen beim Klick auf
+`Jetzt teilnehmen` ein Login-Popup, statt die Challenge direkt zu starten.
+
+Der Check-in-Button im Challenge-Raum lautet:
+
+> Challenge heute durchgefuehrt
+
+Verpasste Tage werden automatisch aus Startdatum, aktuellem Datum und
+Check-ins berechnet; sie werden nicht taeglich als eigene Datensaetze
+gespeichert.
+
+Danach werden `30 Tage kein Zucker`, `100 Burpees pro Tag`,
 `100 Liegestuetze am Stueck` und `100.000 Schritte an einem Tag` angebunden.
 
 ## 5. Informationsarchitektur
@@ -166,21 +179,27 @@ Abgrenzung:
 
 Diese Inhalte gehoeren in `/meine-challenges` oder den Challenge-Raum.
 
-### 5.4 Challenge-Raum `/meine-challenges/[participationId]`
+### 5.4 Challenge-Raum `/meine-challenges/[id]`
 
 Aufgabe:
 
 - Nach dem Start ist der Challenge-Raum die zentrale Arbeitsflaeche.
+- Der Raum gehoert in den Kontext von `Mein Konto` > `Meine Challenges`.
+- `id` ist die Teilnahme-ID, nicht der Challenge-Slug. Dadurch kann ein Nutzer
+  dieselbe Challenge spaeter erneut starten, und Einladungsraeume koennen
+  eindeutig einer konkreten Teilnahme zugeordnet werden.
+- Oeffentliche Challenge-Seiten bleiben unter `/challenges/[slug]`; dort geht
+  es um Verstehen, Starten, Ranking-Vorschau, Challenge Mate und SEO.
 
 Pflichtfunktionen:
 
 - Challenge-Ziel und Status.
-- Check-in fuer heute.
+- Primaerer Check-in-Button: `Challenge heute durchgefuehrt`.
 - Liste eigener Check-ins.
 - Eigener Streak.
 - Eigene Erfuellungsquote.
 - Erfuellte Tage.
-- Verpasste Tage.
+- Automatisch berechnete verpasste Tage.
 - Teilnehmerliste.
 - Ranking dieser Challenge.
 - Aktivitaetsfeed mit echten Check-ins.
@@ -505,13 +524,24 @@ Server Action:
 Verhalten:
 
 - Nutzer muss eingeloggt sein.
+- Ist der Nutzer nicht eingeloggt, wird kein Datensatz angelegt und kein
+  Redirect ausgefuehrt; die UI oeffnet ein Login-Popup.
+- Login-Popup:
+  - Headline: `Bei ChallengeHub anmelden`.
+  - Eingaben: E-Mail und Passwort.
+  - Primaerer Button: `Anmelden`.
+  - Kleingedruckt/Links: `Noch nicht registriert? Registrieren` und
+    `Passwort vergessen?`.
+  - Unten: ChallengeHub-Logo als Vertrauensanker.
 - Challenge wird ueber Slug gefunden.
 - Falls Teilnahme schon existiert, keine Duplikate erzeugen.
 - Neue `participations`-Zeile anlegen.
-- Redirect in Challenge-Raum oder Rueckgabe der Raum-URL.
+- Redirect in Challenge-Raum oder Rueckgabe der Raum-URL
+  `/meine-challenges/[id]`.
 
 Akzeptanz:
 
+- Nicht eingeloggte Nutzer sehen beim Startversuch das Login-Popup.
 - Reload verliert Teilnahme nicht.
 - Teilnahme erscheint in `/meine-challenges`.
 - Ranking kann Teilnahme lesen.
@@ -528,10 +558,12 @@ Verhalten:
 - Pro Teilnahme und Datum nur ein Check-in.
 - Wiederholter Check-in aktualisiert Status/Notiz.
 - Rankingwerte werden berechnet oder Cache-Felder aktualisiert.
+- Verpasste Tage werden automatisch aus Startdatum, aktuellem Datum und
+  vorhandenen Check-ins berechnet.
 
 Akzeptanz:
 
-- Heute kann als erfuellt markiert werden.
+- Heute kann ueber den Button `Challenge heute durchgefuehrt` markiert werden.
 - Nach Reload ist Check-in sichtbar.
 - Streak und Quote aktualisieren sich.
 
@@ -635,17 +667,18 @@ Pflichtkomponenten:
 
 ### 10.1 Ziel
 
-Die offene Dauer-Challenge `Ab heute jeden Tag 30 Minuten lesen` ist mit echten
+Die offene Dauer-Challenge `10.000 Schritte am Tag` ist mit echten
 serverseitigen Daten nutzbar.
 
 ### 10.2 Enthalten
 
 - Kuratierte Challenge mit Typ `open_duration`.
+- Login-Popup fuer nicht eingeloggte Startversuche.
 - Challenge starten per Server Action.
 - Teilnahme in SQLite speichern.
 - `/meine-challenges` liest serverseitige Teilnahmen.
-- Challenge-Raum fuer Teilnahme.
-- Heute einchecken.
+- Challenge-Raum unter `/meine-challenges/[id]` fuer die konkrete Teilnahme.
+- Heute ueber `Challenge heute durchgefuehrt` einchecken.
 - Streak, erfuellte Tage, verpasste Tage, Quote berechnen.
 - Ranking fuer diese Challenge.
 - Detailseite zeigt echte Teilnehmerzahl und Ranking-Vorschau.
@@ -653,7 +686,7 @@ serverseitigen Daten nutzbar.
 ### 10.3 Nicht enthalten
 
 - Proof-Upload.
-- Freund herausfordern.
+- Freund herausfordern; das ist der naechste Slice.
 - Badges.
 - Profilseite ausser minimalem Account-Kontext.
 - Stadt.
@@ -661,13 +694,17 @@ serverseitigen Daten nutzbar.
 
 ### 10.4 Akzeptanzkriterien
 
-- Eingeloggter Nutzer kann `30 Minuten lesen` starten.
+- Nicht eingeloggter Nutzer sieht beim Klick auf `Jetzt teilnehmen` das Login-
+  Popup.
+- Eingeloggter Nutzer kann `10.000 Schritte am Tag` starten.
 - Nach Start existiert genau eine Teilnahme in `participations`.
-- Nutzer landet im Challenge-Raum oder kann ihn direkt aufrufen.
-- Nutzer kann fuer heute `erfuellt` setzen.
+- Nutzer landet im Challenge-Raum `/meine-challenges/[id]` oder kann ihn direkt
+  aufrufen.
+- Nutzer kann fuer heute `Challenge heute durchgefuehrt` setzen.
 - Check-in wird in `check_ins` gespeichert.
 - Nach Reload bleibt Check-in sichtbar.
 - Quote wird korrekt berechnet.
+- Verpasste Tage werden automatisch berechnet.
 - Aktuelle Serie wird korrekt berechnet.
 - Ranking zeigt den Nutzer mit echten Werten.
 - `/meine-challenges` zeigt aktive Challenge mit Link zum Raum.
@@ -679,6 +716,9 @@ serverseitigen Daten nutzbar.
 ### 11.1 Ziel
 
 Ein Nutzer kann einen Freund per Link zur gleichen Challenge einladen.
+
+Dieser Slice folgt erst nach dem Server-MVP fuer Teilnahme, Check-in,
+Challenge-Raum und Ranking.
 
 ### 11.2 Enthalten
 
@@ -833,29 +873,36 @@ Spaeter:
 
 ## 16. Offene Produktentscheidungen
 
-Vor oder waehrend Slice 1 entscheiden:
+Entschieden fuer Slice 1:
 
-1. Exakte erste Challenge: `30 Minuten lesen` bestaetigen oder `10.000 Schritte`.
-2. Soll `Challenge starten` ohne Login erlaubt sein oder immer Login erfordern?
-3. Wie wird `Heute offen` bei Streaks angezeigt?
-4. Werden verpasste Tage explizit gespeichert oder berechnet?
-5. Wird `abgebrochen` manuell gesetzt oder automatisch nach Inaktivitaet?
-6. Welche Begriffe nutzt die UI: `erfuellt`, `geliefert`, `check-in`,
-   `durchgezogen`?
+1. Erste MVP-Challenge: `10.000 Schritte am Tag`.
+2. `Challenge starten` erfordert Login.
+3. Nicht eingeloggte Nutzer sehen ein Login-Popup statt eines Redirects.
+4. Login-Popup:
+   - Headline: `Bei ChallengeHub anmelden`.
+   - Felder: E-Mail und Passwort.
+   - Primaerer Button: `Anmelden`.
+   - Links/Text: `Noch nicht registriert? Registrieren` und
+     `Passwort vergessen?`.
+   - Unten: ChallengeHub-Logo.
+5. Primaerer Check-in-Button: `Challenge heute durchgefuehrt`.
+6. Verpasste Tage werden automatisch berechnet.
+7. Challenge-Raum: `/meine-challenges/[id]`, wobei `id` die Teilnahme-ID ist.
+8. Freund herausfordern / Invite-Link ist der naechste Slice.
 
-Empfehlung:
+Noch offen:
 
-- Fuer den ersten Server-MVP Login verlangen.
-- Verpasste Tage berechnen, nicht taeglich speichern.
-- UI-Begriff: `Heute geliefert` fuer Button, `Check-in` als technischer
-  Sekundaerbegriff.
+1. Wie wird `Heute offen` bei Streaks visuell angezeigt?
+2. Wird `abgebrochen` manuell gesetzt oder automatisch nach Inaktivitaet?
+3. Welche Sekundaerbegriffe nutzt die UI neben dem Hauptbutton:
+   `Check-in`, `erfuellt`, `durchgefuehrt`, `geliefert`?
 
 ## 17. Roadmap
 
 ### Phase A: Fundament finalisieren
 
 - Dieses Pflichtenheft freigeben.
-- Start-Challenge festlegen.
+- Start-Challenge `10.000 Schritte am Tag` fachlich bestaetigen.
 - Rankinglogik final bestaetigen.
 
 ### Phase B: Server-MVP Dauer-Challenge
@@ -869,6 +916,7 @@ Empfehlung:
 
 ### Phase C: Einladungslink
 
+- Naechster Slice nach Phase B.
 - Invite-Modell.
 - Link erzeugen.
 - Link annehmen.
@@ -897,12 +945,14 @@ Empfehlung:
 
 Der Slice gilt als fertig, wenn:
 
-- ein realer eingeloggter Nutzer ohne Entwicklerhilfe eine Dauer-Challenge
+- ein nicht eingeloggter Nutzer beim Startversuch das Login-Popup sieht,
+- ein realer eingeloggter Nutzer ohne Entwicklerhilfe `10.000 Schritte am Tag`
   starten kann,
 - Check-ins serverseitig gespeichert werden,
 - Streak und Quote korrekt berechnet werden,
+- verpasste Tage automatisch berechnet werden,
 - Ranking aus echten Daten entsteht,
-- Challenge-Raum als Arbeitsflaeche existiert,
+- Challenge-Raum unter `/meine-challenges/[id]` als Arbeitsflaeche existiert,
 - `/meine-challenges` den serverseitigen Stand zeigt,
 - Desktop und Mobile per Browser geprueft sind,
 - `npm run lint` und `npm run build` erfolgreich laufen,
