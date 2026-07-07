@@ -791,3 +791,21 @@
   vorerst zur Auth-Seite, weil kein Reset-Flow existiert.
 - Naechster Schritt: Serverseitige Ranking-/Streak-Berechnung fuer die
   10.000-Schritte-Challenge anbinden.
+
+## 2026-07-07 - Server-MVP-Slice 1 deployed
+
+- Ziel: Den neuen serverseitigen Teilnahme-/Check-in-Slice auf die Testdomain
+  deployen.
+- Aenderungen: Commit `dd53e99` nach GitHub `main` gepusht; VPS-Checkout per
+  Fast-Forward aktualisiert; `npm ci` und `npm run build` auf dem Server
+  ausgefuehrt; bestehenden `challengehub`-Service neu gestartet.
+- Verifikation: `https://theovina.de/`, `/challenges`,
+  `/challenges/10000-schritte-am-tag` und `/meine-challenges` liefern HTTP 200;
+  Server steht auf `dd53e99`; Live-Playwright-Test auf Mobile bestaetigt
+  Login-Popup, Registrierung, Challenge-Start, Redirect in
+  `/meine-challenges/[id]`, `Challenge heute durchgefuehrt`-Check-in,
+  `Heute gespeichert`, Quote `100%` und keinen horizontalen Overflow.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde; Ranking
+  und Streak sind noch nicht serverseitig aus Check-ins angebunden.
+- Naechster Schritt: Server-Ranking und Streak-Berechnung aus echten Check-ins
+  umsetzen.
