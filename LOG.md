@@ -828,5 +828,10 @@
   Ranking-Texte.
 - Offene Risiken: Serverseitiges Ranking und Streak-Berechnung sind weiterhin
   der naechste fachliche Schritt.
-- Naechster Schritt: Korrektur bauen, deployen und Live-Seiten auf echte
-  Kennzahlen pruefen.
+- Deploy/Live-Verifikation: Commit `6b87e36` deployed; Server-Build und
+  Service-Restart erfolgreich; live liefern `/`, `/challenges` und
+  `/challenges/10000-schritte-am-tag` HTTP 200; alte Marker `65 Teilnehmer`
+  und `4.8/5` sind live nicht mehr enthalten; Bewertungs-Leerzustand ist
+  sichtbar; Live-DB hat `test_users=0`, `participations=0`, `check_ins=0`.
+- Naechster Schritt: Server-Ranking und Streak-Berechnung aus echten Check-ins
+  umsetzen.
