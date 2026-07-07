@@ -15,11 +15,19 @@ import {
 import styles from "./challenge-hub-app.module.css";
 
 type Dialog = "filter" | null;
-export type SortKey = "standard" | "newest" | "participants" | "rating";
+export type SortKey = "standard" | "newest" | "participants";
 
 const levelOptions: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
 
-export function ChallengeHubApp({ user }: { user: CurrentUser | null }) {
+export function ChallengeHubApp({
+  participantCounts,
+  user
+}: {
+  participantCounts: Record<string, number>;
+  user: CurrentUser | null;
+}) {
+  const stepsParticipants = participantCounts["10000-schritte-am-tag"] ?? 0;
+
   return (
     <>
       <SiteHeader user={user} />
@@ -52,7 +60,7 @@ export function ChallengeHubApp({ user }: { user: CurrentUser | null }) {
             <div className={styles.goalCard}>
               <span>Heute</span>
               <strong>10.000 Schritte am Tag</strong>
-              <small>65 Teilnehmer | 4.8/5 Bewertung</small>
+              <small>{stepsParticipants} echte Starts | Bewertung noch nicht erfasst</small>
             </div>
             <div className={styles.goalCard}>
               <span>30 Tage</span>
@@ -86,6 +94,7 @@ export function ChallengeHubApp({ user }: { user: CurrentUser | null }) {
 }
 
 type ChallengeCatalogAppProps = {
+  participantCounts: Record<string, number>;
   user: CurrentUser | null;
   serverChallenges: DbPublicChallenge[];
   initialSearchQuery?: string;
@@ -93,6 +102,7 @@ type ChallengeCatalogAppProps = {
 };
 
 export function ChallengeCatalogApp({
+  participantCounts,
   user,
   serverChallenges,
   initialSearchQuery = "",
@@ -102,7 +112,6 @@ export function ChallengeCatalogApp({
   const [sortKey, setSortKey] = useState<SortKey>(initialSortKey);
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [selectedLevels, setSelectedLevels] = useState<ChallengeLevel[]>([]);
-  const [minimumRating, setMinimumRating] = useState(0);
   const [userChallenges, setUserChallenges] = useState<UserChallenge[]>([]);
 
   useEffect(() => {
@@ -119,8 +128,7 @@ export function ChallengeCatalogApp({
     const allChallenges = [
       ...serverChallenges.map((challenge) => ({
         ...challenge,
-        participants: 0,
-        rating: 0,
+        participants: participantCounts[challenge.slug] ?? 0,
         duration: `${challenge.durationDays} Tage`,
         isUserCreated: true,
         sourceLabel: `Von ${challenge.creatorName}`
@@ -128,13 +136,13 @@ export function ChallengeCatalogApp({
       ...userChallenges.map((challenge) => ({
         ...challenge,
         participants: 0,
-        rating: 0,
         duration: `${challenge.durationDays} Tage`,
         isUserCreated: true,
         sourceLabel: "Lokale User Challenge"
       })),
       ...challenges.map((challenge) => ({
         ...challenge,
+        participants: participantCounts[challenge.slug] ?? 0,
         category: "Kuratierte Challenge",
         durationDays: undefined,
         isUserCreated: false,
@@ -143,14 +151,13 @@ export function ChallengeCatalogApp({
     ];
     const filtered = allChallenges.filter((challenge) => {
       const levelMatches = selectedLevels.length === 0 || selectedLevels.includes(challenge.level);
-      const ratingMatches = challenge.rating >= minimumRating;
       const searchMatches =
         normalizedSearch.length === 0 ||
         normalizeSearchText(`${challenge.title} ${levelLabels[challenge.level]} ${challenge.category}`).includes(
           normalizedSearch
         );
 
-      return levelMatches && ratingMatches && searchMatches;
+      return levelMatches && searchMatches;
     });
 
     return [...filtered].sort((left, right) => {
@@ -162,13 +169,9 @@ export function ChallengeCatalogApp({
         return right.participants - left.participants;
       }
 
-      if (sortKey === "rating") {
-        return right.rating - left.rating;
-      }
-
       return 0;
     });
-  }, [minimumRating, searchQuery, selectedLevels, sortKey, userChallenges, serverChallenges]);
+  }, [participantCounts, searchQuery, selectedLevels, sortKey, userChallenges, serverChallenges]);
 
   function toggleLevel(level: ChallengeLevel) {
     setSelectedLevels((current) =>
@@ -210,7 +213,6 @@ export function ChallengeCatalogApp({
                 <option value="standard">Standard</option>
                 <option value="newest">Neueste</option>
                 <option value="participants">Teilnehmer</option>
-                <option value="rating">Bewertung</option>
               </select>
             </label>
             <Link className={styles.addButton} href="/challenges/neu">
@@ -229,10 +231,7 @@ export function ChallengeCatalogApp({
                       <Image src="/images/icon_participants.png" width={24} height={24} alt="" />
                       {challenge.participants}
                     </span>
-                    <span>
-                      <Image src="/images/icon_stern.png" width={24} height={24} alt="" />
-                      {challenge.rating.toFixed(1)}/5
-                    </span>
+                    <span>Bewertung offen</span>
                   </div>
                 </article>
               </Link>
@@ -259,17 +258,6 @@ export function ChallengeCatalogApp({
               </label>
             ))}
           </div>
-          <label className={styles.rangeLabel}>
-            Bewertung ab {minimumRating.toFixed(1)}
-            <input
-              type="range"
-              min="0"
-              max="5"
-              step="0.1"
-              value={minimumRating}
-              onChange={(event) => setMinimumRating(Number(event.target.value))}
-            />
-          </label>
           <div className={styles.formRow}>
             <button className={styles.primaryButton} type="button" onClick={() => setDialog(null)}>
               Filter anwenden
@@ -279,7 +267,6 @@ export function ChallengeCatalogApp({
               type="button"
               onClick={() => {
                 setSelectedLevels([]);
-                setMinimumRating(0);
               }}
             >
               Zuruecksetzen

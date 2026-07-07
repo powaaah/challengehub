@@ -8,9 +8,11 @@ import styles from "./user-challenge-detail.module.css";
 
 export function DbChallengeDetail({
   challenge,
+  participantCount,
   user
 }: {
   challenge: DbPublicChallenge;
+  participantCount: number;
   user: CurrentUser | null;
 }) {
   return (
@@ -41,7 +43,7 @@ export function DbChallengeDetail({
         <div className={styles.metrics}>
           <span>{challenge.category}</span>
           <span>{challenge.durationDays} Tage</span>
-          <span>Von {challenge.creatorName}</span>
+          <span>{participantCount} echte Starts</span>
         </div>
       </section>
 

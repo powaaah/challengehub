@@ -28,7 +28,7 @@ export function SiteHeader({ user }: { user: CurrentUser | null }) {
       </button>
       <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Hauptnavigation">
         <Link href="/challenges">Challenges</Link>
-        <Link href="/challenges?sort=rating">Ranking</Link>
+        <Link href="/challenges?sort=participants">Ranking</Link>
         {user ? <ProfileMenu user={user} /> : <Link className={styles.primaryButton} href="/auth">Login</Link>}
       </nav>
     </header>

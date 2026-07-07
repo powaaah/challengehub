@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ChallengeCatalogApp, type SortKey } from "@/components/challenge-hub-app";
 import { getCurrentUser } from "@/lib/auth";
-import { getPublishedChallenges } from "@/lib/db";
+import { getParticipationCountsByChallengeSlug, getPublishedChallenges } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -21,10 +21,12 @@ export default async function ChallengesPage({ searchParams }: ChallengesPagePro
   const { suche = "", sort = "standard" } = await searchParams;
   const initialSortKey = getInitialSortKey(sort);
   const serverChallenges = getPublishedChallenges();
+  const participantCounts = getParticipationCountsByChallengeSlug();
   const user = await getCurrentUser();
 
   return (
     <ChallengeCatalogApp
+      participantCounts={participantCounts}
       user={user}
       serverChallenges={serverChallenges}
       initialSearchQuery={suche}
@@ -34,5 +36,5 @@ export default async function ChallengesPage({ searchParams }: ChallengesPagePro
 }
 
 function getInitialSortKey(value: string): SortKey {
-  return value === "newest" || value === "participants" || value === "rating" ? value : "standard";
+  return value === "newest" || value === "participants" ? value : "standard";
 }

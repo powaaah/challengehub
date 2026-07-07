@@ -10,9 +10,9 @@ import {
   StepsKnowledgeSection
 } from "@/components/steps-challenge-tools";
 import { UserChallengeDetail } from "@/components/user-challenge-detail";
-import { challenges, getChallengeBySlug, levelLabels, type Challenge } from "@/data/challenges";
+import { challenges, getChallengeBySlug, levelLabels } from "@/data/challenges";
 import { getCurrentUser } from "@/lib/auth";
-import { getPublishedChallengeBySlug } from "@/lib/db";
+import { getParticipationCountByChallengeSlug, getPublishedChallengeBySlug } from "@/lib/db";
 import styles from "./page.module.css";
 
 const siteUrl = "https://challengehub.de";
@@ -76,7 +76,13 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
   if (!challenge) {
     const dbChallenge = getPublishedChallengeBySlug(slug);
     if (dbChallenge) {
-      return <DbChallengeDetail challenge={dbChallenge} user={user} />;
+      return (
+        <DbChallengeDetail
+          challenge={dbChallenge}
+          participantCount={getParticipationCountByChallengeSlug(dbChallenge.slug)}
+          user={user}
+        />
+      );
     }
 
     return <UserChallengeDetail slug={slug} user={user} />;
@@ -84,6 +90,7 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
 
   const pageUrl = `${siteUrl}/challenges/${challenge.slug}`;
   const isStepsChallenge = challenge.slug === "10000-schritte-am-tag";
+  const participantCount = getParticipationCountByChallengeSlug(challenge.slug);
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -168,19 +175,16 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
         <div className={styles.metrics} aria-label="Challenge Kennzahlen">
           <span>
             <Image src="/images/icon_participants.png" width={24} height={24} alt="" />
-            {challenge.participants} Teilnehmer
+            {participantCount} Teilnehmer
           </span>
-          <span>
-            <Image src="/images/icon_stern.png" width={24} height={24} alt="" />
-            {challenge.rating.toFixed(1)}/5 Bewertung
-          </span>
+          <span>Bewertung noch nicht erfasst</span>
           <span>{challenge.duration}</span>
         </div>
         </div>
-        <ChallengeRankingPanel challenge={challenge} />
+        <ChallengeRankingPanel participantCount={participantCount} />
       </section>
 
-      <ChallengeStatsBand challenge={challenge} />
+      <ChallengeStatsBand participantCount={participantCount} />
 
       <section className={styles.pulseGrid} aria-label="Challenge Aktivität">
         <RealChallengeMatePanel />
@@ -316,13 +320,13 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
   );
 }
 
-function ChallengeStatsBand({ challenge }: { challenge: Challenge }) {
-  const hasCatalogParticipants = challenge.participants > 0;
+function ChallengeStatsBand({ participantCount }: { participantCount: number }) {
+  const hasParticipants = participantCount > 0;
   const items = [
     {
       label: "Gestartet",
-      value: hasCatalogParticipants ? challenge.participants.toString() : "0",
-      note: hasCatalogParticipants ? "Teilnehmer" : "noch keine Starts"
+      value: participantCount.toString(),
+      note: hasParticipants ? "echte Starts" : "noch keine echten Starts"
     },
     {
       label: "30 Tage geschafft",
@@ -354,7 +358,7 @@ function ChallengeStatsBand({ challenge }: { challenge: Challenge }) {
   );
 }
 
-function ChallengeRankingPanel({ challenge }: { challenge: Challenge }) {
+function ChallengeRankingPanel({ participantCount }: { participantCount: number }) {
   return (
     <article className={`${styles.pulsePanel} ${styles.heroRanking}`} aria-labelledby="challenge-ranking">
       <div className={styles.panelHeader}>
@@ -365,8 +369,7 @@ function ChallengeRankingPanel({ challenge }: { challenge: Challenge }) {
       </div>
       <ChallengeRankingTable
         challenge={{
-          slug: challenge.slug,
-          participants: challenge.participants
+          participants: participantCount
         }}
       />
     </article>

@@ -809,3 +809,24 @@
   und Streak sind noch nicht serverseitig aus Check-ins angebunden.
 - Naechster Schritt: Server-Ranking und Streak-Berechnung aus echten Check-ins
   umsetzen.
+
+## 2026-07-07 - Echte Daten fuer sichtbare Challenge-Kennzahlen
+
+- Ziel: Stefans Hinweis korrigieren, dass keine Test- oder statischen Fake-
+  Werte als echte Challenge-Daten erscheinen duerfen.
+- Aenderungen: Live-Testaccount `deploy-...@example.test` aus der VPS-DB
+  entfernt; durch Cascades wurden dessen Participation und Check-in ebenfalls
+  entfernt; lokale Testaccounts entfernt; sichtbare Teilnehmerzahlen auf echte
+  DB-Counts aus `participations` umgestellt; statische Bewertungszahlen aus
+  Hero, Katalog, Startseite und Sortierung entfernt; Hero-Ranking liest nicht
+  mehr aus LocalStorage, sondern zeigt bis zur Server-Ranking-Anbindung einen
+  ehrlichen Leerzustand.
+- Verifikation: VPS-DB vor Cleanup nach `/home/stefan/backups/challengehub/`
+  gesichert; nach Cleanup keine Test-User, keine Test-Participations und keine
+  Test-Check-ins in der Live-DB; `rg` findet keine alten sichtbaren Fake-Marker
+  wie `65 Teilnehmer`, `4.8/5`, `Bewertung ab`, `sort=rating` oder lokale
+  Ranking-Texte.
+- Offene Risiken: Serverseitiges Ranking und Streak-Berechnung sind weiterhin
+  der naechste fachliche Schritt.
+- Naechster Schritt: Korrektur bauen, deployen und Live-Seiten auf echte
+  Kennzahlen pruefen.

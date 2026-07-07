@@ -261,6 +261,39 @@ export function getParticipationsForUser(userId: string) {
   return rows.map(mapParticipationRow);
 }
 
+export function getParticipationCountByChallengeSlug(slug: string) {
+  const row = getDb()
+    .prepare(
+      `
+      SELECT COUNT(participations.id) as count
+      FROM challenges
+      LEFT JOIN participations ON participations.challenge_id = challenges.id
+      WHERE challenges.slug = ?
+    `
+    )
+    .get(slug) as { count: number } | undefined;
+
+  return row?.count ?? 0;
+}
+
+export function getParticipationCountsByChallengeSlug() {
+  const rows = getDb()
+    .prepare(
+      `
+      SELECT challenges.slug, COUNT(participations.id) as count
+      FROM challenges
+      LEFT JOIN participations ON participations.challenge_id = challenges.id
+      GROUP BY challenges.slug
+    `
+    )
+    .all() as Array<{ slug: string; count: number }>;
+
+  return rows.reduce<Record<string, number>>((counts, row) => {
+    counts[row.slug] = row.count;
+    return counts;
+  }, {});
+}
+
 export function getCheckInDatesForParticipation(input: { participationId: string; userId: string }) {
   const rows = getDb()
     .prepare(
