@@ -37,6 +37,7 @@ Stand: 2026-07-04
 - [x] Produktentscheidungen fuer Server-MVP dokumentieren: 10.000 Schritte, Login-Popup, Check-in-Button, automatische Fehl-Tage, Challenge-Raum und Invite-Slice.
 - [x] Server-MVP-Slice 1 umsetzen: Login-Popup, serverseitiger Start der 10.000-Schritte-Challenge, Challenge-Raum und heutiger Check-in.
 - [x] Testdaten bereinigen und sichtbare Katalog-Kennzahlen auf echte Teilnehmerzahlen bzw. ehrliche Leerzustaende umstellen.
+- [x] Login-Popup auf Challenge-Seiten optisch bereinigen.
 
 ## Later
 

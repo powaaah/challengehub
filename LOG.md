@@ -835,3 +835,20 @@
   sichtbar; Live-DB hat `test_users=0`, `participations=0`, `check_ins=0`.
 - Naechster Schritt: Server-Ranking und Streak-Berechnung aus echten Check-ins
   umsetzen.
+
+## 2026-07-07 - Login-Popup optisch bereinigt
+
+- Ziel: Den Login-Dialog auf Challenge-Seiten deutlich ruhiger und hochwertiger
+  gestalten.
+- Aenderungen: Close-Button von grosser blauer Flaeche auf kleines Icon
+  reduziert; Modal schmaler und kompakter gemacht; Header mit Logo, Kicker,
+  Headline und Intro sauber gruppiert; Formularfelder und Anmeldebutton
+  konsistenter gestaltet; Modal-Regeln gegen die allgemeinere Hero-Button-CSS-
+  Regel abgeschirmt.
+- Verifikation: `npm run lint`, `npm run build`; lokaler Production-Server auf
+  Port 3013; Playwright-Check auf 1366px und 390px bestaetigt sichtbaren Dialog,
+  keinen horizontalen Overflow und Close-Button mit 34x34px statt blauem
+  Hero-Button; Mobile-Screenshot unter `output/playwright/login-modal-mobile.png`.
+- Offene Risiken: Kein Passwort-Reset-Flow vorhanden; der Link fuehrt weiter
+  zur Auth-Seite.
+- Naechster Schritt: UI-Korrektur deployen.

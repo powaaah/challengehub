@@ -52,16 +52,22 @@ export function ChallengeStart({ challenge, isAuthenticated, loginNext }: Challe
             aria-labelledby="login-challenge-title"
             onMouseDown={(event) => event.stopPropagation()}
           >
-            <button className={styles.closeButton} type="button" onClick={() => setIsLoginOpen(false)}>
-              x
+            <button
+              className={styles.closeButton}
+              type="button"
+              aria-label="Anmeldedialog schliessen"
+              onClick={() => setIsLoginOpen(false)}
+            >
+              ×
             </button>
-            <Image className={styles.modalLogo} src="/logo.png" width={154} height={50} alt="ChallengeHub" />
-            <p className={styles.kicker}>Teilnahme freischalten</p>
-            <h2 id="login-challenge-title">Bei ChallengeHub anmelden</h2>
-            <p className={styles.loginIntro}>
-              Melde dich an, um an {challenge.title} teilzunehmen und deinen Fortschritt unter Meine Challenges
-              zu speichern.
-            </p>
+            <div className={styles.loginHeader}>
+              <Image className={styles.modalLogo} src="/logo.png" width={154} height={50} alt="ChallengeHub" />
+              <p className={styles.kicker}>Teilnahme freischalten</p>
+              <h2 id="login-challenge-title">Bei ChallengeHub anmelden</h2>
+              <p className={styles.loginIntro}>
+                Melde dich an, um an {challenge.title} teilzunehmen und deinen Fortschritt zu speichern.
+              </p>
+            </div>
             <form className={styles.loginForm} action={loginFormAction}>
               <input type="hidden" name="next" value={loginNext} />
               {loginState.error && <p className={styles.error}>{loginState.error}</p>}
