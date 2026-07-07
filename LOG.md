@@ -715,3 +715,21 @@
   befuellt; globale Plaetze, Staedte und andere Personen warten auf echte
   serverseitige Check-in-/Profil-Daten.
 - Naechster Schritt: Visuelle Abnahme und danach deployen.
+
+## 2026-07-07 - Pflichtenheft aus ChallengeHub-Lastenheft abgeleitet
+
+- Ziel: Das Produkt-Lastenheft in einen konkreten Umsetzungsplan fuer den
+  bestehenden Next.js-/SQLite-Stand uebersetzen.
+- Aenderungen: `challengehub-pflichtenheft.md` erstellt; bestehende Basis,
+  MVP-Scope, Informationsarchitektur, Datenmodell-Erweiterungen, Server Actions,
+  Challenge-Raum, Rankinglogik, Slices, Akzeptanzkriterien, Migration vom
+  LocalStorage-MVP und Definition of Done dokumentiert; `TODOS.md` um
+  Pflichtenheft-Abschluss und naechsten Server-MVP-Slice ergaenzt.
+- Verifikation: Dokument gegen `challengehub-lastenheft.md`, aktuelles
+  `lib/db.ts`, `lib/auth.ts`, Challenge-Detailseiten und lokale
+  Check-in-Komponenten abgeglichen.
+- Offene Risiken: `challengehub-lastenheft.md` ist neu im Projektordner und
+  sollte mit dem Pflichtenheft versioniert werden; die letzten UI-/Ranking-
+  Commits sind weiterhin lokal ahead und noch nicht deployed.
+- Naechster Schritt: Pflichtenheft fachlich abnehmen, danach Server-MVP-Slice
+  fuer offene Dauer-Challenge beginnen.

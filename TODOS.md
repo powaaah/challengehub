@@ -33,6 +33,7 @@ Stand: 2026-07-04
 - [x] Teilnahme-/Durchhaltewerte als kompakte Kennzahlen-Leiste unter dem Hero darstellen.
 - [x] Challenge-Hero als neutrale 2/3-1/3-Flaeche mit Ranking neben dem CTA umsetzen.
 - [x] Ranking im Hero als Tabelle mit echter lokaler Durchfuehrungsquote seit Start darstellen.
+- [x] Pflichtenheft aus `challengehub-lastenheft.md` fuer die Umsetzung im bestehenden Projekt ableiten.
 
 ## Later
 
@@ -44,6 +45,7 @@ Stand: 2026-07-04
 - [ ] Teilnahme-Flow fuer `Challenge starten` fachlich klaeren und anbinden.
 - [ ] Lokalen Teilnahme-MVP spaeter durch echte Auth-/Datenbankpersistenz ersetzen.
 - [ ] Echte serverseitige Teilnahme-, Check-in-, Streak- und Durchhaltequoten fuer Challenge-Seiten anbinden.
+- [ ] Server-MVP fuer offene Dauer-Challenge umsetzen: Challenge starten, Check-in, Challenge-Raum, Ranking und `/meine-challenges` ohne LocalStorage.
 - [ ] Challenge-Unterseiten bewusst schlank halten: Starten, Ranking, Challenge Mate, echter Aktivitaetsfeed und SEO-Infoteil; Reminder, Verlauf/Heatmap, persoenlicher Fortschritt und Freund-herausfordern gehoeren in `Meine Challenges`.
 - [x] Header-Navigation anpassen: `Wissen` entfernen und eingeloggtes Profilmenue einbauen.
 - [x] `Challenge Mate finden` als vorbereitete eingeloggte Route planen/umsetzen.
