@@ -895,3 +895,20 @@
   aus serverseitigen Check-ins berechnet werden.
 - Naechster Schritt: Mit echten Ranking-Daten kann die Tabelle deutlich mehr
   soziale Spannung erzeugen.
+
+## 2026-07-08 - 10.000-Schritte-Detailseite weiter entschlackt
+
+- Ziel: Die Challenge-Detailseite weniger ueberladen machen und die Headline
+  auf maximal zwei Zeilen begrenzen.
+- Aenderungen: Hero auf Titel, direkte Challenge-Erklaerung und zwei CTAs
+  reduziert; rechte Wettkampfbox, Kennzahlenleiste und separates Regeln-Panel
+  entfernt; Beschreibung fuer die 10.000-Schritte-Challenge neu formuliert;
+  Detailseiten-H1 und H2 per CSS auf maximal zwei Zeilen begrenzt.
+- Verifikation: `npm run lint`; `npm run build`; lokaler Production-Smoke-Test
+  auf 1366px und 390px fuer `/challenges/10000-schritte-am-tag` ohne
+  horizontalen Overflow; H1 auf Desktop 1 Zeile und Mobile 2 Zeilen; alle H2
+  maximal 2 Zeilen; entfernte Panels nicht mehr im DOM.
+- Offene Risiken: Ranking bleibt bis zur Server-Ranking-Anbindung ein echter
+  Leerzustand.
+- Naechster Schritt: Seite nach Stefans visuellem Feedback ggf. noch weiter
+  kuerzen, bevor echte Ranking-Daten eingebaut werden.

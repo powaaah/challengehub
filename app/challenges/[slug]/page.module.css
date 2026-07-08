@@ -6,7 +6,7 @@
 }
 
 .hero,
-.competitionSection,
+.rankingSection,
 .seoContent {
   width: min(var(--content-width), calc(100% - (var(--page-gutter) * 2)));
   margin-right: auto;
@@ -14,20 +14,17 @@
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(250px, 0.34fr);
-  gap: clamp(1rem, 3vw, 2rem);
-  align-items: stretch;
   margin-top: 1rem;
   border: 1px solid rgba(20, 42, 55, 0.1);
   border-top: 4px solid var(--brand);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.78);
-  padding: clamp(1.25rem, 3.5vw, 2.6rem);
+  padding: clamp(1.25rem, 3.2vw, 2.35rem);
   box-shadow: 0 18px 60px rgba(18, 34, 52, 0.08);
 }
 
 .heroMain {
+  max-width: 50rem;
   min-width: 0;
 }
 
@@ -51,21 +48,34 @@
 }
 
 .hero h1 {
-  max-width: 11ch;
+  display: -webkit-box;
+  max-width: 19ch;
+  overflow: hidden;
   margin: 0;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   color: var(--background-deep);
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 6.4vw, 5.4rem);
-  line-height: 0.92;
+  font-size: clamp(3rem, 5.4vw, 4.7rem);
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+.question {
+  margin: 1.25rem 0 0;
+  color: var(--background-deep);
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  font-weight: 850;
+  line-height: 1.25;
 }
 
 .description {
-  max-width: 44rem;
-  margin: 1rem 0 0;
+  max-width: 48rem;
+  margin: 0.5rem 0 0;
   color: var(--text);
-  font-size: clamp(1.08rem, 1.6vw, 1.25rem);
+  font-size: clamp(1rem, 1.35vw, 1.16rem);
   font-weight: 650;
-  line-height: 1.5;
+  line-height: 1.65;
 }
 
 .heroActions {
@@ -115,101 +125,14 @@
   line-height: 1.45;
 }
 
-.heroStats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.65rem;
-  max-width: 42rem;
-  margin-top: 1.35rem;
-}
-
-.heroStats article {
-  min-width: 0;
-  border: 1px solid rgba(20, 42, 55, 0.1);
-  border-radius: 8px;
-  background: #f7f8f9;
-  padding: 0.8rem 0.9rem;
-}
-
-.heroStats span,
-.scoreCard span {
-  display: block;
-  color: var(--text-muted);
-  font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.heroStats strong {
-  display: block;
-  margin-top: 0.25rem;
-  color: var(--background-deep);
-  font-size: clamp(1.5rem, 3vw, 2.15rem);
-  line-height: 1;
-}
-
-.scoreCard {
-  display: flex;
-  align-self: center;
-  min-height: auto;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 8px;
-  background:
-    linear-gradient(180deg, rgba(0, 137, 179, 0.08), rgba(255, 255, 255, 0) 68%),
-    #ffffff;
-  padding: clamp(1rem, 3vw, 1.5rem);
-  box-shadow: inset 0 0 0 1px rgba(20, 42, 55, 0.1);
-}
-
-.scoreCard strong {
-  display: block;
-  margin-top: 2rem;
-  color: var(--background-deep);
-  font-size: clamp(4rem, 8vw, 6.5rem);
-  line-height: 0.88;
-}
-
-.scoreCard p:not(.eyebrow) {
-  margin: 0.8rem 0 1rem;
-  color: var(--text);
-  font-weight: 750;
-  line-height: 1.35;
-}
-
-.scoreCard a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 42px;
-  border-radius: 8px;
-  background: var(--background-deep);
-  color: white;
-  padding: 0.7rem 0.85rem;
-  font-weight: 800;
-  text-align: center;
-}
-
-.competitionSection {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.38fr);
-  gap: 1rem;
-  align-items: start;
+.rankingSection {
   margin-top: 1rem;
-}
-
-.rankingSection,
-.rulesPanel {
+  min-width: 0;
   border: 1px solid rgba(20, 42, 55, 0.1);
   border-radius: 8px;
   background: var(--surface);
-  box-shadow: 0 14px 42px rgba(18, 34, 52, 0.06);
-}
-
-.rankingSection {
-  min-width: 0;
   padding: clamp(1rem, 3vw, 1.5rem);
+  box-shadow: 0 14px 42px rgba(18, 34, 52, 0.06);
 }
 
 .sectionHeader {
@@ -221,9 +144,13 @@
 }
 
 .sectionHeader h2,
-.rulesPanel h2,
 .textPanel h2 {
+  display: -webkit-box;
+  max-width: 24ch;
+  overflow: hidden;
   margin: 0;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   color: var(--background-deep);
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3.2rem);
@@ -231,37 +158,11 @@
 }
 
 .sectionHeader p:not(.eyebrow),
-.rulesPanel p:not(.eyebrow),
 .textPanel > p:not(.eyebrow) {
   margin: 0;
   color: var(--text-muted);
   font-weight: 650;
   line-height: 1.6;
-}
-
-.rulesPanel {
-  position: sticky;
-  top: 5.5rem;
-  padding: clamp(1rem, 3vw, 1.5rem);
-}
-
-.rulesPanel h2 {
-  font-size: clamp(1.45rem, 2.2vw, 2rem);
-  line-height: 1.08;
-}
-
-.rulesPanel p:not(.eyebrow) {
-  margin-top: 0.8rem;
-}
-
-.rulesPanel ol {
-  display: grid;
-  gap: 0.8rem;
-  margin: 1.25rem 0 0;
-  padding-left: 1.2rem;
-  color: var(--text);
-  font-weight: 750;
-  line-height: 1.55;
 }
 
 .seoContent {
@@ -284,31 +185,8 @@
 }
 
 @media (max-width: 900px) {
-  .hero,
-  .competitionSection,
   .sectionHeader {
     grid-template-columns: 1fr;
-  }
-
-  .scoreCard {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.4rem 1rem;
-    align-items: end;
-  }
-
-  .scoreCard .eyebrow,
-  .scoreCard p,
-  .scoreCard a {
-    grid-column: 1 / -1;
-  }
-
-  .scoreCard strong {
-    margin-top: 0.25rem;
-  }
-
-  .rulesPanel {
-    position: static;
   }
 }
 
@@ -322,21 +200,13 @@
   }
 
   .hero h1 {
-    max-width: none;
-    font-size: clamp(3rem, 18vw, 4rem);
+    max-width: 13ch;
+    font-size: clamp(2.75rem, 14vw, 3.85rem);
   }
 
   .heroActions button,
   .heroActions a {
     width: 100%;
     min-width: 0;
-  }
-
-  .heroStats {
-    grid-template-columns: 1fr;
-  }
-
-  .scoreCard {
-    grid-template-columns: 1fr;
   }
 }

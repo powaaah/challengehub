@@ -40,6 +40,7 @@ Stand: 2026-07-08
 - [x] Login-Popup auf Challenge-Seiten optisch bereinigen.
 - [x] Challenge-Detailseiten radikal vereinfachen: Hero, Regeln, Top-10-Ranking und SEO-Info; aktive Teilnahme nur fuer `10.000 Schritte am Tag`.
 - [x] Challenge-Detailseiten optisch als kompakte Wettbewerbsseite mit Scoreboard-Hero, Ranking-Hauptmodul und Regeln-Nebenpanel nachschaerfen.
+- [x] Detailseite `10.000 Schritte am Tag` weiter entschlacken: Hero-Text direkt unter die Headline, rechte Panels und Kennzahlen entfernen, Headlines auf maximal zwei Zeilen begrenzen.
 
 ## Later
 

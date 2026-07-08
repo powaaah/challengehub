@@ -84,9 +84,9 @@ export const challenges: Challenge[] = [
     rating: 4.8,
     createdAt: "2023-08-01",
     duration: "Dauerhaft",
-    goal: "Jeden Tag 10.000 Schritte vollmachen.",
-    description: "Zeig, dass du diszipliniert bist: Lauf einfach jeden Tag deine 10.000 Schritte. Heute erst 8.000? Dann geh noch eine Runde und mach die 10.000 voll.",
-    seoDescription: "Starte die 10.000 Schritte am Tag Challenge: jeden Tag Schritte vollmachen, Streak halten, Ranking knacken und praktische Rechner nutzen.",
+    goal: "Jeden Tag 10.000 Schritte.",
+    description: "Laufe jeden Tag 10.000 Schritte. Egal ob auf dem Laufband, beim Joggen, im Fussballtraining oder auf einer Extrarunde am Abend: Nimm deinen Schrittzaehler, erreiche die 10.000 und hak den Tag ab. Es klingt einfach. Aber jeden Tag 10.000 Schritte, ohne Ausrede.",
+    seoDescription: "Starte die 10.000 Schritte am Tag Challenge: jeden Tag 10.000 Schritte erreichen, abhaken, Streak halten und dich im Ranking messen.",
     tips: ["Checke deinen Stand am Nachmittag, nicht erst kurz vor Mitternacht.", "Speichere dir eine feste Abendrunde für fehlende Schritte.", "Mach Telefonate im Gehen.", "Steig eine Haltestelle früher aus oder parke weiter weg.", "Wenn noch 2.000 Schritte offen sind: Schuhe an und Runde fertig machen."],
     faq: [
       { question: "Zählen Schritte aus dem Alltag?", answer: "Ja, alle Schritte zählen: Spaziergang, Arbeitsweg, Einkauf, Treppen und die kleine Extrarunde am Abend." },
