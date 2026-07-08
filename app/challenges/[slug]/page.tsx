@@ -164,42 +164,57 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
                 Der echte Teilnahme-Flow ist aktuell nur fuer die 10.000-Schritte-Challenge aktiv.
               </p>
             )}
+            <div className={styles.heroStats} aria-label="Challenge Kennzahlen">
+              <article>
+                <span>Teilnehmer</span>
+                <strong>{participantCount}</strong>
+              </article>
+              <article>
+                <span>Bester Streak</span>
+                <strong>-</strong>
+              </article>
+              <article>
+                <span>30 Tage</span>
+                <strong>-</strong>
+              </article>
+            </div>
           </div>
 
-          <aside className={styles.heroAside} aria-label="Challenge Stand">
-            <span>Teilnehmer</span>
+          <aside className={styles.scoreCard} aria-label="Challenge Stand">
+            <p className={styles.eyebrow}>Wettkampf</p>
             <strong>{participantCount}</strong>
-            <small>Wer haelt am laengsten durch?</small>
+            <span>aktive Teilnehmer</span>
+            <p>Wer haelt am laengsten durch?</p>
+            <Link href="#challenge-ranking">Ranking ansehen</Link>
           </aside>
         </section>
 
-        <section className={styles.rulesSection} aria-labelledby="challenge-rules">
-          <div className={styles.sectionIntro}>
+        <section className={styles.competitionSection} aria-label="Challenge Wettbewerb">
+          <div className={styles.rankingSection}>
+            <div className={styles.sectionHeader}>
+              <div>
+                <p className={styles.eyebrow}>Ranking</p>
+                <h2 id="challenge-ranking">Top 10</h2>
+              </div>
+              <p>Die wichtigste Frage: Wer hat bisher wie lange durchgehalten?</p>
+            </div>
+            <ChallengeRankingTable
+              challenge={{
+                participants: participantCount
+              }}
+            />
+          </div>
+
+          <aside className={styles.rulesPanel} aria-labelledby="challenge-rules">
             <p className={styles.eyebrow}>Regeln</p>
             <h2 id="challenge-rules">{challenge.goal}</h2>
             <p>{challenge.description}</p>
-          </div>
-          <div className={styles.rulesList}>
-            <p className={styles.eyebrow}>Regeln</p>
             <ol>
               {challenge.rules.map((rule) => (
                 <li key={rule}>{rule}</li>
               ))}
             </ol>
-          </div>
-        </section>
-
-        <section className={styles.rankingSection} aria-labelledby="challenge-ranking">
-          <div className={styles.sectionHeader}>
-            <p className={styles.eyebrow}>Ranking</p>
-            <h2 id="challenge-ranking">Top 10</h2>
-            <p>Die wichtigste Frage: Wer hat bisher wie lange durchgehalten?</p>
-          </div>
-          <ChallengeRankingTable
-            challenge={{
-              participants: participantCount
-            }}
-          />
+          </aside>
         </section>
 
         <section className={styles.seoContent} aria-labelledby="challenge-info">

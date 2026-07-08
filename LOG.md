@@ -879,3 +879,19 @@
   berechnet werden.
 - Naechster Schritt: Server-Ranking fuer die 10.000-Schritte-Challenge aus
   echten Check-ins ableiten.
+
+## 2026-07-08 - Challenge-Detailseiten optisch nachgeschaerft
+
+- Ziel: Die stark bereinigte Challenge-Seite visuell ansprechender machen,
+  ohne wieder in bunte, ablenkende Module zurueckzufallen.
+- Aenderungen: Hero in eine kompakte Scoreboard-Flaeche mit klarer CTA-Zone,
+  Kennzahlen und Wettbewerbsbox umgebaut; Ranking als primaeres Modul mit
+  besserem Leerzustand gestaltet; Regeln als kompaktes Nebenpanel gesetzt;
+  SEO-Info optisch weiter nachrangig gehalten; Tabellenstil verdichtet.
+- Verifikation: `npm run lint`, `npm run build`; lokaler Browser-Smoke-Test
+  auf 1366px und 390px fuer `/challenges/100-burpees-pro-tag` ohne
+  horizontalen Overflow, mit sichtbarem `Top 10` und `Ranking ansehen`.
+- Offene Risiken: Echte Ranking-Daten/Streaks/Quoten fehlen weiterhin, bis sie
+  aus serverseitigen Check-ins berechnet werden.
+- Naechster Schritt: Mit echten Ranking-Daten kann die Tabelle deutlich mehr
+  soziale Spannung erzeugen.

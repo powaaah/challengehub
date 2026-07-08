@@ -11,7 +11,12 @@ export function ChallengeRankingTable({ challenge }: ChallengeRankingTableProps)
 
   return (
     <div className={styles.rankingBox}>
-      {challenge.participants === 0 && <p className={styles.emptyHint}>Sei der Erste in dieser Challenge.</p>}
+      {challenge.participants === 0 && (
+        <div className={styles.emptyHint}>
+          <strong>Sei der Erste.</strong>
+          <span>Noch hat niemand einen echten Streak gespeichert.</span>
+        </div>
+      )}
       <table className={styles.table}>
         <thead>
           <tr>
@@ -25,7 +30,7 @@ export function ChallengeRankingTable({ challenge }: ChallengeRankingTableProps)
           {rows.map((rank) => (
             <tr key={rank}>
               <td>{rank}</td>
-              <td>-</td>
+              <td>{rank === 1 && challenge.participants === 0 ? "frei" : "-"}</td>
               <td>-</td>
               <td>-</td>
             </tr>
