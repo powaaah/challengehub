@@ -912,3 +912,10 @@
   Leerzustand.
 - Naechster Schritt: Seite nach Stefans visuellem Feedback ggf. noch weiter
   kuerzen, bevor echte Ranking-Daten eingebaut werden.
+- Deploy: Commit `d70658d` nach GitHub `main` gepusht; VPS-Checkout
+  `/home/stefan/projects/challengehub` per Fast-Forward aktualisiert;
+  `npm ci`, `npm run build` und `docker compose restart challengehub`
+  erfolgreich. Live auf `https://theovina.de/challenges/10000-schritte-am-tag`
+  geprueft: HTTP 200, neuer Challenge-Text sichtbar, H1 Desktop 1 Zeile und
+  Mobile 2 Zeilen, H2 maximal 2 Zeilen, keine entfernten Panels und kein
+  horizontaler Overflow.
