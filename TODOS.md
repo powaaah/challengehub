@@ -1,6 +1,6 @@
 # ChallengeHub.de Todos
 
-Stand: 2026-07-04
+Stand: 2026-07-08
 
 ## Active
 
@@ -38,6 +38,7 @@ Stand: 2026-07-04
 - [x] Server-MVP-Slice 1 umsetzen: Login-Popup, serverseitiger Start der 10.000-Schritte-Challenge, Challenge-Raum und heutiger Check-in.
 - [x] Testdaten bereinigen und sichtbare Katalog-Kennzahlen auf echte Teilnehmerzahlen bzw. ehrliche Leerzustaende umstellen.
 - [x] Login-Popup auf Challenge-Seiten optisch bereinigen.
+- [x] Challenge-Detailseiten radikal vereinfachen: Hero, Regeln, Top-10-Ranking und SEO-Info; aktive Teilnahme nur fuer `10.000 Schritte am Tag`.
 
 ## Later
 

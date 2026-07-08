@@ -54,6 +54,7 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
         <div className={styles.heroActions}>
           <ChallengeStart
             isAuthenticated={Boolean(user)}
+            isAvailable={false}
             loginNext={`/challenges/${challenge.slug}`}
             challenge={{
               slug: challenge.slug,
@@ -96,6 +97,7 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
           </div>
           <ChallengeStart
             isAuthenticated={Boolean(user)}
+            isAvailable={false}
             loginNext={`/challenges/${challenge.slug}`}
             challenge={{
               slug: challenge.slug,

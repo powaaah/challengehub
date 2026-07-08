@@ -29,13 +29,13 @@ export async function createChallengeAction(
 
   if (!title || !category || !goal || !description || rules.length === 0) {
     return {
-      error: "Titel, Kategorie, Ziel, Beschreibung und mindestens eine Regel sind Pflicht."
+      error: "Titel, Kategorie, Aufgabe, Beschreibung und mindestens eine Regel sind Pflicht."
     };
   }
 
   if (!allowedLevels.includes(level) || !Number.isInteger(durationDays) || durationDays < 1 || durationDays > 365) {
     return {
-      error: "Bitte waehle eine gueltige Schwierigkeit und eine Dauer zwischen 1 und 365 Tagen."
+      error: "Bitte waehle einen gueltigen Challenge-Typ und eine Dauer zwischen 1 und 365 Tagen."
     };
   }
 

@@ -63,7 +63,7 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
             <input name="title" value={title} maxLength={80} onChange={(event) => setTitle(event.target.value)} />
           </label>
           <label>
-            Ziel
+            Aufgabe
             <input name="goal" value={goal} maxLength={140} onChange={(event) => setGoal(event.target.value)} />
           </label>
           <label>
@@ -87,7 +87,7 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
               </select>
             </label>
             <label>
-              Schwierigkeit
+              Challenge-Typ
               <select name="level" value={level} onChange={(event) => setLevel(event.target.value as ChallengeLevel)}>
                 {levelOptions.map((option) => (
                   <option value={option} key={option}>

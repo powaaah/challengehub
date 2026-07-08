@@ -10,6 +10,7 @@ import styles from "./challenge-start.module.css";
 
 type ChallengeStartProps = {
   isAuthenticated: boolean;
+  isAvailable?: boolean;
   loginNext: string;
   challenge: {
     slug: string;
@@ -24,9 +25,17 @@ const initialLoginState = {
   error: ""
 };
 
-export function ChallengeStart({ challenge, isAuthenticated, loginNext }: ChallengeStartProps) {
+export function ChallengeStart({ challenge, isAuthenticated, isAvailable = true, loginNext }: ChallengeStartProps) {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loginState, loginFormAction] = useActionState(loginAction, initialLoginState);
+
+  if (!isAvailable) {
+    return (
+      <button className={styles.startButton} type="button" disabled>
+        Bald verfuegbar
+      </button>
+    );
+  }
 
   if (isAuthenticated) {
     return (
@@ -58,7 +67,7 @@ export function ChallengeStart({ challenge, isAuthenticated, loginNext }: Challe
               aria-label="Anmeldedialog schliessen"
               onClick={() => setIsLoginOpen(false)}
             >
-              ×
+              x
             </button>
             <div className={styles.loginHeader}>
               <Image className={styles.modalLogo} src="/logo.png" width={154} height={50} alt="ChallengeHub" />

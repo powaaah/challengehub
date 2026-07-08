@@ -60,7 +60,7 @@ export function ChallengeHubApp({
             <div className={styles.goalCard}>
               <span>Heute</span>
               <strong>10.000 Schritte am Tag</strong>
-              <small>{stepsParticipants} echte Starts | Bewertung noch nicht erfasst</small>
+              <small>{stepsParticipants} Teilnehmer</small>
             </div>
             <div className={styles.goalCard}>
               <span>30 Tage</span>
@@ -189,7 +189,7 @@ export function ChallengeCatalogApp({
           <h1>Finde deine nächste Challenge</h1>
           <p>
             Suche nach kuratierten und öffentlichen Challenges, filtere nach Level
-            und starte die Aufgabe, die zu deinem Ziel passt.
+            und starte die Aufgabe, bei der du dich messen willst.
           </p>
         </section>
 
@@ -231,7 +231,7 @@ export function ChallengeCatalogApp({
                       <Image src="/images/icon_participants.png" width={24} height={24} alt="" />
                       {challenge.participants}
                     </span>
-                    <span>Bewertung offen</span>
+                    <span>{challenge.duration}</span>
                   </div>
                 </article>
               </Link>
@@ -246,7 +246,7 @@ export function ChallengeCatalogApp({
       {dialog === "filter" && (
         <Modal title="Filter" onClose={() => setDialog(null)}>
           <div className={styles.filterGroup}>
-            <strong>Schwierigkeitsgrad:</strong>
+            <strong>Challenge-Typ:</strong>
             {levelOptions.map((level) => (
               <label className={styles.checkbox} key={level}>
                 <input

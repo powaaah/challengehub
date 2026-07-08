@@ -29,6 +29,7 @@ export function DbChallengeDetail({
         <div className={styles.heroActions}>
           <ChallengeStart
             isAuthenticated={Boolean(user)}
+            isAvailable={false}
             loginNext={`/challenges/${challenge.slug}`}
             challenge={{
               slug: challenge.slug,
@@ -71,6 +72,7 @@ export function DbChallengeDetail({
           </div>
           <ChallengeStart
             isAuthenticated={Boolean(user)}
+            isAvailable={false}
             loginNext={`/challenges/${challenge.slug}`}
             challenge={{
               slug: challenge.slug,

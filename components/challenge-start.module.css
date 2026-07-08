@@ -19,6 +19,9 @@
 
 .startButton:disabled {
   cursor: not-allowed;
+  background: #d7dde1;
+  color: #5d6b75;
+  box-shadow: none;
   opacity: 0.55;
 }
 

@@ -7,39 +7,31 @@ type ChallengeRankingTableProps = {
 };
 
 export function ChallengeRankingTable({ challenge }: ChallengeRankingTableProps) {
+  const rows = Array.from({ length: 10 }, (_, index) => index + 1);
+
   return (
     <div className={styles.rankingBox}>
-      <div className={styles.summary}>
-        <article>
-          <span>Gestartet</span>
-          <strong>{challenge.participants}</strong>
-        </article>
-        <article>
-          <span>Ranking</span>
-          <strong>{challenge.participants > 0 ? "im Aufbau" : "-"}</strong>
-        </article>
-      </div>
-
-      <div className={styles.tableWrap}>
-        <table>
-          <thead>
-            <tr>
-              <th>Teilnehmer</th>
-              <th>Streak</th>
-              <th>Erledigt</th>
-              <th>Quote</th>
+      {challenge.participants === 0 && <p className={styles.emptyHint}>Sei der Erste in dieser Challenge.</p>}
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Rang</th>
+            <th>Teilnehmer</th>
+            <th>Streak</th>
+            <th>Quote</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((rank) => (
+            <tr key={rank}>
+              <td>{rank}</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
             </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colSpan={4}>
-                <strong>Noch keine serverseitige Rangliste</strong>
-                <span>Rankings erscheinen hier erst aus echten Starts und Check-ins.</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
