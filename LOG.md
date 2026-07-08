@@ -919,3 +919,22 @@
   geprueft: HTTP 200, neuer Challenge-Text sichtbar, H1 Desktop 1 Zeile und
   Mobile 2 Zeilen, H2 maximal 2 Zeilen, keine entfernten Panels und kein
   horizontaler Overflow.
+
+## 2026-07-08 - Header-Login als Popup umgesetzt
+
+- Ziel: Der Login-Button im Header soll nicht mehr direkt auf die Loginseite
+  navigieren, sondern denselben kompakten Login-Dialog wie der Challenge-Start
+  oeffnen.
+- Aenderungen: Login-Dialog in eine wiederverwendbare Komponente ausgelagert;
+  Header-Login von Link auf Button mit Modal umgestellt; aktuelle URL wird als
+  `next` im Login-Formular gesetzt; Challenge-Start verwendet dieselbe
+  Login-Modal-Komponente; alte duplizierte Login-CSS aus
+  `challenge-start.module.css` entfernt.
+- Verifikation: `npm run lint`; `npm run build`; lokaler Production-Smoke-Test
+  auf 1366px und 390px fuer `/challenges/10000-schritte-am-tag`: Header-Login
+  oeffnet Dialog auf derselben URL, Formularfelder sichtbar, `next` zeigt auf
+  die aktuelle Challenge-Seite, kein horizontaler Overflow.
+- Offene Risiken: Registrierung und Passwort-vergessen fuehren weiterhin zur
+  bestehenden `/auth`-Seite.
+- Naechster Schritt: Bei Bedarf Registrierung spaeter ebenfalls als Popup
+  auslagern.

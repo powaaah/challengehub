@@ -1,0 +1,158 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(20, 30, 39, 0.62);
+  backdrop-filter: blur(3px);
+}
+
+.modal {
+  position: relative;
+  width: min(460px, 100%);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: clamp(1.25rem, 4vw, 1.75rem);
+  box-shadow: 0 24px 70px rgba(18, 32, 43, 0.28);
+}
+
+.closeButton {
+  all: unset;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background: var(--surface-muted);
+}
+
+.logo {
+  display: block;
+  width: 126px;
+  height: auto;
+  margin: 0 auto 1rem;
+}
+
+.header {
+  padding: 0.35rem 2rem 0;
+  text-align: center;
+}
+
+.kicker {
+  margin: 0 0 0.45rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.modal h2 {
+  margin: 0;
+  color: var(--background-deep);
+  font-size: clamp(1.65rem, 5vw, 2.15rem);
+  line-height: 1.12;
+  text-align: center;
+}
+
+.intro {
+  max-width: 27rem;
+  margin: 0.65rem auto 1.2rem;
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.form {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.form label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.form input {
+  min-height: 52px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f7f7f7;
+  color: var(--text);
+  padding: 0 1rem;
+  font: inherit;
+  font-weight: 600;
+}
+
+.form input:focus {
+  border-color: rgba(0, 137, 179, 0.55);
+  background: var(--surface);
+}
+
+.submitButton {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 0.45rem;
+  border-radius: 8px;
+  background: var(--brand);
+  color: white;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.error {
+  margin: 0;
+  border: 1px solid rgba(234, 115, 23, 0.35);
+  border-radius: 8px;
+  background: rgba(234, 115, 23, 0.08);
+  color: var(--background-deep);
+  padding: 0.8rem;
+  font-weight: 650;
+}
+
+.smallPrint {
+  margin: 0.9rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.smallPrint a {
+  color: var(--brand);
+  font-weight: 750;
+  text-decoration: none;
+}

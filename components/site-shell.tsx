@@ -5,33 +5,51 @@ import Link from "next/link";
 import { useState } from "react";
 import { logoutAction } from "@/app/auth/actions";
 import type { CurrentUser } from "@/lib/auth";
+import { LoginModal } from "./login-modal";
 import styles from "./site-shell.module.css";
 
 export function SiteHeader({ user }: { user: CurrentUser | null }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [loginNext, setLoginNext] = useState("/");
+
+  function openLogin() {
+    setLoginNext(`${window.location.pathname}${window.location.search}`);
+    setMenuOpen(false);
+    setIsLoginOpen(true);
+  }
 
   return (
-    <header className={styles.header}>
-      <Link className={styles.logoLink} href="/" aria-label="ChallengeHub Startseite">
-        <Image src="/logo.png" width={214} height={70} alt="ChallengeHub" priority />
-      </Link>
-      <button
-        className={styles.menuButton}
-        type="button"
-        aria-label="Navigation oeffnen"
-        aria-expanded={menuOpen}
-        onClick={() => setMenuOpen((current) => !current)}
-      >
-        <span />
-        <span />
-        <span />
-      </button>
-      <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Hauptnavigation">
-        <Link href="/challenges">Challenges</Link>
-        <Link href="/challenges?sort=participants">Ranking</Link>
-        {user ? <ProfileMenu user={user} /> : <Link className={styles.primaryButton} href="/auth">Login</Link>}
-      </nav>
-    </header>
+    <>
+      <header className={styles.header}>
+        <Link className={styles.logoLink} href="/" aria-label="ChallengeHub Startseite">
+          <Image src="/logo.png" width={214} height={70} alt="ChallengeHub" priority />
+        </Link>
+        <button
+          className={styles.menuButton}
+          type="button"
+          aria-label="Navigation oeffnen"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((current) => !current)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Hauptnavigation">
+          <Link href="/challenges">Challenges</Link>
+          <Link href="/challenges?sort=participants">Ranking</Link>
+          {user ? (
+            <ProfileMenu user={user} />
+          ) : (
+            <button className={styles.primaryButton} type="button" onClick={openLogin}>
+              Login
+            </button>
+          )}
+        </nav>
+      </header>
+      {isLoginOpen && <LoginModal next={loginNext} onClose={() => setIsLoginOpen(false)} />}
+    </>
   );
 }
 
