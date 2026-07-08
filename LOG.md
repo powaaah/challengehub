@@ -938,3 +938,10 @@
   bestehenden `/auth`-Seite.
 - Naechster Schritt: Bei Bedarf Registrierung spaeter ebenfalls als Popup
   auslagern.
+- Deploy: Commit `3880e07` nach GitHub `main` gepusht; VPS-Checkout
+  `/home/stefan/projects/challengehub` per Fast-Forward aktualisiert;
+  `npm ci`, `npm run build` und `docker compose restart challengehub`
+  erfolgreich. Live auf `https://theovina.de/challenges/10000-schritte-am-tag`
+  geprueft: Header-Login oeffnet Dialog auf derselben URL, E-Mail- und
+  Passwortfeld sichtbar, `next` zeigt auf die aktuelle Challenge-Seite, kein
+  horizontaler Overflow auf 1366px und 390px.
