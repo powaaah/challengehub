@@ -852,3 +852,30 @@
 - Offene Risiken: Kein Passwort-Reset-Flow vorhanden; der Link fuehrt weiter
   zur Auth-Seite.
 - Naechster Schritt: UI-Korrektur deployen.
+
+## 2026-07-08 - Challenge-Detailseiten vereinfacht und deployed
+
+- Ziel: Challenge-Unterseiten konsequent auf Wettbewerb fokussieren und das
+  Stueckwerk aus Nutzen-, Risiko-, Trainingsplan- und Leerzustandsbloecken
+  entfernen.
+- Aenderungen: Statische Challenge-Detailseiten auf Hero, Regeln, Top-10-
+  Ranking und SEO-Info reduziert; `ChallengeMate finden` als sekundaren
+  Outline-CTA platziert; echte Teilnahme server- und UI-seitig auf
+  `10.000 Schritte am Tag` begrenzt; andere Starts zeigen `Bald verfuegbar`;
+  Ranking zeigt eine kompakte Top-10-Tabelle mit ehrlichem Leerzustand; alte
+  Bewertungs-/Noch-nicht-erfasst-Texte im Katalog bereinigt.
+- Verifikation: `npm run lint`, `npm run build`; lokaler Browser-Smoke-Test auf
+  1366px und 390px fuer `/challenges/100-burpees-pro-tag` und
+  `/challenges/10000-schritte-am-tag` ohne horizontalen Overflow und ohne alte
+  Textmarker.
+- Deploy/Live-Verifikation: Commit `a313ca4` nach GitHub `main` gepusht;
+  VPS-Checkout per Fast-Forward aktualisiert; `npm ci`, `npm run build` und
+  Restart von `challengehub` erfolgreich; live liefern beide Detailseiten HTTP
+  200, Burpees zeigt `Bald verfuegbar`, 10.000 Schritte zeigt `Jetzt
+  teilnehmen`, beide zeigen `Top 10`; Live-Browsercheck auf 1366px und 390px
+  ohne Overflow und ohne alte Textmarker.
+- Offene Risiken: `npm ci` meldet weiterhin zwei moderate Audit-Funde; echte
+  Ranking-Daten/Streaks/Quoten muessen weiterhin aus serverseitigen Check-ins
+  berechnet werden.
+- Naechster Schritt: Server-Ranking fuer die 10.000-Schritte-Challenge aus
+  echten Check-ins ableiten.
