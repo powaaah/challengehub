@@ -97,3 +97,51 @@ test("Freund nimmt Einladung nach Registrierung an und sieht das gemeinsame Rank
   await inviterContext.close();
   await friendContext.close();
 });
+
+test("Freund nimmt Einladung zu einer Community-Challenge an", async ({ browser, baseURL }) => {
+  const runId = Date.now();
+  const title = `Gemeinsam lesen ${runId}`;
+  const slug = `gemeinsam-lesen-${runId}`;
+  const inviterContext = await browser.newContext();
+  const inviterPage = await inviterContext.newPage();
+
+  await inviterPage.goto(`${baseURL}/challenges/neu`);
+  await inviterPage.getByRole("button", { name: "Zum Login" }).click();
+  await inviterPage.getByRole("button", { name: "Registrieren", exact: true }).click();
+  const inviterRegistration = inviterPage.getByRole("dialog", { name: "Bei ChallengeHub registrieren" });
+  await inviterRegistration.getByLabel("Benutzername").fill(`Community Einlader ${runId}`);
+  await inviterRegistration.getByLabel("E-Mail-Adresse").fill(`community-inviter-${runId}@example.test`);
+  await inviterRegistration.getByLabel("Passwort").fill("sicheres-test-passwort");
+  await inviterRegistration.getByRole("button", { name: "Account erstellen" }).click();
+  await expect(inviterPage.getByRole("button", { name: "Profilmenü öffnen" })).toBeVisible();
+  await inviterPage.getByLabel("Titel").fill(title);
+  await inviterPage.getByLabel("Aufgabe").fill("Jeden Tag gemeinsam zehn Seiten lesen");
+  await inviterPage.getByLabel("Beschreibung").fill("Eine öffentliche Lese-Challenge für zwei Freunde.");
+  await inviterPage.getByLabel("Regeln, eine pro Zeile").fill("Täglich zehn Seiten lesen");
+  await inviterPage.getByRole("button", { name: "Öffentlich speichern" }).click();
+  await expect(inviterPage).toHaveURL(new RegExp(`/challenges/${slug}$`));
+  await inviterPage.getByRole("button", { name: "Jetzt teilnehmen" }).first().click();
+  await inviterPage.getByRole("link", { name: "Zum Dashboard" }).click();
+  await inviterPage.getByRole("button", { name: "Einladungslink erstellen" }).click();
+  const publicInviteUrl = await inviterPage.getByLabel("Dein Einladungslink").inputValue();
+  const inviteUrl = publicInviteUrl.replace("https://challengehub.de", baseURL ?? "");
+
+  const friendContext = await browser.newContext();
+  const friendPage = await friendContext.newPage();
+  await friendPage.goto(inviteUrl);
+  await expect(friendPage.getByRole("heading", { name: "Gemeinsam in diese Challenge starten" })).toBeVisible();
+  await friendPage.getByRole("button", { name: "Anmelden und Einladung annehmen" }).click();
+  await friendPage.getByRole("button", { name: "Registrieren", exact: true }).click();
+  const friendRegistration = friendPage.getByRole("dialog", { name: "Bei ChallengeHub registrieren" });
+  await friendRegistration.getByLabel("Benutzername").fill(`Community Freund ${runId}`);
+  await friendRegistration.getByLabel("E-Mail-Adresse").fill(`community-friend-${runId}@example.test`);
+  await friendRegistration.getByLabel("Passwort").fill("sicheres-test-passwort");
+  await friendRegistration.getByRole("button", { name: "Account erstellen" }).click();
+  await friendPage.getByRole("button", { name: "Einladung annehmen", exact: true }).click();
+  await expect(friendPage).toHaveURL(/\/meine-challenges\/[^/]+$/);
+  await expect(friendPage.getByRole("heading", { name: title })).toBeVisible();
+  await expect(friendPage.getByRole("heading", { name: "Ranking dieser Challenge" })).toBeVisible();
+
+  await inviterContext.close();
+  await friendContext.close();
+});

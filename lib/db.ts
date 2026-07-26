@@ -53,6 +53,19 @@ export function getDb() {
     CREATE INDEX IF NOT EXISTS password_reset_tokens_user_created_idx
       ON password_reset_tokens (user_id, created_at DESC);
 
+    CREATE TABLE IF NOT EXISTS password_reset_requests (
+      id TEXT PRIMARY KEY,
+      email_hash TEXT NOT NULL,
+      ip_hash TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS password_reset_requests_email_created_idx
+      ON password_reset_requests (email_hash, created_at DESC);
+
+    CREATE INDEX IF NOT EXISTS password_reset_requests_ip_created_idx
+      ON password_reset_requests (ip_hash, created_at DESC);
+
     CREATE TABLE IF NOT EXISTS challenges (
       id TEXT PRIMARY KEY,
       creator_id TEXT NOT NULL,

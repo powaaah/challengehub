@@ -10,7 +10,7 @@ export type CreateChallengeState = {
   duplicates: Array<{ title: string; slug: string }>;
 };
 
-const allowedLevels: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
+const allowedLevels: ChallengeLevel[] = ["User"];
 
 export async function createChallengeAction(
   _state: CreateChallengeState,

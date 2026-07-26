@@ -84,6 +84,11 @@ Stand: 2026-07-25
   einem visuellen E2E-Regressionstest absichern.
 - [x] Passwort-Reset mit neutraler Anfrage, gehashtem 30-Minuten-Einmal-Token,
   sicherer Passwortänderung und Beendigung bestehender Sitzungen umsetzen.
+- [x] Passwort-Reset gegen Timing-Enumeration und Versandmissbrauch härten:
+  post-response Versand, persistente Limits pro E-Mail/IP und sichere Behandlung
+  fehlgeschlagener Zustellungen.
+- [x] Einladungsannahme auch für selbst erstellte Community-Challenges anbieten
+  und mit einem vollständigen E2E-Test absichern.
 - [ ] Resend-Zugang und Absenderadresse für den produktiven Versand der
   Passwort-Reset-E-Mails konfigurieren und mit einer echten Zustellung prüfen.
 

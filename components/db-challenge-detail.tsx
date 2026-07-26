@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "./site-shell";
 import { ChallengeStart } from "./challenge-start";
+import { ChallengeInvitationAcceptance } from "./challenge-invitation-acceptance";
 import { levelLabels } from "@/data/challenges";
 import type { CurrentUser } from "@/lib/auth";
 import type { PublicChallenge } from "@/domain/challenges/public-challenge";
@@ -10,11 +11,15 @@ import styles from "./user-challenge-detail.module.css";
 export function DbChallengeDetail({
   challenge,
   participantCount,
-  user
+  user,
+  invitationToken,
+  invitationChallengeSlug
 }: {
   challenge: PublicChallenge;
   participantCount: number;
   user: CurrentUser | null;
+  invitationToken?: string;
+  invitationChallengeSlug?: string;
 }) {
   const pageUrl = `${SITE_URL}/challenges/${challenge.slug}`;
   const jsonLd = {
@@ -62,6 +67,20 @@ export function DbChallengeDetail({
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c")
         }}
       />
+      {invitationChallengeSlug === challenge.slug ? (
+        <ChallengeInvitationAcceptance
+          isAuthenticated={Boolean(user)}
+          slug={challenge.slug}
+          token={invitationToken ?? ""}
+        />
+      ) : null}
+      {invitationToken && invitationChallengeSlug !== challenge.slug ? (
+        <p className={styles.invitationError} role="alert">
+          {invitationToken === "selbst"
+            ? "Du kannst deine eigene Einladung nicht annehmen."
+            : "Dieser Einladungslink ist ungültig, abgelaufen oder wurde bereits verwendet."}
+        </p>
+      ) : null}
       <section className={`${styles.hero} ${styles[challenge.level]}`}>
         <Link className={styles.backLink} href="/challenges">
           Zurück zu den Challenges

@@ -21,5 +21,7 @@ export type ResetPasswordResult = {
 
 export interface PasswordResetRepository {
   createForUser(input: CreatePasswordResetInput): CreatePasswordResetResult;
+  confirmDelivery(input: { id: string; userId: string; deliveredAt: string }): void;
+  discard(input: { id: string; userId: string }): void;
   resetPassword(input: ResetPasswordInput): ResetPasswordResult;
 }

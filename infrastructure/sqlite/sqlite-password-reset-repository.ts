@@ -43,19 +43,32 @@ export class SqlitePasswordResetRepository implements PasswordResetRepository {
         return { status: "token_conflict" };
       }
 
-      this.db
-        .prepare(`
-          UPDATE password_reset_tokens
-          SET used_at = ?
-          WHERE user_id = ? AND id <> ? AND used_at IS NULL
-        `)
-        .run(createdAt, input.userId, input.id);
       this.db.exec("COMMIT");
       return { status: "created" };
     } catch (error) {
       this.db.exec("ROLLBACK");
       throw error;
     }
+  }
+
+  confirmDelivery(input: { id: string; userId: string; deliveredAt: string }) {
+    this.db
+      .prepare(`
+        UPDATE password_reset_tokens
+        SET used_at = ?
+        WHERE user_id = ? AND id <> ? AND used_at IS NULL
+          AND EXISTS (
+            SELECT 1 FROM password_reset_tokens current
+            WHERE current.id = ? AND current.user_id = ? AND current.used_at IS NULL
+          )
+      `)
+      .run(input.deliveredAt, input.userId, input.id, input.id, input.userId);
+  }
+
+  discard(input: { id: string; userId: string }) {
+    this.db
+      .prepare("DELETE FROM password_reset_tokens WHERE id = ? AND user_id = ?")
+      .run(input.id, input.userId);
   }
 
   resetPassword(input: ResetPasswordInput): ResetPasswordResult {

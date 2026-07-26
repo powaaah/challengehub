@@ -119,11 +119,21 @@ test("ein neuer Reset-Link widerruft ältere offene Tokens desselben Nutzers", (
     tokenHash: "hash-1",
     expiresAt: "2026-07-24T10:30:00.000Z"
   });
+  repository.confirmDelivery({
+    id: "reset-1",
+    userId: "u1",
+    deliveredAt: "2026-07-24T10:00:00.000Z"
+  });
   repository.createForUser({
     id: "reset-2",
     userId: "u1",
     tokenHash: "hash-2",
     expiresAt: "2026-07-24T10:30:00.000Z"
+  });
+  repository.confirmDelivery({
+    id: "reset-2",
+    userId: "u1",
+    deliveredAt: "2026-07-24T10:01:00.000Z"
   });
 
   assert.deepEqual(repository.resetPassword({
@@ -133,6 +143,21 @@ test("ein neuer Reset-Link widerruft ältere offene Tokens desselben Nutzers", (
   }), { status: "invalid_token" });
   assert.deepEqual(repository.resetPassword({
     tokenHash: "hash-2",
+    passwordHash: "new-hash",
+    now: "2026-07-24T10:15:00.000Z"
+  }), { status: "reset" });
+  db.close();
+});
+
+test("fehlgeschlagene Zustellung lässt den älteren Reset-Link gültig", () => {
+  const { db, repository } = createRepository();
+  repository.createForUser({ id: "reset-old", userId: "u1", tokenHash: "hash-old", expiresAt: "2026-07-24T10:30:00.000Z" });
+  repository.confirmDelivery({ id: "reset-old", userId: "u1", deliveredAt: "2026-07-24T10:00:00.000Z" });
+  repository.createForUser({ id: "reset-failed", userId: "u1", tokenHash: "hash-failed", expiresAt: "2026-07-24T10:30:00.000Z" });
+  repository.discard({ id: "reset-failed", userId: "u1" });
+
+  assert.deepEqual(repository.resetPassword({
+    tokenHash: "hash-old",
     passwordHash: "new-hash",
     now: "2026-07-24T10:15:00.000Z"
   }), { status: "reset" });

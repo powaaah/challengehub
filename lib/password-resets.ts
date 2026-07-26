@@ -19,6 +19,8 @@ export function requestPasswordResetForEmail(email: string) {
     now: new Date(),
     findAccountByEmail,
     createToken: (input) => repository.createForUser(input),
+    confirmDelivery: (input) => repository.confirmDelivery(input),
+    discardToken: (input) => repository.discard(input),
     generateToken: () => randomBytes(32).toString("base64url"),
     generateId: randomUUID,
     siteUrl: SITE_URL,

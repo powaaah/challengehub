@@ -16,7 +16,8 @@ test("PostgreSQL migrations are ordered and keep a migration ledger", async () =
     "0002_challenge_invitations.sql",
     "0003_align_challenge_levels.sql",
     "0004_unique_usernames.sql",
-    "0005_password_reset_tokens.sql"
+    "0005_password_reset_tokens.sql",
+    "0006_password_reset_rate_limits.sql"
   ]);
 
   const versions = files.map((file) => file.slice(0, 4));
@@ -125,4 +126,18 @@ test("password reset migration stores only expiring token hashes and usage state
   assert.match(sql, /used_at TIMESTAMPTZ/);
   assert.match(sql, /password_reset_tokens_active_expiry_idx/);
   assert.doesNotMatch(sql, /raw_token|token TEXT/);
+});
+
+test("password reset rate-limit migration stores only hashed identifiers", async () => {
+  const sql = await readFile(
+    path.join(migrationsDirectory, "0006_password_reset_rate_limits.sql"),
+    "utf8"
+  );
+
+  assert.match(sql, /CREATE TABLE password_reset_requests/);
+  assert.match(sql, /email_hash TEXT NOT NULL/);
+  assert.match(sql, /ip_hash TEXT NOT NULL/);
+  assert.match(sql, /password_reset_requests_email_created_idx/);
+  assert.match(sql, /password_reset_requests_ip_created_idx/);
+  assert.doesNotMatch(sql, /email TEXT|ip_address/);
 });

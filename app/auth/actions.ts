@@ -5,6 +5,7 @@ import { randomUUID } from "node:crypto";
 import { createSession, clearSession, hashPassword, verifyPassword } from "@/lib/auth";
 import { createAccount, findAccountByLogin } from "@/lib/accounts";
 import { startParticipationForUser } from "@/lib/participation-start";
+import { getSafeRelativeRedirect } from "@/lib/safe-redirect";
 
 export type AuthFormState = {
   error: string;
@@ -72,8 +73,7 @@ export async function logoutAction() {
 }
 
 function getSafeNext(formData: FormData) {
-  const next = String(formData.get("next") ?? "/");
-  return next.startsWith("/") && !next.startsWith("//") ? next : "/";
+  return getSafeRelativeRedirect(formData.get("next"));
 }
 
 async function getParticipationRedirect(userId: string, next: string, formData: FormData) {

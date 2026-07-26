@@ -1937,3 +1937,24 @@
 - Nächster Schritt: Social-Preview-Design visuell abnehmen und anschließend
   finale Keywords/Texte je Challenge und Wissensartikel redaktionell festlegen.
 - Kein Deployment, Push oder Commit.
+
+## 2026-07-26 - Review-Blocker nach GitHub-Checkpoint behoben
+
+- Ziel: Die nach dem GitHub-Push eingetroffene unabhängige Sicherheits- und
+  Logikprüfung vollständig abarbeiten.
+- Änderungen: Einladungsannahme auf Community-Challenge-Detailseiten ergänzt und
+  per vollständigem Zwei-Nutzer-E2E-Flow abgesichert. Passwort-Reset antwortet
+  vor Accountprüfung und E-Mail-Versand, führt beides mit Next.js `after()` nach
+  der Response aus und begrenzt Anfragen persistent auf drei je E-Mail sowie
+  zehn je IP und Stunde. Nur Identifier-Hashes werden gespeichert. Fehlgeschlagene
+  Zustellungen verwerfen das neue Token, ohne ältere gültige Links zu widerrufen.
+  PostgreSQL-Migration `0006` samt Prüfsumme ergänzt. Zusätzlich Open Redirects
+  mit Backslashes geschlossen, Username-Bestandsmigration kollisionsfest gemacht
+  und Community-Nutzer serverseitig auf den Challenge-Typ `User` begrenzt.
+- Verifikation: `npm test` mit 86/86 Tests, ESLint ohne Fehler, Produktions-Build
+  mit 27 Routen und `git diff --check` erfolgreich. Playwright vollständig mit
+  14/14 E2E-Tests grün, einschließlich Community-Einladung und Passwort-Reset.
+- Offene Risiken: Produktiver Reset-Versand benötigt weiterhin freigegebene
+  Resend-Konfiguration. IP-Limits setzen im Zielbetrieb vertrauenswürdige
+  `x-forwarded-for`-Header des Reverse Proxys voraus.
+- Kein Deployment.

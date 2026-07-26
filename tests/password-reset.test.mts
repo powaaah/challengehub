@@ -9,6 +9,7 @@ import {
 test("Passwort-Reset-Anfrage bleibt neutral und persistiert nur den Hash eines kurzlebigen Tokens", async () => {
   const created: unknown[] = [];
   const delivered: unknown[] = [];
+  const confirmed: unknown[] = [];
   const rawToken = "a".repeat(43);
   const account = {
     id: "u1",
@@ -26,6 +27,8 @@ test("Passwort-Reset-Anfrage bleibt neutral und persistiert nur den Hash eines k
       created.push(input);
       return { status: "created" };
     },
+    confirmDelivery: (input) => confirmed.push(input),
+    discardToken: () => assert.fail("zugestelltes Token darf nicht verworfen werden"),
     generateToken: () => rawToken,
     generateId: () => "reset-1",
     deliver: async (message) => {
@@ -45,6 +48,11 @@ test("Passwort-Reset-Anfrage bleibt neutral und persistiert nur den Hash eines k
     email: "stefan@example.com",
     resetUrl: `https://challengehub.de/auth/passwort-zuruecksetzen?token=${rawToken}`
   }]);
+  assert.deepEqual(confirmed, [{
+    id: "reset-1",
+    userId: "u1",
+    deliveredAt: "2026-07-24T10:00:00.000Z"
+  }]);
   assert.ok(!JSON.stringify(created).includes(rawToken));
 });
 
@@ -60,6 +68,8 @@ test("Passwort-Reset-Anfrage verrät unbekannte E-Mail-Adressen nicht", async ()
       created = true;
       return { status: "created" };
     },
+    confirmDelivery: () => assert.fail("unbekanntes Konto darf nichts bestätigen"),
+    discardToken: () => assert.fail("unbekanntes Konto darf nichts verwerfen"),
     generateToken: () => "a".repeat(43),
     generateId: () => "reset-1",
     deliver: async () => {
@@ -71,6 +81,33 @@ test("Passwort-Reset-Anfrage verrät unbekannte E-Mail-Adressen nicht", async ()
   assert.deepEqual(result, { status: "accepted" });
   assert.equal(created, false);
   assert.equal(delivered, false);
+});
+
+test("fehlgeschlagene Zustellung verwirft das neue Reset-Token", async () => {
+  const discarded: unknown[] = [];
+  const result = await requestPasswordReset({
+    email: "stefan@example.com",
+    now: new Date("2026-07-24T10:00:00.000Z"),
+    findAccountByEmail: () => ({
+      id: "u1",
+      email: "stefan@example.com",
+      name: "Stefan",
+      passwordHash: "old",
+      createdAt: "2026-07-24T09:00:00.000Z"
+    }),
+    createToken: () => ({ status: "created" }),
+    confirmDelivery: () => assert.fail("fehlgeschlagene Zustellung darf nichts bestätigen"),
+    discardToken: (input) => discarded.push(input),
+    generateToken: () => "a".repeat(43),
+    generateId: () => "reset-2",
+    deliver: async () => {
+      throw new Error("mail unavailable");
+    },
+    siteUrl: "https://challengehub.de"
+  });
+
+  assert.deepEqual(result, { status: "accepted" });
+  assert.deepEqual(discarded, [{ id: "reset-2", userId: "u1" }]);
 });
 
 test("Passwort wird nur mit syntaktisch gültigem Einmal-Token und mindestens acht Zeichen geändert", () => {

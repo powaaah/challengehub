@@ -15,6 +15,8 @@ type RequestPasswordResetInput = {
   now: Date;
   findAccountByEmail: (email: string) => Account | null;
   createToken: (input: CreatePasswordResetInput) => CreatePasswordResetResult;
+  confirmDelivery: (input: { id: string; userId: string; deliveredAt: string }) => void;
+  discardToken: (input: { id: string; userId: string }) => void;
   generateToken: () => string;
   generateId: () => string;
   deliver: (message: { email: string; resetUrl: string }) => Promise<void>;
@@ -36,8 +38,9 @@ export async function requestPasswordReset(input: RequestPasswordResetInput) {
   }
 
   const token = input.generateToken();
+  const id = input.generateId();
   const created = input.createToken({
-    id: input.generateId(),
+    id,
     userId: account.id,
     tokenHash: hashToken(token),
     expiresAt: new Date(input.now.getTime() + RESET_TOKEN_TTL_MS).toISOString()
@@ -52,8 +55,9 @@ export async function requestPasswordReset(input: RequestPasswordResetInput) {
       email: account.email,
       resetUrl: `${input.siteUrl}/auth/passwort-zuruecksetzen?token=${encodeURIComponent(token)}`
     });
+    input.confirmDelivery({ id, userId: account.id, deliveredAt: input.now.toISOString() });
   } catch {
-    // Die öffentliche Antwort bleibt absichtlich neutral; das Token läuft automatisch ab.
+    input.discardToken({ id, userId: account.id });
   }
 
   return { status: "accepted" as const };

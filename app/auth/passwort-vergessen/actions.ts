@@ -1,6 +1,9 @@
 "use server";
 
+import { headers } from "next/headers";
+import { after } from "next/server";
 import { requestPasswordResetForEmail } from "@/lib/password-resets";
+import { allowPasswordResetRequest } from "@/lib/password-reset-rate-limit";
 
 export type PasswordResetRequestState = {
   error: string;
@@ -16,7 +19,12 @@ export async function requestPasswordResetAction(
     return { error: "Bitte gib eine gültige E-Mail-Adresse ein.", message: "" };
   }
 
-  await requestPasswordResetForEmail(email);
+  const requestHeaders = await headers();
+  const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const ip = forwardedFor || requestHeaders.get("x-real-ip") || "unknown";
+  if (allowPasswordResetRequest({ email, ip })) {
+    after(() => requestPasswordResetForEmail(email));
+  }
   return {
     error: "",
     message: "Falls ein Konto zu dieser E-Mail-Adresse existiert, erhältst du einen Link zum Zurücksetzen."

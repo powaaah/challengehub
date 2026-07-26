@@ -128,6 +128,8 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
       return (
         <DbChallengeDetail
           challenge={dbChallenge}
+          invitationChallengeSlug={invitation?.challengeSlug}
+          invitationToken={einladung}
           participantCount={getParticipationCountByChallengeSlug(dbChallenge.slug)}
           user={user}
         />

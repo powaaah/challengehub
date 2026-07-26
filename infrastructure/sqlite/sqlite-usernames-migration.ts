@@ -4,28 +4,29 @@ export function ensureUniqueUsernames(db: DatabaseSync) {
   db.exec("BEGIN IMMEDIATE");
 
   try {
-    db.exec(`
-      UPDATE users SET name = trim(name);
-      UPDATE users SET name = 'user-' || id WHERE name = '';
+    const users = db.prepare("SELECT id, name FROM users ORDER BY created_at, id").all() as Array<{
+      id: string;
+      name: string;
+    }>;
+    const reservedNames = new Set<string>();
+    const updateName = db.prepare("UPDATE users SET name = ? WHERE id = ?");
 
-      WITH ranked_names AS (
-        SELECT
-          id,
-          row_number() OVER (
-            PARTITION BY lower(name)
-            ORDER BY created_at, id
-          ) AS duplicate_number
-        FROM users
-      )
-      UPDATE users
-      SET name = name || '-' || id
-      WHERE id IN (
-        SELECT id FROM ranked_names WHERE duplicate_number > 1
-      );
+    for (const user of users) {
+      const normalized = user.name.trim() || `user-${user.id}`;
+      let uniqueName = normalized;
+      let suffix = 1;
+      while (reservedNames.has(uniqueName.toLocaleLowerCase("de-DE"))) {
+        uniqueName = `${normalized}-${user.id}${suffix === 1 ? "" : `-${suffix}`}`;
+        suffix += 1;
+      }
+      reservedNames.add(uniqueName.toLocaleLowerCase("de-DE"));
+      if (uniqueName !== user.name) {
+        updateName.run(uniqueName, user.id);
+      }
+    }
 
-      CREATE UNIQUE INDEX IF NOT EXISTS users_name_unique_idx
-        ON users (name COLLATE NOCASE);
-    `);
+    db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS users_name_unique_idx
+      ON users (name COLLATE NOCASE)`);
     db.exec("COMMIT");
   } catch (error) {
     db.exec("ROLLBACK");

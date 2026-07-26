@@ -4,6 +4,13 @@
   padding-top: 1.25rem;
 }
 
+.invitationError {
+  width: min(var(--content-width), calc(100% - (var(--page-gutter) * 2)));
+  margin: 0 auto 1rem;
+  color: #a12b2b;
+  font-weight: 700;
+}
+
 .hero,
 .content,
 .tips,

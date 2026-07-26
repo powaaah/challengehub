@@ -9,7 +9,7 @@ import { LoginModal } from "./login-modal";
 import { SiteFooter, SiteHeader } from "./site-shell";
 import styles from "./challenge-create-app.module.css";
 
-const levelOptions: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
+const levelOptions: ChallengeLevel[] = ["User"];
 
 const categoryOptions = ["Fitness", "Ernährung", "Fokus", "Schlaf", "Produktivität", "Mindset", "Digital Detox"];
 
