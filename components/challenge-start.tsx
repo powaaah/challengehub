@@ -25,7 +25,7 @@ export function ChallengeStart({ challenge, isAuthenticated, isAvailable = true,
   if (!isAvailable) {
     return (
       <button className={styles.startButton} type="button" disabled>
-        Bald verfuegbar
+        Bald verfügbar
       </button>
     );
   }
@@ -49,9 +49,7 @@ export function ChallengeStart({ challenge, isAuthenticated, isAvailable = true,
         <LoginModal
           next={loginNext}
           onClose={() => setIsLoginOpen(false)}
-          titleId="login-challenge-title"
-          kicker="Teilnahme freischalten"
-          intro={`Melde dich an, um an ${challenge.title} teilzunehmen und deinen Fortschritt zu speichern.`}
+          participationSlug={challenge.slug}
         />
       )}
     </>

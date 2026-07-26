@@ -28,7 +28,7 @@ export function SiteHeader({ user }: { user: CurrentUser | null }) {
         <button
           className={styles.menuButton}
           type="button"
-          aria-label="Navigation oeffnen"
+          aria-label="Navigation öffnen"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((current) => !current)}
         >
@@ -83,7 +83,7 @@ function ProfileMenu({ user }: { user: CurrentUser }) {
         onClick={() => setOpen((current) => !current)}
       >
         <span aria-hidden="true">{initials}</span>
-        <span className={styles.visuallyHidden}>Profilmenue oeffnen</span>
+        <span className={styles.visuallyHidden}>Profilmenü öffnen</span>
       </button>
       {open && (
         <div className={styles.profileDropdown} role="menu">
@@ -91,9 +91,6 @@ function ProfileMenu({ user }: { user: CurrentUser }) {
             <strong>{user.name}</strong>
             <span>{user.email}</span>
           </div>
-          <Link href="/auth" role="menuitem">
-            Konto
-          </Link>
           <Link href="/meine-challenges" role="menuitem">
             Meine Challenges
           </Link>

@@ -1,14 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { randomUUID } from "node:crypto";
-import { challenges, type ChallengeLevel } from "@/data/challenges";
+import { type ChallengeLevel } from "@/data/challenges";
 import { requireCurrentUser } from "@/lib/auth";
-import { createPublicChallenge, getExistingChallengeSlugs } from "@/lib/db";
-import { createSlug } from "@/lib/slug";
+import { createPublishedChallengeForUser } from "@/lib/challenge-creation";
 
 export type CreateChallengeState = {
   error: string;
+  duplicates: Array<{ title: string; slug: string }>;
 };
 
 const allowedLevels: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
@@ -29,23 +28,20 @@ export async function createChallengeAction(
 
   if (!title || !category || !goal || !description || rules.length === 0) {
     return {
-      error: "Titel, Kategorie, Aufgabe, Beschreibung und mindestens eine Regel sind Pflicht."
+      error: "Titel, Kategorie, Aufgabe, Beschreibung und mindestens eine Regel sind Pflicht.",
+      duplicates: []
     };
   }
 
   if (!allowedLevels.includes(level) || !Number.isInteger(durationDays) || durationDays < 1 || durationDays > 365) {
     return {
-      error: "Bitte waehle einen gueltigen Challenge-Typ und eine Dauer zwischen 1 und 365 Tagen."
+      error: "Bitte wähle einen gültigen Challenge-Typ und eine Dauer zwischen 1 und 365 Tagen.",
+      duplicates: []
     };
   }
 
-  const existingSlugs = [...challenges.map((challenge) => challenge.slug), ...getExistingChallengeSlugs()];
-  const slug = createSlug(title, existingSlugs);
-
-  createPublicChallenge({
-    id: randomUUID(),
+  const result = createPublishedChallengeForUser({
     creatorId: user.id,
-    slug,
     title,
     level,
     category,
@@ -56,7 +52,23 @@ export async function createChallengeAction(
     tips
   });
 
-  redirect(`/challenges/${slug}`);
+  if (result.status === "potential_duplicate") {
+    return {
+      error: "Diese Idee gibt es möglicherweise schon. Prüfe die bestehende Challenge oder formuliere deinen Titel eindeutiger.",
+      duplicates: result.matches.map(({ title: matchTitle, slug }) => ({ title: matchTitle, slug }))
+    };
+  }
+
+  if (result.status !== "created") {
+    return {
+      error: result.status === "slug_conflict"
+        ? "Dieser Challenge-Link ist bereits vergeben. Bitte versuche es erneut."
+        : "Dein Account konnte nicht gefunden werden. Bitte melde dich erneut an.",
+      duplicates: []
+    };
+  }
+
+  redirect(`/challenges/${result.slug}`);
 }
 
 function parseLines(value: string) {

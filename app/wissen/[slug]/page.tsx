@@ -4,6 +4,10 @@ import { notFound } from "next/navigation";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getHabitArticleBySlug, habitArticles } from "@/data/habit-articles";
 import { getCurrentUser } from "@/lib/auth";
+import {
+  buildKnowledgeBreadcrumbJsonLd,
+  buildKnowledgeSocialImageMetadata
+} from "@/lib/seo";
 import styles from "./page.module.css";
 
 const siteUrl = "https://challengehub.de";
@@ -32,6 +36,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   }
 
   const url = `/wissen/${article.slug}`;
+  const socialImage = buildKnowledgeSocialImageMetadata(article.title, article.slug);
 
   return {
     title: `${article.title} | ChallengeHub Wissen`,
@@ -47,12 +52,14 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       siteName: "ChallengeHub",
       locale: "de_DE",
       publishedTime: article.publishedAt,
-      tags: [article.category, "Habits", "Gewohnheiten", "Challenges"]
+      tags: [article.category, "Habits", "Gewohnheiten", "Challenges"],
+      images: [socialImage]
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: `${article.title} | ChallengeHub Wissen`,
-      description: article.seoDescription
+      description: article.seoDescription,
+      images: [socialImage.url]
     }
   };
 }
@@ -69,25 +76,32 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const pageUrl = `${siteUrl}/wissen/${article.slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: article.title,
-    description: article.seoDescription,
-    datePublished: article.publishedAt,
-    dateModified: article.publishedAt,
-    mainEntityOfPage: pageUrl,
-    author: {
-      "@type": "Organization",
-      name: "ChallengeHub"
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "ChallengeHub",
-      logo: {
-        "@type": "ImageObject",
-        url: `${siteUrl}/logo.png`
-      }
-    },
-    citation: article.sources.map((source) => source.url)
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": `${pageUrl}#article`,
+        headline: article.title,
+        description: article.seoDescription,
+        datePublished: article.publishedAt,
+        dateModified: article.publishedAt,
+        mainEntityOfPage: pageUrl,
+        image: buildKnowledgeSocialImageMetadata(article.title, article.slug).url,
+        author: {
+          "@type": "Organization",
+          name: "ChallengeHub"
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "ChallengeHub",
+          logo: {
+            "@type": "ImageObject",
+            url: `${siteUrl}/logo.png`
+          }
+        },
+        citation: article.sources.map((source) => source.url)
+      },
+      buildKnowledgeBreadcrumbJsonLd(article.title, article.slug)
+    ]
   };
 
   return (
@@ -102,7 +116,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       />
       <article className={styles.article}>
         <Link className={styles.backLink} href="/wissen">
-          Zurueck zum Wissen
+          Zurück zum Wissen
         </Link>
         <p className={styles.kicker}>{article.category} | {article.readTime}</p>
         <h1>{article.title}</h1>
@@ -134,7 +148,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         ))}
 
         <section className={styles.sources} aria-labelledby="sources">
-          <h2 id="sources">Buecher und Quellen</h2>
+          <h2 id="sources">Bücher und Quellen</h2>
           <div>
             {article.sources.map((source) => (
               <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>

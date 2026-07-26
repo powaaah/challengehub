@@ -1,0 +1,87 @@
+.panel {
+  margin-top: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.panel h2 {
+  margin: 0;
+  color: var(--background-deep);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+.panel > p:not(.kicker),
+.result p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.kicker {
+  margin: 0 0 0.5rem;
+  color: var(--brand);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.createButton,
+.copyRow button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--brand);
+  color: white;
+  padding: 0.7rem 1rem;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.createButton:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.result {
+  margin-top: 1rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+.result label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--background-deep);
+  font-weight: 750;
+}
+
+.copyRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+}
+
+.copyRow input {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  padding: 0.7rem;
+  color: var(--background-deep);
+  font: inherit;
+}
+
+.error {
+  color: #a12727 !important;
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .copyRow {
+    grid-template-columns: 1fr;
+  }
+}

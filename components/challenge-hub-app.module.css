@@ -282,6 +282,13 @@
   /* box-shadow: 0 12px 28px rgba(18, 32, 43, 0.08); */
 }
 
+.toolbar .filterButton,
+.toolbar .addButton {
+  height: 44px;
+  min-height: 44px;
+  padding-block: 0;
+}
+
 .searchLabel,
 .sortLabel {
   display: flex;
@@ -324,7 +331,6 @@
 
 .toolbar .addButton {
   min-width: 178px;
-  min-height: 46px;
   align-self: end;
   border-radius: 4px;
   font-weight: 500;

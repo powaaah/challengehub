@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { ChallengeInvitationAcceptance } from "@/components/challenge-invitation-acceptance";
 import { ChallengeRankingTable } from "@/components/challenge-ranking-table";
 import { ChallengeStart } from "@/components/challenge-start";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
@@ -7,17 +8,28 @@ import { DbChallengeDetail } from "@/components/db-challenge-detail";
 import { UserChallengeDetail } from "@/components/user-challenge-detail";
 import { challenges, getChallengeBySlug, levelLabels } from "@/data/challenges";
 import { getCurrentUser } from "@/lib/auth";
-import { getParticipationCountByChallengeSlug, getPublishedChallengeBySlug } from "@/lib/db";
+import { getChallengeInvitationPreview } from "@/lib/challenge-invitations";
+import {
+  getChallengeRankingBySlug,
+  getParticipationCountByChallengeSlug,
+  getRecentChallengeActivityBySlug
+} from "@/lib/challenge-participation-stats";
+import { getPublishedChallengeBySlug } from "@/lib/public-challenges";
+import {
+  buildChallengeBreadcrumbJsonLd,
+  buildChallengeSocialImageMetadata,
+  SITE_URL
+} from "@/lib/seo";
 import styles from "./page.module.css";
-
-const siteUrl = "https://challengehub.de";
-const firstServerChallengeSlug = "10000-schritte-am-tag";
 
 export const dynamic = "force-dynamic";
 
 type ChallengePageProps = {
   params: Promise<{
     slug: string;
+  }>;
+  searchParams: Promise<{
+    einladung?: string;
   }>;
 };
 
@@ -32,14 +44,50 @@ export async function generateMetadata({ params }: ChallengePageProps): Promise<
   const challenge = getChallengeBySlug(slug);
 
   if (!challenge) {
+    const communityChallenge = await getPublishedChallengeBySlug(slug);
+
+    if (communityChallenge) {
+      const url = `/challenges/${communityChallenge.slug}`;
+      const title = `${communityChallenge.title}: Regeln und Challenge | ChallengeHub`;
+      const socialImage = buildChallengeSocialImageMetadata(
+        communityChallenge.title,
+        communityChallenge.slug
+      );
+
+      return {
+        title,
+        description: communityChallenge.description,
+        alternates: { canonical: url },
+        openGraph: {
+          type: "article",
+          url,
+          title,
+          description: communityChallenge.description,
+          siteName: "ChallengeHub",
+          locale: "de_DE",
+          publishedTime: communityChallenge.createdAt,
+          tags: [communityChallenge.title, communityChallenge.category, "Challenge"],
+          images: [socialImage]
+        },
+        twitter: {
+          card: "summary_large_image",
+          title,
+          description: communityChallenge.description,
+          images: [socialImage.url]
+        }
+      };
+    }
+
     return {
-      title: "Oeffentliche Challenge | ChallengeHub",
-      description: "Eine von der Community erstellte oeffentliche Challenge auf ChallengeHub."
+      title: "Öffentliche Challenge | ChallengeHub",
+      description: "Eine von der Community erstellte öffentliche Challenge auf ChallengeHub.",
+      robots: { index: false, follow: false }
     };
   }
 
   const url = `/challenges/${challenge.slug}`;
   const title = `${challenge.title}: Regeln und Ranking | ChallengeHub`;
+  const socialImage = buildChallengeSocialImageMetadata(challenge.title, challenge.slug);
 
   return {
     title,
@@ -55,23 +103,27 @@ export async function generateMetadata({ params }: ChallengePageProps): Promise<
       siteName: "ChallengeHub",
       locale: "de_DE",
       publishedTime: challenge.createdAt,
-      tags: [challenge.title, levelLabels[challenge.level], "Challenge", "Ranking"]
+      tags: [challenge.title, levelLabels[challenge.level], "Challenge", "Ranking"],
+      images: [socialImage]
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
-      description: challenge.seoDescription
+      description: challenge.seoDescription,
+      images: [socialImage.url]
     }
   };
 }
 
-export default async function ChallengePage({ params }: ChallengePageProps) {
+export default async function ChallengePage({ params, searchParams }: ChallengePageProps) {
   const { slug } = await params;
+  const { einladung } = await searchParams;
   const challenge = getChallengeBySlug(slug);
   const user = await getCurrentUser();
+  const invitation = einladung ? getChallengeInvitationPreview(einladung) : null;
 
   if (!challenge) {
-    const dbChallenge = getPublishedChallengeBySlug(slug);
+    const dbChallenge = await getPublishedChallengeBySlug(slug);
     if (dbChallenge) {
       return (
         <DbChallengeDetail
@@ -85,9 +137,9 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
     return <UserChallengeDetail slug={slug} user={user} />;
   }
 
-  const pageUrl = `${siteUrl}/challenges/${challenge.slug}`;
-  const participantCount = getParticipationCountByChallengeSlug(challenge.slug);
-  const isServerStartAvailable = challenge.slug === firstServerChallengeSlug;
+  const pageUrl = `${SITE_URL}/challenges/${challenge.slug}`;
+  const ranking = getChallengeRankingBySlug(challenge.slug, getTodayKey());
+  const activity = getRecentChallengeActivityBySlug(challenge.slug);
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -108,7 +160,7 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
           name: "ChallengeHub",
           logo: {
             "@type": "ImageObject",
-            url: `${siteUrl}/logo.png`
+            url: `${SITE_URL}/logo.png`
           }
         },
         about: [challenge.goal, levelLabels[challenge.level], challenge.duration]
@@ -123,7 +175,8 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
           position: index + 1,
           text: rule
         }))
-      }
+      },
+      buildChallengeBreadcrumbJsonLd(challenge.title, challenge.slug)
     ]
   };
 
@@ -138,10 +191,26 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
           }}
         />
 
+        {invitation?.challengeSlug === challenge.slug ? (
+          <ChallengeInvitationAcceptance
+            isAuthenticated={Boolean(user)}
+            slug={challenge.slug}
+            token={einladung ?? ""}
+          />
+        ) : null}
+
+        {einladung && invitation?.challengeSlug !== challenge.slug ? (
+          <p className={styles.invitationError} role="alert">
+            {einladung === "selbst"
+              ? "Du kannst deine eigene Einladung nicht annehmen."
+              : "Dieser Einladungslink ist ungültig, abgelaufen oder wurde bereits verwendet."}
+          </p>
+        ) : null}
+
         <section className={styles.hero}>
           <div className={styles.heroMain}>
             <Link className={styles.backLink} href="/challenges">
-              Zurueck zu den Challenges
+              Zurück zu den Challenges
             </Link>
             <p className={styles.level}>Challenge</p>
             <h1>{challenge.title}</h1>
@@ -153,18 +222,12 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
               <ChallengeStart
                 challenge={challenge}
                 isAuthenticated={Boolean(user)}
-                isAvailable={isServerStartAvailable}
                 loginNext={`/challenges/${challenge.slug}`}
               />
               <Link className={styles.secondaryAction} href="/challenge-mate">
                 ChallengeMate finden
               </Link>
             </div>
-            {!isServerStartAvailable && (
-              <p className={styles.unavailableNote}>
-                Der echte Teilnahme-Flow ist aktuell nur fuer die 10.000-Schritte-Challenge aktiv.
-              </p>
-            )}
           </div>
         </section>
 
@@ -174,13 +237,35 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
               <p className={styles.eyebrow}>Ranking</p>
               <h2 id="challenge-ranking">Top 10</h2>
             </div>
-            <p>Wer haelt am laengsten durch?</p>
+            <p>Wer hält am längsten durch?</p>
           </div>
-          <ChallengeRankingTable
-            challenge={{
-              participants: participantCount
-            }}
-          />
+          <ChallengeRankingTable entries={ranking} />
+        </section>
+
+        <section className={styles.activitySection} aria-labelledby="challenge-activity">
+          <div className={styles.sectionHeader}>
+            <div>
+              <p className={styles.eyebrow}>Live aus der Challenge</p>
+              <h2 id="challenge-activity">Letzte Aktivitäten</h2>
+            </div>
+            <p>Echte Check-ins, keine simulierten Meldungen.</p>
+          </div>
+          {activity.length > 0 ? (
+            <ol className={styles.activityList}>
+              {activity.map((entry) => (
+                <li key={entry.id}>
+                  <span className={styles.activityMarker} aria-hidden="true" />
+                  <p>
+                    <strong>{entry.participantName}</strong> hat die Challenge am{" "}
+                    <time dateTime={entry.checkInDate}>{formatActivityDate(entry.checkInDate)}</time>
+                    {" "}erfolgreich abgehakt.
+                  </p>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className={styles.activityEmpty}>Noch wurden keine Check-ins gespeichert.</p>
+          )}
         </section>
 
         <section className={styles.seoContent} aria-labelledby="challenge-info">
@@ -189,11 +274,11 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
             <h2 id="challenge-info">{challenge.title}: Einordnung und Hinweise</h2>
             <p>
               Auf dieser Seite geht es nicht um einen Trainingsplan, sondern um eine klare Aufgabe:
-              Du startest die Challenge, haeltst dich an die Regeln und vergleichst deinen Streak
+              Du startest die Challenge, hältst dich an die Regeln und vergleichst deinen Streak
               mit anderen Teilnehmern.
             </p>
             <p>
-              Fuer echte ChallengeMates zaehlt vor allem, wer bisher wie lange durchgehalten hat.
+              Für echte ChallengeMates zählt vor allem, wer bisher wie lange durchgehalten hat.
               Genau diese Werte sollen mit echten Starts und Check-ins sichtbar werden.
             </p>
           </div>
@@ -202,4 +287,22 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
       <SiteFooter />
     </>
   );
+}
+
+function getTodayKey() {
+  return new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "Europe/Berlin",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(new Date());
+}
+
+function formatActivityDate(date: string) {
+  return new Intl.DateTimeFormat("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    timeZone: "Europe/Berlin"
+  }).format(new Date(`${date}T12:00:00.000Z`));
 }

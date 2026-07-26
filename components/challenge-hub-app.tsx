@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { challenges, levelLabels, type ChallengeLevel } from "@/data/challenges";
 import type { CurrentUser } from "@/lib/auth";
-import type { DbPublicChallenge } from "@/lib/db";
+import type { PublicChallenge } from "@/domain/challenges/public-challenge";
 import { SiteFooter, SiteHeader } from "./site-shell";
 import {
   readUserChallenges,
@@ -39,7 +39,7 @@ export function ChallengeHubApp({
             <h1>Unleash Your Potential and Reach Your Goals</h1>
             <p>
               Wir wollen, dass jeder Mensch happy ist. Als Gemeinschaft halten wir zusammen,
-              motivieren uns gegenseitig und meistern dadurch auch grosse Herausforderungen.
+              motivieren uns gegenseitig und meistern dadurch auch große Herausforderungen.
             </p>
             <form className={styles.heroSearch} role="search" action="/challenges">
               <label className={styles.visuallyHidden} htmlFor="hero-challenge-search">
@@ -59,7 +59,7 @@ export function ChallengeHubApp({
           <div className={styles.heroPanel} aria-label="ChallengeHub Auszug">
             <div className={styles.goalCard}>
               <span>Heute</span>
-              <strong>10.000 Schritte am Tag</strong>
+              <strong>10 000 Schritte am Tag Challenge</strong>
               <small>{stepsParticipants} Teilnehmer</small>
             </div>
             <div className={styles.goalCard}>
@@ -96,7 +96,7 @@ export function ChallengeHubApp({
 type ChallengeCatalogAppProps = {
   participantCounts: Record<string, number>;
   user: CurrentUser | null;
-  serverChallenges: DbPublicChallenge[];
+  serverChallenges: PublicChallenge[];
   initialSearchQuery?: string;
   initialSortKey?: SortKey;
 };
@@ -269,7 +269,7 @@ export function ChallengeCatalogApp({
                 setSelectedLevels([]);
               }}
             >
-              Zuruecksetzen
+              Zurücksetzen
             </button>
           </div>
         </Modal>
@@ -317,7 +317,7 @@ function Modal({
         aria-labelledby="modal-title"
         onMouseDown={(event) => event.stopPropagation()}
       >
-        <button className={styles.closeButton} type="button" aria-label="Dialog schliessen" onClick={onClose}>
+        <button className={styles.closeButton} type="button" aria-label="Dialog schließen" onClick={onClose}>
           x
         </button>
         <Image src="/logo.png" width={150} height={49} alt="ChallengeHub" />

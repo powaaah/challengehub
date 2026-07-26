@@ -125,45 +125,6 @@
   gap: 0.75rem;
 }
 
-.progressTrack {
-  height: 12px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: var(--surface-muted);
-}
-
-.progressTrack span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--brand);
-}
-
-.checkButton,
-.checkedButton,
-.removeButton {
-  min-height: 44px;
-  border: 0;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-weight: 600;
-}
-
-.checkButton {
-  background: var(--brand);
-  color: white;
-}
-
-.checkedButton {
-  background: var(--orange);
-  color: white;
-}
-
-.removeButton {
-  background: var(--surface-muted);
-  color: var(--text);
-}
-
 .actions a {
   color: var(--brand-dark);
   font-weight: 600;

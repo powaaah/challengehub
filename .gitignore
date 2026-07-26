@@ -7,9 +7,12 @@
 
 # testing
 /coverage
+/playwright-report/
+/test-results/
 
 # next.js
 /.next/
+/.next-locked-*/
 /out/
 
 # production
@@ -19,6 +22,10 @@
 .DS_Store
 *.pem
 .agents/
+/.hermes/
+/.vscode/
+/hermes-access-test*.txt
+/port*.txt
 
 # debug
 npm-debug.log*

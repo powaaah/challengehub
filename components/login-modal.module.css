@@ -151,8 +151,26 @@
   text-align: center;
 }
 
-.smallPrint a {
+.forgotLink {
+  display: block;
+  margin-top: 0.8rem;
+  color: var(--brand);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+.switchButton {
+  all: unset;
   color: var(--brand);
   font-weight: 750;
-  text-decoration: none;
+  cursor: pointer;
+}
+
+.switchButton:hover {
+  text-decoration: underline;
 }

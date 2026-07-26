@@ -7,10 +7,22 @@
 
 .hero,
 .rankingSection,
-.seoContent {
+.activitySection,
+.seoContent,
+.invitationError {
   width: min(var(--content-width), calc(100% - (var(--page-gutter) * 2)));
   margin-right: auto;
   margin-left: auto;
+}
+
+.invitationError {
+  margin-top: 1rem;
+  border: 1px solid #d9a4a4;
+  border-radius: 8px;
+  background: #fff2f2;
+  color: #7b2020;
+  padding: 1rem;
+  font-weight: 700;
 }
 
 .hero {
@@ -48,16 +60,12 @@
 }
 
 .hero h1 {
-  display: -webkit-box;
   max-width: 19ch;
-  overflow: hidden;
   margin: 0;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
   color: var(--background-deep);
   font-family: var(--font-display);
   font-size: clamp(3rem, 5.4vw, 4.7rem);
-  line-height: 0.96;
+  line-height: 1.02;
   text-wrap: balance;
 }
 
@@ -116,16 +124,8 @@
   background: rgba(0, 137, 179, 0.08);
 }
 
-.unavailableNote {
-  max-width: 42rem;
-  margin: 0.75rem 0 0;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.45;
-}
-
-.rankingSection {
+.rankingSection,
+.activitySection {
   margin-top: 1rem;
   min-width: 0;
   border: 1px solid rgba(20, 42, 55, 0.1);
@@ -133,6 +133,52 @@
   background: var(--surface);
   padding: clamp(1rem, 3vw, 1.5rem);
   box-shadow: 0 14px 42px rgba(18, 34, 52, 0.06);
+}
+
+.activitySection {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.activityList {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activityList li {
+  display: grid;
+  grid-template-columns: 0.75rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding: 0.9rem 0;
+}
+
+.activityList li:last-child {
+  padding-bottom: 0;
+}
+
+.activityList p,
+.activityEmpty {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.activityMarker {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 999px;
+  background: var(--brand);
+  box-shadow: 0 0 0 4px rgba(0, 137, 179, 0.12);
+}
+
+.activityEmpty {
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  color: var(--text-muted);
+  font-weight: 650;
 }
 
 .sectionHeader {

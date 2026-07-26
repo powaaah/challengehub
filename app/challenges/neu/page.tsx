@@ -5,7 +5,7 @@ import { createChallengeAction } from "./actions";
 
 export const metadata: Metadata = {
   title: "Challenge erstellen | ChallengeHub",
-  description: "Erstelle eine eigene oeffentliche Challenge auf ChallengeHub."
+  description: "Erstelle eine eigene öffentliche Challenge auf ChallengeHub."
 };
 
 export default async function NewChallengePage() {

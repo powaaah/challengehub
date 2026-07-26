@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { MyChallengesApp } from "@/components/my-challenges-app";
 import { getCurrentUser } from "@/lib/auth";
-import { getParticipationsForUser } from "@/lib/db";
+import { getParticipationsForUser } from "@/lib/participations";
 
 export const metadata: Metadata = {
   title: "Meine Challenges | ChallengeHub",
-  description: "Deine lokal gestarteten Challenges, heutige Check-ins und Streaks.",
+  description: "Deine serverseitig gespeicherten Challenge-Teilnahmen, Check-ins, Fortschritte und Rankings.",
   alternates: {
     canonical: "/meine-challenges"
   },

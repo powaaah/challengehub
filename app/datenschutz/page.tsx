@@ -5,7 +5,7 @@ import styles from "../legal-pages.module.css";
 
 export const metadata: Metadata = {
   title: "Datenschutz | ChallengeHub",
-  description: "Vorlaeufige Datenschutzinformationen fuer den ChallengeHub Next.js-Rebuild.",
+  description: "Vorläufige Datenschutzinformationen für den ChallengeHub Next.js-Rebuild.",
   alternates: {
     canonical: "/datenschutz"
   },
@@ -31,15 +31,15 @@ export default async function DatenschutzPage() {
           Diese Datenschutzhinweise beschreiben den aktuellen statischen
           Next.js-Rebuild. Sobald Login, Registrierung, Tracking, Kontaktformulare
           oder Datenbankfunktionen aktiviert werden, muss diese Seite aktualisiert
-          und final geprueft werden.
+          und final geprüft werden.
         </p>
 
         <div className={styles.warning}>
-          <h2>Vorlaeufiger Stand</h2>
+          <h2>Vorläufiger Stand</h2>
           <p>
             Im aktuellen lokalen Rebuild werden keine produktiven Nutzerkonten,
-            Passwoerter, Zahlungsdaten oder Challenge-Fortschritte gespeichert.
-            Server-Hosting, Logfiles und spaetere Features koennen aber
+            Passwörter, Zahlungsdaten oder Challenge-Fortschritte gespeichert.
+            Server-Hosting, Logfiles und spätere Features können aber
             personenbezogene Daten betreffen.
           </p>
         </div>
@@ -56,17 +56,17 @@ export default async function DatenschutzPage() {
           <h2>Aktuelle Datenverarbeitung im Rebuild</h2>
           <ul>
             <li>Statische Seiteninhalte zu Challenges und Wissen.</li>
-            <li>Clientseitige Suche und Filterung ohne Serveruebertragung.</li>
+            <li>Clientseitige Suche und Filterung ohne Serverübertragung.</li>
             <li>Login- und Registrierungsformulare sind noch nicht produktiv angebunden.</li>
             <li>Kein bewusst eingebundenes Tracking im Next.js-Rebuild.</li>
           </ul>
 
-          <h2>Zu klaeren vor Livegang</h2>
+          <h2>Zu klären vor Livegang</h2>
           <ul>
             <li>Hosting-Provider und Server-Logfiles</li>
             <li>Rechtsgrundlagen nach DSGVO Art. 6</li>
             <li>Informationspflichten nach DSGVO Art. 13</li>
-            <li>Speicherdauer und Loeschkonzept</li>
+            <li>Speicherdauer und Löschkonzept</li>
             <li>Betroffenenrechte und Kontaktweg</li>
             <li>Cookies, Analytics, Newsletter oder externe Dienste</li>
             <li>Auth, Datenbank, Check-ins und Bewertungen</li>

@@ -122,6 +122,23 @@
   font-weight: 650;
 }
 
+.error p {
+  margin: 0;
+}
+
+.error ul {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.65rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.error a {
+  color: var(--brand-dark);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
 .notice {
   display: grid;
   gap: 0.5rem;
@@ -133,11 +150,13 @@
   line-height: 1.55;
 }
 
-.notice a {
+.notice button {
+  all: unset;
   color: var(--brand-dark);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 0.2rem;
+  cursor: pointer;
 }
 
 .preview {

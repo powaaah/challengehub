@@ -5,7 +5,7 @@ import styles from "../legal-pages.module.css";
 
 export const metadata: Metadata = {
   title: "Impressum | ChallengeHub",
-  description: "Anbieterkennzeichnung fuer ChallengeHub.",
+  description: "Anbieterkennzeichnung für ChallengeHub.",
   alternates: {
     canonical: "/impressum"
   },
@@ -28,16 +28,16 @@ export default async function ImpressumPage() {
         <p className={styles.kicker}>Rechtliches</p>
         <h1>Impressum</h1>
         <p className={styles.intro}>
-          Diese Seite ist als Struktur fuer die Anbieterkennzeichnung angelegt.
-          Die konkreten Pflichtangaben muessen vor einem Livegang final von Stefan
-          eingetragen und geprueft werden.
+          Diese Seite ist als Struktur für die Anbieterkennzeichnung angelegt.
+          Die konkreten Pflichtangaben müssen vor einem Livegang final von Stefan
+          eingetragen und geprüft werden.
         </p>
 
         <div className={styles.warning}>
-          <h2>Vor Livegang ausfuellen</h2>
+          <h2>Vor Livegang ausfüllen</h2>
           <p>
-            Nach DDG § 5 muessen relevante Anbieterangaben leicht erkennbar,
-            unmittelbar erreichbar und staendig verfuegbar sein. Die folgenden
+            Nach DDG § 5 müssen relevante Anbieterangaben leicht erkennbar,
+            unmittelbar erreichbar und ständig verfügbar sein. Die folgenden
             Felder sind Platzhalter und nicht als finales Impressum geeignet.
           </p>
         </div>
@@ -57,7 +57,7 @@ export default async function ImpressumPage() {
           <div className={styles.placeholder}>
             <code>E-Mail:</code>
             <span>[Bitte final eintragen]</span>
-            <code>Telefon, falls erforderlich/gewuenscht:</code>
+            <code>Telefon, falls erforderlich/gewünscht:</code>
             <span>[Bitte final eintragen]</span>
           </div>
 
@@ -65,7 +65,7 @@ export default async function ImpressumPage() {
           <ul>
             <li>Umsatzsteuer-ID oder Wirtschafts-ID</li>
             <li>Registereintrag</li>
-            <li>Zustaendige Aufsichtsbehoerde</li>
+            <li>Zuständige Aufsichtsbehörde</li>
             <li>Berufsrechtliche Angaben</li>
             <li>Angaben zur Verbraucherstreitbeilegung</li>
           </ul>

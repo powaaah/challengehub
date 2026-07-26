@@ -1,18 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
 import type { CurrentUser } from "@/lib/auth";
-import {
-  calculateProgress,
-  calculateStreak,
-  readActiveChallenges,
-  todayKey,
-  type ActiveChallenge,
-  writeActiveChallenges
-} from "./challenge-storage";
+import type { Participation } from "@/domain/participations/participation";
 import { SiteFooter, SiteHeader } from "./site-shell";
-import type { DbParticipation } from "@/lib/db";
 import styles from "./my-challenges-app.module.css";
 
 export function MyChallengesApp({
@@ -20,171 +9,64 @@ export function MyChallengesApp({
   participations
 }: {
   user: CurrentUser;
-  participations: DbParticipation[];
+  participations: Participation[];
 }) {
-  const [activeChallenges, setActiveChallenges] = useState<ActiveChallenge[]>([]);
-  const today = useMemo(() => todayKey(), []);
-
-  useEffect(() => {
-    function syncChallenges() {
-      setActiveChallenges(readActiveChallenges());
-    }
-
-    syncChallenges();
-    window.addEventListener("storage", syncChallenges);
-    window.addEventListener("challengehub:active-challenges", syncChallenges);
-
-    return () => {
-      window.removeEventListener("storage", syncChallenges);
-      window.removeEventListener("challengehub:active-challenges", syncChallenges);
-    };
-  }, []);
-
-  function updateChallenges(nextChallenges: ActiveChallenge[]) {
-    setActiveChallenges(nextChallenges);
-    writeActiveChallenges(nextChallenges);
-  }
-
-  function toggleToday(slug: string) {
-    updateChallenges(
-      activeChallenges.map((challenge) => {
-        if (challenge.slug !== slug) {
-          return challenge;
-        }
-
-        const hasToday = challenge.checkIns.includes(today);
-        return {
-          ...challenge,
-          checkIns: hasToday
-            ? challenge.checkIns.filter((date) => date !== today)
-            : [...challenge.checkIns, today].sort()
-        };
-      })
-    );
-  }
-
-  function removeChallenge(slug: string) {
-    updateChallenges(activeChallenges.filter((challenge) => challenge.slug !== slug));
-  }
-
   return (
     <>
       <SiteHeader user={user} />
       <main className={styles.page}>
-      <section className={styles.hero}>
-        <p className={styles.kicker}>Dein Dashboard</p>
-        <h1>Meine Challenges</h1>
-        <p>
-          Sieh, was heute offen ist, hake erledigte Tage ab und beobachte deinen Fortschritt.
-          Neue Teilnahmen werden serverseitig gespeichert.
-        </p>
-      </section>
-
-      {participations.length > 0 && (
-        <section className={styles.grid} aria-label="Serverseitige Challenges">
-          {participations.map((participation) => (
-            <article className={styles.card} key={participation.id}>
-              <div>
-                <p className={styles.cardKicker}>Gestartet am {formatIsoDate(participation.startedAt)}</p>
-                <h2>{participation.challengeTitle}</h2>
-                <p>{participation.challengeGoal}</p>
-              </div>
-              <dl className={styles.stats}>
-                <div>
-                  <dt>Status</dt>
-                  <dd>{participation.status}</dd>
-                </div>
-                <div>
-                  <dt>Speicherung</dt>
-                  <dd>Server</dd>
-                </div>
-                <div>
-                  <dt>Raum</dt>
-                  <dd>aktiv</dd>
-                </div>
-              </dl>
-              <div className={styles.actions}>
-                <Link href={`/meine-challenges/${participation.id}`}>Challenge-Raum</Link>
-                <Link href={`/challenges/${participation.challengeSlug}`}>Detailseite</Link>
-              </div>
-            </article>
-          ))}
+        <section className={styles.hero}>
+          <p className={styles.kicker}>Dein Dashboard</p>
+          <h1>Meine Challenges</h1>
+          <p>
+            Sieh deine serverseitig gespeicherten Teilnahmen und öffne den Challenge-Raum für
+            Check-ins, Fortschritt und Ranking.
+          </p>
         </section>
-      )}
 
-      {activeChallenges.length === 0 && participations.length === 0 && (
-        <section className={styles.emptyState}>
-          <h2>Noch keine aktive Challenge</h2>
-          <p>Starte eine Challenge auf einer Detailseite und mache hier deinen ersten Check-in.</p>
-          <div className={styles.emptyActions}>
-            <Link href="/challenges">Challenges entdecken</Link>
-          </div>
-        </section>
-      )}
-
-      {activeChallenges.length > 0 && (
-        <section className={styles.grid} aria-label="Aktive Challenges">
-          {activeChallenges.map((challenge) => {
-            const hasCheckedInToday = challenge.checkIns.includes(today);
-            const streak = calculateStreak(challenge.checkIns, today);
-            const progress = calculateProgress(challenge.checkIns, challenge.targetDays);
-
-            return (
-              <article className={styles.card} key={challenge.slug}>
+        {participations.length === 0 ? (
+          <section className={styles.emptyState}>
+            <h2>Noch keine aktive Challenge</h2>
+            <p>Starte eine Challenge auf einer Detailseite und mache dort deinen ersten Check-in.</p>
+            <div className={styles.emptyActions}>
+              <Link href="/challenges">Challenges entdecken</Link>
+            </div>
+          </section>
+        ) : (
+          <section className={styles.grid} aria-label="Meine Challenges">
+            {participations.map((participation) => (
+              <article className={styles.card} key={participation.id}>
                 <div>
-                  <p className={styles.cardKicker}>Gestartet am {formatDate(challenge.startedAt)}</p>
-                  <h2>{challenge.title}</h2>
-                  <p>{challenge.goal}</p>
+                  <p className={styles.cardKicker}>Gestartet am {formatIsoDate(participation.startedAt)}</p>
+                  <h2>{participation.challengeTitle}</h2>
+                  <p>{participation.challengeGoal}</p>
                 </div>
                 <dl className={styles.stats}>
                   <div>
-                    <dt>Streak</dt>
-                    <dd>{streak} Tage</dd>
+                    <dt>Status</dt>
+                    <dd>{participation.status === "active" ? "Aktiv" : "Beendet"}</dd>
                   </div>
                   <div>
-                    <dt>Check-ins</dt>
-                    <dd>{challenge.checkIns.length}</dd>
+                    <dt>Speicherung</dt>
+                    <dd>Server</dd>
                   </div>
                   <div>
-                    <dt>Fortschritt</dt>
-                    <dd>{challenge.targetDays ? `${progress}%` : challenge.duration}</dd>
+                    <dt>Raum</dt>
+                    <dd>{participation.status === "active" ? "Aktiv" : "Archiv"}</dd>
                   </div>
                 </dl>
-                {challenge.targetDays && (
-                  <div className={styles.progressTrack} aria-label={`${progress}% Fortschritt`}>
-                    <span style={{ width: `${progress}%` }} />
-                  </div>
-                )}
                 <div className={styles.actions}>
-                  <button
-                    className={hasCheckedInToday ? styles.checkedButton : styles.checkButton}
-                    type="button"
-                    onClick={() => toggleToday(challenge.slug)}
-                  >
-                    {hasCheckedInToday ? "Heute erledigt" : "Heute einchecken"}
-                  </button>
-                  <Link href={`/challenges/${challenge.slug}`}>Detailseite</Link>
-                  <button className={styles.removeButton} type="button" onClick={() => removeChallenge(challenge.slug)}>
-                    Entfernen
-                  </button>
+                  <Link href={`/meine-challenges/${participation.id}`}>Challenge-Raum</Link>
+                  <Link href={`/challenges/${participation.challengeSlug}`}>Detailseite</Link>
                 </div>
               </article>
-            );
-          })}
-        </section>
-      )}
+            ))}
+          </section>
+        )}
       </main>
       <SiteFooter />
     </>
   );
-}
-
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat("de-DE", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric"
-  }).format(new Date(`${value}T12:00:00`));
 }
 
 function formatIsoDate(value: string) {

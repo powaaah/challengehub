@@ -2,10 +2,10 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { randomBytes, scryptSync, timingSafeEqual, createHash, randomUUID } from "node:crypto";
 import {
-  createSessionRow,
-  deleteSessionByTokenHash,
-  findUserBySessionTokenHash
-} from "./db";
+  createAccountSession,
+  deleteAccountSessionByTokenHash,
+  findAccountBySessionTokenHash
+} from "./accounts";
 
 const sessionCookieName = "challengehub_session";
 const sessionMaxAgeSeconds = 60 * 60 * 24 * 30;
@@ -38,12 +38,16 @@ export async function createSession(userId: string) {
   const tokenHash = hashSessionToken(token);
   const expiresAt = new Date(Date.now() + sessionMaxAgeSeconds * 1000);
 
-  createSessionRow({
+  const result = createAccountSession({
     id: randomUUID(),
     userId,
     tokenHash,
     expiresAt: expiresAt.toISOString()
   });
+
+  if (result.status !== "created") {
+    throw new Error("Session could not be created.");
+  }
 
   const cookieStore = await cookies();
   cookieStore.set(sessionCookieName, token, {
@@ -60,7 +64,7 @@ export async function clearSession() {
   const token = cookieStore.get(sessionCookieName)?.value;
 
   if (token) {
-    deleteSessionByTokenHash(hashSessionToken(token));
+    deleteAccountSessionByTokenHash(hashSessionToken(token));
   }
 
   cookieStore.delete(sessionCookieName);
@@ -74,7 +78,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     return null;
   }
 
-  const user = findUserBySessionTokenHash(hashSessionToken(token));
+  const user = findAccountBySessionTokenHash(hashSessionToken(token), new Date().toISOString());
 
   if (!user) {
     return null;

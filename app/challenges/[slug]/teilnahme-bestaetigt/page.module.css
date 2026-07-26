@@ -1,0 +1,96 @@
+.page {
+  display: grid;
+  min-height: calc(100vh - 9rem);
+  place-items: center;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(0, 137, 179, 0.14), transparent 30rem),
+    linear-gradient(180deg, #eef2f4 0, var(--background) 100%);
+  padding: clamp(2rem, 7vw, 6rem) var(--page-gutter);
+}
+
+.card {
+  width: min(48rem, 100%);
+  border: 1px solid rgba(20, 42, 55, 0.12);
+  border-top: 4px solid var(--brand);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  box-shadow: 0 24px 70px rgba(18, 34, 52, 0.12);
+}
+
+.kicker {
+  margin: 0 0 0.75rem;
+  color: var(--brand-dark);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.card h1 {
+  max-width: 14ch;
+  margin: 0;
+  color: var(--background-deep);
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.intro {
+  max-width: 40rem;
+  margin: 1.35rem 0 0;
+  color: var(--text);
+  font-size: clamp(1rem, 2vw, 1.16rem);
+  line-height: 1.7;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.primaryAction,
+.secondaryAction {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 0.8rem 1.1rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.primaryAction {
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+
+.primaryAction:hover {
+  background: var(--brand-dark);
+}
+
+.secondaryAction {
+  border: 1px solid rgba(0, 137, 179, 0.48);
+  background: #fff;
+  color: var(--brand-dark);
+}
+
+.secondaryAction:hover {
+  background: rgba(0, 137, 179, 0.08);
+}
+
+@media (max-width: 560px) {
+  .actions {
+    display: grid;
+  }
+
+  .primaryAction,
+  .secondaryAction {
+    width: 100%;
+  }
+}

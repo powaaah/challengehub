@@ -3,7 +3,8 @@ import { SiteFooter, SiteHeader } from "./site-shell";
 import { ChallengeStart } from "./challenge-start";
 import { levelLabels } from "@/data/challenges";
 import type { CurrentUser } from "@/lib/auth";
-import type { DbPublicChallenge } from "@/lib/db";
+import type { PublicChallenge } from "@/domain/challenges/public-challenge";
+import { buildChallengeBreadcrumbJsonLd, SITE_URL } from "@/lib/seo";
 import styles from "./user-challenge-detail.module.css";
 
 export function DbChallengeDetail({
@@ -11,25 +12,66 @@ export function DbChallengeDetail({
   participantCount,
   user
 }: {
-  challenge: DbPublicChallenge;
+  challenge: PublicChallenge;
   participantCount: number;
   user: CurrentUser | null;
 }) {
+  const pageUrl = `${SITE_URL}/challenges/${challenge.slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": `${pageUrl}#article`,
+        headline: challenge.title,
+        description: challenge.description,
+        datePublished: challenge.createdAt,
+        dateModified: challenge.createdAt,
+        mainEntityOfPage: pageUrl,
+        author: {
+          "@type": "Person",
+          name: challenge.creatorName
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "ChallengeHub"
+        }
+      },
+      {
+        "@type": "HowTo",
+        "@id": `${pageUrl}#rules`,
+        name: `${challenge.title} Regeln`,
+        description: challenge.goal,
+        step: challenge.rules.map((rule, index) => ({
+          "@type": "HowToStep",
+          position: index + 1,
+          text: rule
+        }))
+      },
+      buildChallengeBreadcrumbJsonLd(challenge.title, challenge.slug)
+    ]
+  };
+
   return (
     <>
     <SiteHeader user={user} />
     <main className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c")
+        }}
+      />
       <section className={`${styles.hero} ${styles[challenge.level]}`}>
         <Link className={styles.backLink} href="/challenges">
-          Zurueck zu den Challenges
+          Zurück zu den Challenges
         </Link>
-        <p className={styles.level}>Oeffentliche Challenge | {levelLabels[challenge.level]}</p>
+        <p className={styles.level}>Öffentliche Challenge | {levelLabels[challenge.level]}</p>
         <h1>{challenge.title}</h1>
         <p className={styles.description}>{challenge.description}</p>
         <div className={styles.heroActions}>
           <ChallengeStart
             isAuthenticated={Boolean(user)}
-            isAvailable={false}
             loginNext={`/challenges/${challenge.slug}`}
             challenge={{
               slug: challenge.slug,
@@ -53,8 +95,8 @@ export function DbChallengeDetail({
           <p className={styles.eyebrow}>Ziel</p>
           <h2>{challenge.goal}</h2>
           <p>
-            Diese Challenge ist serverseitig gespeichert und oeffentlich im Katalog sichtbar.
-            Starte sie, checke regelmaessig ein und beobachte deinen Fortschritt.
+            Diese Challenge ist serverseitig gespeichert und öffentlich im Katalog sichtbar.
+            Starte sie, checke regelmäßig ein und beobachte deinen Fortschritt.
           </p>
         </div>
 
@@ -67,12 +109,11 @@ export function DbChallengeDetail({
           </ol>
           <div className={styles.safetyNotice}>
             <strong>Sicherheit zuerst.</strong>
-            <p>Pruefe bei koerperlichen oder gesundheitlichen Challenges deine Voraussetzungen und brich bei Warnsignalen ab.</p>
+            <p>Prüfe bei körperlichen oder gesundheitlichen Challenges deine Voraussetzungen und brich bei Warnsignalen ab.</p>
             <Link href="/sicherheit">Sicherheitshinweise lesen</Link>
           </div>
           <ChallengeStart
             isAuthenticated={Boolean(user)}
-            isAvailable={false}
             loginNext={`/challenges/${challenge.slug}`}
             challenge={{
               slug: challenge.slug,

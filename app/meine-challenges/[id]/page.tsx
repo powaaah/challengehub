@@ -1,17 +1,25 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { ChallengeHistory } from "@/components/challenge-history";
+import { ChallengeInvitation } from "@/components/challenge-invitation";
+import { ChallengeRankingTable } from "@/components/challenge-ranking-table";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getCurrentUser } from "@/lib/auth";
-import { getCheckInDatesForParticipation, getParticipationByIdForUser } from "@/lib/db";
-import { checkInTodayAction } from "./actions";
+import { buildChallengeHistory, calculateChallengeProgress } from "@/lib/challenge-progress";
+import { getChallengeRankingBySlug } from "@/lib/challenge-participation-stats";
+import {
+  getCheckInDatesForParticipation,
+  getParticipationByIdForUser
+} from "@/lib/participations";
+import { checkInTodayAction, leaveChallengeAction } from "./actions";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Challenge-Raum | ChallengeHub",
-  description: "Dein persoenlicher Raum fuer eine gestartete Challenge.",
+  description: "Dein persönlicher Raum für eine gestartete Challenge.",
   robots: {
     index: false,
     follow: false
@@ -41,15 +49,25 @@ export default async function ChallengeRoomPage({ params }: ChallengeRoomPagePro
     notFound();
   }
 
+  const isActive = participation.status === "active";
+
   const checkInDates = getCheckInDatesForParticipation({
     participationId: participation.id,
     userId: user.id
   });
   const today = getTodayKey();
-  const hasCheckedInToday = checkInDates.includes(today);
-  const daysSinceStart = getDaysSinceStart(participation.startedAt, today);
-  const missedDays = Math.max(daysSinceStart - checkInDates.length, 0);
-  const completionRate = daysSinceStart > 0 ? Math.round((checkInDates.length / daysSinceStart) * 100) : 0;
+  const progress = calculateChallengeProgress({
+    startedAt: participation.startedAt,
+    checkInDates,
+    today
+  });
+  const history = buildChallengeHistory({
+    startedAt: participation.startedAt,
+    checkInDates,
+    today
+  });
+  const ranking = getChallengeRankingBySlug(participation.challengeSlug, today);
+  const ownRanking = ranking.find((entry) => entry.id === participation.id);
 
   return (
     <>
@@ -57,24 +75,28 @@ export default async function ChallengeRoomPage({ params }: ChallengeRoomPagePro
       <main className={styles.page}>
         <section className={styles.room}>
           <Link className={styles.backLink} href="/meine-challenges">
-            Zurueck zu Meine Challenges
+            Zurück zu Meine Challenges
           </Link>
           <div className={styles.hero}>
             <article className={styles.panel}>
               <p className={styles.kicker}>Challenge-Raum</p>
               <h1>{participation.challengeTitle}</h1>
               <p className={styles.goal}>{participation.challengeGoal}</p>
-              <form action={checkInTodayAction}>
-                <input type="hidden" name="participationId" value={participation.id} />
-                <button className={styles.checkButton} type="submit" disabled={hasCheckedInToday}>
-                  {hasCheckedInToday ? "Heute gespeichert" : "Challenge heute durchgefuehrt"}
-                </button>
-              </form>
+              {isActive ? (
+                <form action={checkInTodayAction}>
+                  <input type="hidden" name="participationId" value={participation.id} />
+                  <button className={styles.checkButton} type="submit" disabled={progress.hasCheckedInToday}>
+                    {progress.hasCheckedInToday ? "Heute gespeichert" : "Challenge heute durchgeführt"}
+                  </button>
+                </form>
+              ) : (
+                <p className={styles.note}>Diese Teilnahme ist beendet. Dein bisheriger Verlauf bleibt sichtbar.</p>
+              )}
             </article>
 
             <aside className={styles.panel}>
               <p className={styles.kicker}>Dein Stand</p>
-              <h2>Aktiv</h2>
+              <h2>{isActive ? "Aktiv" : "Beendet"}</h2>
               <dl className={styles.stats}>
                 <div>
                   <dt>Gestartet</dt>
@@ -82,23 +104,82 @@ export default async function ChallengeRoomPage({ params }: ChallengeRoomPagePro
                 </div>
                 <div>
                   <dt>Status</dt>
-                  <dd>{participation.status}</dd>
+                  <dd>{isActive ? "Aktiv" : "Beendet"}</dd>
                 </div>
+                {participation.completedAt ? (
+                  <div>
+                    <dt>Beendet</dt>
+                    <dd>{formatIsoDate(participation.completedAt)}</dd>
+                  </div>
+                ) : null}
                 <div>
                   <dt>Erledigt</dt>
-                  <dd>{checkInDates.length} Tage</dd>
+                  <dd>{progress.fulfilledDays} Tage</dd>
                 </div>
                 <div>
                   <dt>Verpasst</dt>
-                  <dd>{missedDays} Tage</dd>
+                  <dd>{progress.missedDays} Tage</dd>
+                </div>
+                <div>
+                  <dt>Aktuelle Serie</dt>
+                  <dd>{progress.currentStreak} Tage</dd>
+                </div>
+                <div>
+                  <dt>Längste Serie</dt>
+                  <dd>{progress.longestStreak} Tage</dd>
                 </div>
                 <div>
                   <dt>Quote</dt>
-                  <dd>{completionRate}%</dd>
+                  <dd>{progress.completionRate}%</dd>
+                </div>
+                <div>
+                  <dt>Rang</dt>
+                  <dd>{ownRanking ? `#${ownRanking.rank}` : "-"}</dd>
                 </div>
               </dl>
             </aside>
           </div>
+
+          <ChallengeHistory days={history} />
+
+          {isActive ? (
+            <section className={styles.reminder} aria-labelledby="calendar-reminder">
+              <div>
+                <p className={styles.kicker}>Erinnerung</p>
+                <h2 id="calendar-reminder">Täglich an deine Challenge denken</h2>
+                <p>
+                  Lade einen täglichen Kalendereintrag für 18 Uhr herunter. Die Uhrzeit kannst du anschließend
+                  in deiner Kalender-App ändern.
+                </p>
+              </div>
+              <a href={`/meine-challenges/${participation.id}/erinnerung`} download>
+                Kalender-Erinnerung herunterladen
+              </a>
+            </section>
+          ) : null}
+
+          <section aria-labelledby="room-ranking">
+            <p className={styles.kicker}>Wettbewerb</p>
+            <h2 id="room-ranking">Ranking dieser Challenge</h2>
+            <ChallengeRankingTable entries={ranking} currentParticipationId={participation.id} />
+          </section>
+
+          {isActive ? <ChallengeInvitation participationId={participation.id} /> : null}
+
+          {isActive ? (
+            <details className={styles.dangerZone}>
+              <summary>Challenge verlassen</summary>
+              <div>
+                <h2>Teilnahme wirklich beenden?</h2>
+                <p>Deine bisherigen Check-ins bleiben als Verlauf erhalten.</p>
+                <p>Neue Check-ins und Einladungen sind danach nicht mehr möglich.</p>
+                <form action={leaveChallengeAction}>
+                  <input type="hidden" name="participationId" value={participation.id} />
+                  <button type="submit">Teilnahme endgültig beenden</button>
+                </form>
+              </div>
+            </details>
+          ) : null}
         </section>
       </main>
       <SiteFooter />
@@ -121,12 +202,4 @@ function getTodayKey() {
     month: "2-digit",
     day: "2-digit"
   }).format(new Date());
-}
-
-function getDaysSinceStart(startedAt: string, today: string) {
-  const start = new Date(`${startedAt.slice(0, 10)}T12:00:00`);
-  const end = new Date(`${today}T12:00:00`);
-  const diff = end.getTime() - start.getTime();
-
-  return Math.max(Math.floor(diff / 86_400_000) + 1, 1);
 }

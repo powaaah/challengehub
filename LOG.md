@@ -945,3 +945,995 @@
   geprueft: Header-Login oeffnet Dialog auf derselben URL, E-Mail- und
   Passwortfeld sichtbar, `next` zeigt auf die aktuelle Challenge-Seite, kein
   horizontaler Overflow auf 1366px und 390px.
+
+## 2026-07-12 - SEO- und kontinuierliche Arbeitsweise priorisiert
+
+- Ziel: Skalierbarkeit und spaetere iOS-/Android-App vorbereiten, ohne die
+  organische Auffindbarkeit der Website zu gefaehrden, und ChallengeHub in
+  kontinuierlichen Arbeitsschleifen weiterentwickeln.
+- Aenderungen: `TODOS.md` um SEO als feste Architektur- und Abnahmeanforderung,
+  den skalierbaren modularen Monolithen mit PostgreSQL/API, die spaetere
+  Expo-App sowie eine kleine, getestete und dokumentierte Slice-Schleife
+  erweitert.
+- Verifikation: Markdown-Diff geprueft; keine Anwendungsaenderung vorgenommen.
+- Offene Risiken: Intervall und Autonomiegrad einer automatisierten Schleife
+  muessen mit Stefan festgelegt werden; produktive Deployments bleiben
+  freigabepflichtig.
+- Naechster Schritt: Ersten Architektur-Slice fuer PostgreSQL-Migration,
+  Domainlogik und API planen, dabei SEO-Baseline als Regressionstest erfassen.
+
+## 2026-07-12 - Echtes Server-Ranking und Fortschrittslogik
+
+- Ziel: Den Kernloop der 10.000-Schritte-Challenge nach einem Check-in mit
+  echtem Fortschritt, Streak, Quote und Wettbewerb schliessen.
+- Aenderungen: Getestete Domainlogik fuer vergangene, erfuellte und verpasste
+  Tage, aktuelle/laengste Serie und Durchhaltequote angelegt; aktive
+  Teilnahmen und Check-ins serverseitig zum Challenge-Ranking zusammengefuehrt;
+  Sortierung nach aktueller Serie, Quote, erfuellten Tagen und Startdatum
+  umgesetzt; Challenge-Detailseite zeigt echte Top-10-Daten; persoenlicher
+  Challenge-Raum zeigt beide Streaks, Quote, Fehl-Tage, Rang und markiert den
+  eigenen Rankingeintrag. `npm test` als Projektcheck eingefuehrt.
+- Verifikation: Test zuerst gegen fehlende Domainlogik fehlschlagen lassen;
+  danach 5/5 Node-Tests erfolgreich; `npm run lint` und `npm run build`
+  erfolgreich; lokaler Browser-Smoke-Test der oeffentlichen Detailseite mit
+  korrektem SEO-Titel, Top-10-Tabelle und ehrlichem Leerzustand erfolgreich;
+  `git diff --check` ohne Fehler.
+- Offene Risiken: SQLite und dessen Node-API bleiben experimentell; Ranking wird
+  fuer den MVP bei jedem Seitenaufruf aus Check-ins berechnet und braucht vor
+  grosser Last PostgreSQL, Indizes und spaeter Aggregation/Cache. Der alte
+  LocalStorage-Bereich in `/meine-challenges` ist noch vorhanden.
+- Naechster Schritt: LocalStorage-Fallback entfernen und danach den
+  Freund-herausfordern-Slice mit sicheren Einladungstokens umsetzen.
+
+## 2026-07-12 - Meine Challenges vollstaendig serverseitig
+
+- Ziel: Den alten LocalStorage-Fallback aus dem Account-Dashboard entfernen,
+  damit eingeloggte Nutzer nur noch ihre serverseitig gespeicherten Teilnahmen
+  sehen und bearbeiten.
+- Aenderungen: `MyChallengesApp` von lokaler Client-State-/Storage-Logik auf eine
+  serverseitig renderbare Darstellung der DB-Teilnahmen reduziert; lokale
+  Check-in-, Entfernen- und Fortschrittsaktionen samt ungenutztem CSS entfernt;
+  Dashboard-Intro, Leerzustand und Metadata-Description auf den Server-Flow
+  angepasst; Todo abgeschlossen.
+- Verifikation: `npm test` mit 5/5 bestandenen Tests, `npm run lint`,
+  `npm run build` und `git diff --check` erfolgreich. Lokaler Production-Smoke-
+  Test bestaetigt fuer `/meine-challenges` ohne Sitzung den erwarteten HTTP-307-
+  Redirect auf `/auth?next=/meine-challenges`. Die oeffentliche Challenge-Seite
+  rendert weiterhin Titel, Canonical, JSON-LD und H1 serverseitig.
+- Offene Risiken: Die bereits vorhandenen URLs `/robots.txt` und `/sitemap.xml`
+  liefern noch 404; das ist keine Regression dieser Dashboard-Slice, sollte
+  wegen der festgelegten SEO-Abnahme aber als naechste kleine Slice behoben
+  werden. SQLite und die Node-API bleiben experimentell.
+- Naechster Schritt: Dynamische Next.js-Metadata-Routen fuer `robots.txt` und
+  `sitemap.xml` mit Tests fuer kanonische, indexierbare URLs ergaenzen.
+
+## 2026-07-12 - Crawlbare Sitemap und Robots-Regeln
+
+- Ziel: Die bisher fehlenden SEO-Basisendpunkte `robots.txt` und `sitemap.xml`
+  als kleine, testbare Slice bereitstellen.
+- Aenderungen: Next.js-Metadata-Routen fuer Robots und Sitemap angelegt;
+  nicht-oeffentliche Account-, Teilnahme-, Mate- und Erstellungsbereiche fuer
+  Crawler ausgeschlossen; kanonische URLs fuer oeffentliche Seiten, kuratierte
+  Challenges und Wissensartikel aufgenommen; veroeffentlichte DB-Challenges
+  werden dynamisch ergaenzt und Slug-Duplikate entfernt; Sitemap-Logik in einer
+  getrennt testbaren SEO-Hilfsschicht gebuendelt.
+- Verifikation: `npm test` mit 7/7 bestandenen Tests; `npm run lint` ohne Fehler
+  (drei Warnungen ausschliesslich aus dem bereits vorhandenen unversionierten
+  `.next-locked-20260712-0640`-Buildartefakt); `npm run build` erfolgreich und
+  beide Metadata-Routen im Route-Manifest; lokaler Production-Smoke-Test liefert
+  die erwarteten Robots-Regeln sowie kanonische Challenge-/Wissens-URLs in der
+  XML-Sitemap.
+- Offene Risiken: SQLite/`node:sqlite` bleibt experimentell; die Sitemap liest
+  veroeffentlichte DB-Challenges bei jedem Aufruf und sollte beim PostgreSQL-
+  Umbau in die geplante Datenzugriffsschicht wandern. Rechtstexte sind weiterhin
+  nicht final freigegeben.
+- Naechster Schritt: Als naechste Architektur-Slice eine versionierte
+  PostgreSQL-Migrationsbasis und klare Repository-Grenze vorbereiten, ohne den
+  laufenden SQLite-MVP sofort umzuschalten.
+
+## 2026-07-12 - Versionierte PostgreSQL-Ausgangsmigration
+
+- Ziel: Den ersten kleinen Architektur-Slice des modularen Monolithen schaffen,
+  ohne den laufenden SQLite-MVP oder die crawlbare Next.js-Oberflaeche
+  umzuschalten.
+- Aenderungen: Transaktionale Migration `0001_initial.sql` fuer Nutzer,
+  Sessions, Challenges, Teilnahmen und Check-ins angelegt; PostgreSQL-Typen,
+  Fremdschluessel, fachliche Checks und Indizes fuer bestehende Lesewege
+  definiert; `schema_migrations`-Ledger und unveraenderliche
+  Dateinamenskonvention dokumentiert; automatisierte Strukturtests ergaenzt.
+- Verifikation: `npm test` mit 9/9 bestandenen Tests; `npm run lint` ohne Fehler
+  (sechs Warnungen nur aus zwei bereits vorhandenen unversionierten
+  `.next-locked-*`-Buildartefakten); `npm run build` erfolgreich, inklusive
+  serverseitiger dynamischer Seiten sowie `robots.txt` und `sitemap.xml` im
+  Route-Manifest.
+- Offene Risiken: Die Migration wurde mangels freigegebener PostgreSQL-Instanz
+  nicht gegen einen echten Server angewendet; SQLite bleibt weiterhin der
+  Runtime-Adapter und `node:sqlite` experimentell. Datenuebernahme und
+  Produktionsumschaltung sind bewusst nicht Teil dieser Slice.
+- Naechster Schritt: Eine schmale Repository-Schnittstelle fuer oeffentliche
+  Challenge-Lesezugriffe einfuehren und den bestehenden SQLite-Zugriff als
+  Adapter dahinter verschieben, ohne URLs oder serverseitiges Rendering zu
+  aendern.
+
+## 2026-07-12 - Repository-Grenze fuer oeffentliche Challenges
+
+- Ziel: Den oeffentlichen Challenge-Leseweg als kleine Architektur-Slice aus
+  dem monolithischen SQLite-Modul loesen, ohne Runtime, URLs oder SEO-Ausgabe zu
+  veraendern.
+- Aenderungen: Frameworkfreies Domainmodell samt `PublicChallengeRepository`
+  angelegt; konkrete SQL-Abfragen und Row-Mapping in einen getesteten
+  `SqlitePublicChallengeRepository` verschoben; schmale Anwendungsschnittstelle
+  fuer Katalog, Detailseite und Sitemap eingefuehrt; UI-Typen vom Datenbankmodul
+  entkoppelt. SQLite bleibt bewusst der aktive Adapter.
+- Verifikation: `npm test` mit 11/11 bestandenen Tests, darunter zwei neue
+  Adaptertests fuer Published-/Visibility-Filter und Domain-Mapping;
+  `npm run lint` ohne Fehler (neun Warnungen nur aus drei vorhandenen
+  unversionierten `.next-locked-*`-Artefakten); `npm run build` erfolgreich;
+  lokaler Production-Smoke bestaetigt serverseitiges H1, Title, Canonical,
+  JSON-LD, Challenge-Katalog und kanonischen Sitemap-Eintrag; `git diff --check`
+  erfolgreich.
+- Offene Risiken: Das alte `lib/db.ts` enthaelt weiterhin Account-, Teilnahme-
+  und Schreibzugriffe; der Adapter nutzt weiter experimentelles `node:sqlite`.
+  PostgreSQL-Umschaltung und Datenmigration waren bewusst nicht Teil der Slice.
+- Naechster Schritt: Eine versionierte Read-API fuer oeffentliche
+  Challenge-Daten auf Basis der neuen Repository-Grenze bereitstellen.
+
+## 2026-07-13 - Versionierte Read-API fuer oeffentliche Challenges
+
+- Ziel: Einen stabilen ersten Web-/App-Vertrag fuer oeffentliche
+  Challenge-Daten bereitstellen, ohne die serverseitig crawlbare Weboberflaeche
+  oder den laufenden SQLite-Adapter umzubauen.
+- Aenderungen: Frameworkfreien `v1`-DTO-Vertrag fuer kuratierte und
+  Community-Challenges eingefuehrt; Listen- und Detailendpunkt unter
+  `/api/v1/challenges` sowie `/api/v1/challenges/[slug]` angelegt; kanonische
+  Web-URLs, deterministische Slug-Deduplizierung mit Vorrang fuer kuratierte
+  Inhalte, strukturierte 404-Antwort, kurze Shared-Cache-Regeln und
+  `X-Robots-Tag: noindex` ergaenzt. API-Mapper und Vertrag mit zwei Tests
+  abgesichert.
+- Verifikation: `npm test` mit 13/13 bestandenen Tests; `npm run lint` ohne
+  Fehler (zwoelf Warnungen ausschliesslich aus vier vorhandenen
+  `.next-locked-*`-Buildartefakten); `npm run build` erfolgreich und beide
+  dynamischen API-Routen im Route-Manifest. Lokaler Produktions-Smoke-Test:
+  Detail liefert HTTP 200, `apiVersion: v1`, kanonische Challenge-URL und
+  `X-Robots-Tag: noindex`; unbekannter Slug liefert HTTP 404 mit
+  `challenge_not_found`. Die oeffentliche Detailseite rendert weiterhin H1,
+  Canonical und JSON-LD serverseitig.
+- Offene Risiken: Der Vertrag ist bewusst nur lesend und hat noch keine
+  Pagination; fuer den aktuellen kleinen Katalog ist das ausreichend, vor
+  groesserem Datenvolumen sollte eine additive Cursor-Pagination folgen.
+  SQLite/`node:sqlite` bleibt experimentell.
+- Naechster Schritt: Als kleine Folgeslice den ersten Account-/Teilnahme-
+  Lesezugriff hinter eine fachliche Repository-Schnittstelle verschieben; die
+  API nur bei einem konkreten Mobile-/Web-Bedarf additiv erweitern.
+
+## 2026-07-13 - Lokalen Preview-Server auf Port 3025 repariert
+
+- Ziel: Nicht reagierenden Login- und Teilnahme-Button der lokalen
+  Produktionsvorschau auf Port 3025 untersuchen und wieder funktionsfaehig
+  bereitstellen.
+- Ursache: Ein vom Entwicklungs-Loop gestarteter `next start`-Prozess blieb ueber
+  weitere Build-Laeufe hinweg aktiv. Dadurch lief Port 3025 gegen wechselnde
+  `.next`-Artefakte; die Seite wurde serverseitig ausgeliefert, aber die
+  interaktiven Client-Komponenten waren in dieser Vorschau nicht mehr sauber
+  hydriert. Beim anschliessenden Dev-Server blockierte Next.js zudem Zugriffe
+  ueber `127.0.0.1` als nicht erlaubten Dev-Origin.
+- Aenderungen: Alten Listener auf Port 3025 gezielt beendet, `127.0.0.1` ueber
+  `allowedDevOrigins` fuer lokale Entwicklung freigegeben, Tests/Lint/Build auf
+  dem aktuellen Projektstand ausgefuehrt und eine frische Produktionsvorschau
+  aus genau diesem Build auf Port 3025 gestartet. Cronjob-Regeln verschaerft: temporaere
+  Smoke-Server muessen im selben Lauf beendet werden; keine Builds unter einem
+  laufenden `next start` und keine neuen `.next-locked-*`-Archive.
+- Verifikation: `npm test` mit 15/15 Tests bestanden; ESLint ohne Fehler
+  (Warnungen nur aus alten Buildartefakten); `npm run build` erfolgreich;
+  Browser-Smoke auf `http://127.0.0.1:3025/challenges/10000-schritte-am-tag`
+  bestaetigt, dass Header-Login und `Jetzt teilnehmen` jeweils den korrekten
+  Login-Dialog oeffnen.
+- Offene Risiken: Vorhandene `.next-locked-*`-Altartefakte verursachen weiterhin
+  Lint-Warnungen und sollten kontrolliert entfernt werden. Die Preview ist ein
+  lokaler Entwicklungsprozess, kein dauerhafter Dienst.
+- Naechster Schritt: Account-/Teilnahme-Lesezugriff hinter die geplante
+  Repository-Grenze verschieben.
+
+## 2026-07-13 - Repository-Grenze fuer Teilnahme-Lesezugriffe
+
+- Ziel: Den ersten nutzerspezifischen Teilnahme-Leseweg aus dem gewachsenen
+  SQLite-Modul loesen, ohne Check-in-Schreiblogik, URLs oder SEO-Ausgabe zu
+  veraendern.
+- Aenderungen: Frameworkfreies Teilnahme-Domainmodell samt
+  `ParticipationReadRepository` angelegt; nutzergebundene Listen-, Detail- und
+  Check-in-Abfragen in einen `SqliteParticipationReadRepository` verschoben;
+  Dashboard und Challenge-Raum ueber eine schmale Anwendungsschnittstelle
+  angebunden; alte Leseabfragen und den UI-Datenbanktyp aus `lib/db.ts` entfernt.
+- Verifikation: `npm test` mit 15/15 bestandenen Tests, darunter zwei neue
+  Adaptertests fuer Nutzerdatentrennung und chronologische Check-ins;
+  `npm run lint` ohne Fehler (15 Warnungen ausschliesslich aus fuenf alten
+  `.next-locked-*`-Artefakten); `npm run build` erfolgreich. Lokaler
+  Produktions-Smoke auf Port 3031 bestaetigte serverseitiges H1, Title,
+  Canonical, JSON-LD, Sitemap-Eintrag und den 307-Login-Redirect des privaten
+  Dashboards; der temporaere Server und vier vor dem Build gefundene alte
+  Projekt-Previews wurden beendet.
+- Offene Risiken: Ranking-, Teilnehmerzaehler und alle Schreibzugriffe liegen
+  weiterhin in `lib/db.ts`; SQLite/`node:sqlite` bleibt experimentell. Alte
+  `.next-locked-*`-Artefakte verursachen weiter Lint-Warnungen und wurden in
+  dieser Slice nicht angefasst.
+- Naechster Schritt: Als naechste kleine Slice die oeffentlichen Teilnahmezaehler
+  und das Ranking hinter eine eigene fachliche Read-Repository-Grenze
+  verschieben; Schreibzugriffe danach separat behandeln.
+
+## 2026-07-13 - Challenge-Titel und Unterlaenge korrigiert
+
+- Ziel: Die H1 der ersten Challenge exakt als `10 000 Schritte am Tag Challenge`
+  ausgeben und das unten abgeschnittene `g` sichtbar machen.
+- Aenderungen: Kuratierten Titel und Startseiten-Auszug aktualisiert; in der
+  Detailseiten-H1 den zu engen Zeilenabstand von `0.96` auf `1.02` vergroessert.
+  Der erste Padding-Fix reichte im Nutzer-Browser nicht; deshalb wurden der
+  abschneidende `overflow: hidden` und der WebKit-Line-Clamp vollstaendig entfernt.
+- Verifikation: 15/15 Tests bestanden; ESLint ohne Fehler (bekannte Warnungen
+  nur aus alten `.next-locked-*`-Artefakten); lokaler Browser-Smoke bestaetigt
+  den exakten H1-/SEO-Titel, sichtbare Unterlaengen und weiterhin funktionierenden
+  Login-Dialog.
+- Offene Risiken: Kein produktiver Deploy; alte Buildartefakte bleiben separat
+  aufzuraeumen.
+
+## 2026-07-13 - Registrierung in den Login-Dialog integriert
+
+- Ziel: Registrierung ohne Seitenwechsel direkt im Login-Popup anbieten und die
+  alte kombinierte Auth-Seite entfernen.
+- Aenderungen: Login-Dialog um einen lokalen Login-/Registrierungsmodus erweitert;
+  Registrierung fragt Benutzername, E-Mail und Passwort ab und nutzt die
+  bestehende serverseitige `registerAction`. Tote Passwort-vergessen-Verlinkung
+  entfernt; Wechsel zur Anmeldung bleibt im selben Dialog. `/auth` zeigt keine
+  eigene Seite mehr, sondern leitet zur Startseite; ungenutzte Auth-Formulare und
+  Styles entfernt. Auch der Login-Hinweis beim Challenge-Erstellen nutzt nun das
+  Popup; den veralteten Konto-Link aus dem Profilmenue entfernt. Der
+  `Jetzt teilnehmen`-CTA nutzt ebenfalls ohne abweichenden Kicker oder Sondertext
+  exakt denselben Login-/Registrierungsdialog wie der Header.
+- Verifikation: Zwei neue Playwright-Tests zuerst fehlschlagen und nach der
+  Umsetzung bestehen gesehen; 15/15 Domain-/Adaptertests bestanden; ESLint ohne
+  Fehler (bekannte Warnungen nur aus `.next-locked-*`); Produktions-Build und
+  anschliessender E2E-Lauf mit 3/3 Tests erfolgreich. Browser-Smoke bestaetigt
+  alle drei Registrierungsfelder und den Rueckwechsel zur Anmeldung.
+- Offene Risiken: Passwort-Reset ist weiterhin nicht implementiert und wird
+  deshalb nicht mehr als funktionsloser Link angeboten. Kein produktiver Deploy.
+
+## 2026-07-22 - Lastenheft v1.0 gegen Strategie und Code abgeglichen
+
+- Ziel: Das neue fachliche Lastenheft mit dem bestehenden Lastenheft v0.1 und
+  dem aktuellen Next.js-Stand vergleichen.
+- Aenderungen: `LASTENHEFT-ABGLEICH.md` mit Gemeinsamkeiten, Widerspruechen,
+  Ist-/Gap-Matrix, konkreten Produktentscheidungen und zehn empfohlenen Slices
+  angelegt. Das neue Dokument wird als langfristiges Zielbild empfohlen; die
+  enge MVP-/Release-Strategie aus v0.1 soll separat erhalten bleiben.
+- Verifikation: Beide Lastenhefte vollstaendig gelesen, App-Routen, API-Routen,
+  Auth-/Account-Repository, Ranking, PostgreSQL-Ausgangsmigration und `TODOS.md`
+  gegen die Anforderungen geprueft; `git diff --check` fuer den neuen Bericht
+  erfolgreich.
+- Offene Risiken: Noch keine fachliche Freigabe fuer die Ersetzung des alten
+  Lastenhefts. Besonders offen sind Positionierung, MVP-Grenze,
+  Challenge-Titelkonvention und Umfang der Verifizierung.
+
+## 2026-07-22 - Eindeutige Benutzernamen und Identifier-Login
+
+- Ziel: Die erste konkrete Auth-Luecke aus dem Lastenheft schliessen und den
+  vorhandenen Popup-Flow beibehalten.
+- Aenderungen: Account-Repository um case-insensitive Suche per E-Mail oder
+  Benutzername erweitert; Registrierung verhindert doppelte Benutzernamen
+  atomar. Bestehende SQLite-Namen werden sicher getrimmt und bei Altdubletten
+  deterministisch ergaenzt; PostgreSQL-Folgemigration
+  `0004_unique_usernames.sql` angelegt. Login-Popup fragt nun
+  `E-Mail-Adresse oder Benutzername` ab. E2E-Testkonten verwenden eindeutige
+  Benutzernamen, damit die Suite wiederholbar bleibt.
+- TDD: Repository-Suche, Username-Konflikt und beide Datenbankmigrationen zuerst
+  mit fehlschlagenden Tests spezifiziert; danach minimal implementiert.
+- Verifikation: 47/47 Unit-/Repository-/Migrationstests bestanden; ESLint ohne
+  Fehler (15 bekannte Warnungen nur aus alten `.next-locked-*`-Artefakten);
+  Produktions-Build mit 22 Seiten erfolgreich; 9/9 Playwright-E2E-Tests auf der
+  frischen Produktionsvorschau bestanden, einschliesslich Registrierung,
+  Logout und erneutem Login per Benutzername.
+- Hinweis: Ein verbliebener Next-Dev-Prozess hielt einmal ein `.next`-Verzeichnis
+  offen. Nach gezieltem Beenden und Entfernen der drei gesperrten generierten
+  Manifestdateien lief der Build erfolgreich. Kein Deployment und kein Push.
+
+## 2026-07-22 - Teilnahme nach Auth automatisch fortgesetzt
+
+- Ziel: Den zentralen Gast-Flow ohne zweiten Klick abschliessen: Challenge
+  waehlen, anmelden oder registrieren, Teilnahme speichern und bestaetigen.
+- Aenderungen: `ChallengeStart` uebergibt den Teilnahme-Intent an das gemeinsame
+  Auth-Popup. Login und Registrierung starten die veroeffentlichte Challenge nach
+  erfolgreicher Session-Erstellung idempotent und leiten auf die neue geschuetzte
+  Route `/challenges/[slug]/teilnahme-bestaetigt` weiter. Die Seite prueft Nutzer,
+  Teilnahme-ID und Challenge-Slug serverseitig und bietet Links zum Dashboard,
+  zur Challenge und zur Challenge-Partner-Suche. Bereits eingeloggte Nutzer
+  erhalten dieselbe Bestaetigung. Der kuratierte Challenge-Titel wird bevorzugt,
+  damit alte lokale Daten keinen veralteten Titel anzeigen.
+- TDD/E2E: Der neue Gast-Flow wurde zuerst als fehlschlagender Playwright-Test
+  festgelegt. Einladungstests wurden an die neue Bestaetigungsstation angepasst;
+  ihre Ranking-Pruefung bleibt auch bei gefuellten lokalen Top-10-Testdaten stabil.
+- Visuelle Pruefung: Desktop-Bestaetigungsseite ohne abgeschnittene Inhalte,
+  mit vollstaendiger Headline und drei klaren Aktionen geprueft.
+- Kein Deployment, kein Push und keine produktiven Aenderungen.
+
+## 2026-07-22 - Teilnahme fuer alle veroeffentlichten Challenges
+
+- Ziel: Die bisherige technische Begrenzung auf die erste kuratierte
+  10.000-Schritte-Challenge entfernen.
+- Aenderungen: Die Anwendung loest den Teilnahme-Start nun asynchron entweder
+  gegen eine kuratierte Challenge oder gegen eine bereits veroeffentlichte
+  Community-Challenge auf. Die Server Action besitzt keine feste Slug-Ausnahme
+  mehr; kuratierte und datenbankgestuetzte Detailseiten zeigen den echten
+  `Jetzt teilnehmen`-CTA. Nicht veroeffentlichte oder unbekannte Challenges
+  bleiben durch Repository-Statuspruefung gesperrt.
+- TDD/E2E: Der vorhandene Challenge-Erstellungstest wurde zuerst um den noch
+  fehlschlagenden Ablauf Veroeffentlichen -> Teilnehmen -> Bestaetigung ->
+  Dashboard erweitert. Danach wurde die minimale Generalisierung umgesetzt.
+- Verifikation: 48/48 Unit-/Repositorytests, ESLint ohne Fehler (15 bekannte
+  Warnungen aus `.next-locked-*`) und 10/10 Playwright-E2E-Tests bestanden;
+  Produktions-Build erfolgreich.
+- Kein Deployment und kein Push.
+
+## 2026-07-13 - Repository-Grenze fuer Teilnahmezaehler und Ranking
+
+- Ziel: Oeffentliche Teilnahmezaehler und Ranking-Lesezugriffe als kleine
+  Architektur-Slice aus `lib/db.ts` loesen, ohne sichtbares Verhalten, URLs oder
+  serverseitige SEO-Ausgabe zu veraendern.
+- Aenderungen: Fachliches `ChallengeParticipationStatsRepository` mit
+  Ranking-Kandidatenmodell angelegt; Zaehler- und Ranking-SQL in den getesteten
+  `SqliteChallengeParticipationStatsRepository` verschoben; Anwendungsschicht
+  fuer Startseite, Katalog, Challenge-Detail und persoenlichen Challenge-Raum
+  eingefuehrt; reine Fortschritts-/Sortierlogik bleibt getrennt; Todo erledigt.
+- Verifikation: `npm test` mit 17/17 bestandenen Tests, darunter zwei neue
+  Adaptertests fuer aggregierte Zaehler, leere Challenges, aktive Teilnahmen und
+  chronologische Check-ins; `npm run lint` ohne Fehler (15 bekannte Warnungen nur
+  aus alten `.next-locked-*`-Artefakten); `npm run build` erfolgreich. Temporaerer
+  Production-Smoke auf Port 3043 lieferte HTTP 200 fuer Challenge, Sitemap und
+  Robots; exakter Title, Canonical, H1, JSON-LD, Ranking-Marker sowie kanonische
+  Sitemap-/Robots-Marker wurden geprueft. Server beendet und Port freigegeben.
+- Offene Risiken: SQLite/`node:sqlite` bleibt experimentell; Zaehler umfassen wie
+  bisher alle Teilnahme-Status, waehrend das Ranking nur aktive Teilnahmen nutzt.
+  Alte `.next-locked-*`-Artefakte verursachen weiterhin Lint-Warnungen.
+- Naechster Schritt: Einen einzelnen Schreibzugriff, vorzugsweise den Check-in,
+  hinter eine fachliche Repository-Schnittstelle verschieben und mit
+  Berechtigungs-/Idempotenztests absichern.
+
+## 2026-07-13 - Repository-Grenze fuer Check-in-Schreibzugriff
+
+- Ziel: Den taeglichen Check-in als ersten Schreibzugriff aus `lib/db.ts` loesen
+  und Eigentumspruefung sowie Idempotenz direkt am Persistenzadapter absichern.
+- Aenderungen: Fachliches `CheckInWriteRepository` mit expliziten Ergebnissen
+  angelegt; atomaren SQLite-Adapter mit nutzergebundenem `INSERT ... SELECT`
+  umgesetzt; Server Action ueber eine schmale Anwendungsschnittstelle angebunden;
+  alten Check-in-SQL-Zugriff aus `lib/db.ts` entfernt; Architektur-Todo erledigt.
+- Verifikation: `npm test` mit 19/19 bestandenen Tests, darunter zwei neue Tests
+  fuer fremde/nicht vorhandene Teilnahmen und wiederholte Tages-Check-ins;
+  `npm run lint` ohne Fehler (15 bekannte Warnungen nur aus alten
+  `.next-locked-*`-Artefakten); `npm run build` erfolgreich. Temporaerer
+  Production-Smoke auf Port 3047 bestaetigte HTTP 200, serverseitiges H1,
+  Canonical, JSON-LD sowie kanonische Robots-/Sitemap-Marker; Server beendet und
+  Port anschliessend als frei verifiziert. `git diff --check` erfolgreich.
+- Offene Risiken: SQLite/`node:sqlite` bleibt experimentell. Das Repository
+  validiert bewusst Eigentum und Eindeutigkeit, waehrend das Tagesdatum weiterhin
+  serverseitig in der Action fuer `Europe/Berlin` erzeugt wird. Alte
+  `.next-locked-*`-Artefakte bleiben unveraendert.
+- Naechster Schritt: Als naechste kleine Architektur-Slice den Start einer
+  Teilnahme hinter eine fachliche Write-Repository-Grenze verschieben und
+  Duplikat-/Challenge-Berechtigungsregeln testen.
+
+## 2026-07-14 - Repository-Grenze fuer Teilnahme-Start
+
+- Ziel: Den Start einer Teilnahme aus `lib/db.ts` loesen und Challenge-Freigabe
+  sowie wiederholte Startversuche am Persistenzadapter absichern.
+- Aenderungen: Fachliches `ParticipationWriteRepository` mit expliziten
+  Ergebnissen angelegt; atomaren SQLite-Adapter eingefuehrt, der nur vorhandene
+  Nutzer und veroeffentlichte Challenges akzeptiert; wiederholte Starts liefern
+  stabil die bestehende Teilnahme; Server Action ueber eine schmale
+  Anwendungsschnittstelle angebunden und alten Teilnahme-SQL-Zugriff aus
+  `lib/db.ts` entfernt; Todo abgeschlossen.
+- Verifikation: `npm test` mit 21/21 bestandenen Tests, darunter zwei neue Tests
+  fuer erfolgreichen/duplizierten Start sowie Draft-, unbekannte Challenge- und
+  unbekannte Nutzerfaelle; `npm run lint` ohne Fehler (15 bekannte Warnungen nur
+  aus alten `.next-locked-*`-Artefakten); `npm run build` erfolgreich.
+  Temporaerer Production-Smoke auf Port 3052 bestaetigte HTTP-Auslieferung,
+  serverseitiges H1, Canonical, JSON-LD sowie kanonische Robots-/Sitemap-Marker;
+  Server beendet und Port anschliessend als frei verifiziert. Vor dem Build
+  wurden drei alte Projekt-Previews auf den Ports 3025, 3043 und 3047 beendet.
+- Offene Risiken: SQLite/`node:sqlite` bleibt experimentell. Das initiale
+  Materialisieren kuratierter Challenges liegt weiterhin in `lib/db.ts`; die
+  Server Action beschraenkt den MVP weiterhin bewusst auf die erste
+  10.000-Schritte-Challenge. Alte `.next-locked-*`-Artefakte bleiben
+  unveraendert.
+- Naechster Schritt: Als naechste kleine Architektur-Slice die oeffentliche
+  Challenge-Erstellung hinter eine fachliche Write-Repository-Grenze verschieben
+  und Slug-/Freigaberegeln testen.
+
+## 2026-07-14 - Repository-Grenze fuer oeffentliche Challenge-Erstellung
+
+- Ziel: Die oeffentliche Challenge-Erstellung aus `lib/db.ts` loesen und Slug-,
+  Ersteller- sowie Veroeffentlichungsregeln am Persistenzadapter absichern.
+- Aenderungen: Fachliches `ChallengeWriteRepository` und getesteten SQLite-Adapter
+  eingefuehrt; Anwendungsschicht erzeugt eindeutige sprechende Slugs unter
+  Beruecksichtigung kuratierter und gespeicherter Challenges; Server Action auf
+  die neue Grenze umgestellt und alten Challenge-Schreibzugriff aus `lib/db.ts`
+  entfernt. Community-Detailseiten liefern jetzt eigene Canonical-/Social-
+  Metadaten und `Article`-/`HowTo`-JSON-LD; unbekannte Fallback-Seiten sind
+  `noindex`. Todo abgeschlossen.
+- Verifikation: `npm test` mit 23/23 bestandenen Tests, darunter zwei neue
+  Adaptertests fuer `public`/`published`, stabile Slugs, Kollisionen und unbekannte
+  Ersteller; `npm run lint` ohne Fehler (15 bekannte Warnungen nur aus alten
+  `.next-locked-*`-Artefakten); `npm run build` erfolgreich. Isolierter
+  Production-E2E-Smoke auf Port 3025 registrierte einen Nutzer, erstellte eine
+  Challenge und bestaetigte H1, sprechende URL, Canonical, JSON-LD sowie den
+  Sitemap-Eintrag. Temporaere DB und Server wurden entfernt; Port 3025 ist frei.
+- Offene Risiken: SQLite/`node:sqlite` bleibt experimentell. Bei einer seltenen
+  Slug-Kollision zwischen Slug-Ermittlung und Insert erhaelt der Nutzer eine
+  erneute Eingabeaufforderung statt eines automatischen Retries. Alte
+  `.next-locked-*`-Artefakte bleiben unveraendert.
+- Naechster Schritt: Als naechste kleine Architektur-Slice Account- und
+  Session-Schreibzugriffe hinter eine fachliche Repository-Grenze verschieben.
+
+## 2026-07-14 - Repository-Grenze fuer Accounts und Sessions
+
+- Ziel: Account- und Session-Persistenz aus `lib/db.ts` loesen und konkurrierende
+  Registrierungen sowie ungueltige oder doppelte Sessions am Adapter absichern.
+- Aenderungen: Fachliches `AccountSessionRepository` und getesteten SQLite-Adapter
+  eingefuehrt; E-Mail-Normalisierung, atomare Account-Erstellung, zeitgebundene
+  Session-Aufloesung, Session-Erstellung nur fuer vorhandene Accounts sowie
+  idempotenten Logout umgesetzt; Auth-Anwendungsschicht und Server Actions auf
+  die neue Grenze umgestellt; alte Account-/Session-SQL-Zugriffe aus `lib/db.ts`
+  entfernt; Todo abgeschlossen.
+- Verifikation: `npm test` mit 26/26 bestandenen Tests, darunter drei neue Tests
+  fuer normalisierte/doppelte Accounts, unbekannte Nutzer, abgelaufene Sessions,
+  Token-Konflikte und idempotenten Logout; `npm run lint` ohne Fehler (15 bekannte
+  Warnungen nur aus alten `.next-locked-*`-Artefakten); `npm run build`
+  erfolgreich. Isolierter Production-E2E-Smoke auf Port 3025 mit temporaerer DB:
+  4/4 Playwright-Tests fuer Login-/Registrierungsdialog, Registrierung und
+  crawlbare Challenge-Erstellung bestanden; Canonical und Sitemap-Marker der
+  10.000-Schritte-Seite geprueft. Temporaere DB und Server entfernt, Port 3025
+  anschliessend als frei verifiziert; `git diff --check` erfolgreich.
+- Offene Risiken: SQLite/`node:sqlite` bleibt experimentell. Account- und
+  Session-Repository sind aktuell gemeinsam geschnitten; bei wachsendem
+  Account-Funktionsumfang kann die Grenze spaeter ohne UI-Vertragsaenderung
+  fachlich geteilt werden. Alte `.next-locked-*`-Artefakte bleiben unveraendert.
+- Naechster Schritt: Das Materialisieren kuratierter Challenges und des
+  Systemnutzers aus `lib/db.ts` hinter eine schmale Bootstrap-/Repository-Grenze
+  verschieben oder als naechste Produktslice sichere Einladungstokens beginnen.
+
+## 2026-07-15 - Bootstrap-Grenze fuer kuratierte Challenges
+
+- Ziel: Die letzte fachliche Sonderlogik aus `lib/db.ts` loesen, indem das fuer
+  Teilnahme-Starts notwendige Materialisieren kuratierter Challenges und des
+  internen Systemnutzers hinter eine schmale Repository-Grenze wandert.
+- Aenderungen: Frameworkfreies `CuratedChallengeBootstrapRepository` und
+  SQLite-Adapter eingefuehrt; Systemnutzer und interne kuratierte Challenge
+  werden idempotent angelegt, bestehende Slugs bleiben unveraendert erhalten;
+  Teilnahme-Anwendungsschicht auf den neuen Bootstrap-Service umgestellt und
+  `lib/db.ts` auf Verbindungsaufbau sowie Schema-Initialisierung reduziert; Todo
+  abgeschlossen.
+- Verifikation: `npm test` mit 28/28 bestandenen Tests, darunter zwei neue
+  Bootstrap-Adaptertests; `npm run lint` ohne Fehler (15 bekannte Warnungen nur
+  aus alten `.next-locked-*`-Artefakten); `npm run build` erfolgreich.
+  Temporaerer Production-Smoke auf Port 3057 bestaetigte HTTP 200,
+  serverseitiges H1, Canonical, JSON-LD sowie kanonische Sitemap-/Robots-Marker;
+  Server beendet und Port anschliessend als frei verifiziert; `git diff --check`
+  erfolgreich.
+- Offene Risiken: SQLite/`node:sqlite` bleibt experimentell. Bei einer extrem
+  seltenen ID-Kollision mit abweichendem Slug bricht die Materialisierung
+  kontrolliert ab; die stabilen kuratierten IDs machen diesen Fall im aktuellen
+  Datenmodell nicht erwartbar. Alte `.next-locked-*`-Artefakte bleiben
+  unveraendert.
+- Naechster Schritt: Als kleine Produktslice den Datenvertrag und die
+  Persistenzgrenze fuer sichere, zeitlich begrenzte Freund-Einladungstokens
+  anlegen; UI und Annahme-Flow danach separat umsetzen.
+
+## 2026-07-15 - Persistenzgrenze fuer Freund-Einladungen
+
+- Ziel: Als erste klar begrenzte Freund-herausfordern-Slice den Datenvertrag und
+  die Persistenz fuer sichere, zeitlich begrenzte Einladungstokens schaffen,
+  ohne bereits UI, Link-Erzeugung oder Annahme-Flow zu vermischen.
+- Aenderungen: Frameworkfreies `ChallengeInvitationRepository` und SQLite-Adapter
+  fuer Erstellung sowie Aufloesung aktiver Einladungen angelegt; nur aktive
+  Teilnahmen duerfen einladen, in der Datenbank wird ausschliesslich ein
+  eindeutiger Token-Hash gespeichert, abgelaufene, angenommene und widerrufene
+  Einladungen werden nicht aufgeloest. SQLite-Runtime-Schema und versionierte
+  PostgreSQL-Migration `0002_challenge_invitations.sql` samt Indizes,
+  Ablauf-/Annahmezustand und Dokumentation ergaenzt; Todo-Teilschritt erledigt.
+- Verifikation: `npm test` mit 32/32 bestandenen Tests, darunter drei neue
+  Adaptertests und ein neuer Migrationstest; `npm run lint` ohne Fehler (15
+  bekannte Warnungen nur aus alten `.next-locked-*`-Artefakten); `npm run build`
+  nach Beenden alter Projekt-Previews erfolgreich. Temporaerer Production-Smoke
+  auf Port 3062 bestaetigte HTTP 200, serverseitiges H1, Canonical, JSON-LD sowie
+  kanonische Robots-/Sitemap-Marker; Server beendet und Port als frei verifiziert.
+- Offene Risiken: PostgreSQL-Migration mangels freigegebener Instanz nicht real
+  angewendet; SQLite/`node:sqlite` bleibt experimentell. Sichere Roh-Token-
+  Erzeugung, Erstellungsaktion, teilbarer Link und Annahme sind bewusst noch
+  nicht angebunden. Fuenf alte `.next-locked-*`-Artefakte bleiben unveraendert.
+- Naechster Schritt: Kryptografisch sicheren Roh-Token einmalig erzeugen, nur
+  dessen Hash persistieren und die eingeloggte Erstellungsaktion im persoenlichen
+  Challenge-Raum mit einem teilbaren Link anbinden; Annahme danach separat.
+
+## 2026-07-15 - Sicherer Einladungslink im Challenge-Raum
+
+- Ziel: Eingeloggten Teilnehmern einen zeitlich begrenzten Freund-Einladungslink
+  bereitstellen, ohne den Annahme-Flow in dieselbe Slice zu ziehen.
+- Aenderungen: Kryptografisch zufaellige 256-Bit-Roh-Tokens mit SHA-256-Hashing,
+  sieben Tagen Laufzeit und begrenztem Kollisions-Retry eingefuehrt; Repository-
+  Erstellung zusaetzlich atomar an den Eigentuemer der aktiven Teilnahme
+  gebunden; Server Action und UI im persoenlichen Challenge-Raum ergaenzt. Der
+  Roh-Token wird nur einmal an den Browser zurueckgegeben, der teilbare Link kann
+  kopiert werden, waehrend die Datenbank ausschliesslich den Hash speichert.
+- Verifikation: `npm test` mit 34/34 bestandenen Tests; `npm run lint` ohne Fehler
+  (15 bekannte Warnungen nur aus alten `.next-locked-*`-Artefakten);
+  `npm run build` erfolgreich. Isolierter Production-E2E-Smoke auf Port 3071
+  registrierte einen Nutzer, startete die Challenge und erstellte einen Link mit
+  43-stelligem Base64url-Token; Kopieraktion funktionierte. SEO-Smoke mit
+  Einladungs-Query bestaetigte weiterhin kanonische URL ohne Query, H1 und
+  JSON-LD. Temporaerer Server beendet und Port als frei verifiziert.
+- Offene Risiken: Der Link fuehrt derzeit auf die oeffentliche Challenge-Seite;
+  Annahme nach Login/Registrierung, Selbstannahmeschutz und gemeinsames Ranking
+  folgen bewusst separat. SQLite/`node:sqlite` bleibt experimentell; alte
+  `.next-locked-*`-Artefakte bleiben unveraendert.
+- Naechster Schritt: Einladungsannahme als eigene atomare Repository-/Action-
+  Slice umsetzen und danach das gemeinsame Ranking aus echten Teilnahmen zeigen.
+
+## 2026-07-16 - Einladungsannahme und gemeinsames Ranking
+
+- Ziel: Den Freund-herausfordern-Flow mit sicherer Annahme nach Login oder
+  Registrierung, Selbstannahmeschutz und gemeinsamem echten Ranking schliessen.
+- Aenderungen: Challenge-Seite erkennt aktive Einladungs-Hashes und zeigt einen
+  serverseitig eingebetteten Annahmehinweis; Login/Registrierung bewahren den
+  Einladungslink. Der SQLite-Adapter nimmt die Einladung in einer
+  `BEGIN IMMEDIATE`-Transaktion an, erstellt oder reaktiviert die Teilnahme an
+  derselben Challenge und markiert den Token einmalig als angenommen; eigene,
+  abgelaufene, widerrufene oder bereits verwendete Einladungen werden
+  abgelehnt. Nach Annahme fuehrt der Flow in den Challenge-Raum, dessen echtes
+  Ranking Einlader und eingeladenen Teilnehmer gemeinsam zeigt. Canonical und
+  strukturierte Daten der oeffentlichen Challenge bleiben ohne Token-Query.
+- Verifikation: `npm test` mit 38/38 bestandenen Tests; `npm run lint` ohne
+  Fehler (15 bekannte Warnungen ausschliesslich aus alten `.next-locked-*`-
+  Artefakten); `npm run build` nach einmaliger sicherer `.next`-Bereinigung ohne
+  laufende Preview erfolgreich. Isolierter Production-E2E-Smoke auf Port 3077
+  mit temporaerer DB: 2/2 Playwright-Tests bestanden, darunter Registrierung
+  beider Nutzer, Linkerstellung, Annahme, Redirect in den Challenge-Raum,
+  gemeinsames Ranking sowie Title, Canonical und `Article`-/`HowTo`-JSON-LD
+  ohne Query. Serverprozess und Kindprozess beendet, Port als frei verifiziert
+  und temporaere DB entfernt.
+- Offene Risiken: SQLite/`node:sqlite` bleibt experimentell; PostgreSQL-
+  Migrationen wurden weiterhin nicht gegen eine freigegebene Instanz angewendet.
+  Alte `.next-locked-*`-Artefakte bleiben unveraendert. Ein bereits bestehender
+  beendeter Challenge-Eintrag wird bei Annahme bewusst reaktiviert und behaelt
+  sein urspruengliches Startdatum.
+- Naechster Schritt: Als kleine Architektur-Slice einen PostgreSQL-Adapter fuer
+  einen klar begrenzten Repository-Leseweg vorbereiten oder zuerst die fachliche
+  Duplikatpruefung fuer die Challenge-Erstellung ausarbeiten.
+
+## 2026-07-16 - PostgreSQL-Challenge-Level an Domainmodell angeglichen
+
+- Ziel: Eine beim Architektur-Review gefundene Schemaabweichung beheben, durch
+  die PostgreSQL keine der aktuellen Domainstufen `User`, `Advanced` oder
+  `Premium` akzeptiert haette.
+- Aenderungen: Versionierte Folgemigration `0003_align_challenge_levels.sql`
+  angelegt; alte Zielwerte `Fortgeschritten`/`Experte` werden kontrolliert
+  ueberfuehrt und die Constraint auf exakt `User`, `Beginner`, `Advanced` und
+  `Premium` gesetzt. Migrationsreihenfolge, Strukturtest, README und Todo wurden
+  aktualisiert; die laufende SQLite-Runtime blieb unveraendert.
+- Verifikation: `npm test` mit 39/39 bestandenen Tests; `npm run lint` ohne Fehler
+  (15 bekannte Warnungen ausschliesslich aus alten `.next-locked-*`-Artefakten);
+  `npm run build` erfolgreich. Temporaerer Production-Smoke auf Port 3083
+  bestaetigte HTTP 200, exakten SEO-Titel, Canonical, H1, `Article`-/`HowTo`-
+  JSON-LD sowie kanonische Sitemap-/Robots-Marker. Server beendet, Port frei und
+  kein Next-Previewprozess aktiv; `git diff --check` erfolgreich.
+- Offene Risiken: Die Migration wurde mangels freigegebener PostgreSQL-Instanz
+  nicht gegen einen echten Server angewendet. SQLite/`node:sqlite` bleibt die
+  experimentelle Runtime; alte `.next-locked-*`-Artefakte bleiben unveraendert.
+- Naechster Schritt: Einen PostgreSQL-Adapter fuer den oeffentlichen
+  Challenge-Leseweg mit asynchroner Repository-Grenze vorbereiten, ohne die
+  Runtime bereits umzuschalten.
+
+## 2026-07-16 - PostgreSQL-Adapter fuer oeffentliche Challenge-Lesewege
+
+- Ziel: Den ersten konkreten PostgreSQL-Datenadapter hinter der bestehenden
+  Domain-/Repository-Grenze vorbereiten, ohne Datenbank, Runtime oder SEO-faehige
+  Webausgabe bereits umzuschalten.
+- Aenderungen: `PublicChallengeRepository` auf einen asynchronen Vertrag
+  umgestellt und alle Web-, Sitemap- sowie v1-API-Aufrufer entsprechend
+  angepasst; PostgreSQL-Adapter mit parametrisiertem Slug-Lookup, Public-/
+  Published-Filter, JSONB- und Zeitstempel-Mapping ergaenzt; SQLite bleibt der
+  aktive Runtime-Adapter. Zwei Adaptertests sichern SQL-Vertrag, Mapping und
+  Leerzustand ab; Todo abgeschlossen.
+- Verifikation: `npm test` mit 41/41 bestandenen Tests; `npm run lint` ohne Fehler
+  (15 bekannte Warnungen ausschliesslich aus alten `.next-locked-*`-Artefakten);
+  `npm run build` erfolgreich. Temporaerer Production-Smoke auf Port 3089
+  bestaetigte HTTP 200, exakten SEO-Titel, Canonical, H1, `Article`-/`HowTo`-
+  JSON-LD, kanonische Sitemap-/Robots-Marker sowie v1-API-Canonical und
+  `X-Robots-Tag: noindex`. Server samt verbliebenem Kindprozess beendet und Port
+  anschliessend als frei verifiziert; `git diff --check` erfolgreich.
+- Offene Risiken: Der Adapter wurde mangels freigegebener PostgreSQL-Instanz mit
+  einem Query-Client-Testdouble statt gegen einen echten Server ausgefuehrt; ein
+  PostgreSQL-Treiber und die Runtime-Auswahl sind bewusst noch nicht angebunden.
+  SQLite/`node:sqlite` bleibt experimentell; alte `.next-locked-*`-Artefakte
+  bleiben unveraendert.
+- Naechster Schritt: Challenge-Erstellung fachlich um eine serverseitige
+  Duplikatpruefung gegen Titel, Slug und aehnliche bestehende Challenges
+  erweitern, bevor der Erstellungsflow weiter ausgebaut wird.
+
+## 2026-07-22 - Duplikatpruefung fuer Challenge-Erstellung
+
+- Ziel: Doppelte oder sehr aehnliche oeffentliche Challenges vor dem Schreiben
+  erkennen und Nutzer auf die bereits vorhandene, crawlbare Detailseite fuehren.
+- Aenderungen: Frameworkfreie Normalisierung und Aehnlichkeitspruefung fuer Titel
+  und Slugs eingefuehrt; kuratierte sowie veroeffentlichte SQLite-Challenges in
+  den Abgleich aufgenommen; Write-Repository um den gefilterten Kandidaten-Leseweg
+  ergaenzt. Der Erstellungsflow stoppt bei bis zu drei Treffern und zeigt
+  interne Links auf bestehende Challenges statt einen weiteren Slug anzulegen.
+- Verifikation: `npm test` mit 43/43 bestandenen Tests; `npm run lint` ohne Fehler
+  (15 bekannte Warnungen ausschliesslich aus alten `.next-locked-*`-Artefakten);
+  `npm run build` erfolgreich. Isolierter Production-E2E-Smoke auf Port 3097 mit
+  temporaerer SQLite-DB: 2/2 Playwright-Tests fuer crawlbare Neuerstellung und
+  blockiertes Duplikat bestanden. SEO-Smoke bestaetigte Title, Canonical und
+  JSON-LD der bestehenden 10.000-Schritte-Seite. Server beendet, Port frei und
+  temporaere DB entfernt; `git diff --check` erfolgreich.
+- Offene Risiken: Die bewusst einfache Wortueberdeckung kann bei sehr kurzen oder
+  synonym formulierten Titeln Treffer uebersehen bzw. aehnliche, aber fachlich
+  unterschiedliche Ideen blockieren. SQLite/`node:sqlite` bleibt experimentell;
+  der erste Wiederholungs-Build traf einen transienten `.next`-EPERM-Lock und war
+  nach sicherer Bereinigung ohne laufenden Previewprozess erfolgreich.
+- Naechster Schritt: Als kleine Produktslice den schlanken echten Aktivitaetsfeed
+  fuer Challenge-Seiten fachlich schneiden oder den PostgreSQL-Runtime-Umschalter
+  erst nach einer freigegebenen Testinstanz vorbereiten.
+
+## 2026-07-22 - Echter Aktivitaetsfeed auf Challenge-Seiten
+
+- Ziel: Challenge-Seiten um einen schlanken, serverseitig gerenderten Feed aus
+  realen Check-ins ergaenzen, ohne simulierte Community-Meldungen einzufuehren.
+- Aenderungen: Statistik-Domain und SQLite-Adapter um einen auf 20 Eintraege
+  begrenzten, nach Erstellzeit sortierten Check-in-Leseweg erweitert; die
+  kuratierten Detailseiten zeigen die letzten acht Aktivitaeten mit Nutzername und
+  Check-in-Datum oder einen ehrlichen Leerzustand. Bestehende URL, Metadata,
+  Canonical und strukturierte Daten blieben unveraendert.
+- Verifikation: Neuer Repository-Test zuerst erwartungsgemaess fehlgeschlagen und
+  danach bestanden; `npm test` 48/48 bestanden; `npm run lint` ohne Fehler (15
+  bekannte Warnungen ausschliesslich aus alten `.next-locked-*`-Artefakten);
+  `npm run build` erfolgreich mit 22 Seiten. SSR-Smoke bestaetigte sechs Feed-/
+  SEO-Marker. Browser-Smoke mit Edge auf 1366x768 und 390x844 bestaetigte Feed,
+  Canonical, JSON-LD und keinen horizontalen Overflow. Temporaerer Server auf
+  Port 3109 beendet und Port anschliessend als frei verifiziert.
+- Offene Risiken: Der Feed zeigt wie das oeffentliche Ranking den gewaehlten
+  Benutzernamen; eine spaetere Privacy-/Profilentscheidung kann hier eine
+  Sichtbarkeitseinstellung erfordern. SQLite/`node:sqlite` bleibt experimentell.
+- Naechster Schritt: Als kleine Folgeslice die API-Pagination fuer den wachsenden
+  Challenge-Katalog spezifizieren oder nach Freigabe eine PostgreSQL-Testinstanz
+  fuer reale Migrations-/Adaptertests verwenden.
+
+## 2026-07-23 - Cursor-Pagination fuer oeffentliche Challenge-API
+
+- Ziel: Den wachsenden oeffentlichen `v1`-Challenge-Katalog mit einer kleinen,
+  stabilen und fuer Web-/App-Clients validierten Pagination absichern.
+- Aenderungen: Listenendpunkt um `limit` (Standard 20, maximal 100) und opaken
+  Keyset-Cursor erweitert; Ergebnisse werden deterministisch nach Erstellzeit und
+  Slug sortiert. Die Antwort enthaelt `pagination.limit` und `nextCursor`;
+  ungueltige Limits oder Cursor liefern HTTP 400 mit `invalid_pagination`.
+  Kuratierte Challenges behalten bei Slug-Duplikaten Vorrang.
+- Verifikation: `npm test` mit 50/50 bestandenen Tests; `npm run lint` ohne Fehler
+  (15 bekannte Warnungen nur aus alten `.next-locked-*`-Artefakten);
+  `npm run build` erfolgreich mit 22 Seiten. Production-Smoke auf Port 3117
+  bestaetigte zwei ueberlappungsfreie API-Seiten, HTTP 400 fuer `limit=101`,
+  `X-Robots-Tag: noindex` sowie weiterhin serverseitigen Title, Canonical, H1 und
+  JSON-LD der 10.000-Schritte-Seite. Server beendet und Port als frei verifiziert;
+  `git diff --check` erfolgreich.
+- Offene Risiken: Der aktive SQLite-Adapter liest fuer die Zusammenfuehrung mit
+  kuratierten Eintraegen weiterhin den gesamten kleinen Katalog; bei grossem
+  Datenvolumen sollte die Keyset-Grenze in PostgreSQL/Repository-SQL verschoben
+  werden. SQLite/`node:sqlite` bleibt experimentell; alte `.next-locked-*`-
+  Artefakte blieben entsprechend Vorgabe unangetastet.
+- Naechster Schritt: Keyset-Pagination bei aktivierter PostgreSQL-Testinstanz in
+  den Repository-Leseweg verschieben oder als naechste Produktslice den privaten
+  Challenge-Verlauf/Heatmap im Bereich `Meine Challenges` schneiden.
+
+## 2026-07-23 - Privater 12-Wochen-Challenge-Verlauf
+
+- Ziel: Den persoenlichen Challenge-Raum um einen kompakten, echten Verlauf aus
+  gespeicherten Check-ins ergaenzen, ohne die oeffentliche SEO-Oberflaeche oder
+  den Datenvertrag auszuweiten.
+- Aenderungen: Reine Domainlogik erzeugt ein auf 84 Tage begrenztes Tagesmodell
+  ab dem Teilnahme-Start mit den Zustaenden erledigt, verpasst und heute offen.
+  Eine serverseitig gerenderte, zugaenglich beschriftete Heatmap samt Legende ist
+  im geschuetzten Challenge-Raum zwischen Fortschritt und Ranking eingebunden.
+  Das Todo fuer den privaten Verlauf wurde abgeschlossen.
+- Verifikation: Neue Verlaufstests zuerst erwartungsgemaess am fehlenden Export
+  gescheitert; danach `npm test` mit 52/52 bestandenen Tests. `npm run lint` ohne
+  Fehler (15 bekannte Warnungen nur aus alten `.next-locked-*`-Artefakten) und
+  `npm run build` mit 22 Seiten erfolgreich. Isolierter Production-E2E-Smoke auf
+  Port 3129 mit temporaerer SQLite-DB bestaetigte Registrierung, Challenge-Start,
+  offenen Tagesstatus, Statuswechsel nach Check-in, mobile 390px-Darstellung ohne
+  horizontalen Overflow sowie weiterhin Canonical, JSON-LD und Sitemap-Eintrag
+  der erstellten oeffentlichen Challenge. Temporaere DB und Server wurden beendet,
+  Port 3129 ist frei; ein vor dem Build gefundener alter Previewprozess auf Port
+  3117 wurde ebenfalls beendet. `git diff --check` erfolgreich.
+- Offene Risiken: Die Heatmap zeigt bewusst nur ein rollierendes 84-Tage-Fenster;
+  ein vollstaendiges Archiv oder Reminder sind nicht Teil dieser Slice.
+  SQLite/`node:sqlite` bleibt experimentell, alte `.next-locked-*`-Artefakte
+  blieben unangetastet.
+- Naechster Schritt: Als naechste kleine Produktslice Reminder-Anforderungen fuer
+  `Meine Challenges` fachlich schneiden oder nach Freigabe PostgreSQL-Migrationen
+  gegen eine isolierte Testinstanz ausfuehren.
+
+## 2026-07-23 - Echte Umlaute und ß in allen Nutzertexten
+
+- Ziel: Sichtbares Deutsch auf allen Seiten konsequent mit `ä`, `ö`, `ü` und `ß`
+  statt ASCII-Umschreibungen ausgeben.
+- Änderungen: Nutzertexte, Metadata, Fehlermeldungen, Accessibility-Labels,
+  Challenge-Inhalte und Wissensartikel in `app`, `components` und `data`
+  bereinigt. Technische Slugs, URLs und interne Bezeichner blieben unverändert.
+- Absicherung: Neuer Quelltext-Regressionstest prüft alle Nutzertextquellen auf
+  bekannte deutsche ASCII-Umschreibungen und maskiert technische Slugs und URLs.
+- Verifikation: `npm test` mit 53/53 Tests, `npm run lint` ohne Fehler (15 bekannte
+  Warnungen aus alten `.next-locked-*`-Artefakten), `npm run build` mit 22 Seiten
+  und 10/10 Playwright-E2E-Tests erfolgreich. Browser-Smoke bestätigte unter
+  anderem `Zurück`, `Fußballtraining`, `Schrittzähler`, `hält`, `längsten` und
+  `Aktivitäten` auf der öffentlichen Challenge-Seite.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-23 - Kanonische Breadcrumb-Strukturdaten für Challenge-Seiten
+
+- Ziel: Die SEO-Hierarchie öffentlicher Challenge-Detailseiten als kleine, crawlbare Slice eindeutig auszeichnen, ohne URLs, sichtbares Layout oder API-Verträge zu verändern.
+- Änderungen: Gemeinsamen `BreadcrumbList`-Builder für die kanonische Hierarchie Startseite -> Challenges -> Detailseite ergänzt und in die JSON-LD-Graphen kuratierter sowie veröffentlichter Community-Challenges eingebunden. ESLint ignoriert nun vorhandene `.next-locked-*`-Buildartefakte, damit generierte Fremdartefakte die Quellcodeprüfung nicht verfälschen; es wurde kein neues Archiv erzeugt und kein vorhandenes gelöscht.
+- Verifikation: `npm test` mit 54/54 bestandenen Tests; `npm run lint` ohne Fehler; `npm run build` mit 22 Seiten erfolgreich. Temporärer Production-Smoke auf Port 3141 bestätigte HTTP 200, exakten Canonical, serverseitiges H1 und drei kanonische `BreadcrumbList`-Einträge. Server beendet und Port 3141 anschließend als frei verifiziert; `git diff --check` erfolgreich.
+- Offene Risiken: Finale Social-Preview-Bilder und redaktionell freigegebene SEO-/Rechtstexte fehlen weiterhin. SQLite/`node:sqlite` bleibt experimentell; vorhandene unversionierte `.next-locked-*`-Artefakte wurden entsprechend Vorgabe nicht angefasst.
+- Nächster Schritt: Als kleine Produktslice Reminder-Anforderungen für `Meine Challenges` fachlich eingrenzen oder nach Freigabe PostgreSQL-Migrationen gegen eine isolierte Testinstanz verifizieren.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-23 - Kanonischer Challenge-Katalog als ItemList
+
+- Ziel: Den serverseitig crawlbaren Challenge-Katalog mit einer eindeutigen kanonischen URL und strukturierten Links auf alle öffentlichen Detailseiten absichern.
+- Änderungen: `/challenges` liefert nun auch bei Such- und Sortierparametern den Canonical sowie die Open-Graph-URL `https://challengehub.de/challenges`. Eine serverseitige `ItemList` zeichnet kuratierte und veröffentlichte Community-Challenges in stabiler Reihenfolge mit kanonischen Detail-URLs aus; Slug-Duplikate behalten den zuerst gelisteten kuratierten Eintrag. Builder-Test und SEO-Todo wurden ergänzt.
+- Verifikation: Der neue Test deckte zunächst auf, dass die erste Deduplizierung den letzten statt den kuratierten Eintrag behielt; nach Korrektur bestanden `npm test` mit 55/55 Tests, `npm run lint` ohne Fehler und `npm run build` mit 22 Seiten. Temporärer Production-Smoke auf Port 3157 bestätigte HTTP 200, Canonical ohne Query, Open-Graph-URL, serverseitiges H1, `ItemList`-ID und eine kanonische Challenge-Detail-URL. Server samt Kindprozess beendet und Port 3157 anschließend als frei verifiziert; `git diff --check` erfolgreich.
+- Offene Risiken: Ein zusätzlicher Wiederholungsbuild traf zunächst einen Windows-`EPERM`-Fehler auf einem veralteten `.next/static`-Build-ID-Unterverzeichnis. Ursache war ein noch laufender alter Projekt-Preview auf Port 3141 sowie das anschließend als schreibgeschützt verbliebene generierte Unterverzeichnis. Der Preview wurde beendet, ausschließlich dieses generierte Unterverzeichnis entfernt und der aktuelle Quellstand danach erneut erfolgreich gebaut; es wurde kein `.next-locked-*`-Archiv erzeugt. Finale Social-Preview-Bilder und redaktionell freigegebene SEO-/Rechtstexte fehlen weiterhin. SQLite/`node:sqlite` bleibt experimentell; vorhandene unversionierte `.next-locked-*`-Artefakte wurden nicht verändert.
+- Nächster Schritt: Als nächste kleine SEO-Slice den Wissenskatalog auf eindeutigen Canonical und eine serverseitige `ItemList` seiner crawlbaren Artikel prüfen und bei Bedarf analog absichern.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-24 - Kanonischer Wissenskatalog als ItemList
+
+- Ziel: Den crawlbaren Wissenskatalog analog zum Challenge-Katalog mit stabilen Metadaten und strukturierten internen Artikellinks absichern.
+- Änderungen: Gemeinsamen `ItemList`-Builder für Wissensartikel ergänzt und serverseitig in `/wissen` eingebunden. Die bestehende Reihenfolge der Artikel wird mit kanonischen `https://challengehub.de/wissen/[slug]`-URLs ausgezeichnet; Canonical und Open-Graph-URL bleiben auch bei Query-Parametern auf `/wissen`. SEO-Todo abgeschlossen.
+- Verifikation: Neuer Builder-Test zunächst erwartungsgemäß wegen des fehlenden Exports fehlgeschlagen; danach `npm test` mit 56/56 bestandenen Tests, `npm run lint` ohne Fehler und `npm run build` mit 22 Seiten erfolgreich. Temporärer Production-Smoke auf Port 3169 bestätigte HTTP 200, serverseitiges H1, Canonical ohne Query, Open-Graph-URL und eine `ItemList` mit allen drei kanonischen Artikel-URLs. Preview beendet und Port 3169 anschließend als frei verifiziert; `git diff --check` erfolgreich.
+- Offene Risiken: Finale Social-Preview-Bilder und redaktionell freigegebene SEO-/Rechtstexte fehlen weiterhin. SQLite/`node:sqlite` bleibt experimentell; vorhandene unversionierte `.next-locked-*`-Artefakte wurden nicht verändert.
+- Nächster Schritt: Als nächste kleine SEO-Slice die Wissensartikel um eine kanonische `BreadcrumbList` für Startseite, Wissenskatalog und Artikel ergänzen.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-24 - Challenge-Teilnahme sicher verlassen
+
+- Ziel: Eine aktive Challenge-Teilnahme sicher beenden, ohne den bisherigen
+  Check-in-Verlauf zu verlieren.
+- Änderungen: Das Teilnahme-Repository beendet ausschließlich eigene aktive
+  Teilnahmen, setzt den Status idempotent auf `cancelled` und speichert den
+  Beendigungszeitpunkt. Der Challenge-Raum zeigt eine zweistufige
+  Sicherheitsabfrage; beendete Teilnahmen bleiben als Archiv mit Status und
+  Verlauf sichtbar. Neue Check-ins und Einladungen sind danach sowohl in der
+  Oberfläche als auch serverseitig gesperrt.
+- TDD: Repositorytests schlugen zunächst wegen der fehlenden Leave-Methode,
+  der fehlenden Idempotenz-Erkennung und erlaubter Check-ins auf beendeten
+  Teilnahmen fehl. Nach der Implementierung bestanden alle neuen Tests.
+- Verifikation: `npm test` mit 59/59 Tests, `npm run lint` ohne Fehler,
+  `npm run build` mit 22 Seiten und 10/10 Playwright-E2E-Tests erfolgreich.
+  Der E2E-Kernflow bestätigt Sicherheitsabfrage, Redirect und sichtbaren
+  Archivstatus `Beendet`.
+- Offene Risiken: Das bestehende Feld `completed_at` speichert derzeit sowohl
+  regulären Abschluss als auch vorzeitiges Verlassen; eine feinere Eventhistorie
+  bleibt eine spätere Schema-Slice. SQLite/`node:sqlite` bleibt experimentell.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-24 - Kanonische Breadcrumbs für Wissensartikel
+
+- Ziel: Crawlbare Wissensartikel um die eindeutige SEO-Hierarchie Startseite,
+  Wissenskatalog und Artikel ergänzen.
+- Änderungen: Gemeinsamen `BreadcrumbList`-Builder für Wissensartikel angelegt
+  und zusammen mit dem bestehenden `Article` in einen serverseitigen JSON-LD-
+  Graphen eingebunden. Kanonische URLs, sichtbare Inhalte und Layout blieben
+  unverändert; SEO-Todo abgeschlossen.
+- TDD: Der neue Builder-Test schlug zunächst erwartungsgemäß wegen des fehlenden
+  Exports fehl und bestand nach der minimalen Implementierung.
+- Verifikation: `npm test` mit 60/60 Tests, `npm run lint` ohne Fehler und
+  `npm run build` mit 22 Seiten erfolgreich. Temporärer Production-Smoke auf
+  Port 3181 bestätigte HTTP 200, exakten Title, Canonical ohne Query,
+  serverseitiges H1, `Article`-ID und alle drei kanonischen Breadcrumb-Einträge.
+  Preview samt Kindprozess beendet; Port 3181 frei und kein Projekt-Next-Prozess
+  mehr aktiv. Ein vor dem Build gefundener alter Preview auf Port 3025 wurde
+  entsprechend der Build-Regel beendet.
+- Offene Risiken: Finale Social-Preview-Bilder und redaktionell freigegebene SEO-/
+  Rechtstexte fehlen weiterhin. SQLite/`node:sqlite` bleibt experimentell;
+  vorhandene `.next-locked-*`-Artefakte wurden nicht verändert.
+- Nächster Schritt: Als kleine SEO-Slice die Homepage auf kanonische `WebSite`-/
+  `Organization`-Strukturdaten und stabile Suchmaschinenmarker prüfen.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-24 - Profilmenü und Katalog-Toolbar ausgerichtet
+
+- Ziel: Die gemeldeten Layoutfehler im eingeloggten Profilmenü und in der
+  Filterleiste des Challenge-Katalogs beheben.
+- Ursache: Eine zu breite Navigationsregel überschrieb das horizontale Padding
+  der Dropdown-Links. Filter- und CTA-Buttons wurden durch vertikales Padding
+  höher als Suchfeld und Sortierauswahl. Der in einem älteren Tab oben sichtbare
+  Footer ließ sich in einem frischen Browserkontext nicht reproduzieren; DOM,
+  Stacking und Footer-Reihenfolge waren korrekt.
+- Änderungen: Navigationsregeln auf direkte Links begrenzt, Dropdown-Einträge
+  wieder mit konsistentem Innenabstand dargestellt und alle vier Toolbar-
+  Bedienelemente auf exakt 44 Pixel Höhe vereinheitlicht.
+- Absicherung: Neuer eingeloggter Playwright-Test prüft Footer-Reihenfolge,
+  Dropdown-Ausrichtung und -Padding sowie identische Oberkante und Höhe aller
+  Toolbar-Bedienelemente.
+- Verifikation: `npm test` mit 60/60 Tests, `npm run lint` ohne Fehler,
+  `npm run build` mit 22 Seiten und 11/11 Playwright-E2E-Tests erfolgreich.
+  Browser-Smoke bestätigte die ausgerichtete Toolbar und den Footer unter dem
+  vollständigen Seiteninhalt. `git diff --check` erfolgreich.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-24 - Homepage als WebSite und Organization ausgezeichnet
+
+- Ziel: Die kanonische Homepage für Suchmaschinen eindeutig als Website und
+  Organisation auszeichnen und die vorhandene Challenge-Suche semantisch
+  verknüpfen.
+- Änderungen: Explizite Homepage-Metadaten mit Canonical und Open-Graph-URL
+  ergänzt. Ein serverseitiger JSON-LD-Graph verbindet `Organization`, `WebSite`,
+  Logo und die drei offiziellen Social-Profile. Eine `SearchAction` verweist auf
+  die bestehende Suchroute `/challenges?suche={search_term_string}`.
+- TDD: Der Builder-Test schlug zunächst wegen des fehlenden Exports fehl und
+  bestand nach der minimalen Implementierung.
+- Verifikation: `npm test` mit 61/61 Tests, `npm run lint` ohne Fehler,
+  `npm run build` mit 22 Seiten und 11/11 Playwright-E2E-Tests erfolgreich.
+  Browser-Smoke bestätigte Canonical, Open-Graph-URL, beide kanonischen IDs und
+  das Suchziel auch bei einem Tracking-Queryparameter. `git diff --check`
+  erfolgreich.
+- Offene Risiken: Finale Social-Preview-Bilder und redaktionell freigegebene
+  Homepage-Texte bleiben offen. SQLite/`node:sqlite` bleibt experimentell.
+- Nächster Schritt: Passwort-Reset als sichere vertikale Produktslice mit
+  gehashtem, kurzlebigem Einmal-Token und neutraler Request-Antwort vorbereiten.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-24 - Sicherer Passwort-Reset umgesetzt
+
+- Ziel: Vergessene Passwörter ohne Account-Erkennung zurücksetzen und nach der
+  Änderung alle bestehenden Sitzungen sicher beenden.
+- Änderungen: Der Login-Dialog verlinkt eine neue noindex-Anforderungsseite.
+  Reset-Anfragen antworten unabhängig von der Kontoexistenz gleich, erzeugen
+  256-Bit-Tokens mit 30 Minuten Laufzeit und speichern ausschließlich deren
+  SHA-256-Hash. Neue Anfragen widerrufen ältere offene Tokens.
+- Abschluss: Die noindex-Resetseite akzeptiert den Einmal-Link, validiert zwei
+  neue Passworteingaben, ändert das Passwort atomar, verbraucht das Token und
+  löscht sämtliche Sessions des Kontos. Ungültige, abgelaufene und bereits
+  verwendete Links bleiben gesperrt.
+- Persistenz: SQLite-Schema, Repositoryvertrag und PostgreSQL-Migration
+  `0005_password_reset_tokens.sql` ergänzt.
+- E-Mail: Ein getesteter Resend-Adapter ist vorhanden. Ohne `RESEND_API_KEY` und
+  `PASSWORD_RESET_FROM_EMAIL` erfolgt absichtlich kein externer Versand; die
+  öffentliche Antwort bleibt neutral.
+- Verifikation: `npm test` mit 71/71 Tests, `npm run lint` ohne Fehler,
+  `npm run build` mit 24 Seiten und 13/13 Playwright-E2E-Tests erfolgreich.
+  Browser-Smoke bestätigte Anforderungsformular, neutrale Erfolgsmeldung,
+  noindex-Metadaten und die Seite für das neue Passwort. `git diff --check`
+  erfolgreich.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-24 - PostgreSQL-Migrationshistorie gegen Drift abgesichert
+
+- Ziel: Die versionierten PostgreSQL-Migrationen vor stillen nachträglichen
+  Änderungen schützen, bevor sie in einer freigegebenen Umgebung angewendet
+  werden.
+- Änderungen: Versionierte SHA-256-Prüfsummenliste für alle fünf vorhandenen
+  Migrationen ergänzt; automatischer Test prüft vollständige, geordnete
+  Abdeckung und den Dateiinhalt. Migrationsdokumentation um Prüfbefehl sowie die
+  bereits vorhandenen Migrationen für Benutzernamen und Passwort-Reset ergänzt;
+  Architektur-Todo abgeschlossen.
+- Verifikation: `sha256sum -c checksums.sha256` meldet 5/5 Dateien `OK`;
+  `npm test` mit 72/72 Tests, `npm run lint` ohne Fehler und `npm run build` mit
+  24 Seiten erfolgreich. Temporärer Production-Smoke auf Port 3193 bestätigte
+  HTTP 200, Canonical, H1-/Titelmarker, `BreadcrumbList` und Robots-Sitemap-
+  Marker. Server beendet; kein Next-Prozess und kein Listener auf Port 3193
+  aktiv. `git diff --check` erfolgreich.
+- Offene Risiken: Die Migrationen wurden weiterhin mangels freigegebener
+  PostgreSQL-Testinstanz nicht real angewendet. SQLite/`node:sqlite` bleibt die
+  experimentelle Runtime. Neue Migrationen müssen künftig zusammen mit ihrem
+  neuen Prüfsummeneintrag versioniert werden.
+- Nächster Schritt: PostgreSQL-Migrationen nach Freigabe gegen eine isolierte
+  Testinstanz anwenden oder einen typisierten API-Client für den bestehenden
+  `v1`-Vertrag als kleine Expo-Vorbereitung schneiden.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-24 - Typisierter Client für öffentliche Challenge-API
+
+- Ziel: Den bestehenden öffentlichen `v1`-Vertrag als kleine, frameworkfreie
+  Grundlage für spätere Web- und Expo-Clients nutzbar machen.
+- Änderungen: Fetch-basierter Client für paginierte Challenge-Listen und
+  Challenge-Details ergänzt. Er normalisiert die Basis-URL, kodiert Slugs,
+  validiert Pagination vor dem Request, reicht strukturierte HTTP-Fehler mit
+  Status und Code weiter und verwirft unerwartete Versionen oder Vertragsdrift
+  durch Laufzeitvalidierung. Vier isolierte Clienttests decken URL-Aufbau,
+  Detailabruf, API-Fehler und ungültige Antworten ab. Öffentliche Seiten,
+  Metadaten, URLs und Rendering wurden nicht verändert.
+- Verifikation: `npm test` mit 76/76 Tests, `npm run lint` ohne Fehler und
+  `npm run build` mit 24 Seiten erfolgreich. Temporärer Production-Smoke auf
+  Port 50011 rief Liste und Detail über den neuen Client real ab und bestätigte
+  drei serverseitige SEO-Marker (H1, Canonical, `BreadcrumbList`) der
+  10.000-Schritte-Seite. Preview samt verbliebenem Kindprozess beendet; Port
+  50011 frei und kein Projekt-Next-Prozess aktiv. `git diff --check` für die
+  neuen Implementierungsdateien erfolgreich.
+- Offene Risiken: Der Client ist noch nicht als eigenständiges Paket exportiert
+  oder in eine Expo-App eingebunden. API-Version und erlaubte Level werden zur
+  Expo-kompatiblen Laufzeitvalidierung lokal gespiegelt; bei einem späteren `v2`
+  sollte ein reines, gemeinsam paketierbares Vertragsmodul entstehen.
+- Nächster Schritt: PostgreSQL-Migrationen nach ausdrücklicher Freigabe gegen
+  eine isolierte Testinstanz anwenden oder als sichere Produktslice Reminder für
+  `Meine Challenges` fachlich spezifizieren.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-25 - Tägliche Kalender-Erinnerung für aktive Challenges
+
+- Ziel: Reminder als kleine, sofort nutzbare Produktslice im privaten Bereich
+  `Meine Challenges` anbieten, ohne E-Mail-Infrastruktur oder neue Persistenz
+  vorwegzunehmen.
+- Änderungen: Aktive Challenge-Räume zeigen einen responsiven Reminder-Bereich.
+  Der geschützte Download-Endpunkt prüft Sitzung, Eigentum und aktiven Status und
+  liefert eine iCalendar-Datei mit täglichem Termin um 18 Uhr, 15-Minuten-Alarm
+  und Link zur kanonischen Challenge-Seite. Antworten sind nicht cachebar und
+  per `X-Robots-Tag` von der Indexierung ausgeschlossen; beendete oder fremde
+  Teilnahmen liefern keine Kalenderdatei. Todo ergänzt und abgeschlossen.
+- Verifikation: `npm test` mit 78/78 Tests, `npm run lint` ohne Fehler und
+  `npm run build` einschließlich neuer Reminder-Route erfolgreich. Isolierter
+  Production-Smoke auf Port 50125 bestätigte 2/2 gezielte Playwright-Tests einschließlich sichtbarem
+  Download und real abgerufenem `text/calendar` mit täglicher Wiederholung.
+  Öffentliche Challenge-Seite behielt H1, Canonical und `BreadcrumbList`; der
+  private Endpunkt antwortete ohne Sitzung mit HTTP 401. Preview samt
+  Kindprozess beendet, Port freigegeben und temporäre Datenbank entfernt.
+- Offene Risiken: Der importierte Kalendertermin läuft unabhängig von einem
+  späteren Challenge-Austritt weiter und muss dann in der Kalender-App gelöscht
+  werden. Uhrzeit und Wiederholung können derzeit erst nach dem Import im
+  Kalender angepasst werden. SQLite/`node:sqlite` bleibt experimentell.
+- Nächster Schritt: Reminder bei Bedarf um eine auswählbare Uhrzeit ergänzen oder
+  nach ausdrücklicher Freigabe Resend/PostgreSQL in isolierter Umgebung real
+  konfigurieren und verifizieren.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-25 - Challenge-spezifische Social-Preview-Bilder
+
+- Ziel: Öffentliche Challenge-Detailseiten beim Teilen mit einem eindeutigen,
+  performanten Vorschaubild statt einer generischen kleinen Social Card ausliefern.
+- Änderungen: Dynamische Next.js-`ImageResponse`-Route für kuratierte und
+  veröffentlichte Community-Challenges ergänzt. Das 1200x630-Bild rendert Marke,
+  Challenge-Titel und fachliches Label serverseitig ohne externe Assets. Open
+  Graph und Twitter verweisen kanonisch auf diese Route; Twitter nutzt nun
+  `summary_large_image`. Ein gemeinsamer Metadata-Builder und Regressionstest
+  sichern URL, Maße und Alt-Text ab; SEO-Todo um den abgeschlossenen Teilschritt
+  ergänzt.
+- Verifikation: `npm test` mit 79/79 Tests, `npm run lint` ohne Fehler und
+  `npm run build` mit erfolgreicher dynamischer Open-Graph-Route. Temporärer
+  Production-Smoke auf Port 50237 bestätigte HTTP 200, Canonical ohne
+  Tracking-Query, `og:image`, `summary_large_image`, `BreadcrumbList` sowie ein
+  real abgerufenes PNG mit HTTP 200, `image/png` und exakt 1200x630 Pixeln.
+  Preview beendet; kein dauerhafter Server wurde belassen.
+- Offene Risiken: Die visuelle Gestaltung und die redaktionellen SEO-Texte/
+  Keywords sind noch nicht final von Stefan freigegeben. Community-Bildaufrufe
+  lesen wie die Detailseite weiterhin aus der experimentellen SQLite-Runtime.
+- Nächster Schritt: Social-Preview visuell abnehmen und anschließend finale
+  Keywords/Texte je Challenge redaktionell festlegen oder die Bildstrategie
+  analog auf Wissensartikel erweitern.
+- Kein Deployment, Push oder Commit.
+
+## 2026-07-25 - Social-Preview-Bilder für Wissensartikel
+
+- Ziel: Die crawlbaren Wissensartikel beim Teilen mit einer großen, eindeutigen
+  Vorschau ausstatten, ohne Inhalte, URLs oder Seitenlayout zu verändern.
+- Änderungen: Für alle drei Wissensartikel eine statisch vorgerenderte Next.js-
+  `ImageResponse`-Route mit Marke, Kategorie und Artikeltitel ergänzt. Open Graph,
+  Twitter und `Article`-JSON-LD verweisen auf die kanonische 1200x630-Bildroute;
+  Twitter nutzt nun `summary_large_image`. Ein Metadata-Builder und Regressionstest
+  sichern URL, Maße und Alt-Text ab; Todo aktualisiert.
+- Verifikation: Der neue Test schlug zunächst erwartungsgemäß wegen des fehlenden
+  Builders fehl. Danach bestanden `npm test` mit 80/80 Tests, `npm run lint` ohne
+  Fehler und `npm run build` mit drei erfolgreich vorgerenderten Wissensbildrouten.
+  Temporärer Production-Smoke auf Port 50341 bestätigte HTTP 200, Canonical ohne
+  Tracking-Query, `og:image`, `summary_large_image`, `BreadcrumbList`, das
+  JSON-LD-Bild sowie ein real abgerufenes PNG mit exakt 1200x630 Pixeln. Mobile
+  390px ohne horizontalen Overflow; Preview beendet und Port als frei verifiziert.
+- Offene Risiken: Gestaltung und redaktionelle SEO-Texte sind noch nicht final
+  freigegeben. Die Wissensartikel selbst sind weiterhin ein kleiner Startbestand.
+- Nächster Schritt: Social-Preview-Design visuell abnehmen und anschließend
+  finale Keywords/Texte je Challenge und Wissensartikel redaktionell festlegen.
+- Kein Deployment, Push oder Commit.

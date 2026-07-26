@@ -1,0 +1,64 @@
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.25rem;
+  align-items: center;
+  width: min(var(--content-width), calc(100% - (var(--page-gutter) * 2)));
+  margin: 1rem auto 0;
+  border: 1px solid rgba(0, 137, 179, 0.3);
+  border-radius: 8px;
+  background: #eaf8fc;
+  padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.panel h2,
+.panel p {
+  margin: 0;
+}
+
+.panel h2 {
+  color: var(--background-deep);
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+}
+
+.panel p:last-child {
+  margin-top: 0.45rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.kicker {
+  margin-bottom: 0.35rem !important;
+  color: var(--brand-dark) !important;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.button {
+  min-height: 48px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  padding: 0.8rem 1rem;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+@media (max-width: 700px) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+
+  .button {
+    width: 100%;
+  }
+}

@@ -28,7 +28,7 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
         <section className={styles.notFound}>
           <p className={styles.eyebrow}>Nicht gefunden</p>
           <h1>Diese Challenge gibt es hier noch nicht.</h1>
-          <p>Lokale User-Challenges sind an diesen Browser gebunden. Erstelle eine neue Challenge oder gehe zur Uebersicht.</p>
+          <p>Lokale User-Challenges sind an diesen Browser gebunden. Erstelle eine neue Challenge oder gehe zur Übersicht.</p>
           <div className={styles.actions}>
             <Link href="/challenges/neu">Challenge erstellen</Link>
             <Link href="/challenges">Challenges entdecken</Link>
@@ -46,9 +46,9 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
     <main className={styles.page}>
       <section className={`${styles.hero} ${styles[challenge.level]}`}>
         <Link className={styles.backLink} href="/challenges">
-          Zurueck zu den Challenges
+          Zurück zu den Challenges
         </Link>
-        <p className={styles.level}>Oeffentliche User Challenge | {levelLabels[challenge.level]}</p>
+        <p className={styles.level}>Öffentliche User Challenge | {levelLabels[challenge.level]}</p>
         <h1>{challenge.title}</h1>
         <p className={styles.description}>{challenge.description}</p>
         <div className={styles.heroActions}>
@@ -78,7 +78,7 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
           <p className={styles.eyebrow}>Ziel</p>
           <h2>{challenge.goal}</h2>
           <p>
-            Diese Challenge wurde oeffentlich erstellt und kann sofort gestartet werden.
+            Diese Challenge wurde öffentlich erstellt und kann sofort gestartet werden.
             Halte die Regeln einfach, checke jeden Tag ein und beobachte deinen Fortschritt.
           </p>
         </div>
@@ -92,7 +92,7 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
           </ol>
           <div className={styles.safetyNotice}>
             <strong>Sicherheit zuerst.</strong>
-            <p>Pruefe bei koerperlichen oder gesundheitlichen Challenges deine Voraussetzungen und brich bei Warnsignalen ab.</p>
+            <p>Prüfe bei körperlichen oder gesundheitlichen Challenges deine Voraussetzungen und brich bei Warnsignalen ab.</p>
             <Link href="/sicherheit">Sicherheitshinweise lesen</Link>
           </div>
           <ChallengeStart

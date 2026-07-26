@@ -5,15 +5,17 @@ import { useActionState, useMemo, useState } from "react";
 import { levelLabels, type ChallengeLevel } from "@/data/challenges";
 import type { CurrentUser } from "@/lib/auth";
 import type { CreateChallengeState } from "@/app/challenges/neu/actions";
+import { LoginModal } from "./login-modal";
 import { SiteFooter, SiteHeader } from "./site-shell";
 import styles from "./challenge-create-app.module.css";
 
 const levelOptions: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
 
-const categoryOptions = ["Fitness", "Ernaehrung", "Fokus", "Schlaf", "Produktivitaet", "Mindset", "Digital Detox"];
+const categoryOptions = ["Fitness", "Ernährung", "Fokus", "Schlaf", "Produktivität", "Mindset", "Digital Detox"];
 
 const initialState = {
-  error: ""
+  error: "",
+  duplicates: []
 };
 
 type ChallengeCreateAppProps = {
@@ -31,6 +33,7 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
   const [description, setDescription] = useState("");
   const [rulesText, setRulesText] = useState("");
   const [tipsText, setTipsText] = useState("");
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const previewRules = useMemo(() => parseLines(rulesText), [rulesText]);
   const previewTips = useMemo(() => parseLines(tipsText), [tipsText]);
@@ -43,7 +46,7 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
         <p className={styles.kicker}>Public by default</p>
         <h1>Challenge erstellen</h1>
         <p>
-          Erstelle eine oeffentliche Challenge mit klarer Aufgabe, Dauer und Regeln. Eingeloggt wird
+          Erstelle eine öffentliche Challenge mit klarer Aufgabe, Dauer und Regeln. Eingeloggt wird
           sie serverseitig gespeichert und erscheint direkt im Katalog.
         </p>
       </section>
@@ -54,10 +57,23 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
             <div className={styles.notice}>
               <strong>Account erforderlich.</strong>
               <p>Neue Challenges werden ab jetzt serverseitig gespeichert. Logge dich ein oder erstelle einen Account.</p>
-              <Link href="/auth?next=/challenges/neu">Zum Login</Link>
+              <button type="button" onClick={() => setIsLoginOpen(true)}>Zum Login</button>
             </div>
           )}
-          {formState.error && <p className={styles.error}>{formState.error}</p>}
+          {formState.error && (
+            <div className={styles.error} role="alert">
+              <p>{formState.error}</p>
+              {formState.duplicates.length > 0 && (
+                <ul>
+                  {formState.duplicates.map((duplicate) => (
+                    <li key={duplicate.slug}>
+                      <Link href={`/challenges/${duplicate.slug}`}>{duplicate.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
           <label>
             Titel
             <input name="title" value={title} maxLength={80} onChange={(event) => setTitle(event.target.value)} />
@@ -117,12 +133,12 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
             <textarea name="tips" value={tipsText} rows={4} onChange={(event) => setTipsText(event.target.value)} />
           </label>
           <button className={styles.primaryButton} type="submit" disabled={!user || pending}>
-            {pending ? "Speichert..." : "Oeffentlich speichern"}
+            {pending ? "Speichert..." : "Öffentlich speichern"}
           </button>
         </form>
 
         <aside className={`${styles.preview} ${styles[level]}`} aria-label="Challenge Vorschau">
-          <p className={styles.previewKicker}>{levelLabels[level]} | {category}</p>
+          <p className={styles.previewKicker}>Öffentlich | {levelLabels[level]} | {category}</p>
           <h2>{title || "Deine neue Challenge"}</h2>
           <p>{description || "Beschreibe kurz, warum diese Challenge sinnvoll ist und was man jeden Tag tun soll."}</p>
           <div className={styles.previewMeta}>
@@ -149,6 +165,9 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
       </section>
       </main>
       <SiteFooter />
+      {isLoginOpen && (
+        <LoginModal next="/challenges/neu" onClose={() => setIsLoginOpen(false)} />
+      )}
     </>
   );
 }
