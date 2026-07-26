@@ -91,6 +91,8 @@ Stand: 2026-07-25
   und mit einem vollständigen E2E-Test absichern.
 - [ ] Resend-Zugang und Absenderadresse für den produktiven Versand der
   Passwort-Reset-E-Mails konfigurieren und mit einer echten Zustellung prüfen.
+- [ ] `PASSWORD_RESET_RATE_LIMIT_SECRET` im Zielbetrieb als dauerhaftes Secret
+  konfigurieren, damit HMAC-Identifier und Limits Neustarts stabil überstehen.
 
 ## Later
 

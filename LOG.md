@@ -1958,3 +1958,19 @@
   Resend-Konfiguration. IP-Limits setzen im Zielbetrieb vertrauenswürdige
   `x-forwarded-for`-Header des Reverse Proxys voraus.
 - Kein Deployment.
+
+## 2026-07-26 - Zweite Reviewrunde für Reset-Härtung geschlossen
+
+- Ziel: Die drei verbliebenen Blocker der unabhängigen Follow-up-Prüfung beheben.
+- Änderungen: Reset-Token-Bestätigung invalidiert nur noch tatsächlich ältere
+  Tokens anhand Erstellzeit und SQLite-Reihenfolge; ein Paralleltest reproduziert
+  und verhindert die Zustellungs-Race-Condition. Rate-Limit-Identifier werden nun
+  mit einem geheimnisgebundenen HMAC statt ungesalzenem SHA-256 persistiert; lokal
+  dient ein pro Prozess zufälliges Secret als sicherer Fallback. Die noch nicht
+  produktiv angewendete PostgreSQL-Username-Migration `0004` wurde vor Anwendung
+  auf eine kollisionsfeste Schleife umgestellt und ihre Prüfsumme aktualisiert.
+- Verifikation: Fokussierte 17/17 Tests für Reset-Repository, Rate-Limit und
+  PostgreSQL-Migrationen erfolgreich.
+- Offene Risiken: Für neustartstabile Produktionslimits muss
+  `PASSWORD_RESET_RATE_LIMIT_SECRET` im Zielbetrieb gesetzt werden.
+- Kein Deployment.

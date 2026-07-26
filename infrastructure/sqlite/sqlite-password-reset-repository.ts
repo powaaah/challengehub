@@ -56,13 +56,21 @@ export class SqlitePasswordResetRepository implements PasswordResetRepository {
       .prepare(`
         UPDATE password_reset_tokens
         SET used_at = ?
-        WHERE user_id = ? AND id <> ? AND used_at IS NULL
-          AND EXISTS (
-            SELECT 1 FROM password_reset_tokens current
-            WHERE current.id = ? AND current.user_id = ? AND current.used_at IS NULL
+        WHERE rowid IN (
+          SELECT older.rowid
+          FROM password_reset_tokens older
+          JOIN password_reset_tokens current
+            ON current.id = ? AND current.user_id = ? AND current.used_at IS NULL
+          WHERE older.user_id = current.user_id
+            AND older.id <> current.id
+            AND older.used_at IS NULL
+            AND (
+              older.created_at < current.created_at
+              OR (older.created_at = current.created_at AND older.rowid < current.rowid)
+            )
           )
       `)
-      .run(input.deliveredAt, input.userId, input.id, input.id, input.userId);
+      .run(input.deliveredAt, input.id, input.userId);
   }
 
   discard(input: { id: string; userId: string }) {

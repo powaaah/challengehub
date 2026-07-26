@@ -5,27 +5,37 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
   applied_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-UPDATE users
-SET name = btrim(name);
+CREATE TEMPORARY TABLE username_migration_reserved (
+  name TEXT PRIMARY KEY
+) ON COMMIT DROP;
 
-UPDATE users
-SET name = 'user-' || id
-WHERE name = '';
+DO $$
+DECLARE
+  user_row RECORD;
+  base_name TEXT;
+  candidate TEXT;
+  suffix INTEGER;
+BEGIN
+  FOR user_row IN SELECT id, name FROM users ORDER BY created_at, id LOOP
+    base_name := btrim(user_row.name);
+    IF base_name = '' THEN
+      base_name := 'user-' || user_row.id;
+    END IF;
+    candidate := base_name;
+    suffix := 1;
 
-WITH ranked_names AS (
-  SELECT
-    id,
-    row_number() OVER (
-      PARTITION BY lower(name)
-      ORDER BY created_at, id
-    ) AS duplicate_number
-  FROM users
-)
-UPDATE users
-SET name = users.name || '-' || users.id
-FROM ranked_names
-WHERE users.id = ranked_names.id
-  AND ranked_names.duplicate_number > 1;
+    WHILE EXISTS (
+      SELECT 1 FROM username_migration_reserved WHERE lower(name) = lower(candidate)
+    ) LOOP
+      candidate := base_name || '-' || user_row.id
+        || CASE WHEN suffix = 1 THEN '' ELSE '-' || suffix::TEXT END;
+      suffix := suffix + 1;
+    END LOOP;
+
+    UPDATE users SET name = candidate WHERE id = user_row.id;
+    INSERT INTO username_migration_reserved (name) VALUES (candidate);
+  END LOOP;
+END $$;
 
 CREATE UNIQUE INDEX users_name_unique_idx ON users (lower(name));
 

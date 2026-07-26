@@ -163,3 +163,20 @@ test("fehlgeschlagene Zustellung lässt den älteren Reset-Link gültig", () => 
   }), { status: "reset" });
   db.close();
 });
+
+test("früher zugestellter Reset-Link entwertet keinen später erstellten Link", () => {
+  const { db, repository } = createRepository();
+  repository.createForUser({ id: "reset-a", userId: "u1", tokenHash: "hash-a", expiresAt: "2026-07-24T10:30:00.000Z" });
+  repository.createForUser({ id: "reset-b", userId: "u1", tokenHash: "hash-b", expiresAt: "2026-07-24T10:30:00.000Z" });
+
+  repository.confirmDelivery({ id: "reset-a", userId: "u1", deliveredAt: "2026-07-24T10:01:00.000Z" });
+  assert.equal(db.prepare("SELECT used_at FROM password_reset_tokens WHERE id = 'reset-b'").get()?.used_at, null);
+  repository.confirmDelivery({ id: "reset-b", userId: "u1", deliveredAt: "2026-07-24T10:02:00.000Z" });
+
+  assert.deepEqual(repository.resetPassword({
+    tokenHash: "hash-b",
+    passwordHash: "new-hash",
+    now: "2026-07-24T10:15:00.000Z"
+  }), { status: "reset" });
+  db.close();
+});

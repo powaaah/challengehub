@@ -111,6 +111,8 @@ test("username migration enforces case-insensitive uniqueness", async () => {
   );
 
   assert.match(sql, /lower\(name\)/);
+  assert.match(sql, /WHILE EXISTS/);
+  assert.match(sql, /username_migration_reserved/);
   assert.match(sql, /CREATE UNIQUE INDEX users_name_unique_idx/);
 });
 

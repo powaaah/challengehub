@@ -1,16 +1,18 @@
-import { createHash, randomUUID } from "node:crypto";
+import { createHmac, randomBytes, randomUUID } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
 import { getDb } from "./db.ts";
 
 const WINDOW_MS = 60 * 60 * 1000;
 const MAX_EMAIL_REQUESTS = 3;
 const MAX_IP_REQUESTS = 10;
+const runtimeSecret = randomBytes(32);
 
 type RateLimitInput = {
   email: string;
   ip: string;
   now?: Date;
   generateId?: () => string;
+  secret?: string | Buffer;
 };
 
 export function allowPasswordResetRequest(input: RateLimitInput) {
@@ -21,8 +23,9 @@ export function consumePasswordResetRateLimit(db: DatabaseSync, input: RateLimit
   const now = input.now ?? new Date();
   const nowIso = now.toISOString();
   const windowStart = new Date(now.getTime() - WINDOW_MS).toISOString();
-  const emailHash = hashIdentifier(input.email.trim().toLowerCase());
-  const ipHash = hashIdentifier(input.ip || "unknown");
+  const secret = input.secret ?? process.env.PASSWORD_RESET_RATE_LIMIT_SECRET ?? runtimeSecret;
+  const emailHash = hashIdentifier(input.email.trim().toLowerCase(), secret);
+  const ipHash = hashIdentifier(input.ip || "unknown", secret);
 
   db.exec("BEGIN IMMEDIATE");
   try {
@@ -54,6 +57,6 @@ function countRequests(db: DatabaseSync, column: "email_hash" | "ip_hash", value
   return row.count;
 }
 
-function hashIdentifier(value: string) {
-  return createHash("sha256").update(value).digest("hex");
+function hashIdentifier(value: string, secret: string | Buffer) {
+  return createHmac("sha256", secret).update(value).digest("hex");
 }

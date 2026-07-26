@@ -1,4 +1,5 @@
 import * as assert from "node:assert/strict";
+import { createHash, createHmac } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { consumePasswordResetRateLimit } from "../lib/password-reset-rate-limit.ts";
@@ -32,6 +33,26 @@ test("Passwort-Reset begrenzt Anfragen je E-Mail neutral auf drei pro Stunde", (
     now: new Date("2026-07-26T10:30:00.000Z"),
     generateId: () => "request-limited"
   }), false);
+  db.close();
+});
+
+test("Rate-Limit persistiert geheimnisgebundene HMACs statt erratbarer SHA-256-Werte", () => {
+  const db = createDb();
+  consumePasswordResetRateLimit(db, {
+    email: "stefan@example.com",
+    ip: "198.51.100.10",
+    now: new Date("2026-07-26T10:00:00.000Z"),
+    generateId: () => "request-hmac",
+    secret: "test-rate-limit-secret"
+  });
+
+  const stored = db.prepare("SELECT email_hash AS emailHash, ip_hash AS ipHash FROM password_reset_requests").get() as {
+    emailHash: string;
+    ipHash: string;
+  };
+  assert.equal(stored.emailHash, createHmac("sha256", "test-rate-limit-secret").update("stefan@example.com").digest("hex"));
+  assert.equal(stored.ipHash, createHmac("sha256", "test-rate-limit-secret").update("198.51.100.10").digest("hex"));
+  assert.notEqual(stored.ipHash, createHash("sha256").update("198.51.100.10").digest("hex"));
   db.close();
 });
 
