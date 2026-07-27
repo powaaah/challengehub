@@ -98,7 +98,7 @@ Beide Dokumente stimmen in den zentralen Produktprinzipien überein:
 | Login mit E-Mail oder Benutzername | E-Mail-Login vorhanden | Benutzername-Login fehlt |
 | Challenge-Typ und Challenge-Klasse getrennt | Klasse/Level vorhanden | kein vollständiges erstes Domainmodell für Typ, Wertungsart und Nachweisregel |
 | Teilnahme nach Login fortsetzen | Rücksprungpfad zur Challenge vorhanden | automatische Fortsetzung und eigene Bestätigungsseite fehlen |
-| Ranking | Top 10, Streak und Quote vorhanden | Top 20 plus Nachbarpositionen, absolute Erreichung und 100-Tage-Regel fehlen |
+| Ranking | Top 20, Streak, Quote und persönliche Nachbarpositionen vorhanden | absolute Erreichung und 100-Tage-Regel fehlen |
 | Challenge erstellen | serverseitiges Formular und Vorschau vorhanden | kein mehrstufiger typabhängiger Assistent, keine private Sichtbarkeit, keine Nachweisregel; außerdem können normale Nutzer derzeit auch offizielle Klassen wie Premium auswählen |
 | Challenge-Mate | geschützte vorbereitete Route vorhanden | Profilkriterien, Suchpool, Matching und Anfragen fehlen |
 | PostgreSQL | Migration und erster Adapter vorhanden | Runtime verwendet weiterhin SQLite |
@@ -160,7 +160,7 @@ Die Muss-Liste aus Kapitel 38 der v1.0 entspricht eher einem vollständigen erst
 4. Passwort-Reset mit gehashtem, kurzlebigem Einmal-Token umsetzen.
 5. Teilnahmeabsicht über Login hinweg sichern, Teilnahme automatisch abschließen und Bestätigungsseite bereitstellen.
 6. `Challenge verlassen` mit Sicherheitsabfrage und klarer Statushistorie ergänzen. **Umgesetzt.**
-7. Ranking auf absolute/relative Erreichung, 100-Tage-Mindestbasis sowie Top 20 plus direkte Nachbarn erweitern.
+7. Ranking auf absolute/relative Erreichung und 100-Tage-Mindestbasis erweitern; Top 20 plus direkte Nachbarn sind umgesetzt.
 8. Profilgrundlage für Avatar, groben Ort und Challenge-Mate-Sichtbarkeit schaffen. **Benutzername und geschützte Profilseite umgesetzt.**
 9. Private Challenge als kleinen End-to-End-Slice mit Sichtbarkeit und Einladungslink umsetzen.
 10. Erst danach Upload-/Wettkampf-/Admin-Verifizierung als separaten vertikalen Ausbau beginnen.

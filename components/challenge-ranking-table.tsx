@@ -1,4 +1,7 @@
-import type { ChallengeRankingEntry } from "@/lib/challenge-progress";
+import {
+  selectChallengeRankingWindow,
+  type ChallengeRankingEntry
+} from "@/lib/challenge-progress";
 import styles from "./challenge-ranking-table.module.css";
 
 type ChallengeRankingTableProps = {
@@ -7,7 +10,7 @@ type ChallengeRankingTableProps = {
 };
 
 export function ChallengeRankingTable({ entries, currentParticipationId }: ChallengeRankingTableProps) {
-  const topEntries = entries.slice(0, 10);
+  const { topEntries, nearbyEntries } = selectChallengeRankingWindow(entries, currentParticipationId);
 
   return (
     <div className={styles.rankingBox}>
@@ -27,14 +30,31 @@ export function ChallengeRankingTable({ entries, currentParticipationId }: Chall
           </tr>
         </thead>
         <tbody>
-          {topEntries.length > 0 ? topEntries.map((entry) => (
-            <tr key={entry.id} aria-current={entry.id === currentParticipationId ? "true" : undefined}>
-              <td>{entry.rank}</td>
-              <td>{entry.name}{entry.id === currentParticipationId ? " (du)" : ""}</td>
-              <td>{entry.currentStreak} Tage</td>
-              <td>{entry.completionRate}%</td>
-            </tr>
-          )) : (
+          {topEntries.length > 0 ? (
+            <>
+              {topEntries.map((entry) => (
+                <RankingRow
+                  key={entry.id}
+                  entry={entry}
+                  isCurrent={entry.id === currentParticipationId}
+                />
+              ))}
+              {nearbyEntries.length > 0 ? (
+                <>
+                  <tr className={styles.positionDivider}>
+                    <td colSpan={4}>Deine Position</td>
+                  </tr>
+                  {nearbyEntries.map((entry) => (
+                    <RankingRow
+                      key={entry.id}
+                      entry={entry}
+                      isCurrent={entry.id === currentParticipationId}
+                    />
+                  ))}
+                </>
+              ) : null}
+            </>
+          ) : (
             <tr>
               <td>1</td>
               <td>frei</td>
@@ -45,5 +65,16 @@ export function ChallengeRankingTable({ entries, currentParticipationId }: Chall
         </tbody>
       </table>
     </div>
+  );
+}
+
+function RankingRow({ entry, isCurrent }: { entry: ChallengeRankingEntry; isCurrent: boolean }) {
+  return (
+    <tr aria-current={isCurrent ? "true" : undefined}>
+      <td>{entry.rank}</td>
+      <td>{entry.name}{isCurrent ? " (du)" : ""}</td>
+      <td>{entry.currentStreak} Tage</td>
+      <td>{entry.completionRate}%</td>
+    </tr>
   );
 }

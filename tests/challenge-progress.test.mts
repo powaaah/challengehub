@@ -3,7 +3,8 @@ import { test } from "node:test";
 import {
   buildChallengeHistory,
   calculateChallengeProgress,
-  rankChallengeParticipants
+  rankChallengeParticipants,
+  selectChallengeRankingWindow
 } from "../lib/challenge-progress.ts";
 
 test("berechnet erfüllte und verpasste Tage inklusive Starttag", () => {
@@ -62,6 +63,42 @@ test("sortiert nach aktueller Serie, Quote, erfüllten Tagen und Startdatum", ()
 
   assert.deepEqual(ranked.map((entry) => entry.id), ["a", "c", "b"]);
   assert.deepEqual(ranked.map((entry) => entry.rank), [1, 2, 3]);
+});
+
+test("zeigt die Top 20 und bei einer niedrigeren eigenen Position die direkten Nachbarn", () => {
+  const entries = Array.from({ length: 30 }, (_, index) => ({
+    id: `p${index + 1}`,
+    rank: index + 1
+  }));
+
+  const window = selectChallengeRankingWindow(entries, "p24");
+
+  assert.deepEqual(
+    window.topEntries.map((entry) => entry.rank),
+    Array.from({ length: 20 }, (_, index) => index + 1)
+  );
+  assert.deepEqual(window.nearbyEntries.map((entry) => entry.rank), [22, 23, 24, 25, 26]);
+});
+
+test("dupliziert bei Rang 21 keine bereits sichtbaren Top-20-Einträge", () => {
+  const entries = Array.from({ length: 24 }, (_, index) => ({
+    id: `p${index + 1}`,
+    rank: index + 1
+  }));
+
+  const window = selectChallengeRankingWindow(entries, "p21");
+
+  assert.deepEqual(window.nearbyEntries.map((entry) => entry.rank), [21, 22, 23]);
+});
+
+test("blendet den persönlichen Ranking-Ausschnitt innerhalb der Top 20 aus", () => {
+  const entries = Array.from({ length: 24 }, (_, index) => ({
+    id: `p${index + 1}`,
+    rank: index + 1
+  }));
+
+  assert.deepEqual(selectChallengeRankingWindow(entries, "p8").nearbyEntries, []);
+  assert.deepEqual(selectChallengeRankingWindow(entries).nearbyEntries, []);
 });
 
 test("baut einen begrenzten Challenge-Verlauf ohne Tage vor dem Start", () => {

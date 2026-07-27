@@ -2009,3 +2009,27 @@
 - Offene Risiken: Anzeigename, Avatar, Standort und Challenge-Mate-Sichtbarkeit
   bleiben bewusst spätere Profilslices. E-Mail-Änderung bleibt unverändert.
 - Kein Deployment.
+
+## 2026-07-27 - Top-20-Ranking und persönliche Nachbarpositionen
+
+- Ziel: Das zentrale Challenge-Ranking über die bisherigen Top 10 hinaus
+  aussagekräftiger machen und die eigene Position auch außerhalb der Spitze
+  sichtbar halten.
+- Änderungen: Rankingtabellen zeigen jetzt die Top 20. Befindet sich die aktive
+  eigene Teilnahme dahinter, folgt ein klar getrennter persönlicher Ausschnitt
+  mit bis zu zwei direkten Positionen davor und danach. Bereits sichtbare
+  Top-20-Zeilen werden nicht dupliziert; die eigene Zeile ist hervorgehoben und
+  mit `(du)` gekennzeichnet. Öffentliche kuratierte Challenge-Seiten übergeben
+  dafür die aktive Teilnahme des eingeloggten Nutzers.
+- Tests: Drei Domain-Regressionstests für Top-20-Auswahl, Rang-21-Grenze und
+  Nutzer innerhalb der Top 20 ergänzt. Der bestehende Teilnahme-E2E prüft nach
+  der Registrierung die Top-20-Überschrift, die eigene markierte Rankingzeile
+  sowie fehlenden horizontalen Overflow bei 390 Pixel Breite.
+- Verifikation: 98/98 Unit-Tests, ESLint, Produktions-Build und 19/19
+  Playwright-E2E-Tests erfolgreich. Desktop-Ranking mit 20 echten Zeilen
+  zusätzlich visuell ohne Überlappungen oder abgeschnittene Tabellenspalten
+  geprüft.
+- Offenes Risiko: Die bestehende Sortierung nach Streak, Quote, erfüllten Tagen
+  und Startdatum bleibt bewusst unverändert. Absolute/relative Wertung und die
+  100-Tage-Mindestbasis sind ein eigener Folgeslice.
+- Kein Deployment.

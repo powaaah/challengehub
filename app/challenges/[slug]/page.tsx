@@ -14,6 +14,7 @@ import {
   getParticipationCountByChallengeSlug,
   getRecentChallengeActivityBySlug
 } from "@/lib/challenge-participation-stats";
+import { getParticipationsForUser } from "@/lib/participations";
 import { getPublishedChallengeBySlug } from "@/lib/public-challenges";
 import {
   buildChallengeBreadcrumbJsonLd,
@@ -142,6 +143,11 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
   const pageUrl = `${SITE_URL}/challenges/${challenge.slug}`;
   const ranking = getChallengeRankingBySlug(challenge.slug, getTodayKey());
   const activity = getRecentChallengeActivityBySlug(challenge.slug);
+  const currentParticipationId = user
+    ? getParticipationsForUser(user.id).find((participation) =>
+        participation.challengeSlug === challenge.slug && participation.status === "active"
+      )?.id
+    : undefined;
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -237,11 +243,14 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
           <div className={styles.sectionHeader}>
             <div>
               <p className={styles.eyebrow}>Ranking</p>
-              <h2 id="challenge-ranking">Top 10</h2>
+              <h2 id="challenge-ranking">Top 20</h2>
             </div>
             <p>Wer hält am längsten durch?</p>
           </div>
-          <ChallengeRankingTable entries={ranking} />
+          <ChallengeRankingTable
+            entries={ranking}
+            currentParticipationId={currentParticipationId}
+          />
         </section>
 
         <section className={styles.activitySection} aria-labelledby="challenge-activity">

@@ -65,6 +65,21 @@
   background: rgba(0, 137, 179, 0.035);
 }
 
+.table tbody tr[aria-current="true"] td {
+  background: rgba(0, 137, 179, 0.1);
+  color: var(--brand-dark);
+}
+
+.table .positionDivider td {
+  border-bottom: 1px solid rgba(0, 137, 179, 0.2);
+  background: rgba(0, 137, 179, 0.045);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .table th:first-child,
 .table td:first-child {
   width: 4.2rem;

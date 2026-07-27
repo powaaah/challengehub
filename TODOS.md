@@ -91,6 +91,8 @@ Stand: 2026-07-25
   und mit einem vollständigen E2E-Test absichern.
 - [x] Geschützte Profilseite mit änderbarem, case-insensitiv eindeutigem
   Benutzernamen, Profilmenü-Link und vollständigem E2E-Flow umsetzen.
+- [x] Challenge-Ranking auf Top 20 erweitern und eingeloggten Teilnehmern
+  außerhalb der Top 20 die eigene Position mit direkten Nachbarn anzeigen.
 - [ ] Resend-Zugang und Absenderadresse für den produktiven Versand der
   Passwort-Reset-E-Mails konfigurieren und mit einer echten Zustellung prüfen.
 - [ ] `PASSWORD_RESET_RATE_LIMIT_SECRET` im Zielbetrieb als dauerhaftes Secret

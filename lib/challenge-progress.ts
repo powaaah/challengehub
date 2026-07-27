@@ -95,6 +95,23 @@ export function rankChallengeParticipants(
     .map((entry, index) => ({ ...entry, rank: index + 1 }));
 }
 
+export function selectChallengeRankingWindow<T extends { id: string }>(
+  entries: T[],
+  currentParticipationId?: string
+) {
+  const topEntries = entries.slice(0, 20);
+  const currentIndex = currentParticipationId
+    ? entries.findIndex((entry) => entry.id === currentParticipationId)
+    : -1;
+
+  return {
+    topEntries,
+    nearbyEntries: currentIndex >= 20
+      ? entries.slice(Math.max(20, currentIndex - 2), currentIndex + 3)
+      : []
+  };
+}
+
 function calculateCurrentStreak(dateSet: Set<string>, today: string, hasCheckedInToday: boolean) {
   let cursor = hasCheckedInToday ? today : addDays(today, -1);
   let streak = 0;
