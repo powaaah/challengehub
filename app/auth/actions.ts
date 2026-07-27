@@ -6,6 +6,8 @@ import { createSession, clearSession, hashPassword, verifyPassword } from "@/lib
 import { createAccount, findAccountByLogin } from "@/lib/accounts";
 import { startParticipationForUser } from "@/lib/participation-start";
 import { getSafeRelativeRedirect } from "@/lib/safe-redirect";
+import { isValidUsername } from "@/lib/profile-name";
+import { normalizeUsername } from "@/domain/accounts/username";
 
 export type AuthFormState = {
   error: string;
@@ -13,13 +15,11 @@ export type AuthFormState = {
 
 export async function registerAction(_state: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
-  const name = String(formData.get("name") ?? "").trim();
+  const name = normalizeUsername(String(formData.get("name") ?? ""));
   const password = String(formData.get("password") ?? "");
   const next = getSafeNext(formData);
 
-  const isValidUsername = name.length >= 2 && name.length <= 30 && !name.includes("@");
-
-  if (!email.includes("@") || !isValidUsername || password.length < 8) {
+  if (!email.includes("@") || !isValidUsername(name) || password.length < 8) {
     return {
       error: "Bitte gib einen gültigen Benutzernamen, eine gültige E-Mail und mindestens 8 Zeichen Passwort ein."
     };

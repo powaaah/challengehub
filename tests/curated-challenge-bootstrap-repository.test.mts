@@ -2,6 +2,7 @@ import * as assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { SqliteCuratedChallengeBootstrapRepository } from "../infrastructure/sqlite/sqlite-curated-challenge-bootstrap-repository.ts";
+import { SYSTEM_ACCOUNT_NAME_KEY } from "../domain/accounts/username.ts";
 
 function createRepository() {
   const db = new DatabaseSync(":memory:");
@@ -11,9 +12,11 @@ function createRepository() {
       id TEXT PRIMARY KEY,
       email TEXT NOT NULL UNIQUE,
       name TEXT NOT NULL,
+      name_key TEXT NOT NULL,
       password_hash TEXT NOT NULL,
       created_at TEXT NOT NULL
     );
+    CREATE UNIQUE INDEX users_name_unique_idx ON users (name_key);
     CREATE TABLE challenges (
       id TEXT PRIMARY KEY,
       creator_id TEXT NOT NULL REFERENCES users(id),
@@ -57,8 +60,13 @@ test("Bootstrap-Repository materialisiert Systemnutzer und kuratierte Challenge 
   assert.equal(repository.ensureChallenge(challenge), challenge.id);
 
   assert.deepEqual(
-    { ...db.prepare("SELECT id, email, name FROM users").get() },
-    { id: "system", email: "system@challengehub.local", name: "ChallengeHub" }
+    { ...db.prepare("SELECT id, email, name, name_key AS nameKey FROM users").get() },
+    {
+      id: "system",
+      email: "system@challengehub.local",
+      name: "ChallengeHub",
+      nameKey: SYSTEM_ACCOUNT_NAME_KEY
+    }
   );
   assert.deepEqual(
     {
@@ -90,7 +98,7 @@ test("Bootstrap-Repository materialisiert Systemnutzer und kuratierte Challenge 
 test("Bootstrap-Repository respektiert eine bereits vorhandene Challenge mit gleichem Slug", () => {
   const { db, repository } = createRepository();
   db.exec(`
-    INSERT INTO users VALUES ('u1', 'user@example.test', 'User', 'hash', '2026-01-01T00:00:00.000Z');
+    INSERT INTO users VALUES ('u1', 'user@example.test', 'User', 'user', 'hash', '2026-01-01T00:00:00.000Z');
     INSERT INTO challenges VALUES (
       'existing', 'u1', '10000-schritte-am-tag', 'Bestehend', 'Beginner', 'Community', 30,
       'Ziel', 'Beschreibung', '[]', '[]', 'public', 'published',
@@ -101,5 +109,17 @@ test("Bootstrap-Repository respektiert eine bereits vorhandene Challenge mit gle
   assert.equal(repository.ensureChallenge(challenge), "existing");
   assert.equal(db.prepare("SELECT COUNT(*) AS count FROM challenges").get()?.count, 1);
   assert.equal(db.prepare("SELECT COUNT(*) AS count FROM users").get()?.count, 1);
+  db.close();
+});
+
+test("Bootstrap-Systemnutzer kollidiert nicht mit einem normalen Namen ChallengeHub", () => {
+  const { db, repository } = createRepository();
+  db.prepare(`
+    INSERT INTO users (id, email, name, name_key, password_hash, created_at)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `).run("u1", "user@example.test", "ChallengeHub", "challengehub", "hash", "2026-01-01");
+
+  assert.equal(repository.ensureChallenge(challenge), challenge.id);
+  assert.equal(db.prepare("SELECT COUNT(*) AS count FROM users").get()?.count, 2);
   db.close();
 });

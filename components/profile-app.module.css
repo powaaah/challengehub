@@ -1,0 +1,159 @@
+.page {
+  min-height: calc(100vh - 150px);
+  padding: clamp(3rem, 7vw, 6rem) var(--page-gutter);
+  background: var(--background);
+}
+
+.heading,
+.card {
+  width: min(100%, 720px);
+  margin-inline: auto;
+}
+
+.heading {
+  margin-bottom: 2rem;
+}
+
+.heading p,
+.cardHeading p {
+  margin: 0 0 0.45rem;
+  color: var(--brand-dark);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.heading h1 {
+  margin: 0;
+  font-size: clamp(2.3rem, 6vw, 4.5rem);
+  letter-spacing: -0.055em;
+}
+
+.heading > span {
+  display: block;
+  max-width: 560px;
+  margin-top: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.card {
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: clamp(1.25rem, 4vw, 2rem);
+  box-shadow: 0 18px 48px rgba(18, 32, 43, 0.07);
+}
+
+.cardHeading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cardHeading h2 {
+  margin: 0;
+  font-size: 1.45rem;
+}
+
+.cardHeading > span {
+  border-radius: 999px;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  padding: 0.4rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.form label,
+.readonlyField > span {
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.form input,
+.readonlyField {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+  color: var(--text);
+  padding: 0.9rem 1rem;
+  font: inherit;
+}
+
+.form input:focus {
+  border-color: var(--brand);
+  outline: 3px solid rgba(0, 137, 179, 0.14);
+}
+
+.form button {
+  justify-self: start;
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--brand);
+  color: white;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.form button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.hint,
+.error,
+.success {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.hint {
+  color: var(--text-muted);
+}
+
+.error {
+  color: #a02626;
+  font-weight: 700;
+}
+
+.success {
+  color: #187045;
+  font-weight: 700;
+}
+
+.readonlyField {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.readonlyField strong {
+  overflow-wrap: anywhere;
+}
+
+.card > .hint {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 560px) {
+  .cardHeading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

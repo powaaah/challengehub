@@ -5,8 +5,10 @@ import type {
   CreateAccountInput,
   CreateAccountResult,
   CreateSessionInput,
-  CreateSessionResult
+  CreateSessionResult,
+  UpdateAccountNameResult
 } from "../../domain/accounts/account-session-repository.ts";
+import { getUsernameKey, normalizeUsername } from "../../domain/accounts/username.ts";
 
 type Clock = () => string;
 
@@ -41,31 +43,30 @@ export class SqliteAccountSessionRepository implements AccountSessionRepository 
 
   findAccountByLogin(identifier: string): Account | null {
     const normalized = identifier.trim().toLowerCase();
+    const usernameKey = getUsernameKey(identifier);
     const row = this.db
       .prepare(`
         SELECT id, email, name, password_hash as passwordHash, created_at as createdAt
         FROM users
-        WHERE email = ? OR lower(name) = ?
+        WHERE email = ? OR name_key = ?
         LIMIT 1
       `)
-      .get(normalized, normalized) as AccountRow | undefined;
+      .get(normalized, usernameKey) as AccountRow | undefined;
 
     return row ? { ...row } : null;
   }
 
   createAccount(input: CreateAccountInput): CreateAccountResult {
     const email = normalizeEmail(input.email);
-    const name = input.name.trim();
+    const name = normalizeUsername(input.name);
+    const nameKey = getUsernameKey(name);
     const createdAt = this.now();
     const insert = this.db
       .prepare(`
-        INSERT OR IGNORE INTO users (id, email, name, password_hash, created_at)
-        SELECT ?, ?, ?, ?, ?
-        WHERE NOT EXISTS (
-          SELECT 1 FROM users WHERE lower(name) = lower(?)
-        )
+        INSERT OR IGNORE INTO users (id, email, name, name_key, password_hash, created_at)
+        VALUES (?, ?, ?, ?, ?, ?)
       `)
-      .run(input.id, email, name, input.passwordHash, createdAt, name);
+      .run(input.id, email, name, nameKey, input.passwordHash, createdAt);
 
     if (insert.changes !== 1) {
       return { status: "account_conflict" };
@@ -81,6 +82,25 @@ export class SqliteAccountSessionRepository implements AccountSessionRepository 
         createdAt
       }
     };
+  }
+
+  updateAccountName(input: { userId: string; name: string }): UpdateAccountNameResult {
+    const name = normalizeUsername(input.name);
+    const nameKey = getUsernameKey(name);
+    const update = this.db
+      .prepare(`
+        UPDATE OR IGNORE users
+        SET name = ?, name_key = ?
+        WHERE id = ?
+      `)
+      .run(name, nameKey, input.userId);
+
+    if (update.changes === 1) {
+      return { status: "updated" };
+    }
+
+    const user = this.db.prepare("SELECT 1 FROM users WHERE id = ?").get(input.userId);
+    return user ? { status: "account_conflict" } : { status: "user_not_found" };
   }
 
   findAccountBySessionTokenHash(tokenHash: string, now: string): Account | null {

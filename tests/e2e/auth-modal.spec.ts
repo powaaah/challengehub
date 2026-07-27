@@ -87,6 +87,21 @@ test("Registrierung ueber Jetzt teilnehmen startet die Challenge und zeigt die B
   await expect(page.getByRole("link", { name: "Challenge-Partner finden" })).toBeVisible();
 });
 
+test("Registrierung prüft die Benutzernamenlänge nach Unicode-Normalisierung", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Login", exact: true }).click();
+  await page.getByRole("button", { name: "Registrieren", exact: true }).click();
+
+  const registration = page.getByRole("dialog", { name: "Bei ChallengeHub registrieren" });
+  await registration.getByLabel("Benutzername").fill("ﬃ".repeat(11));
+  await registration.getByLabel("E-Mail-Adresse").fill(`nfkc-${Date.now()}@example.test`);
+  await registration.getByLabel("Passwort").fill("ChallengeHub-Test-2026");
+  await registration.getByRole("button", { name: "Account erstellen" }).click();
+
+  await expect(registration.getByText(/Bitte gib einen gültigen Benutzernamen/)).toBeVisible();
+  await expect(page.getByRole("button", { name: "Profilmenü öffnen" })).toHaveCount(0);
+});
+
 test("die alte Auth-Seite wird nicht mehr dargestellt", async ({ page }) => {
   await page.goto("/auth");
 

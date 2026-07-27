@@ -91,6 +91,9 @@ function ProfileMenu({ user }: { user: CurrentUser }) {
             <strong>{user.name}</strong>
             <span>{user.email}</span>
           </div>
+          <Link href="/profil" role="menuitem">
+            Profil bearbeiten
+          </Link>
           <Link href="/meine-challenges" role="menuitem">
             Meine Challenges
           </Link>

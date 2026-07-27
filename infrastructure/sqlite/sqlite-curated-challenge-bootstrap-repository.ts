@@ -3,6 +3,7 @@ import type {
   CuratedChallengeBootstrapInput,
   CuratedChallengeBootstrapRepository
 } from "../../domain/challenges/curated-challenge-bootstrap-repository.ts";
+import { SYSTEM_ACCOUNT_NAME_KEY } from "../../domain/accounts/username.ts";
 
 type Clock = () => string;
 
@@ -28,10 +29,10 @@ export class SqliteCuratedChallengeBootstrapRepository
     const now = this.now();
     this.db
       .prepare(`
-        INSERT OR IGNORE INTO users (id, email, name, password_hash, created_at)
-        VALUES (?, ?, 'ChallengeHub', 'disabled:disabled', ?)
+        INSERT OR IGNORE INTO users (id, email, name, name_key, password_hash, created_at)
+        VALUES (?, ?, 'ChallengeHub', ?, 'disabled:disabled', ?)
       `)
-      .run(SYSTEM_USER_ID, "system@challengehub.local", now);
+      .run(SYSTEM_USER_ID, "system@challengehub.local", SYSTEM_ACCOUNT_NAME_KEY, now);
 
     this.db
       .prepare(`

@@ -24,6 +24,10 @@ export function createAccount(input: CreateAccountInput): CreateAccountResult {
   return getAccountSessionRepository().createAccount(input);
 }
 
+export function updateAccountName(userId: string, name: string) {
+  return getAccountSessionRepository().updateAccountName({ userId, name });
+}
+
 export function findAccountBySessionTokenHash(tokenHash: string, now: string) {
   return getAccountSessionRepository().findAccountBySessionTokenHash(tokenHash, now);
 }

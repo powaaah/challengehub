@@ -1974,3 +1974,38 @@
 - Offene Risiken: Für neustartstabile Produktionslimits muss
   `PASSWORD_RESET_RATE_LIMIT_SECRET` im Zielbetrieb gesetzt werden.
 - Kein Deployment.
+
+## 2026-07-26 - Profilgrundlage und Benutzernamenverwaltung umgesetzt
+
+- Ziel: Das im Profilmenü sichtbare Namensproblem durch eine echte, geschützte
+  Kontoverwaltung lösbar machen.
+- Änderungen: Neue Route `/profil` mit nicht indexierbarer Kontoseite,
+  unveränderter E-Mail-Anzeige und änderbarem Benutzernamen. Der Name wird
+  serverseitig auf 2 bis 30 Zeichen ohne `@` validiert, getrimmt und atomar
+  case-insensitiv eindeutig gespeichert. Das Profilmenü verlinkt die Seite und
+  zeigt nach dem Speichern sofort den aktualisierten Namen. Die gemeinsame
+  Validierung wird auch von der Registrierung genutzt.
+- Tests: Repository-Tests für Änderung und Namenskonflikt, Domain-Tests für
+  Validierung sowie Playwright-E2E vom neuen Account über das Profilmenü bis zum
+  aktualisierten Header ergänzt.
+- Visuelle Prüfung: Desktop-Profilseite lokal ohne Überlappungen, abgeschnittene
+  Inhalte oder auffällige Layoutprobleme geprüft.
+- Unabhängiger Review: Eine Unicode-Lücke von SQLite `NOCASE` wurde gefunden und
+  geschlossen. Normalisierte Unicode-Schlüssel (`NFKC` plus deutsche
+  Groß-/Kleinschreibungsfaltung) werden nun separat gespeichert und durch einen echten
+  Unique-Index atomar geschützt; Bestandsdaten werden idempotent migriert.
+- Zusätzliche Abdeckung: Unicode-Konflikt `Änne`/`änne`, produktionsnaher
+  Unique-Index, anonymer Profilzugriff und Fehlermeldung bei vergebenem Namen.
+- Re-Review-Nachbesserungen: Unicode-Sonderfälle für griechisches Sigma und `ß`
+  abgesichert, bestehende Namensschlüssel bei geänderter Faltung neu aufgebaut,
+  Systemnutzer-Bootstrap an `name_key` angepasst und einen direkten anonymen
+  Server-Action-Aufruf ohne Mutation per E2E geprüft.
+- Final-Review-Nachbesserungen: Der Action-Test spielt nun einen nachweislich
+  gültigen, zuvor vom Browser gesendeten Next-Action-Request ohne Cookies erneut
+  ab und prüft den Auth-Redirect. Registrierung validiert die Länge nach NFKC,
+  Upgrade-Datenbanken erzwingen `name_key` zusätzlich per Trigger als `NOT NULL`,
+  Steuer-/Bidi-/unsichtbare Namen werden abgelehnt und der interne Systemnutzer
+  nutzt einen reservierten, nicht mit normalen Benutzernamen kollidierenden Key.
+- Offene Risiken: Anzeigename, Avatar, Standort und Challenge-Mate-Sichtbarkeit
+  bleiben bewusst spätere Profilslices. E-Mail-Änderung bleibt unverändert.
+- Kein Deployment.

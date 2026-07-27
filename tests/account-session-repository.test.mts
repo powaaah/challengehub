@@ -11,6 +11,7 @@ function createRepository() {
       id TEXT PRIMARY KEY,
       email TEXT NOT NULL UNIQUE,
       name TEXT NOT NULL,
+      name_key TEXT NOT NULL,
       password_hash TEXT NOT NULL,
       created_at TEXT NOT NULL
     );
@@ -21,6 +22,7 @@ function createRepository() {
       expires_at TEXT NOT NULL,
       created_at TEXT NOT NULL
     );
+    CREATE UNIQUE INDEX users_name_unique_idx ON users (name_key);
   `);
   const repository = new SqliteAccountSessionRepository(
     db,
@@ -75,6 +77,65 @@ test("Account-Repository verhindert doppelte Benutzernamen case-insensitiv", () 
     { status: "account_conflict" }
   );
   assert.equal(db.prepare("SELECT COUNT(*) AS count FROM users").get()?.count, 1);
+  db.close();
+});
+
+test("Account-Repository aktualisiert den eigenen Benutzernamen getrimmt", () => {
+  const { db, repository } = createRepository();
+  repository.createAccount(accountInput);
+
+  assert.deepEqual(repository.updateAccountName({ userId: "u1", name: " Neuer Name " }), {
+    status: "updated"
+  });
+  assert.equal(repository.findAccountByEmail("stefan@example.com")?.name, "Neuer Name");
+  db.close();
+});
+
+test("Account-Repository schützt vergebene Benutzernamen bei Aktualisierungen", () => {
+  const { db, repository } = createRepository();
+  repository.createAccount(accountInput);
+  repository.createAccount({ ...accountInput, id: "u2", email: "zwei@example.com", name: "Zweiter" });
+
+  assert.deepEqual(repository.updateAccountName({ userId: "u2", name: " stefan " }), {
+    status: "account_conflict"
+  });
+  assert.equal(repository.findAccountByEmail("zwei@example.com")?.name, "Zweiter");
+  db.close();
+});
+
+test("Account-Repository behandelt Unicode-Benutzernamen case-insensitiv", () => {
+  const { db, repository } = createRepository();
+  assert.equal(repository.createAccount({ ...accountInput, name: "Änne" }).status, "created");
+
+  assert.deepEqual(repository.createAccount({
+    ...accountInput,
+    id: "u2",
+    email: "aenne@example.com",
+    name: "änne"
+  }), { status: "account_conflict" });
+  assert.equal(repository.findAccountByLogin("ÄNNE")?.id, "u1");
+
+  assert.equal(repository.createAccount({
+    ...accountInput,
+    id: "u3",
+    email: "sigma@example.com",
+    name: "οσ"
+  }).status, "created");
+  assert.deepEqual(repository.createAccount({
+    ...accountInput,
+    id: "u4",
+    email: "final-sigma@example.com",
+    name: "ος"
+  }), { status: "account_conflict" });
+  assert.equal(repository.findAccountByLogin("ΟΣ")?.id, "u3");
+
+  assert.equal(repository.createAccount({
+    ...accountInput,
+    id: "u5",
+    email: "strasse@example.com",
+    name: "Straße"
+  }).status, "created");
+  assert.equal(repository.findAccountByLogin("STRASSE")?.id, "u5");
   db.close();
 });
 

@@ -161,7 +161,7 @@ Die Muss-Liste aus Kapitel 38 der v1.0 entspricht eher einem vollständigen erst
 5. Teilnahmeabsicht über Login hinweg sichern, Teilnahme automatisch abschließen und Bestätigungsseite bereitstellen.
 6. `Challenge verlassen` mit Sicherheitsabfrage und klarer Statushistorie ergänzen. **Umgesetzt.**
 7. Ranking auf absolute/relative Erreichung, 100-Tage-Mindestbasis sowie Top 20 plus direkte Nachbarn erweitern.
-8. Profilgrundlage für Avatar, groben Ort und Challenge-Mate-Sichtbarkeit schaffen.
+8. Profilgrundlage für Avatar, groben Ort und Challenge-Mate-Sichtbarkeit schaffen. **Benutzername und geschützte Profilseite umgesetzt.**
 9. Private Challenge als kleinen End-to-End-Slice mit Sichtbarkeit und Einladungslink umsetzen.
 10. Erst danach Upload-/Wettkampf-/Admin-Verifizierung als separaten vertikalen Ausbau beginnen.
 
