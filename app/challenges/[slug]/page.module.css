@@ -6,6 +6,8 @@
 }
 
 .hero,
+.factsRulesSection,
+.participationSection,
 .rankingSection,
 .activitySection,
 .seoContent,
@@ -69,41 +71,13 @@
   text-wrap: balance;
 }
 
-.question {
-  margin: 1.25rem 0 0;
-  color: var(--background-deep);
-  font-size: clamp(1.2rem, 2vw, 1.55rem);
-  font-weight: 850;
-  line-height: 1.25;
-}
-
 .description {
   max-width: 48rem;
-  margin: 0.5rem 0 0;
+  margin: 1.25rem 0 0;
   color: var(--text);
   font-size: clamp(1rem, 1.35vw, 1.16rem);
   font-weight: 650;
   line-height: 1.65;
-}
-
-.heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.8rem;
-  margin-top: 1.7rem;
-}
-
-.heroActions button,
-.heroActions a {
-  width: auto;
-  min-width: 220px;
-  margin-top: 0;
-}
-
-.heroActions button:first-child {
-  min-height: 52px;
-  font-weight: 800;
 }
 
 .secondaryAction {
@@ -118,6 +92,128 @@
   padding: 0.8rem 1rem;
   font-weight: 800;
   text-align: center;
+}
+
+.factsRulesSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.factsPanel,
+.rulesPanel {
+  min-width: 0;
+  border: 1px solid rgba(20, 42, 55, 0.1);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: 0 14px 42px rgba(18, 34, 52, 0.06);
+}
+
+.factsPanel h2,
+.rulesPanel h2,
+.participationSection h2,
+.faqPanel h2 {
+  margin: 0;
+  color: var(--background-deep);
+  font-size: clamp(1.8rem, 3.4vw, 2.75rem);
+  line-height: 1.05;
+}
+
+.factsList {
+  display: grid;
+  gap: 0;
+  margin: 1.25rem 0 0;
+}
+
+.factsList div {
+  display: grid;
+  grid-template-columns: minmax(5rem, 0.32fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.factsList dt {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.factsList dd {
+  margin: 0;
+  color: var(--text);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.rulesPanel ol {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1.25rem 0 0;
+  padding-left: 1.4rem;
+  color: var(--text);
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.rulesPanel li::marker {
+  color: var(--brand);
+  font-weight: 800;
+}
+
+.participationSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1.25rem, 4vw, 3rem);
+  align-items: center;
+  margin-top: 1rem;
+  border-radius: var(--radius-card);
+  background: var(--background-deep);
+  color: #ffffff;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.participationSection h2 {
+  color: #ffffff;
+}
+
+.participationSection > div > p:not(.eyebrow) {
+  max-width: 46rem;
+  margin: 0.8rem 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.6;
+}
+
+.participationSection .eyebrow {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.participationActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.participationActions button,
+.participationActions a {
+  width: auto;
+  min-width: 210px;
+  margin-top: 0;
+}
+
+.participationActions .secondaryAction {
+  border-color: rgba(255, 255, 255, 0.52);
+  background: transparent;
+  color: #ffffff;
+}
+
+.participationActions .secondaryAction:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .secondaryAction:hover {
@@ -209,6 +305,8 @@
 
 .seoContent {
   display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+  gap: clamp(2rem, 5vw, 4rem);
   padding: clamp(2.25rem, 5vw, 4rem) 0 5rem;
 }
 
@@ -226,9 +324,42 @@
   margin-top: 1rem;
 }
 
+.faqPanel {
+  min-width: 0;
+}
+
+.faqPanel dl {
+  display: grid;
+  gap: 0;
+  margin: 1rem 0 0;
+}
+
+.faqPanel dl div {
+  border-top: 1px solid var(--border);
+  padding: 1rem 0;
+}
+
+.faqPanel dt {
+  color: var(--background-deep);
+  font-weight: 800;
+}
+
+.faqPanel dd {
+  margin: 0.4rem 0 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
 @media (max-width: 900px) {
-  .sectionHeader {
+  .factsRulesSection,
+  .participationSection,
+  .sectionHeader,
+  .seoContent {
     grid-template-columns: 1fr;
+  }
+
+  .participationActions {
+    justify-content: flex-start;
   }
 }
 
@@ -246,9 +377,18 @@
     font-size: clamp(2.75rem, 14vw, 3.85rem);
   }
 
-  .heroActions button,
-  .heroActions a {
+  .participationActions button,
+  .participationActions a {
     width: 100%;
     min-width: 0;
+  }
+
+  .factsRulesSection {
+    gap: 0.75rem;
+  }
+
+  .factsList div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
   }
 }

@@ -126,12 +126,22 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
   if (!challenge) {
     const dbChallenge = await getPublishedChallengeBySlug(slug);
     if (dbChallenge) {
+      const dbRanking = getChallengeRankingBySlug(dbChallenge.slug, getTodayKey());
+      const dbActivity = getRecentChallengeActivityBySlug(dbChallenge.slug);
+      const dbCurrentParticipationId = user
+        ? getParticipationsForUser(user.id).find((participation) =>
+            participation.challengeSlug === dbChallenge.slug && participation.status === "active"
+          )?.id
+        : undefined;
       return (
         <DbChallengeDetail
+          activity={dbActivity}
           challenge={dbChallenge}
+          currentParticipationId={dbCurrentParticipationId}
           invitationChallengeSlug={invitation?.challengeSlug}
           invitationToken={einladung}
           participantCount={getParticipationCountByChallengeSlug(dbChallenge.slug)}
+          ranking={dbRanking}
           user={user}
         />
       );
@@ -184,6 +194,18 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
           text: rule
         }))
       },
+      {
+        "@type": "FAQPage",
+        "@id": `${pageUrl}#faq`,
+        mainEntity: challenge.faq.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer
+          }
+        }))
+      },
       buildChallengeBreadcrumbJsonLd(challenge.title, challenge.slug)
     ]
   };
@@ -215,18 +237,54 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
           </p>
         ) : null}
 
-        <section className={styles.hero}>
+        <section className={styles.hero} data-detail-section="hero">
           <div className={styles.heroMain}>
             <Link className={styles.backLink} href="/challenges">
               Zurück zu den Challenges
             </Link>
             <p className={styles.level}>Challenge</p>
             <h1>{challenge.title}</h1>
-            <p className={styles.question}>Was ist die Challenge?</p>
             <p className={styles.description}>
               {challenge.description}
             </p>
-            <div className={styles.heroActions}>
+          </div>
+        </section>
+
+        <section className={styles.factsRulesSection} data-detail-section="facts-rules" aria-label="Challenge-Fakten und Regeln">
+          <div className={styles.factsPanel}>
+            <p className={styles.eyebrow}>Die Aufgabe</p>
+            <h2>Auf einen Blick</h2>
+            <dl className={styles.factsList}>
+              <div>
+                <dt>Ziel</dt>
+                <dd>{challenge.goal}</dd>
+              </div>
+              <div>
+                <dt>Dauer</dt>
+                <dd>{challenge.duration}</dd>
+              </div>
+              <div>
+                <dt>Niveau</dt>
+                <dd>{levelLabels[challenge.level]}</dd>
+              </div>
+            </dl>
+          </div>
+          <div className={styles.rulesPanel}>
+            <p className={styles.eyebrow}>So zählt der Tag</p>
+            <h2>Regeln</h2>
+            <ol>
+              {challenge.rules.map((rule) => <li key={rule}>{rule}</li>)}
+            </ol>
+          </div>
+        </section>
+
+        <section className={styles.participationSection} data-detail-section="participation" aria-labelledby="challenge-participation">
+          <div>
+            <p className={styles.eyebrow}>Mitmachen</p>
+            <h2 id="challenge-participation">Bereit für die Challenge?</h2>
+            <p>Starte deine Teilnahme und halte danach jeden echten Check-in in deinem Challenge-Raum fest.</p>
+          </div>
+          <div className={styles.participationActions}>
               <ChallengeStart
                 challenge={challenge}
                 isAuthenticated={Boolean(user)}
@@ -235,25 +293,25 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
               <Link className={styles.secondaryAction} href="/challenge-mate">
                 ChallengeMate finden
               </Link>
-            </div>
           </div>
         </section>
 
-        <section className={styles.rankingSection} aria-labelledby="challenge-ranking">
+        <section className={styles.rankingSection} data-detail-section="ranking" aria-labelledby="challenge-ranking">
           <div className={styles.sectionHeader}>
             <div>
               <p className={styles.eyebrow}>Ranking</p>
-              <h2 id="challenge-ranking">Top 20</h2>
+              <h2 id="challenge-ranking">Top 5</h2>
             </div>
             <p>Wer hält am längsten durch?</p>
           </div>
           <ChallengeRankingTable
             entries={ranking}
             currentParticipationId={currentParticipationId}
+            collapsedLimit={5}
           />
         </section>
 
-        <section className={styles.activitySection} aria-labelledby="challenge-activity">
+        <section className={styles.activitySection} data-detail-section="activity" aria-labelledby="challenge-activity">
           <div className={styles.sectionHeader}>
             <div>
               <p className={styles.eyebrow}>Live aus der Challenge</p>
@@ -279,10 +337,10 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
           )}
         </section>
 
-        <section className={styles.seoContent} aria-labelledby="challenge-info">
+        <section className={styles.seoContent} data-detail-section="seo" aria-labelledby="challenge-info">
           <div className={styles.textPanel}>
             <p className={styles.eyebrow}>Info</p>
-            <h2 id="challenge-info">{challenge.title}: Einordnung und Hinweise</h2>
+            <h2 id="challenge-info">Mehr zur {challenge.title}</h2>
             <p>
               Auf dieser Seite geht es nicht um einen Trainingsplan, sondern um eine klare Aufgabe:
               Du startest die Challenge, hältst dich an die Regeln und vergleichst deinen Streak
@@ -292,6 +350,18 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
               Für echte ChallengeMates zählt vor allem, wer bisher wie lange durchgehalten hat.
               Genau diese Werte sollen mit echten Starts und Check-ins sichtbar werden.
             </p>
+          </div>
+          <div className={styles.faqPanel}>
+            <p className={styles.eyebrow}>Kurz beantwortet</p>
+            <h2>Häufige Fragen</h2>
+            <dl>
+              {challenge.faq.map((item) => (
+                <div key={item.question}>
+                  <dt>{item.question}</dt>
+                  <dd>{item.answer}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </section>
       </main>

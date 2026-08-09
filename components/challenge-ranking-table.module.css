@@ -61,6 +61,11 @@
   font-weight: 750;
 }
 
+.table td:nth-child(2) {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
 .table tbody tr:hover td {
   background: rgba(0, 137, 179, 0.035);
 }
@@ -91,6 +96,22 @@
 .table th:nth-child(4),
 .table td:nth-child(4) {
   width: 6rem;
+}
+
+.toggleButton {
+  justify-self: start;
+  min-height: 44px;
+  border: 1px solid var(--brand);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--brand-dark);
+  padding: 0.65rem 0.9rem;
+  font: inherit;
+  font-weight: 750;
+}
+
+.toggleButton:hover {
+  background: #eef8fb;
 }
 
 @media (max-width: 560px) {

@@ -2312,3 +2312,29 @@
   bleibt auf Stefans Anweisung übersprungen und fachlich nicht umgesetzt.
 - Nächster Schritt: Roadmap-Task 13 zu fachlich typisierten Challenge-Arten als
   eigenen geplanten Domain-/Migrations-Slice beginnen.
+
+## 2026-08-09 – Roadmap-Task 11 abgeschlossen
+
+- Ziel: Öffentliche Challenge-Detailseiten in eine klare Entscheidungs- und
+  Teilnahmefolge bringen, ohne Sicherheits- oder Gesundheitshinweise zu
+  ergänzen.
+- Struktur: Kuratierte und veröffentlichte Community-Challenges folgen jetzt
+  einheitlich Hero, Fakten/Regeln, Teilnahme-CTA, Top 5, echter Aktivität und
+  SEO-Inhalt. Regeln und FAQ sind sichtbar; die strukturierten HowTo- und
+  FAQ-Daten bilden genau diese sichtbaren Inhalte ab.
+- Ranking: Öffentliche Seiten zeigen zunächst die Top 5 und bei Bedarf die
+  eigene Position mit direkten Nachbarn. `Alle anzeigen` erweitert bis Top 20;
+  private Challenge-Räume behalten ihre bestehende Top-20-Ansicht. Leere
+  Rankings zeigen keine erfundenen Plätze oder Null-Kennzahlen mehr.
+- Responsive UI: Lange Namen brechen robust um, Überschriften werden nicht
+  gekürzt und die neue Abschnittsfolge bleibt bei 320 Pixeln ohne horizontalen
+  Überlauf. Desktop- und Mobile-Ansicht wurden zusätzlich im echten Chromium
+  visuell geprüft.
+- Verifikation: 135/135 Unit-/Infrastrukturtests, ESLint und Produktionsbuild
+  erfolgreich; vollständiger Playwright-Lauf 44/44 einschließlich neuer
+  Struktur-, Leerzustands-, JSON-LD-, Community- und 320-Pixel-Regressionstests
+  grün. `git diff --check` wird vor dem Commit abschließend geprüft.
+- Nicht geändert: Authentifizierung, Datenbankschema, Deployment, DNS, Caddy
+  sowie bestehende Sicherheitsseite und spätere Disclaimer-Abstimmung.
+- Nächster Schritt: Roadmap-Task 13 zu fachlich typisierten Challenge-Arten als
+  eigenen Domain-/Migrations-Slice planen.

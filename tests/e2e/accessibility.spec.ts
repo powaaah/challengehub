@@ -21,7 +21,7 @@ test("Challenge-Detailseite schneidet die Info-Überschrift bei 400 Prozent nich
 
   const infoHeading = page.getByRole("heading", {
     level: 2,
-    name: "10 000 Schritte am Tag Challenge: Einordnung und Hinweise"
+    name: "Mehr zur 10 000 Schritte am Tag Challenge"
   });
   await expect(infoHeading).toBeVisible();
   expect(await infoHeading.evaluate((element) => {
@@ -34,23 +34,13 @@ test("Challenge-Detailseite schneidet die Info-Überschrift bei 400 Prozent nich
   })).toMatchObject({ overflow: "visible" });
 });
 
-test("Challenge-Detailseite hält Rankingköpfe bei 400 Prozent getrennt", async ({ page }) => {
+test("Challenge-Detailseite hält das leere Ranking bei 400 Prozent im Viewport", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 900 });
-  await page.goto("/challenges/10000-schritte-am-tag");
+  await page.goto("/challenges/30-tage-ohne-zucker");
 
-  const headers = page.getByRole("columnheader");
-  const participantBox = await headers.filter({ hasText: "Teilnehmer" }).boundingBox();
-  const streakBox = await headers.filter({ hasText: "Streak" }).boundingBox();
-  expect(participantBox).not.toBeNull();
-  expect(streakBox).not.toBeNull();
-  expect(participantBox!.x + participantBox!.width).toBeLessThanOrEqual(streakBox!.x);
-  for (const label of ["Teilnehmer", "Streak"]) {
-    const size = await headers.filter({ hasText: label }).evaluate((element) => ({
-      scrollWidth: element.scrollWidth,
-      clientWidth: element.clientWidth
-    }));
-    expect(size.scrollWidth, `${label} muss in seine Spalte passen`).toBeLessThanOrEqual(size.clientWidth);
-  }
+  await expect(page.getByRole("heading", { level: 2, name: "Top 5" })).toBeVisible();
+  await expect(page.getByText("Noch keine Rangliste")).toBeVisible();
+  await expect(page.getByRole("table")).toHaveCount(0);
 
   const dimensions = await page.evaluate(() => ({
     scrollWidth: document.documentElement.scrollWidth,

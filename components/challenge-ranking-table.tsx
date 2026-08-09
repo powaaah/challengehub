@@ -1,3 +1,6 @@
+"use client";
+
+import { useId, useState } from "react";
 import {
   selectChallengeRankingWindow,
   type ChallengeRankingEntry
@@ -7,31 +10,43 @@ import styles from "./challenge-ranking-table.module.css";
 type ChallengeRankingTableProps = {
   entries: ChallengeRankingEntry[];
   currentParticipationId?: string;
+  collapsedLimit?: number;
 };
 
-export function ChallengeRankingTable({ entries, currentParticipationId }: ChallengeRankingTableProps) {
-  const { topEntries, nearbyEntries } = selectChallengeRankingWindow(entries, currentParticipationId);
+export function ChallengeRankingTable({
+  entries,
+  currentParticipationId,
+  collapsedLimit = 20
+}: ChallengeRankingTableProps) {
+  const [expanded, setExpanded] = useState(false);
+  const tableId = useId();
+  const canExpand = collapsedLimit < 20 && entries.length > collapsedLimit;
+  const visibleLimit = expanded ? 20 : collapsedLimit;
+  const { topEntries, nearbyEntries } = selectChallengeRankingWindow(
+    entries,
+    currentParticipationId,
+    visibleLimit
+  );
 
   return (
     <div className={styles.rankingBox}>
-      {topEntries.length === 0 && (
+      {entries.length === 0 ? (
         <div className={styles.emptyHint}>
-          <strong>Sei der Erste.</strong>
-          <span>Noch hat niemand einen echten Streak gespeichert.</span>
+          <strong>Noch keine Rangliste</strong>
+          <span>Der erste echte Check-in eröffnet dieses Ranking.</span>
         </div>
-      )}
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Rang</th>
-            <th>Teilnehmer</th>
-            <th>Streak</th>
-            <th>Quote</th>
-          </tr>
-        </thead>
-        <tbody>
-          {topEntries.length > 0 ? (
-            <>
+      ) : (
+        <>
+          <table id={tableId} className={styles.table}>
+            <thead>
+              <tr>
+                <th>Rang</th>
+                <th>Teilnehmer</th>
+                <th>Streak</th>
+                <th>Quote</th>
+              </tr>
+            </thead>
+            <tbody>
               {topEntries.map((entry) => (
                 <RankingRow
                   key={entry.id}
@@ -53,17 +68,21 @@ export function ChallengeRankingTable({ entries, currentParticipationId }: Chall
                   ))}
                 </>
               ) : null}
-            </>
-          ) : (
-            <tr>
-              <td>1</td>
-              <td>frei</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            </tbody>
+          </table>
+          {canExpand ? (
+            <button
+              className={styles.toggleButton}
+              type="button"
+              aria-controls={tableId}
+              aria-expanded={expanded}
+              onClick={() => setExpanded((current) => !current)}
+            >
+              {expanded ? "Top 5 anzeigen" : "Alle anzeigen"}
+            </button>
+          ) : null}
+        </>
+      )}
     </div>
   );
 }

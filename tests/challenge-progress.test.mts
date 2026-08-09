@@ -80,6 +80,18 @@ test("zeigt die Top 20 und bei einer niedrigeren eigenen Position die direkten N
   assert.deepEqual(window.nearbyEntries.map((entry) => entry.rank), [22, 23, 24, 25, 26]);
 });
 
+test("begrenzt das öffentliche Ranking auf Top 5 und zeigt die eigene Umgebung danach", () => {
+  const entries = Array.from({ length: 30 }, (_, index) => ({
+    id: `p${index + 1}`,
+    rank: index + 1
+  }));
+
+  const window = selectChallengeRankingWindow(entries, "p8", 5);
+
+  assert.deepEqual(window.topEntries.map((entry) => entry.rank), [1, 2, 3, 4, 5]);
+  assert.deepEqual(window.nearbyEntries.map((entry) => entry.rank), [6, 7, 8, 9, 10]);
+});
+
 test("dupliziert bei Rang 21 keine bereits sichtbaren Top-20-Einträge", () => {
   const entries = Array.from({ length: 24 }, (_, index) => ({
     id: `p${index + 1}`,

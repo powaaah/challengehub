@@ -97,17 +97,19 @@ export function rankChallengeParticipants(
 
 export function selectChallengeRankingWindow<T extends { id: string }>(
   entries: T[],
-  currentParticipationId?: string
+  currentParticipationId?: string,
+  visibleLimit = 20
 ) {
-  const topEntries = entries.slice(0, 20);
+  const safeVisibleLimit = Math.min(Math.max(1, Math.trunc(visibleLimit)), 20);
+  const topEntries = entries.slice(0, safeVisibleLimit);
   const currentIndex = currentParticipationId
     ? entries.findIndex((entry) => entry.id === currentParticipationId)
     : -1;
 
   return {
     topEntries,
-    nearbyEntries: currentIndex >= 20
-      ? entries.slice(Math.max(20, currentIndex - 2), currentIndex + 3)
+    nearbyEntries: currentIndex >= safeVisibleLimit
+      ? entries.slice(Math.max(safeVisibleLimit, currentIndex - 2), currentIndex + 3)
       : []
   };
 }

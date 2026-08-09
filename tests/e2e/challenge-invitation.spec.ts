@@ -127,6 +127,13 @@ test("Freund nimmt Einladung zu einer Community-Challenge an", async ({ browser,
   db.prepare("UPDATE challenges SET status = 'published' WHERE slug = ?").run(slug);
   db.close();
   await inviterPage.goto(`${baseURL}/challenges/${slug}`);
+  expect(await inviterPage.locator("[data-detail-section]").evaluateAll((elements) =>
+    elements.map((element) => element.getAttribute("data-detail-section"))
+  )).toEqual(["hero", "facts-rules", "participation", "ranking", "activity", "seo"]);
+  await expect(inviterPage.getByRole("heading", { name: "Regeln", exact: true })).toBeVisible();
+  await expect(inviterPage.getByRole("heading", { name: "Top 5", exact: true })).toBeVisible();
+  await expect(inviterPage.getByText("Sicherheit zuerst.")).toHaveCount(0);
+  await expect(inviterPage.getByRole("link", { name: "Sicherheitshinweise lesen" })).toHaveCount(0);
   await inviterPage.getByRole("button", { name: "Jetzt teilnehmen" }).first().click();
   await inviterPage.getByRole("link", { name: "Zum Dashboard" }).click();
   await inviterPage.getByRole("button", { name: "Einladungslink erstellen" }).click();
