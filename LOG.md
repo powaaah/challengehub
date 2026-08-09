@@ -2435,3 +2435,36 @@
   Caddy, Push-Nachrichten, Tracking oder PostgreSQL-Runtime-Umschaltung.
 - Nächster Schritt: Roadmap-Task 16 mit Account-Export, Account-Löschung und
   zentralen Privatsphäre-Einstellungen beginnen.
+
+## 2026-08-09 – Roadmap-Task 16 abgeschlossen
+
+- Ziel: Mitgliedern direkte Kontrolle über öffentliche Sichtbarkeit, Export und
+  vollständige Kontolöschung geben.
+- Privatsphäre: Ranking, öffentlicher Aktivitätsfeed und ChallengeMate-
+  Auffindbarkeit sind getrennte, standardmäßig deaktivierte Freigaben. Öffentliche
+  Leser respektieren sie; private Challenge-Räume bleiben vollständig. Das
+  ChallengeMate-Opt-in und seine Pause halten die zentrale Freigabe konsistent.
+- Export: Die geschützte Route `/profil/export` liefert Konto-, Challenge-,
+  Teilnahme-, Check-in-, Einladungs-, ChallengeMate- und Erinnerungsdaten als
+  direkt herunterladbares JSON, ohne Passwort- oder Token-Hashes.
+- Löschung: Das Profil zeigt die konkreten Folgen, verlangt Bestätigung und das
+  aktuelle Passwort und entfernt anschließend Konto, Sessions und persönliche
+  Produktdaten. Veröffentlichte Challenges werden ohne Erstellerbezug auf den
+  internen Systemaccount übertragen, damit fremde Teilnahmen erhalten bleiben;
+  Entwürfe werden gelöscht. Der getrennte Betriebsnachweis enthält keine
+  Nutzer-ID, E-Mail oder Namen.
+- Datenmodell: Idempotentes SQLite-Schema und PostgreSQL-Migration
+  `0013_account_privacy.sql` samt unveränderlicher Prüfsumme ergänzt. Die
+  Datenschutzseite beschreibt nun den tatsächlichen technischen Datenfluss;
+  Betreiberangaben, verbindliche Fristen und rechtliche Freigabe bleiben Task 18.
+- UX: Profil bei Desktopbreite und 390 Pixeln im echten Chromium geprüft; kein
+  horizontaler Überlauf. Der vollständige Flow umfasst Defaults, persistente
+  Opt-ins, Download, falsches Passwort, erfolgreiche Löschung und ungültige
+  Folgesession.
+- Verifikation: 183/183 Unit-/Domain-/Repository-/Migrationstests, ESLint,
+  TypeScript und Produktionsbuild erfolgreich. Vollständiger Playwright-Lauf
+  48/48 grün; `git diff --check` ohne Befund.
+- Nicht geändert: Deployment, DNS, Caddy, PostgreSQL-Runtime-Umschaltung,
+  produktive Aufbewahrungsjobs oder rechtliche Endfreigabe.
+- Nächster Schritt: Roadmap-Task 17 mit gehashten, kurzlebigen Einmal-Tokens und
+  einem rate-limitierten E-Mail-Verifikationsflow beginnen.

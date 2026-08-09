@@ -3,6 +3,7 @@ import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { SqliteChallengeMateRepository } from "../infrastructure/sqlite/sqlite-challenge-mate-repository.ts";
 import { ensureChallengeMateSchema } from "../infrastructure/sqlite/sqlite-challenge-mate-migration.ts";
+import { ensureAccountPrivacySchema } from "../infrastructure/sqlite/sqlite-account-privacy-migration.ts";
 
 function createRepository() {
   const db = new DatabaseSync(":memory:");
@@ -27,6 +28,7 @@ function createRepository() {
       ('carla-reading', 'carla', 'reading', 'active');
   `);
   ensureChallengeMateSchema(db);
+  ensureAccountPrivacySchema(db);
   return { db, repository: new SqliteChallengeMateRepository(db) };
 }
 
@@ -172,5 +174,22 @@ test("Melden speichert einen moderierbaren Grund, aber niemals Selbstmeldungen",
     details: "Wiederholte unpassende Anfragen",
     status: "open"
   });
+  db.close();
+});
+
+test("ChallengeMate-Opt-in setzt Discoverability und zentrale Privacy-Pause entfernt Vorschläge", () => {
+  const { db, repository } = createRepository();
+  saveProfile(repository, "alice", "alice-steps");
+  saveProfile(repository, "bob", "bob-steps");
+
+  assert.equal(db.prepare(`
+    SELECT challenge_mate_discoverable AS discoverable
+    FROM account_privacy_preferences WHERE user_id = 'bob'
+  `).get()?.discoverable, 1);
+  db.prepare(`
+    UPDATE account_privacy_preferences SET challenge_mate_discoverable = 0 WHERE user_id = 'bob'
+  `).run();
+
+  assert.deepEqual(repository.getDashboard("alice").suggestions, []);
   db.close();
 });

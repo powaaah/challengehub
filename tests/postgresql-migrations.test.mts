@@ -23,7 +23,8 @@ test("PostgreSQL migrations are ordered and keep a migration ledger", async () =
     "0009_rate_limit_pruning_index.sql",
     "0010_challenge_types.sql",
     "0011_challenge_mates.sql",
-    "0012_retention_notifications.sql"
+    "0012_retention_notifications.sql",
+    "0013_account_privacy.sql"
   ]);
 
   const versions = files.map((file) => file.slice(0, 4));
@@ -240,4 +241,19 @@ test("Retention migration persists preferences, an idempotent feed and delivery 
   assert.match(sql, /email_delivered_at TIMESTAMPTZ/);
   assert.match(sql, /retention_notifications_pending_email_idx/);
   assert.doesNotMatch(sql, /unsubscribe_token|raw_token/);
+});
+
+test("Account-Privacy-Migration setzt datensparsame Defaults und anonyme Löschungsnachweise", async () => {
+  const sql = await readFile(
+    path.join(migrationsDirectory, "0013_account_privacy.sql"),
+    "utf8"
+  );
+
+  assert.match(sql, /CREATE TABLE account_privacy_preferences/);
+  assert.match(sql, /ranking_visible BOOLEAN NOT NULL DEFAULT FALSE/);
+  assert.match(sql, /activity_visible BOOLEAN NOT NULL DEFAULT FALSE/);
+  assert.match(sql, /challenge_mate_discoverable BOOLEAN NOT NULL DEFAULT FALSE/);
+  assert.match(sql, /CREATE TABLE account_deletion_audits/);
+  assert.match(sql, /retention_basis TEXT NOT NULL/);
+  assert.doesNotMatch(sql, /deleted_user_id|email|name|password|token/);
 });

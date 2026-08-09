@@ -2,6 +2,7 @@ import * as assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { SqliteChallengeParticipationStatsRepository } from "../infrastructure/sqlite/sqlite-challenge-participation-stats-repository.ts";
+import { ensureAccountPrivacySchema } from "../infrastructure/sqlite/sqlite-account-privacy-migration.ts";
 
 function createRepository() {
   const db = new DatabaseSync(":memory:");
@@ -36,6 +37,15 @@ function createRepository() {
       ('i3', 'p2', '2026-07-13', NULL, '2026-07-13T09:15:00.000Z'),
       ('i4', 'p3', '2026-07-13', 20, '2026-07-13T10:00:00.000Z'),
       ('i5', 'p4', '2026-07-12', 80, '2026-07-12T10:00:00.000Z');
+  `);
+  ensureAccountPrivacySchema(db);
+  db.exec(`
+    INSERT INTO account_privacy_preferences (
+      user_id, ranking_visible, activity_visible, challenge_mate_discoverable, updated_at
+    ) VALUES
+      ('u1', 1, 1, 0, '2026-08-09T10:00:00.000Z'),
+      ('u2', 0, 0, 0, '2026-08-09T10:00:00.000Z'),
+      ('u3', 0, 0, 0, '2026-08-09T10:00:00.000Z');
   `);
   return { db, repository: new SqliteChallengeParticipationStatsRepository(db) };
 }
@@ -108,5 +118,19 @@ test("Statistik-Repository liefert den neuesten echten Aktivitaetsfeed einer Cha
     }
   ]);
   assert.deepEqual(repository.listRecentCheckIns("unbekannt", 10), []);
+  db.close();
+});
+
+test("öffentliche Rankings und Aktivitäten respektieren getrennte Privacy-Opt-ins", () => {
+  const { db, repository } = createRepository();
+
+  assert.deepEqual(
+    repository.listActiveRankingCandidates("lesen", { publicOnly: true }).map((candidate) => candidate.id),
+    ["p4"]
+  );
+  assert.deepEqual(
+    repository.listRecentCheckIns("schritte", 10, { publicOnly: true }).map((entry) => entry.id),
+    ["i2", "i1"]
+  );
   db.close();
 });

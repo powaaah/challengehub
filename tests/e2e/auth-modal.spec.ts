@@ -123,8 +123,8 @@ test("Registrierung ueber Jetzt teilnehmen startet die Challenge und zeigt die B
 
   await page.getByRole("link", { name: "Zurück zur Challenge" }).click();
   await expect(page.getByRole("heading", { name: "Top 5" })).toBeVisible();
-  const ownRankingRow = page.locator('tr[aria-current="true"]');
-  await expect(ownRankingRow).toContainText(`Teilnahme-${unique} (du)`);
+  await expect(page.locator('tr[aria-current="true"]')).toHaveCount(0);
+  await expect(page.getByText("Noch keine Rangliste")).toBeVisible();
 
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.getByRole("heading", { name: "Top 5" })).toBeVisible();

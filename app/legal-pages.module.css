@@ -62,6 +62,16 @@
   color: var(--text);
 }
 
+.panel > h2:not(:first-child) {
+  margin-top: 2rem;
+}
+
+.panel a {
+  color: var(--brand-dark);
+  font-weight: 800;
+  text-underline-offset: 0.18em;
+}
+
 .panel p,
 .warning p,
 .panel li,

@@ -2,7 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth";
+import { clearSession, getCurrentUser } from "@/lib/auth";
+import { deleteAccountWithPassword, updateAccountPrivacyPreferences } from "@/lib/account-data";
 import { updateAccountName } from "@/lib/accounts";
 import { updateProfileName } from "@/lib/profile-name";
 
@@ -10,6 +11,9 @@ export type ProfileFormState = {
   error: string;
   success: string;
 };
+
+export type PrivacyFormState = ProfileFormState;
+export type DeleteAccountState = ProfileFormState;
 
 export async function updateProfileAction(
   _state: ProfileFormState,
@@ -38,4 +42,44 @@ export async function updateProfileAction(
 
   revalidatePath("/", "layout");
   return { error: "", success: "Benutzername gespeichert." };
+}
+
+export async function updatePrivacyAction(
+  _state: PrivacyFormState,
+  formData: FormData
+): Promise<PrivacyFormState> {
+  const user = await getCurrentUser();
+  if (!user) redirect("/auth?next=/profil");
+
+  const result = updateAccountPrivacyPreferences(user.id, {
+    rankingVisible: formData.get("rankingVisible") === "on",
+    activityVisible: formData.get("activityVisible") === "on",
+    challengeMateDiscoverable: formData.get("challengeMateDiscoverable") === "on"
+  });
+  if (result.status === "not_found") redirect("/auth?next=/profil");
+
+  revalidatePath("/", "layout");
+  return { error: "", success: "Privatsphäre gespeichert." };
+}
+
+export async function deleteAccountAction(
+  _state: DeleteAccountState,
+  formData: FormData
+): Promise<DeleteAccountState> {
+  const user = await getCurrentUser();
+  if (!user) redirect("/auth?next=/profil");
+
+  if (formData.get("confirmation") !== "on") {
+    return { error: "Bitte bestätige zuerst, dass du die Folgen verstanden hast.", success: "" };
+  }
+
+  const password = String(formData.get("password") ?? "");
+  const result = deleteAccountWithPassword(user.id, password);
+  if (result.status === "invalid_password") {
+    return { error: "Das Passwort ist nicht korrekt.", success: "" };
+  }
+  if (result.status === "not_found") redirect("/auth");
+
+  await clearSession();
+  redirect("/profil/geloescht");
 }

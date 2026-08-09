@@ -54,7 +54,7 @@ export class SqliteChallengeParticipationStatsRepository
     return Object.fromEntries(rows.map((row) => [row.slug, row.count]));
   }
 
-  listActiveRankingCandidates(slug: string): ChallengeRankingCandidate[] {
+  listActiveRankingCandidates(slug: string, options: { publicOnly?: boolean } = {}): ChallengeRankingCandidate[] {
     const rows = this.db
       .prepare(`
         SELECT
@@ -72,15 +72,17 @@ export class SqliteChallengeParticipationStatsRepository
         FROM challenges
         JOIN participations ON participations.challenge_id = challenges.id
         JOIN users ON users.id = participations.user_id
+        LEFT JOIN account_privacy_preferences privacy ON privacy.user_id = users.id
         LEFT JOIN check_ins ON check_ins.participation_id = participations.id
         WHERE challenges.slug = ?
+          AND (? = 0 OR COALESCE(privacy.ranking_visible, 0) = 1)
           AND (
             participations.status = 'active'
             OR (challenges.challenge_type <> 'daily_boolean' AND participations.status = 'completed')
           )
         ORDER BY participations.started_at ASC, check_ins.date ASC
       `)
-      .all(slug) as unknown as RankingRow[];
+      .all(slug, Number(options.publicOnly ?? false)) as unknown as RankingRow[];
 
     const candidates = new Map<string, ChallengeRankingCandidate>();
 
@@ -114,7 +116,7 @@ export class SqliteChallengeParticipationStatsRepository
     return Array.from(candidates.values());
   }
 
-  listRecentCheckIns(slug: string, limit: number): ChallengeActivityEntry[] {
+  listRecentCheckIns(slug: string, limit: number, options: { publicOnly?: boolean } = {}): ChallengeActivityEntry[] {
     const safeLimit = Math.max(1, Math.min(20, Math.trunc(limit)));
 
     const rows = this.db
@@ -129,11 +131,13 @@ export class SqliteChallengeParticipationStatsRepository
         JOIN participations ON participations.id = check_ins.participation_id
         JOIN challenges ON challenges.id = participations.challenge_id
         JOIN users ON users.id = participations.user_id
+        LEFT JOIN account_privacy_preferences privacy ON privacy.user_id = users.id
         WHERE challenges.slug = ?
+          AND (? = 0 OR COALESCE(privacy.activity_visible, 0) = 1)
         ORDER BY check_ins.created_at DESC, check_ins.id DESC
         LIMIT ?
       `)
-      .all(slug, safeLimit) as unknown as ChallengeActivityEntry[];
+      .all(slug, Number(options.publicOnly ?? false), safeLimit) as unknown as ChallengeActivityEntry[];
 
     return rows.map((row) => ({
       id: row.id,

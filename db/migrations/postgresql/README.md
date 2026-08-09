@@ -36,6 +36,7 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0009_rate_li
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0010_challenge_types.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0011_challenge_mates.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0012_retention_notifications.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0013_account_privacy.sql
 ```
 
 Vor der Anwendung lassen sich die unveränderlichen Inhalte im
@@ -88,3 +89,8 @@ Kontaktdaten in ChallengeMate-Profilen gespeichert.
 einen idempotenten In-App-Feed mit getrenntem Zustellstatus. E-Mail-Erinnerungen
 und Wochenrückblicke sind standardmäßig deaktiviert; signierte Abmeldelinks
 benötigen keine Roh-Tokens in der Datenbank.
+
+`0013_account_privacy.sql` ergänzt standardmäßig deaktivierte, getrennte
+Freigaben für öffentliche Rankings, den Aktivitätsfeed und ChallengeMate-
+Vorschläge. Zusätzlich wird ein nicht personenbezogener Betriebsnachweis für
+abgeschlossene Kontolöschungen angelegt.

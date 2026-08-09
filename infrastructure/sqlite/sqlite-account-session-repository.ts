@@ -29,6 +29,18 @@ export class SqliteAccountSessionRepository implements AccountSessionRepository 
     this.now = now;
   }
 
+  findAccountById(userId: string): Account | null {
+    const row = this.db
+      .prepare(`
+        SELECT id, email, name, password_hash as passwordHash, created_at as createdAt
+        FROM users
+        WHERE id = ?
+      `)
+      .get(userId) as AccountRow | undefined;
+
+    return row ? { ...row } : null;
+  }
+
   findAccountByEmail(email: string): Account | null {
     const row = this.db
       .prepare(`

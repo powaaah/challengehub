@@ -63,6 +63,17 @@ test("Account-Repository findet den Login case-insensitiv per E-Mail oder Benutz
   db.close();
 });
 
+test("Account-Repository findet das eigene Konto für eine Re-Authentifizierung per ID", () => {
+  const { db, repository } = createRepository();
+  repository.createAccount({
+    id: "u1", email: "ada@example.test", name: "Ada", passwordHash: "salt:hash"
+  });
+
+  assert.equal(repository.findAccountById("u1")?.passwordHash, "salt:hash");
+  assert.equal(repository.findAccountById("unknown"), null);
+  db.close();
+});
+
 test("Account-Repository verhindert doppelte Benutzernamen case-insensitiv", () => {
   const { db, repository } = createRepository();
   repository.createAccount(accountInput);

@@ -12,6 +12,10 @@ function getAccountSessionRepository(): AccountSessionRepository {
   return new SqliteAccountSessionRepository(getDb());
 }
 
+export function findAccountById(userId: string) {
+  return getAccountSessionRepository().findAccountById(userId);
+}
+
 export function findAccountByEmail(email: string) {
   return getAccountSessionRepository().findAccountByEmail(email);
 }

@@ -1,20 +1,36 @@
 "use client";
 
 import { useActionState } from "react";
-import type { ProfileFormState } from "@/app/profil/actions";
+import type {
+  DeleteAccountState,
+  PrivacyFormState,
+  ProfileFormState
+} from "@/app/profil/actions";
+import type { AccountPrivacyPreferences } from "@/domain/accounts/account-data-repository";
 import type { CurrentUser } from "@/lib/auth";
 import { SiteFooter, SiteHeader } from "./site-shell";
 import styles from "./profile-app.module.css";
 
-const initialState: ProfileFormState = { error: "", success: "" };
+const initialState = { error: "", success: "" };
 
 type ProfileAppProps = {
   user: CurrentUser;
+  privacy: AccountPrivacyPreferences;
   updateProfile: (state: ProfileFormState, formData: FormData) => Promise<ProfileFormState>;
+  updatePrivacy: (state: PrivacyFormState, formData: FormData) => Promise<PrivacyFormState>;
+  deleteAccount: (state: DeleteAccountState, formData: FormData) => Promise<DeleteAccountState>;
 };
 
-export function ProfileApp({ user, updateProfile }: ProfileAppProps) {
-  const [state, action, pending] = useActionState(updateProfile, initialState);
+export function ProfileApp({
+  user,
+  privacy,
+  updateProfile,
+  updatePrivacy,
+  deleteAccount
+}: ProfileAppProps) {
+  const [profileState, profileAction, profilePending] = useActionState(updateProfile, initialState);
+  const [privacyState, privacyAction, privacyPending] = useActionState(updatePrivacy, initialState);
+  const [deleteState, deleteAction, deletePending] = useActionState(deleteAccount, initialState);
 
   return (
     <>
@@ -23,7 +39,7 @@ export function ProfileApp({ user, updateProfile }: ProfileAppProps) {
         <section className={styles.heading}>
           <p>Kontoeinstellungen</p>
           <h1>Dein Profil</h1>
-          <span>Verwalte, wie du bei ChallengeHub sichtbar bist und dich anmeldest.</span>
+          <span>Bestimme selbst, welche Aktivitäten öffentlich sichtbar sind und was mit deinen Daten passiert.</span>
         </section>
 
         <section className={styles.card} aria-labelledby="username-heading">
@@ -35,7 +51,7 @@ export function ProfileApp({ user, updateProfile }: ProfileAppProps) {
             <span>2–30 Zeichen</span>
           </div>
 
-          <form action={action} className={styles.form}>
+          <form action={profileAction} className={styles.form}>
             <label htmlFor="profile-name">Benutzername</label>
             <input
               id="profile-name"
@@ -47,10 +63,10 @@ export function ProfileApp({ user, updateProfile }: ProfileAppProps) {
               required
             />
             <p className={styles.hint}>Dein Benutzername ist eindeutig und kann auch für den Login verwendet werden.</p>
-            {state.error && <p className={styles.error} role="alert">{state.error}</p>}
-            {state.success && <p className={styles.success} role="status">{state.success}</p>}
-            <button type="submit" disabled={pending}>
-              {pending ? "Speichert…" : "Benutzername speichern"}
+            {profileState.error && <p className={styles.error} role="alert">{profileState.error}</p>}
+            {profileState.success && <p className={styles.success} role="status">{profileState.success}</p>}
+            <button type="submit" disabled={profilePending}>
+              {profilePending ? "Speichert…" : "Benutzername speichern"}
             </button>
           </form>
         </section>
@@ -67,7 +83,69 @@ export function ProfileApp({ user, updateProfile }: ProfileAppProps) {
             <span>E-Mail-Adresse</span>
             <strong>{user.email}</strong>
           </div>
-          <p className={styles.hint}>Die Änderung der E-Mail-Adresse folgt in einem separaten, verifizierten Sicherheits-Slice.</p>
+        </section>
+
+        <section className={styles.card} aria-labelledby="privacy-heading">
+          <div className={styles.cardHeading}>
+            <div>
+              <p>Standardmäßig privat</p>
+              <h2 id="privacy-heading">Öffentliche Sichtbarkeit</h2>
+            </div>
+            <span>Du entscheidest</span>
+          </div>
+          <form action={privacyAction} className={styles.form}>
+            <label className={styles.option}>
+              <input type="checkbox" name="rankingVisible" defaultChecked={privacy.rankingVisible} />
+              <span><strong>Im öffentlichen Ranking anzeigen</strong><small>Dein Benutzername und Fortschritt dürfen auf öffentlichen Challenge-Seiten erscheinen.</small></span>
+            </label>
+            <label className={styles.option}>
+              <input type="checkbox" name="activityVisible" defaultChecked={privacy.activityVisible} />
+              <span><strong>Check-ins im öffentlichen Aktivitätsfeed anzeigen</strong><small>Dein Benutzername und deine Check-in-Aktivität werden öffentlich sichtbar.</small></span>
+            </label>
+            <label className={styles.option}>
+              <input type="checkbox" name="challengeMateDiscoverable" defaultChecked={privacy.challengeMateDiscoverable} />
+              <span><strong>Für ChallengeMate-Vorschläge auffindbar</strong><small>Andere passende Teilnehmende können dich als Vorschlag sehen.</small></span>
+            </label>
+            {privacyState.error && <p className={styles.error} role="alert">{privacyState.error}</p>}
+            {privacyState.success && <p className={styles.success} role="status">{privacyState.success}</p>}
+            <button type="submit" disabled={privacyPending}>
+              {privacyPending ? "Speichert…" : "Privatsphäre speichern"}
+            </button>
+          </form>
+        </section>
+
+        <section className={styles.card} aria-labelledby="export-heading">
+          <div className={styles.cardHeading}>
+            <div>
+              <p>Maschinenlesbar</p>
+              <h2 id="export-heading">Deine Daten exportieren</h2>
+            </div>
+            <span>JSON</span>
+          </div>
+          <p className={styles.hint}>Lade die zu deinem Konto gespeicherten Profil-, Challenge-, Teilnahme- und Aktivitätsdaten direkt herunter.</p>
+          <a className={styles.primaryLink} href="/profil/export" download>Datenexport herunterladen</a>
+        </section>
+
+        <section className={`${styles.card} ${styles.dangerCard}`} aria-labelledby="delete-heading">
+          <details>
+            <summary id="delete-heading">Konto endgültig löschen</summary>
+            <div className={styles.dangerContent}>
+              <p>Dadurch werden dein Konto, deine Teilnahmen, Check-ins, Einladungen, ChallengeMate- und Erinnerungsdaten dauerhaft entfernt.</p>
+              <p>Bereits veröffentlichte Challenges bleiben ohne Verknüpfung zu deinem Konto bestehen, damit laufende Teilnahmen anderer Mitglieder erhalten bleiben. Entwürfe werden gelöscht.</p>
+              <form action={deleteAction} className={styles.form}>
+                <label className={styles.option}>
+                  <input type="checkbox" name="confirmation" required />
+                  <span><strong>Ich habe die Folgen verstanden</strong></span>
+                </label>
+                <label htmlFor="delete-password">Aktuelles Passwort zur Kontolöschung</label>
+                <input id="delete-password" name="password" type="password" autoComplete="current-password" required />
+                {deleteState.error && <p className={styles.error} role="alert">{deleteState.error}</p>}
+                <button className={styles.dangerButton} type="submit" disabled={deletePending}>
+                  {deletePending ? "Löscht…" : "Konto jetzt löschen"}
+                </button>
+              </form>
+            </div>
+          </details>
         </section>
       </main>
       <SiteFooter />

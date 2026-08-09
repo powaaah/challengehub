@@ -75,6 +75,12 @@ test("kumulative Challenge durchläuft Erstellung, Mess-Check-in, Abschluss, Ran
   await expect(page.getByRole("complementary").getByText("60 von 50 Wiederholungen", { exact: true })).toBeVisible();
   await expect(page.locator('tr[aria-current="true"]')).toContainText("60 von 50 Wiederholungen");
 
+  await page.goto("/profil");
+  await page.getByLabel("Im öffentlichen Ranking anzeigen").check();
+  await page.getByLabel("Check-ins im öffentlichen Aktivitätsfeed anzeigen").check();
+  await page.getByRole("button", { name: "Privatsphäre speichern" }).click();
+  await expect(page.getByText("Privatsphäre gespeichert.")).toBeVisible();
+
   await page.goto(`/challenges/${slug}`);
   await expect(page.locator('[data-detail-section="ranking"]')).toContainText("60 von 50 Wiederholungen");
   await expect(page.locator('[data-detail-section="activity"]')).toContainText("60 Wiederholungen");

@@ -33,6 +33,7 @@ export type UpdateAccountNameResult =
   | { status: "account_conflict" | "user_not_found" };
 
 export interface AccountSessionRepository {
+  findAccountById(userId: string): Account | null;
   findAccountByEmail(email: string): Account | null;
   findAccountByLogin(identifier: string): Account | null;
   createAccount(input: CreateAccountInput): CreateAccountResult;

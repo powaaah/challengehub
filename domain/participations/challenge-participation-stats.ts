@@ -17,8 +17,8 @@ export type ChallengeActivityEntry = {
 export interface ChallengeParticipationStatsRepository {
   countByChallengeSlug(slug: string): number;
   listCountsByChallengeSlug(): Record<string, number>;
-  listActiveRankingCandidates(slug: string): ChallengeRankingCandidate[];
-  listRecentCheckIns(slug: string, limit: number): ChallengeActivityEntry[];
+  listActiveRankingCandidates(slug: string, options?: { publicOnly?: boolean }): ChallengeRankingCandidate[];
+  listRecentCheckIns(slug: string, limit: number, options?: { publicOnly?: boolean }): ChallengeActivityEntry[];
 }
 import type { ChallengeDefinition } from "../challenges/challenge-definition.ts";
 import type { ChallengeCheckIn } from "../challenges/challenge-outcome.ts";

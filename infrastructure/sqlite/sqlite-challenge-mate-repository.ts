@@ -41,7 +41,9 @@ export class SqliteChallengeMateRepository implements ChallengeMateRepository {
       return { status: "active_match_conflict" as const };
     }
 
-    const result = this.db.prepare(`
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      const result = this.db.prepare(`
       INSERT INTO challenge_mate_profiles (
         user_id, participation_id, goal, available_from, available_until,
         mode, location, active, updated_at
@@ -60,7 +62,7 @@ export class SqliteChallengeMateRepository implements ChallengeMateRepository {
         location = excluded.location,
         active = 1,
         updated_at = excluded.updated_at
-    `).run(
+      `).run(
       input.userId,
       input.goal,
       input.availableFrom,
@@ -70,19 +72,45 @@ export class SqliteChallengeMateRepository implements ChallengeMateRepository {
       input.updatedAt,
       input.participationId,
       input.userId
-    );
-    return result.changes === 1
-      ? { status: "saved" as const }
-      : { status: "participation_not_available" as const };
+      );
+      if (result.changes !== 1) {
+        this.db.exec("ROLLBACK");
+        return { status: "participation_not_available" as const };
+      }
+      this.db.prepare(`
+        INSERT INTO account_privacy_preferences (
+          user_id, ranking_visible, activity_visible, challenge_mate_discoverable, updated_at
+        ) VALUES (?, 0, 0, 1, ?)
+        ON CONFLICT(user_id) DO UPDATE SET
+          challenge_mate_discoverable = 1,
+          updated_at = excluded.updated_at
+      `).run(input.userId, input.updatedAt);
+      this.db.exec("COMMIT");
+      return { status: "saved" as const };
+    } catch (error) {
+      this.db.exec("ROLLBACK");
+      throw error;
+    }
   }
 
   deactivateProfile(userId: string, updatedAt: string) {
-    const result = this.db.prepare(`
-      UPDATE challenge_mate_profiles SET active = 0, updated_at = ? WHERE user_id = ?
-    `).run(updatedAt, userId);
-    return result.changes === 1
-      ? { status: "deactivated" as const }
-      : { status: "not_found" as const };
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      const result = this.db.prepare(`
+        UPDATE challenge_mate_profiles SET active = 0, updated_at = ? WHERE user_id = ?
+      `).run(updatedAt, userId);
+      this.db.prepare(`
+        UPDATE account_privacy_preferences
+        SET challenge_mate_discoverable = 0, updated_at = ? WHERE user_id = ?
+      `).run(updatedAt, userId);
+      this.db.exec("COMMIT");
+      return result.changes === 1
+        ? { status: "deactivated" as const }
+        : { status: "not_found" as const };
+    } catch (error) {
+      this.db.exec("ROLLBACK");
+      throw error;
+    }
   }
 
   getDashboard(userId: string): ChallengeMateDashboard {
@@ -254,12 +282,14 @@ export class SqliteChallengeMateRepository implements ChallengeMateRepository {
         challenges.title AS challengeTitle, users.name AS userName,
         profiles.goal, profiles.available_from AS availableFrom,
         profiles.available_until AS availableUntil, profiles.mode, profiles.location,
-        (profiles.active = 1 AND participations.status = 'active') AS active,
+        (profiles.active = 1 AND participations.status = 'active'
+          AND COALESCE(privacy.challenge_mate_discoverable, 0) = 1) AS active,
         profiles.updated_at AS updatedAt
       FROM challenge_mate_profiles profiles
       JOIN users ON users.id = profiles.user_id
       JOIN participations ON participations.id = profiles.participation_id
       JOIN challenges ON challenges.id = participations.challenge_id
+      LEFT JOIN account_privacy_preferences privacy ON privacy.user_id = profiles.user_id
       ${where}
     `);
   }

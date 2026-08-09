@@ -127,7 +127,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
   if (!challenge) {
     const dbChallenge = await getPublishedChallengeBySlug(slug);
     if (dbChallenge) {
-      const dbRanking = getChallengeRankingBySlug(dbChallenge.slug, getTodayKey());
+      const dbRanking = getChallengeRankingBySlug(dbChallenge.slug, getTodayKey(), { publicOnly: true });
       const dbActivity = getRecentChallengeActivityBySlug(dbChallenge.slug);
       const dbCurrentParticipationId = user
         ? getParticipationsForUser(user.id).find((participation) =>
@@ -152,7 +152,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
   }
 
   const pageUrl = `${SITE_URL}/challenges/${challenge.slug}`;
-  const ranking = getChallengeRankingBySlug(challenge.slug, getTodayKey());
+  const ranking = getChallengeRankingBySlug(challenge.slug, getTodayKey(), { publicOnly: true });
   const activity = getRecentChallengeActivityBySlug(challenge.slug);
   const currentParticipationId = user
     ? getParticipationsForUser(user.id).find((participation) =>
