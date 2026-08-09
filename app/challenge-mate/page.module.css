@@ -1,6 +1,6 @@
 .page {
   min-height: calc(100svh - 70px);
-  width: min(980px, calc(100% - (var(--page-gutter) * 2)));
+  width: min(1120px, calc(100% - (var(--page-gutter) * 2)));
   margin: 0 auto;
   padding: 4rem 0 5rem;
 }
@@ -8,75 +8,330 @@
 .hero {
   display: grid;
   gap: 1rem;
+  padding-bottom: 2.5rem;
 }
 
-.kicker {
+.kicker,
+.eyebrow,
+.cardMeta {
   margin: 0;
   color: var(--brand);
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
 .hero h1 {
-  max-width: 13ch;
+  max-width: 14ch;
   margin: 0;
   color: var(--background-deep);
   font-family: var(--font-display);
-  font-size: 4rem;
-  line-height: 1;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 0.95;
 }
 
-.hero p {
-  max-width: 62ch;
+.hero > p:last-child {
+  max-width: 66ch;
   margin: 0;
   color: var(--text-muted);
   font-size: 1.08rem;
   line-height: 1.7;
 }
 
-.panel {
-  display: grid;
-  gap: 1rem;
-  margin-top: 3rem;
-  border: 1px solid var(--border);
+.status {
+  margin: 0 0 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--brand) 35%, white);
   border-radius: 8px;
-  background: var(--surface);
-  padding: 1.5rem;
-  box-shadow: 0 12px 28px rgba(18, 32, 43, 0.08);
-}
-
-.panel h2 {
-  margin: 0;
+  background: color-mix(in srgb, var(--brand) 9%, white);
+  padding: 0.9rem 1rem;
   color: var(--background-deep);
+  font-weight: 700;
 }
 
-.panel ul {
-  display: grid;
-  gap: 0.6rem;
+.setup,
+.results,
+.emptyState {
+  margin-top: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: 0 12px 28px rgba(18, 32, 43, 0.07);
+}
+
+.setup > div:first-child,
+.sectionHeading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.setup h2,
+.results h2,
+.emptyState h2 {
+  margin: 0.35rem 0 0;
+  color: var(--background-deep);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+}
+
+.setup > div:first-child > p:last-child,
+.sectionHeading > p,
+.emptyState > p:not(.eyebrow) {
+  max-width: 58ch;
   margin: 0;
-  padding-left: 1.2rem;
   color: var(--text-muted);
   line-height: 1.6;
 }
 
-.panel a {
-  width: max-content;
-  max-width: 100%;
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.form label,
+.form fieldset,
+.moderationControls label {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--background-deep);
+  font-weight: 650;
+}
+
+.form input,
+.form select,
+.form textarea,
+.moderationControls select,
+.moderationControls textarea {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-muted);
+  color: var(--background-deep);
+  padding: 0.75rem;
+  font: inherit;
+}
+
+.form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.form fieldset {
+  grid-template-columns: repeat(2, max-content);
+  border: 0;
+  padding: 0;
+}
+
+.form legend {
+  grid-column: 1 / -1;
+  margin-bottom: 0.45rem;
+}
+
+.form .radioLabel {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 0.5rem;
+}
+
+.radioLabel input {
+  width: 20px;
+  min-height: 20px;
+}
+
+.fullField {
+  grid-column: 1 / -1;
+}
+
+.formActions button,
+.card form > button,
+.challengeLink,
+.emptyState a {
+  min-height: 46px;
+  border: 0;
   border-radius: 8px;
   background: var(--brand);
   color: white;
-  padding: 0.8rem 1rem;
-  font-weight: 600;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
 }
 
-@media (max-width: 820px) {
+.pauseForm {
+  margin-top: 0.8rem;
+}
+
+.pauseForm button,
+.textButton,
+.dangerButton {
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 0.7rem 0;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sectionHeading {
+  margin-bottom: 1.25rem;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface-muted);
+  padding: 1.25rem;
+}
+
+.matchCard {
+  border-top: 4px solid var(--brand);
+}
+
+.cardBody h3 {
+  margin: 0.35rem 0 0.65rem;
+  color: var(--background-deep);
+  font-size: 1.4rem;
+}
+
+.cardBody > p:not(.cardMeta) {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.cardBody dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.2rem;
+  margin: 1rem 0 0;
+}
+
+.cardBody dl div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.cardBody dt {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.cardBody dd {
+  margin: 0;
+  color: var(--background-deep);
+  font-weight: 700;
+}
+
+.challengeLink,
+.emptyState a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+}
+
+.pending {
+  margin: 0;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.emptyInline {
+  display: grid;
+  gap: 0.35rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  color: var(--text-muted);
+}
+
+.emptyInline strong {
+  color: var(--background-deep);
+}
+
+.moderationControls {
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+.moderationControls summary {
+  min-height: 44px;
+  color: var(--text-muted);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.moderationControls > div,
+.moderationControls form:first-child,
+.blockForm {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.moderationControls textarea {
+  min-height: 72px;
+}
+
+.dangerButton {
+  color: #9b2c2c;
+}
+
+.moderationControls .confirmBlock {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 0.6rem;
+  font-weight: 650;
+}
+
+.confirmBlock input {
+  width: 20px;
+  min-height: 20px;
+}
+
+.emptyState {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (max-width: 720px) {
   .page {
     padding-top: 2.5rem;
   }
 
-  .hero h1 {
-    font-size: 3rem;
+  .form,
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .fullField {
+    grid-column: auto;
+  }
+
+  .setup > div:first-child,
+  .sectionHeading {
+    align-items: start;
+    flex-direction: column;
   }
 }

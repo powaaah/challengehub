@@ -21,7 +21,8 @@ test("PostgreSQL migrations are ordered and keep a migration ledger", async () =
     "0007_action_rate_limits.sql",
     "0008_pending_challenge_default.sql",
     "0009_rate_limit_pruning_index.sql",
-    "0010_challenge_types.sql"
+    "0010_challenge_types.sql",
+    "0011_challenge_mates.sql"
   ]);
 
   const versions = files.map((file) => file.slice(0, 4));
@@ -200,4 +201,25 @@ test("challenge type migration adds typed definitions and deterministic legacy v
   assert.match(sql, /WHEN slug = '1000-liegestuetze-challenge' THEN 'cumulative_metric'/);
   assert.match(sql, /WHEN slug IN \([\s\S]*'marathon-unter-3-stunden'[\s\S]*\) THEN 'one_time_result'/);
   assert.match(sql, /CHECK \(challenge_type IN \('daily_boolean', 'cumulative_metric', 'one_time_result'\)\)/);
+});
+
+test("ChallengeMate migration persists opt-in, mutual matches, blocks and reports", async () => {
+  const sql = await readFile(
+    path.join(migrationsDirectory, "0011_challenge_mates.sql"),
+    "utf8"
+  );
+
+  for (const table of [
+    "challenge_mate_profiles",
+    "challenge_mate_connections",
+    "challenge_mate_blocks",
+    "challenge_mate_reports"
+  ]) {
+    assert.match(sql, new RegExp(`CREATE TABLE ${table}`));
+  }
+  assert.match(sql, /CHECK \(mode IN \('remote', 'local'\)\)/);
+  assert.match(sql, /UNIQUE \(user_low_id, user_high_id\)/);
+  assert.match(sql, /CHECK \(requester_user_id <> recipient_user_id\)/);
+  assert.match(sql, /CHECK \(reporter_user_id <> reported_user_id\)/);
+  assert.doesNotMatch(sql, /email|phone|latitude|longitude|contact_details/);
 });

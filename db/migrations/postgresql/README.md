@@ -34,6 +34,7 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0007_action_
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0008_pending_challenge_default.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0009_rate_limit_pruning_index.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0010_challenge_types.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0011_challenge_mates.sql
 ```
 
 Vor der Anwendung lassen sich die unveränderlichen Inhalte im
@@ -76,3 +77,8 @@ Index für die globale Bereinigung abgelaufener Limit-Ereignisse.
 Messwerte an Check-ins. Bestehende kuratierte Challenges werden anhand stabiler
 Slugs deterministisch als kumulatives oder einmaliges Messziel klassifiziert;
 alle übrigen Bestandsdaten bleiben tägliche Ja/Nein-Challenges.
+
+`0011_challenge_mates.sql` ergänzt datensparsame Opt-in-Profile, gegenseitig zu
+bestätigende Verbindungen sowie Blockierungen und moderierbare Meldungen. Es
+werden keine E-Mail-Adressen, Telefonnummern, präzisen Standorte oder externen
+Kontaktdaten in ChallengeMate-Profilen gespeichert.

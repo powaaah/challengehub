@@ -2371,3 +2371,35 @@
 - Nächster Schritt: Roadmap-Task 14 als ChallengeMate-MVP mit Opt-in, passendem
   Vorschlag, gegenseitiger Bestätigung, gemeinsamer Ansicht sowie Blockieren und
   Melden planen.
+
+## 2026-08-09 – Roadmap-Task 14 abgeschlossen
+
+- Ziel: Den bisherigen ChallengeMate-Platzhalter durch einen real nutzbaren,
+  persistenten Matching-Loop für aktive Challenge-Teilnehmer ersetzen.
+- MVP-Loop: Nutzer aktivieren bewusst ein datensparsames Profil für eine eigene
+  aktive Challenge und hinterlegen gemeinsames Ziel, Zeitraum sowie Remote oder
+  einen groben Ort. Vorschläge verlangen dieselbe Challenge, überlappende
+  Zeiträume und ein kompatibles Unterstützungsmodell.
+- Gegenseitigkeit: Interesse erzeugt zunächst eine offene Anfrage. Erst die
+  Bestätigung der Gegenseite erzeugt ein Match. Beide sehen anschließend den
+  ChallengeMate, das gemeinsame Ziel und einen Link zur gemeinsamen öffentlichen
+  Challenge-Ansicht.
+- Kontrolle: Die Suche lässt sich pausieren. Gematchte Nutzer können innerhalb
+  der Plattform mit moderierbarem Grund gemeldet oder nach bewusster Bestätigung
+  blockiert werden; Blockierungen entfernen Vorschläge und Verbindungen für
+  beide Seiten.
+- Datenmodell: Neue Domain- und Repository-Grenzen sowie idempotentes
+  SQLite-Schema und PostgreSQL-Migration `0011_challenge_mates.sql` angelegt.
+  Profile speichern weder Kontaktdaten noch präzise Standorte.
+- UX-Review: Authentifizierte Suchseite im echten Chromium bei 1280 und 390
+  Pixeln geprüft. Formhierarchie, native Controls, Touch-Ziele, Leerzustand und
+  Datensparsamkeits-Hinweis sind verständlich; kein horizontaler Überlauf.
+- Verifikation: 158/158 Unit-/Domain-/Repository-/Migrations-Tests, ESLint,
+  TypeScript und Produktionsbuild erfolgreich. Vollständiger Playwright-Lauf
+  46/46 grün, einschließlich eines neuen Zwei-Account-Flows von Opt-in über
+  Anfrage und Bestätigung bis Meldung und Blockierung.
+- Nicht umgesetzt: offener Chat, präzise Standortsuche, öffentliche
+  Kontaktdaten, automatische Kontaktfreigabe, Deployment oder PostgreSQL-
+  Runtime-Umschaltung.
+- Nächster Schritt: Roadmap-Task 15 als Retention-Loop beginnen, zuerst mit
+  einer echten In-App-Erinnerung im bestehenden Challenge-Raum.

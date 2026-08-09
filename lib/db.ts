@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { ensureChallengeTypes } from "../infrastructure/sqlite/sqlite-challenge-types-migration.ts";
+import { ensureChallengeMateSchema } from "../infrastructure/sqlite/sqlite-challenge-mate-migration.ts";
 import { ensureUniqueUsernames } from "../infrastructure/sqlite/sqlite-usernames-migration.ts";
 
 const globalForDb = globalThis as unknown as {
@@ -146,6 +147,7 @@ export function getDb() {
 
   ensureUniqueUsernames(db);
   ensureChallengeTypes(db);
+  ensureChallengeMateSchema(db);
 
   globalForDb.challengeHubDb = db;
   return db;
