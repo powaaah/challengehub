@@ -22,7 +22,7 @@ export default async function ChallengeMatePage() {
   return (
     <>
       <SiteHeader user={user} />
-      <main className={styles.page}>
+      <main id="main-content" tabIndex={-1} className={styles.page}>
         <section className={styles.hero}>
           <p className={styles.kicker}>Challenge Mate</p>
           <h1>Finde Menschen, die in deiner Stadt an ähnlichen Zielen arbeiten.</h1>

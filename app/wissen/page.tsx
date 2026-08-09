@@ -35,7 +35,7 @@ export default async function KnowledgePage() {
         }}
       />
       <SiteHeader user={user} />
-      <main className={styles.page}>
+      <main id="main-content" tabIndex={-1} className={styles.page}>
         <section className={styles.hero}>
           <p className={styles.kicker}>Habit Rules</p>
           <h1>Wissen für Challenges, die wirklich kleben bleiben.</h1>

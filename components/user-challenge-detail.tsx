@@ -24,7 +24,7 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
     return (
       <>
       <SiteHeader user={user} />
-      <main className={styles.page}>
+      <main id="main-content" tabIndex={-1} className={styles.page}>
         <section className={styles.notFound}>
           <p className={styles.eyebrow}>Nicht gefunden</p>
           <h1>Diese Challenge gibt es hier noch nicht.</h1>
@@ -43,7 +43,7 @@ export function UserChallengeDetail({ slug, user }: { slug: string; user: Curren
   return (
     <>
     <SiteHeader user={user} />
-    <main className={styles.page}>
+    <main id="main-content" tabIndex={-1} className={styles.page}>
       <section className={`${styles.hero} ${styles[challenge.level]}`}>
         <Link className={styles.backLink} href="/challenges">
           Zurück zu den Challenges

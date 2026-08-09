@@ -21,7 +21,7 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
   return (
     <>
       <SiteHeader user={user} />
-      <main className={styles.main}>
+      <main id="main-content" tabIndex={-1} className={styles.main}>
         <section className={styles.card}>
           <p className={styles.kicker}>Account-Zugang</p>
           <h1>Neues Passwort festlegen</h1>

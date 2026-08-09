@@ -19,7 +19,7 @@ export default async function SicherheitPage() {
   return (
     <>
     <SiteHeader user={user} />
-    <main className={styles.page}>
+    <main id="main-content" tabIndex={-1} className={styles.page}>
       <section className={styles.content}>
         <p className={styles.kicker}>Sicherheit</p>
         <h1>Gesundheit geht vor Challenge.</h1>

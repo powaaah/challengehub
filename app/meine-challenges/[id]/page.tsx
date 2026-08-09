@@ -72,7 +72,7 @@ export default async function ChallengeRoomPage({ params }: ChallengeRoomPagePro
   return (
     <>
       <SiteHeader user={user} />
-      <main className={styles.page}>
+      <main id="main-content" tabIndex={-1} className={styles.page}>
         <section className={styles.room}>
           <Link className={styles.backLink} href="/meine-challenges">
             Zurück zu Meine Challenges

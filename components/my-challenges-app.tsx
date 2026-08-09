@@ -14,7 +14,7 @@ export function MyChallengesApp({
   return (
     <>
       <SiteHeader user={user} />
-      <main className={styles.page}>
+      <main id="main-content" tabIndex={-1} className={styles.page}>
         <section className={styles.hero}>
           <p className={styles.kicker}>Dein Dashboard</p>
           <h1>Meine Challenges</h1>

@@ -47,4 +47,81 @@ test("eingeloggter Challenge-Katalog richtet Navigation und Toolbar sauber aus",
   expect(layout.menuLinkPadding).toBeGreaterThanOrEqual(15);
   expect(Math.max(...layout.toolbarTops as number[]) - Math.min(...layout.toolbarTops as number[])).toBeLessThanOrEqual(1);
   expect(Math.max(...layout.toolbarHeights as number[]) - Math.min(...layout.toolbarHeights as number[])).toBeLessThanOrEqual(1);
+
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("menu")).toBeHidden();
+  await expect(profileButton).toBeFocused();
+});
+
+test("Filterdialog hält den Fokus und schließt per Escape", async ({ page }) => {
+  await page.goto("/challenges");
+
+  const trigger = page.getByRole("button", { name: "Filter", exact: true });
+  await trigger.click();
+
+  const dialog = page.getByRole("dialog", { name: "Filter" });
+  const close = dialog.getByRole("button", { name: "Dialog schließen" });
+  await expect(close).toBeFocused();
+
+  await dialog.getByRole("button", { name: "Zurücksetzen" }).focus();
+  await page.keyboard.press("Tab");
+  await expect(close).toBeFocused();
+
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
+test("Skip-Link führt per Tastatur zum Hauptinhalt und markiert die aktive Navigation", async ({ page }) => {
+  await page.goto("/challenges");
+
+  await page.keyboard.press("Tab");
+  const skipLink = page.getByRole("link", { name: "Zum Hauptinhalt springen" });
+  await expect(skipLink).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("main")).toBeFocused();
+  await expect(page.getByRole("link", { name: "Challenges", exact: true })).toHaveAttribute("aria-current", "page");
+});
+
+test("globaler Tastaturfokus verwendet einen kontrastreichen Zweifarb-Ring", async ({ page }) => {
+  await page.goto("/challenges");
+  await page.keyboard.press("Tab");
+
+  const focusStyle = await page.getByRole("link", { name: "Zum Hauptinhalt springen" }).evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      outlineColor: style.outlineColor,
+      outlineStyle: style.outlineStyle,
+      outlineWidth: style.outlineWidth,
+      outlineOffset: style.outlineOffset,
+      boxShadow: style.boxShadow
+    };
+  });
+
+  expect(focusStyle).toEqual({
+    outlineColor: "rgb(0, 96, 125)",
+    outlineStyle: "solid",
+    outlineWidth: "3px",
+    outlineOffset: "2px",
+    boxShadow: "rgb(255, 255, 255) 0px 0px 0px 5px"
+  });
+});
+
+test("reduzierte Bewegung deaktiviert sanftes Scrollen", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/challenges");
+
+  const scrollBehavior = await page.locator("html").evaluate((element) => getComputedStyle(element).scrollBehavior);
+  expect(scrollBehavior).toBe("auto");
+});
+
+test("Katalog zeigt Ergebnisanzahl und lädt lange Listen schrittweise", async ({ page }) => {
+  await page.goto("/challenges");
+
+  await expect(page.getByText(/\d+ Challenges gefunden/)).toBeVisible();
+  const cards = page.locator('[data-testid="challenge-card"]');
+  await expect(cards).toHaveCount(12);
+
+  await page.getByRole("button", { name: "Mehr Challenges laden" }).click();
+  expect(await cards.count()).toBeGreaterThan(12);
 });

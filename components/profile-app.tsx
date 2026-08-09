@@ -19,7 +19,7 @@ export function ProfileApp({ user, updateProfile }: ProfileAppProps) {
   return (
     <>
       <SiteHeader user={user} />
-      <main className={styles.page}>
+      <main id="main-content" tabIndex={-1} className={styles.page}>
         <section className={styles.heading}>
           <p>Kontoeinstellungen</p>
           <h1>Dein Profil</h1>

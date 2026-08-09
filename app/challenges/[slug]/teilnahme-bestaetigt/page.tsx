@@ -51,7 +51,7 @@ export default async function ParticipationConfirmationPage({
   return (
     <>
       <SiteHeader user={user} />
-      <main className={styles.page}>
+      <main id="main-content" tabIndex={-1} className={styles.page}>
         <section className={styles.card} aria-labelledby="participation-confirmation-title">
           <p className={styles.kicker}>Teilnahme bestätigt</p>
           <h1 id="participation-confirmation-title">Danke für deine Teilnahme.</h1>

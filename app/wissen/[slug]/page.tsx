@@ -107,7 +107,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   return (
     <>
     <SiteHeader user={user} />
-    <main className={styles.page}>
+    <main id="main-content" tabIndex={-1} className={styles.page}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

@@ -2,13 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { logoutAction } from "@/app/auth/actions";
 import type { CurrentUser } from "@/lib/auth";
 import { LoginModal } from "./login-modal";
 import styles from "./site-shell.module.css";
 
 export function SiteHeader({ user }: { user: CurrentUser | null }) {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loginNext, setLoginNext] = useState("/");
@@ -21,6 +23,7 @@ export function SiteHeader({ user }: { user: CurrentUser | null }) {
 
   return (
     <>
+      <a className={styles.skipLink} href="#main-content">Zum Hauptinhalt springen</a>
       <header className={styles.header}>
         <Link className={styles.logoLink} href="/" aria-label="ChallengeHub Startseite">
           <Image src="/logo.png" width={214} height={70} alt="ChallengeHub" priority />
@@ -37,7 +40,7 @@ export function SiteHeader({ user }: { user: CurrentUser | null }) {
           <span />
         </button>
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Hauptnavigation">
-          <Link href="/challenges">Challenges</Link>
+          <Link href="/challenges" aria-current={pathname.startsWith("/challenges") ? "page" : undefined}>Challenges</Link>
           <Link href="/challenges?sort=participants">Ranking</Link>
           {user ? (
             <ProfileMenu user={user} />
@@ -71,11 +74,30 @@ export function SiteFooter() {
 
 function ProfileMenu({ user }: { user: CurrentUser }) {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const initials = getUserInitials(user.name || user.email);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+        requestAnimationFrame(() => triggerRef.current?.focus());
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   return (
     <div className={styles.profileMenu}>
       <button
+        ref={triggerRef}
         className={styles.profileButton}
         type="button"
         aria-haspopup="menu"

@@ -60,7 +60,7 @@ export function DbChallengeDetail({
   return (
     <>
     <SiteHeader user={user} />
-    <main className={styles.page}>
+    <main id="main-content" tabIndex={-1} className={styles.page}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

@@ -61,7 +61,7 @@ function StartButton() {
 
   return (
     <button className={styles.startButton} type="submit" disabled={pending}>
-      {pending ? "Wird gestartet..." : "Jetzt teilnehmen"}
+      {pending ? "Wird gestartet…" : "Jetzt teilnehmen"}
     </button>
   );
 }

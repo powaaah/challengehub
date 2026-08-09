@@ -23,7 +23,7 @@ export default async function ImpressumPage() {
   return (
     <>
     <SiteHeader user={user} />
-    <main className={styles.page}>
+    <main id="main-content" tabIndex={-1} className={styles.page}>
       <section className={styles.content}>
         <p className={styles.kicker}>Rechtliches</p>
         <h1>Impressum</h1>
