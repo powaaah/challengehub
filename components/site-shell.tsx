@@ -31,7 +31,8 @@ export function SiteHeader({ user }: { user: CurrentUser | null }) {
         <button
           className={styles.menuButton}
           type="button"
-          aria-label="Navigation öffnen"
+          aria-label={menuOpen ? "Navigation schließen" : "Navigation öffnen"}
+          aria-controls="main-navigation"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((current) => !current)}
         >
@@ -39,9 +40,10 @@ export function SiteHeader({ user }: { user: CurrentUser | null }) {
           <span />
           <span />
         </button>
-        <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Hauptnavigation">
+        <nav id="main-navigation" className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Hauptnavigation">
           <Link href="/challenges" aria-current={pathname.startsWith("/challenges") ? "page" : undefined}>Challenges</Link>
-          <Link href="/challenges?sort=participants">Ranking</Link>
+          <Link href="/#so-funktionierts">So funktioniert’s</Link>
+          <Link href="/wissen" aria-current={pathname.startsWith("/wissen") ? "page" : undefined}>Wissen</Link>
           {user ? (
             <ProfileMenu user={user} />
           ) : (
@@ -59,16 +61,53 @@ export function SiteHeader({ user }: { user: CurrentUser | null }) {
 export function SiteFooter() {
   return (
     <footer className={styles.footer}>
-      <Link href="/meine-challenges">Meine Challenges</Link>
-      <Link href="/wissen">Wissen</Link>
-      <Link href="/sicherheit">Sicherheit</Link>
-      <Link href="/datenschutz">Datenschutz</Link>
-      <Link href="/impressum">Impressum</Link>
-      <Link href="/karriere">Karriere</Link>
-      <a href="https://www.amazon.de/s?rh=n%3A77028031%2Cp_4%3ACHub+by+ChallengeHub&ref=bl_sl_s_ap_web_77028031">
-        Merch
-      </a>
+      <div className={styles.footerInner}>
+        <div className={styles.footerBrand}>
+          <Link href="/" aria-label="ChallengeHub Startseite">
+            <Image src="/logo.png" width={214} height={70} alt="" />
+          </Link>
+          <p>Gemeinsam Challenges starten, einchecken und wirklich dranbleiben.</p>
+        </div>
+        <FooterNavigation label="Produkt" links={[
+          { href: "/challenges", label: "Challenges" },
+          { href: "/meine-challenges", label: "Meine Challenges" },
+          { href: "/challenge-mate", label: "Challenge Mate" }
+        ]} />
+        <FooterNavigation label="Unternehmen" links={[
+          { href: "/wissen", label: "Wissen" },
+          { href: "/karriere", label: "Karriere" }
+        ]}>
+          <a href="https://www.amazon.de/s?rh=n%3A77028031%2Cp_4%3ACHub+by+ChallengeHub&ref=bl_sl_s_ap_web_77028031">
+            Merch
+          </a>
+        </FooterNavigation>
+        <FooterNavigation label="Rechtliches" links={[
+          { href: "/sicherheit", label: "Sicherheit" },
+          { href: "/datenschutz", label: "Datenschutz" },
+          { href: "/impressum", label: "Impressum" }
+        ]} />
+      </div>
     </footer>
+  );
+}
+
+type FooterLink = { href: string; label: string };
+
+function FooterNavigation({
+  label,
+  links,
+  children
+}: {
+  label: string;
+  links: FooterLink[];
+  children?: React.ReactNode;
+}) {
+  return (
+    <nav className={styles.footerNavigation} aria-label={label}>
+      <h2>{label}</h2>
+      {links.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}
+      {children}
+    </nav>
   );
 }
 

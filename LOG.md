@@ -2276,3 +2276,39 @@
   Disclaimer-Abstimmungspunkt wurden nicht verändert.
 - Verifikation: Dokumentationsdiff geprüft; `git diff --check` ohne Fehler.
 - Nächster Schritt: Task 11 mit Fakten und konkreten Challenge-Regeln beginnen.
+
+## 2026-08-09 – Roadmap-Task 12 abgeschlossen
+
+- Ziel: Navigation, Footer, globale Zustände und die kleinste sinnvolle
+  UI-Primitive-Schicht konsistent und barrierefrei ordnen.
+- Navigation: Den irreführenden `Ranking`-Link auf den lediglich sortierten
+  Challenge-Katalog entfernt. Der Header führt jetzt zu `Challenges`, zum
+  verankerten Abschnitt `So funktioniert’s` und zu `Wissen`; aktive Katalog-
+  und Wissensbereiche erhalten weiterhin `aria-current`.
+- Footer: Die bisherige gleichwertige Linkreihe durch eine responsive Struktur
+  mit Markenbereich und den benannten Navigationen `Produkt`, `Unternehmen` und
+  `Rechtliches` ersetzt.
+- UI-Primitives: Gemeinsame Action-Link-, Button-, Card-, Badge- und
+  Status-Panel-Primitives angelegt. Empty-, Error-, Success- und Loading-Töne
+  besitzen getestete Rollen, Live-Regionen und Standardlabels.
+- Zustände: Die globale 404 ist jetzt seitenneutral, liefert weiterhin echten
+  HTTP-Status 404, setzt einen eindeutigen nicht indexierbaren Seitentitel und
+  bietet klare Rückwege. Eine globale Error-Seite bietet Wiederholen und
+  Startseiten-Rückweg.
+- Wichtiger Integrationsbefund: Ein Root-`app/loading.tsx` ließ Next.js bei spät
+  erkannten dynamischen `notFound()`-Antworten bereits einen Streaming-Status
+  200 senden und erzeugte während Navigationen eine kurzlebige zweite Shell.
+  Der globale Boundary wurde deshalb nicht beibehalten. Die zugängliche
+  Loading-Primitive bleibt für stabile lokale Ladezustände verfügbar; echte
+  404-Semantik und Fokus-Stabilität haben Vorrang.
+- Browsercheck: Startseite bei 1440 Pixeln sowie globale 404 bei 390 Pixeln
+  visuell und semantisch im echten Chromium geprüft; kein horizontaler
+  Überlauf, verständliche Hierarchie und ausreichend große mobile Aktionen.
+- Verifikation: 134/134 Unit-/Infrastrukturtests, ESLint und Produktionsbuild
+  erfolgreich. Vollständiger Playwright-Lauf 40/40 einschließlich vier
+  Navigation-/Footer-/404-Regressionstests und Axe-Scan der globalen 404 grün;
+  `git diff --check` ohne Fehler.
+- Nicht geändert: Auth-, Challenge-, Ranking- und Datenmodelllogik; Task 11
+  bleibt auf Stefans Anweisung übersprungen und fachlich nicht umgesetzt.
+- Nächster Schritt: Roadmap-Task 13 zu fachlich typisierten Challenge-Arten als
+  eigenen geplanten Domain-/Migrations-Slice beginnen.

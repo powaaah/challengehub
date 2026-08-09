@@ -1,23 +1,33 @@
-import Link from "next/link";
+import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
+import { ActionLink, StatusPanel } from "@/components/ui";
 import styles from "./not-found.module.css";
+
+export const metadata: Metadata = {
+  title: "Seite nicht gefunden | ChallengeHub",
+  robots: { index: false, follow: false }
+};
 
 export default function NotFound() {
   return (
     <>
       <SiteHeader user={null} />
       <main id="main-content" tabIndex={-1} className={styles.page}>
-        <section className={styles.card}>
-          <p className={styles.code}>404</p>
-          <h1>Challenge nicht gefunden</h1>
+        <StatusPanel
+          tone="empty"
+          label="404"
+          title="Seite nicht gefunden"
+          actions={
+            <>
+              <ActionLink href="/challenges">Challenges entdecken</ActionLink>
+              <ActionLink href="/" variant="secondary">Zur Startseite</ActionLink>
+            </>
+          }
+        >
           <p>
-            Diese Challenge existiert nicht, wurde entfernt oder wartet noch auf ihre Freigabe.
+            Die aufgerufene Seite existiert nicht, wurde verschoben oder ist nicht mehr verfügbar.
           </p>
-          <div className={styles.actions}>
-            <Link className={styles.primary} href="/challenges">Challenges entdecken</Link>
-            <Link className={styles.secondary} href="/">Zur Startseite</Link>
-          </div>
-        </section>
+        </StatusPanel>
       </main>
       <SiteFooter />
     </>

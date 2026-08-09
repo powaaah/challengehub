@@ -82,7 +82,7 @@ export function ChallengeHubApp({
           </div>
         </section>
 
-        <section className={styles.stepsSection} aria-labelledby="steps-title">
+        <section id="so-funktionierts" className={styles.stepsSection} aria-labelledby="steps-title">
           <div className={styles.sectionHeading}>
             <p className={styles.kicker}>Einfacher Produktloop</p>
             <h2 id="steps-title">So funktioniert’s</h2>

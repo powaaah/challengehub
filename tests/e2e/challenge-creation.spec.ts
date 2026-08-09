@@ -31,7 +31,7 @@ test("neue Community-Challenge wartet unsichtbar auf Moderation", async ({ page 
   await expect(page.getByRole("status")).toContainText("Moderation");
   const pendingPage = await page.request.get(`/challenges/${slug}`);
   expect(pendingPage.status()).toBe(404);
-  expect(await pendingPage.text()).toContain("Challenge nicht gefunden");
+  expect(await pendingPage.text()).toContain("Seite nicht gefunden");
 
   const sitemap = await page.request.get("/sitemap.xml");
   expect(sitemap.ok()).toBeTruthy();

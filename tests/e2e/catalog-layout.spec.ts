@@ -80,7 +80,10 @@ test("Skip-Link führt per Tastatur zum Hauptinhalt und markiert die aktive Navi
   await expect(skipLink).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator("main")).toBeFocused();
-  await expect(page.getByRole("link", { name: "Challenges", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(
+    page.getByRole("navigation", { name: "Hauptnavigation" })
+      .getByRole("link", { name: "Challenges", exact: true })
+  ).toHaveAttribute("aria-current", "page");
 });
 
 test("globaler Tastaturfokus verwendet einen kontrastreichen Zweifarb-Ring", async ({ page }) => {
