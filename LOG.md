@@ -2263,5 +2263,16 @@
   Projektartefakte entfernt. Keine Produktions-, DNS-, Caddy- oder
   Serveränderungen vorgenommen.
 - Nächster Schritt: Roadmap-Task 11 als kleinen vertikalen Slice beginnen:
-  Challenge-Detailseite in die Reihenfolge Hero, Fakten/Regeln/Sicherheit,
+  Challenge-Detailseite in die Reihenfolge Hero, Fakten/Regeln,
   Teilnahme-CTA, Top 5 plus eigene Position, Aktivität und SEO-Inhalt bringen.
+
+## 2026-08-09 – Task-11-Scope präzisiert
+
+- Produktentscheidung: Task 11 ergänzt auf Challenge-Detailseiten keine
+  Sicherheits- oder Gesundheitshinweise.
+- Roadmap-Reihenfolge entsprechend auf Hero, Fakten/Regeln, Teilnahme-CTA,
+  Top 5 plus eigene Position, Aktivität und SEO-Inhalt reduziert.
+- Bestehende Sicherheitsseite und der separat geführte spätere
+  Disclaimer-Abstimmungspunkt wurden nicht verändert.
+- Verifikation: Dokumentationsdiff geprüft; `git diff --check` ohne Fehler.
+- Nächster Schritt: Task 11 mit Fakten und konkreten Challenge-Regeln beginnen.
