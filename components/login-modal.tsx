@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { loginAction, registerAction } from "@/app/auth/actions";
+import { INPUT_LIMITS } from "@/domain/security/input-limits";
+import { useDialogFocus } from "@/hooks/use-dialog-focus";
 import styles from "./login-modal.module.css";
 
 const initialLoginState = {
@@ -31,16 +33,21 @@ export function LoginModal({
   const [mode, setMode] = useState<"login" | "register">("login");
   const [loginState, loginFormAction] = useActionState(loginAction, initialLoginState);
   const [registerState, registerFormAction] = useActionState(registerAction, initialLoginState);
+  const dialogRef = useRef<HTMLElement>(null);
+  const initialFocusRef = useRef<HTMLInputElement>(null);
+  const dialogFocus = useDialogFocus({ containerRef: dialogRef, initialFocusRef, onClose });
   const isRegister = mode === "register";
   const state = isRegister ? registerState : loginState;
 
   return (
     <div className={styles.backdrop} role="presentation" onMouseDown={onClose}>
       <section
+        ref={dialogRef}
         className={styles.modal}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
+        onKeyDown={dialogFocus.onKeyDown}
         onMouseDown={(event) => event.stopPropagation()}
       >
         <button className={styles.closeButton} type="button" aria-label="Anmeldedialog schließen" onClick={onClose}>
@@ -59,22 +66,43 @@ export function LoginModal({
           {participationSlug ? (
             <input type="hidden" name="participationSlug" value={participationSlug} />
           ) : null}
-          {state.error && <p className={styles.error}>{state.error}</p>}
+          {state.error && <p className={styles.error} role="alert">{state.error}</p>}
           {isRegister && (
             <label>
               <span>Benutzername</span>
-              <input name="name" autoComplete="username" minLength={2} maxLength={30} required />
+              <input
+                name="name"
+                autoComplete="username"
+                minLength={2}
+                maxLength={30}
+                spellCheck={false}
+                required
+              />
             </label>
           )}
           {isRegister ? (
             <label>
               <span>E-Mail-Adresse</span>
-              <input name="email" type="email" autoComplete="email" required />
+              <input
+                name="email"
+                type="email"
+                autoComplete="email"
+                maxLength={INPUT_LIMITS.emailBytes}
+                spellCheck={false}
+                required
+              />
             </label>
           ) : (
             <label>
               <span>E-Mail-Adresse oder Benutzername</span>
-              <input name="identifier" autoComplete="username" required />
+              <input
+                ref={initialFocusRef}
+                name="identifier"
+                autoComplete="username"
+                maxLength={INPUT_LIMITS.loginIdentifierBytes}
+                spellCheck={false}
+                required
+              />
             </label>
           )}
           <label>
@@ -84,6 +112,7 @@ export function LoginModal({
               type="password"
               autoComplete={isRegister ? "new-password" : "current-password"}
               minLength={isRegister ? 8 : undefined}
+              maxLength={INPUT_LIMITS.passwordBytes}
               required
             />
           </label>

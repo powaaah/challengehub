@@ -79,6 +79,16 @@ export class SqlitePasswordResetRepository implements PasswordResetRepository {
       .run(input.id, input.userId);
   }
 
+  isTokenActive(input: { tokenHash: string; now: string }) {
+    return Boolean(this.db
+      .prepare(`
+        SELECT 1
+        FROM password_reset_tokens
+        WHERE token_hash = ? AND used_at IS NULL AND expires_at > ?
+      `)
+      .get(input.tokenHash, input.now));
+  }
+
   resetPassword(input: ResetPasswordInput): ResetPasswordResult {
     const token = this.db
       .prepare(`

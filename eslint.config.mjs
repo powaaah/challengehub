@@ -7,6 +7,8 @@ export default defineConfig([
   ...nextTs,
   globalIgnores([
     ".next/**",
+    ".next-e2e-*/**",
+    ".next-e2e-*.tsconfig.json",
     ".next-locked-*/**",
     "out/**",
     "build/**",

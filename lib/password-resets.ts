@@ -40,6 +40,7 @@ export function resetPasswordForToken(token: string, password: string) {
     token,
     password,
     now: new Date(),
+    isTokenActive: (input) => repository.isTokenActive(input),
     hashPassword,
     resetPassword: (input) => repository.resetPassword(input)
   });

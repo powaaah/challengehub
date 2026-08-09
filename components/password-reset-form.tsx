@@ -7,6 +7,7 @@ import {
   resetPasswordAction,
   type PasswordResetState
 } from "@/app/auth/passwort-zuruecksetzen/actions";
+import { INPUT_LIMITS } from "@/domain/security/input-limits";
 import styles from "@/app/auth/password-reset.module.css";
 
 const initialState: PasswordResetState = { error: "", success: false };
@@ -29,11 +30,25 @@ export function PasswordResetForm({ token }: { token: string }) {
       {state.error ? <p className={styles.error}>{state.error}</p> : null}
       <label>
         <span>Neues Passwort</span>
-        <input name="password" type="password" autoComplete="new-password" minLength={8} required />
+        <input
+          name="password"
+          type="password"
+          autoComplete="new-password"
+          minLength={8}
+          maxLength={INPUT_LIMITS.passwordBytes}
+          required
+        />
       </label>
       <label>
         <span>Neues Passwort wiederholen</span>
-        <input name="passwordConfirmation" type="password" autoComplete="new-password" minLength={8} required />
+        <input
+          name="passwordConfirmation"
+          type="password"
+          autoComplete="new-password"
+          minLength={8}
+          maxLength={INPUT_LIMITS.passwordBytes}
+          required
+        />
       </label>
       <SubmitButton />
     </form>
@@ -42,5 +57,5 @@ export function PasswordResetForm({ token }: { token: string }) {
 
 function SubmitButton() {
   const { pending } = useFormStatus();
-  return <button type="submit" disabled={pending}>{pending ? "Wird gespeichert..." : "Passwort speichern"}</button>;
+  return <button type="submit" disabled={pending}>{pending ? "Wird gespeichert…" : "Passwort speichern"}</button>;
 }

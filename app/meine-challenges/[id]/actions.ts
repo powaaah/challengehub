@@ -2,12 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { hasUtf8ByteLengthAtMost } from "@/domain/security/input-limits";
 import { getCurrentUser } from "@/lib/auth";
 import { createChallengeInvitation } from "@/lib/challenge-invitations";
 import { createCheckInForUser } from "@/lib/check-ins";
 import { leaveParticipationForUser } from "@/lib/participation-start";
 import { getParticipationByIdForUser } from "@/lib/participations";
 import { SITE_URL } from "@/lib/seo";
+import { allowRateLimitedAction, RATE_LIMIT_POLICIES } from "@/lib/rate-limit";
 
 export type CreateInvitationState = {
   status: "idle" | "success" | "error";
@@ -26,6 +28,12 @@ export async function checkInTodayAction(formData: FormData) {
 
   if (!user) {
     redirect("/auth?next=/meine-challenges");
+  }
+
+  if (!hasUtf8ByteLengthAtMost(participationId, 100) || !allowRateLimitedAction([
+    { policy: RATE_LIMIT_POLICIES.checkIn, identifier: user.id }
+  ])) {
+    redirect("/meine-challenges");
   }
 
   const result = createCheckInForUser({
@@ -67,6 +75,12 @@ export async function createInvitationAction(
   const user = await getCurrentUser();
 
   if (!user || !participationId) {
+    return { status: "error", message: "Die Einladung konnte nicht erstellt werden." };
+  }
+
+  if (!hasUtf8ByteLengthAtMost(participationId, 100) || !allowRateLimitedAction([
+    { policy: RATE_LIMIT_POLICIES.invitationCreate, identifier: user.id }
+  ])) {
     return { status: "error", message: "Die Einladung konnte nicht erstellt werden." };
   }
 

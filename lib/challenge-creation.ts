@@ -6,7 +6,7 @@ import {
 } from "../domain/challenges/challenge-duplicates.ts";
 import type {
   ChallengeWriteRepository,
-  CreatePublishedChallengeResult
+  CreatePendingChallengeResult
 } from "../domain/challenges/challenge-write-repository.ts";
 import { SqliteChallengeWriteRepository } from "../infrastructure/sqlite/sqlite-challenge-write-repository.ts";
 import { getDb } from "./db.ts";
@@ -25,14 +25,14 @@ type CreateChallengeForUserInput = {
 };
 
 export type CreateChallengeForUserResult =
-  | CreatePublishedChallengeResult
+  | CreatePendingChallengeResult
   | { status: "potential_duplicate"; matches: ChallengeDuplicateMatch[] };
 
 function getChallengeWriteRepository(): ChallengeWriteRepository {
   return new SqliteChallengeWriteRepository(getDb());
 }
 
-export function createPublishedChallengeForUser(
+export function submitChallengeForReview(
   input: CreateChallengeForUserInput
 ): CreateChallengeForUserResult {
   const repository = getChallengeWriteRepository();
@@ -52,7 +52,7 @@ export function createPublishedChallengeForUser(
   ];
   const slug = createSlug(input.title, existingSlugs);
 
-  return repository.createPublished({
+  return repository.createPending({
     id: randomUUID(),
     ...input,
     slug

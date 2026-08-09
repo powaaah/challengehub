@@ -125,8 +125,24 @@ test("Passwort wird nur mit syntaktisch gültigem Einmal-Token und mindestens ac
   });
   assert.deepEqual(resetPasswordWithToken({
     token: "a".repeat(43),
+    password: "ä".repeat(65),
+    now: new Date("2026-07-24T10:15:00.000Z"),
+    hashPassword: () => assert.fail("überlange Passwörter dürfen die KDF nicht erreichen"),
+    resetPassword
+  }), { status: "invalid_password" });
+  assert.deepEqual(resetPasswordWithToken({
+    token: "a".repeat(43),
     password: "neues-passwort",
     now: new Date("2026-07-24T10:15:00.000Z"),
+    isTokenActive: () => false,
+    hashPassword: () => assert.fail("unbekannte Tokens dürfen die KDF nicht erreichen"),
+    resetPassword
+  }), { status: "invalid_token" });
+  assert.deepEqual(resetPasswordWithToken({
+    token: "a".repeat(43),
+    password: "neues-passwort",
+    now: new Date("2026-07-24T10:15:00.000Z"),
+    isTokenActive: () => true,
     hashPassword: () => "new-password-hash",
     resetPassword
   }), { status: "reset" });

@@ -1,3 +1,4 @@
+import { DatabaseSync } from "node:sqlite";
 import { expect, test } from "@playwright/test";
 
 test("eingeloggter Teilnehmer erstellt einen einmaligen Einladungslink", async ({ page }) => {
@@ -118,8 +119,14 @@ test("Freund nimmt Einladung zu einer Community-Challenge an", async ({ browser,
   await inviterPage.getByLabel("Aufgabe").fill("Jeden Tag gemeinsam zehn Seiten lesen");
   await inviterPage.getByLabel("Beschreibung").fill("Eine öffentliche Lese-Challenge für zwei Freunde.");
   await inviterPage.getByLabel("Regeln, eine pro Zeile").fill("Täglich zehn Seiten lesen");
-  await inviterPage.getByRole("button", { name: "Öffentlich speichern" }).click();
-  await expect(inviterPage).toHaveURL(new RegExp(`/challenges/${slug}$`));
+  await inviterPage.getByRole("button", { name: "Zur Prüfung einreichen" }).click();
+  await expect(inviterPage.getByRole("status")).toContainText("Moderation");
+  const dbPath = process.env.CHALLENGEHUB_DB_PATH;
+  expect(dbPath).toBeTruthy();
+  const db = new DatabaseSync(dbPath as string);
+  db.prepare("UPDATE challenges SET status = 'published' WHERE slug = ?").run(slug);
+  db.close();
+  await inviterPage.goto(`${baseURL}/challenges/${slug}`);
   await inviterPage.getByRole("button", { name: "Jetzt teilnehmen" }).first().click();
   await inviterPage.getByRole("link", { name: "Zum Dashboard" }).click();
   await inviterPage.getByRole("button", { name: "Einladungslink erstellen" }).click();

@@ -1,9 +1,11 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { hasUtf8ByteLengthAtMost } from "@/domain/security/input-limits";
 import { getCurrentUser } from "@/lib/auth";
 import { acceptChallengeInvitation } from "@/lib/challenge-invitations";
 import { startParticipationForUser } from "@/lib/participation-start";
+import { allowRateLimitedAction, RATE_LIMIT_POLICIES } from "@/lib/rate-limit";
 
 export async function acceptInvitationAction(formData: FormData) {
   const token = String(formData.get("token") ?? "").trim();
@@ -13,6 +15,13 @@ export async function acceptInvitationAction(formData: FormData) {
 
   if (!user) {
     redirect(fallback);
+  }
+
+  if (!hasUtf8ByteLengthAtMost(token, 128) || !allowRateLimitedAction([
+    { policy: RATE_LIMIT_POLICIES.invitationAccept, identifier: user.id }
+  ])) {
+    const reason = "ungueltig";
+    redirect(`${fallback}?einladung=${reason}`);
   }
 
   const result = acceptChallengeInvitation({ token, inviteeUserId: user.id });
@@ -35,6 +44,12 @@ export async function startChallengeAction(formData: FormData) {
 
   if (!user) {
     redirect(`/auth?next=/challenges/${encodeURIComponent(slug)}`);
+  }
+
+  if (!hasUtf8ByteLengthAtMost(slug, 200) || !allowRateLimitedAction([
+    { policy: RATE_LIMIT_POLICIES.challengeStart, identifier: user.id }
+  ])) {
+    redirect(`/challenges/${encodeURIComponent(slug)}`);
   }
 
   let result;

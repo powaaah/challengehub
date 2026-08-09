@@ -17,7 +17,10 @@ test("PostgreSQL migrations are ordered and keep a migration ledger", async () =
     "0003_align_challenge_levels.sql",
     "0004_unique_usernames.sql",
     "0005_password_reset_tokens.sql",
-    "0006_password_reset_rate_limits.sql"
+    "0006_password_reset_rate_limits.sql",
+    "0007_action_rate_limits.sql",
+    "0008_pending_challenge_default.sql",
+    "0009_rate_limit_pruning_index.sql"
   ]);
 
   const versions = files.map((file) => file.slice(0, 4));
@@ -142,4 +145,36 @@ test("password reset rate-limit migration stores only hashed identifiers", async
   assert.match(sql, /password_reset_requests_email_created_idx/);
   assert.match(sql, /password_reset_requests_ip_created_idx/);
   assert.doesNotMatch(sql, /email TEXT|ip_address/);
+});
+
+test("action rate-limit migration separates scopes and stores only hashed keys", async () => {
+  const sql = await readFile(
+    path.join(migrationsDirectory, "0007_action_rate_limits.sql"),
+    "utf8"
+  );
+
+  assert.match(sql, /CREATE TABLE rate_limit_events/);
+  assert.match(sql, /scope TEXT NOT NULL/);
+  assert.match(sql, /key_hash TEXT NOT NULL/);
+  assert.match(sql, /rate_limit_events_scope_key_created_idx/);
+  assert.doesNotMatch(sql, /email TEXT|ip_address|user_id/);
+});
+
+test("community challenges default to pending moderation", async () => {
+  const sql = await readFile(
+    path.join(migrationsDirectory, "0008_pending_challenge_default.sql"),
+    "utf8"
+  );
+
+  assert.match(sql, /ALTER COLUMN status SET DEFAULT 'pending'/);
+});
+
+test("rate-limit pruning migration adds an efficient global time index", async () => {
+  const sql = await readFile(
+    path.join(migrationsDirectory, "0009_rate_limit_pruning_index.sql"),
+    "utf8"
+  );
+
+  assert.match(sql, /rate_limit_events_created_idx/);
+  assert.match(sql, /ON rate_limit_events \(created_at\)/);
 });

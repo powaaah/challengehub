@@ -7,6 +7,7 @@ import {
   requestPasswordResetAction,
   type PasswordResetRequestState
 } from "@/app/auth/passwort-vergessen/actions";
+import { INPUT_LIMITS } from "@/domain/security/input-limits";
 import styles from "@/app/auth/password-reset.module.css";
 
 const initialState: PasswordResetRequestState = { error: "", message: "" };
@@ -21,9 +22,16 @@ export function PasswordResetRequestForm() {
         {state.message ? <p className={styles.success}>{state.message}</p> : null}
         <label>
           <span>E-Mail-Adresse</span>
-          <input name="email" type="email" autoComplete="email" required />
+          <input
+            name="email"
+            type="email"
+            autoComplete="email"
+            maxLength={INPUT_LIMITS.emailBytes}
+            spellCheck={false}
+            required
+          />
         </label>
-        <SubmitButton label="Reset-Link anfordern" pendingLabel="Wird angefordert..." />
+        <SubmitButton label="Reset-Link anfordern" pendingLabel="Wird angefordert…" />
       </form>
       <Link className={styles.backLink} href="/">Zurück zur Anmeldung</Link>
     </>

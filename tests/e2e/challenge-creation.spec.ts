@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("eingeloggte Nutzer veroeffentlichen eine crawlbare Challenge", async ({ page }) => {
+test("neue Community-Challenge wartet unsichtbar auf Moderation", async ({ page }) => {
   const uniqueSuffix = Date.now();
   const title = `Morgenlicht ${uniqueSuffix}`;
   const slug = `morgenlicht-${uniqueSuffix}`;
@@ -25,47 +25,17 @@ test("eingeloggte Nutzer veroeffentlichen eine crawlbare Challenge", async ({ pa
   );
   await page.getByLabel("Regeln, eine pro Zeile").fill("Innerhalb der ersten Stunde starten");
   await page.getByLabel("Tipps, optional eine pro Zeile").fill("Schuhe am Vorabend bereitstellen");
-  await page.getByRole("button", { name: "Öffentlich speichern" }).click();
+  await page.getByRole("button", { name: "Zur Prüfung einreichen" }).click();
 
-  await expect(page).toHaveURL(new RegExp(`/challenges/${slug}$`));
-  await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible();
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-    "href",
-    `https://challengehub.de/challenges/${slug}`
-  );
-  const structuredData = await page.locator('script[type="application/ld+json"]').textContent();
-  expect(structuredData).toContain(title);
-
-  await page.getByRole("button", { name: "Jetzt teilnehmen" }).first().click();
-  await expect(page).toHaveURL(
-    new RegExp(`/challenges/${slug}/teilnahme-bestaetigt\\?teilnahme=[^&]+$`)
-  );
-  await expect(page.getByRole("heading", { name: "Danke für deine Teilnahme." })).toBeVisible();
-  await page.getByRole("link", { name: "Zum Dashboard" }).click();
-  await expect(page).toHaveURL(/\/meine-challenges\/[^/]+$/);
-  await expect(page.getByRole("heading", { name: title })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Die letzten 12 Wochen" })).toBeVisible();
-  await expect(page.locator('[aria-label="Challenge-Verlauf nach Tagen"] li[title$="heute noch offen"]')).toHaveCount(1);
-
-  await page.getByRole("button", { name: "Challenge heute durchgeführt" }).click();
-  await expect(page.locator('[aria-label="Challenge-Verlauf nach Tagen"] li[title$="erledigt"]')).toHaveCount(1);
-
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.getByRole("heading", { name: "Die letzten 12 Wochen" })).toBeVisible();
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
-
-  await page.getByText("Challenge verlassen", { exact: true }).click();
-  await expect(page.getByText("Deine bisherigen Check-ins bleiben als Verlauf erhalten.")).toBeVisible();
-  await page.getByRole("button", { name: "Teilnahme endgültig beenden" }).click();
-  await expect(page).toHaveURL(/\/meine-challenges\?verlassen=erfolgreich$/);
-  const endedChallenge = page.getByRole("article").filter({ hasText: title });
-  await expect(endedChallenge.getByText("Beendet", { exact: true })).toBeVisible();
+  await expect(page).toHaveURL(/\/challenges\/neu$/);
+  await expect(page.getByRole("status")).toContainText("Moderation");
+  const pendingPage = await page.request.get(`/challenges/${slug}`);
+  expect(pendingPage.status()).toBe(404);
+  expect(await pendingPage.text()).toContain("Challenge nicht gefunden");
 
   const sitemap = await page.request.get("/sitemap.xml");
   expect(sitemap.ok()).toBeTruthy();
-  expect(await sitemap.text()).toContain(
-    `https://challengehub.de/challenges/${slug}`
-  );
+  expect(await sitemap.text()).not.toContain(`https://challengehub.de/challenges/${slug}`);
 });
 
 test("bestehende Challenge wird vor einer doppelten Veroeffentlichung verlinkt", async ({ page }) => {
@@ -86,7 +56,7 @@ test("bestehende Challenge wird vor einer doppelten Veroeffentlichung verlinkt",
   await page.getByLabel("Aufgabe").fill("Jeden Tag 10.000 Schritte gehen");
   await page.getByLabel("Beschreibung").fill("Eine bereits vorhandene Challenge nicht doppelt anlegen.");
   await page.getByLabel("Regeln, eine pro Zeile").fill("Täglich Schritte erfassen");
-  await page.getByRole("button", { name: "Öffentlich speichern" }).click();
+  await page.getByRole("button", { name: "Zur Prüfung einreichen" }).click();
 
   await expect(page).toHaveURL(/\/challenges\/neu$/);
   const alert = page.getByRole("alert").filter({ hasText: "möglicherweise schon" });
@@ -95,4 +65,29 @@ test("bestehende Challenge wird vor einer doppelten Veroeffentlichung verlinkt",
     "href",
     "/challenges/10000-schritte-am-tag"
   );
+});
+
+test("Challenge-Erstellung lehnt überlange Inhalte vor dem Speichern ab", async ({ page }) => {
+  const uniqueSuffix = Date.now();
+  await page.goto("/challenges/neu");
+  await page.getByRole("button", { name: "Zum Login" }).click();
+  await page.getByRole("button", { name: "Registrieren", exact: true }).click();
+
+  const registration = page.getByRole("dialog", { name: "Bei ChallengeHub registrieren" });
+  await registration.getByLabel("Benutzername").fill(`Grenzwert Test ${uniqueSuffix}`);
+  await registration.getByLabel("E-Mail-Adresse").fill(`limits-${uniqueSuffix}@example.test`);
+  await registration.getByLabel("Passwort").fill("sicheres-test-passwort");
+  await registration.getByRole("button", { name: "Account erstellen" }).click();
+  await expect(page.getByRole("button", { name: "Profilmenü öffnen" })).toBeVisible();
+
+  await page.getByLabel("Titel").fill(`Grenzwert ${uniqueSuffix}`);
+  await page.getByLabel("Aufgabe").fill("Jeden Tag eine sichere Aufgabe erledigen");
+  const description = page.getByLabel("Beschreibung");
+  await description.evaluate((element) => element.removeAttribute("maxlength"));
+  await description.fill("x".repeat(2_001));
+  await page.getByLabel("Regeln, eine pro Zeile").fill("Eine gültige Regel");
+  await page.getByRole("button", { name: "Zur Prüfung einreichen" }).click();
+
+  await expect(page).toHaveURL(/\/challenges\/neu$/);
+  await expect(page.getByRole("alert").filter({ hasText: "Textgrenzen" })).toBeVisible();
 });

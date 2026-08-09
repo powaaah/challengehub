@@ -48,22 +48,20 @@ const input = {
   tips: ["Am Vorabend vorbereiten"]
 };
 
-test("Challenge-Write-Repository veroeffentlicht eine neue Challenge mit stabilem Slug", () => {
+test("Challenge-Write-Repository legt neue Community-Challenges moderationspflichtig an", () => {
   const { db, repository } = createRepository();
 
-  assert.deepEqual(repository.createPublished(input), {
+  assert.deepEqual(repository.createPending(input), {
     status: "created",
     slug: "morgenroutine"
   });
   assert.deepEqual(repository.listSlugs(), ["morgenroutine"]);
-  assert.deepEqual(repository.listPublishedChallenges(), [
-    { slug: "morgenroutine", title: "Morgenroutine" }
-  ]);
+  assert.deepEqual(repository.listPublishedChallenges(), []);
 
   const row = db.prepare("SELECT * FROM challenges WHERE id = ?").get(input.id) as Record<string, unknown>;
   assert.equal(row.creator_id, "u1");
   assert.equal(row.visibility, "public");
-  assert.equal(row.status, "published");
+  assert.equal(row.status, "pending");
   assert.equal(row.created_at, "2026-07-14T12:00:00.000Z");
   assert.deepEqual(JSON.parse(String(row.rules_json)), input.rules);
   assert.deepEqual(JSON.parse(String(row.tips_json)), input.tips);
@@ -72,14 +70,14 @@ test("Challenge-Write-Repository veroeffentlicht eine neue Challenge mit stabile
 
 test("Challenge-Write-Repository lehnt Slug-Kollisionen und unbekannte Ersteller ab", () => {
   const { db, repository } = createRepository();
-  assert.equal(repository.createPublished(input).status, "created");
+  assert.equal(repository.createPending(input).status, "created");
 
   assert.deepEqual(
-    repository.createPublished({ ...input, id: "challenge-2" }),
+    repository.createPending({ ...input, id: "challenge-2" }),
     { status: "slug_conflict" }
   );
   assert.deepEqual(
-    repository.createPublished({
+    repository.createPending({
       ...input,
       id: "challenge-3",
       creatorId: "missing",

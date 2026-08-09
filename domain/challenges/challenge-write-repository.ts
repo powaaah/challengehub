@@ -1,6 +1,6 @@
 import type { ChallengeLevel } from "../../data/challenges.ts";
 
-export type CreatePublishedChallengeInput = {
+export type CreatePendingChallengeInput = {
   id: string;
   creatorId: string;
   slug: string;
@@ -14,7 +14,7 @@ export type CreatePublishedChallengeInput = {
   tips: string[];
 };
 
-export type CreatePublishedChallengeResult =
+export type CreatePendingChallengeResult =
   | { status: "created"; slug: string }
   | { status: "creator_not_found" | "slug_conflict" };
 
@@ -26,5 +26,5 @@ export type ChallengeCreationCandidate = {
 export interface ChallengeWriteRepository {
   listSlugs(): string[];
   listPublishedChallenges(): ChallengeCreationCandidate[];
-  createPublished(input: CreatePublishedChallengeInput): CreatePublishedChallengeResult;
+  createPending(input: CreatePendingChallengeInput): CreatePendingChallengeResult;
 }

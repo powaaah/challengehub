@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ChallengeInvitationAcceptance } from "@/components/challenge-invitation-acceptance";
 import { ChallengeRankingTable } from "@/components/challenge-ranking-table";
 import { ChallengeStart } from "@/components/challenge-start";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { DbChallengeDetail } from "@/components/db-challenge-detail";
-import { UserChallengeDetail } from "@/components/user-challenge-detail";
 import { challenges, getChallengeBySlug, levelLabels } from "@/data/challenges";
 import { getCurrentUser } from "@/lib/auth";
 import { getChallengeInvitationPreview } from "@/lib/challenge-invitations";
@@ -137,7 +137,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
       );
     }
 
-    return <UserChallengeDetail slug={slug} user={user} />;
+    notFound();
   }
 
   const pageUrl = `${SITE_URL}/challenges/${challenge.slug}`;
@@ -191,7 +191,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
   return (
     <>
       <SiteHeader user={user} />
-      <main className={styles.page}>
+      <main id="main-content" tabIndex={-1} className={styles.page}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

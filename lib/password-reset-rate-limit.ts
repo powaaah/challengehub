@@ -1,5 +1,6 @@
 import { createHmac, randomBytes, randomUUID } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
+import { resolveRateLimitSecret } from "../domain/security/rate-limit.ts";
 import { getDb } from "./db.ts";
 
 const WINDOW_MS = 60 * 60 * 1000;
@@ -23,7 +24,11 @@ export function consumePasswordResetRateLimit(db: DatabaseSync, input: RateLimit
   const now = input.now ?? new Date();
   const nowIso = now.toISOString();
   const windowStart = new Date(now.getTime() - WINDOW_MS).toISOString();
-  const secret = input.secret ?? process.env.PASSWORD_RESET_RATE_LIMIT_SECRET ?? runtimeSecret;
+  const secret = input.secret ?? resolveRateLimitSecret({
+    nodeEnv: process.env.NODE_ENV,
+    configuredSecret: process.env.PASSWORD_RESET_RATE_LIMIT_SECRET ?? process.env.RATE_LIMIT_SECRET,
+    fallbackSecret: runtimeSecret
+  });
   const emailHash = hashIdentifier(input.email.trim().toLowerCase(), secret);
   const ipHash = hashIdentifier(input.ip || "unknown", secret);
 

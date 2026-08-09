@@ -1,9 +1,10 @@
 "use server";
 
-import { headers } from "next/headers";
 import { after } from "next/server";
+import { isEmailWithinLimits } from "@/domain/security/input-limits";
 import { requestPasswordResetForEmail } from "@/lib/password-resets";
 import { allowPasswordResetRequest } from "@/lib/password-reset-rate-limit";
+import { getRateLimitClientIp } from "@/lib/request-ip";
 
 export type PasswordResetRequestState = {
   error: string;
@@ -15,13 +16,11 @@ export async function requestPasswordResetAction(
   formData: FormData
 ): Promise<PasswordResetRequestState> {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
-  if (!email.includes("@")) {
+  if (!isEmailWithinLimits(email)) {
     return { error: "Bitte gib eine gültige E-Mail-Adresse ein.", message: "" };
   }
 
-  const requestHeaders = await headers();
-  const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
-  const ip = forwardedFor || requestHeaders.get("x-real-ip") || "unknown";
+  const ip = await getRateLimitClientIp();
   if (allowPasswordResetRequest({ email, ip })) {
     after(() => requestPasswordResetForEmail(email));
   }

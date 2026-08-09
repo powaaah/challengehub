@@ -63,7 +63,7 @@ test("anonymer Direktaufruf der Profil-Action verändert keinen Benutzernamen", 
   const tamperedBody = Buffer.from(actionBody!.toString("utf8").replace(capturedName, tamperedName));
   expect(tamperedBody.equals(actionBody!)).toBe(false);
 
-  const anonymous = await createRequest.newContext({ baseURL: "http://127.0.0.1:3025" });
+  const anonymous = await createRequest.newContext({ baseURL: new URL(page.url()).origin });
   const requestHeaders = actionRequest.headers();
   const response = await anonymous.fetch("/profil", {
     method: "POST",

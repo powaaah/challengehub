@@ -9,3 +9,10 @@ export function getUsernameKey(name: string) {
     .toLocaleUpperCase("de-DE")
     .toLocaleLowerCase("de-DE");
 }
+
+export function getLoginIdentifierKey(identifier: string) {
+  if (identifier.includes("@")) {
+    return `email:${identifier.trim().toLowerCase()}`;
+  }
+  return `username:${getUsernameKey(identifier)}`;
+}

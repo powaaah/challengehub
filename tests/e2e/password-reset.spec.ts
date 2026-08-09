@@ -1,6 +1,5 @@
 import { expect, test } from "@playwright/test";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
-import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 
 test("gültiger Einmal-Link ändert das Passwort und beendet bestehende Sitzungen", async ({ page }) => {
@@ -22,15 +21,22 @@ test("gültiger Einmal-Link ändert das Passwort und beendet bestehende Sitzunge
 
   const token = randomBytes(32).toString("base64url");
   const tokenHash = createHash("sha256").update(token).digest("hex");
-  const db = new DatabaseSync(path.join(process.cwd(), ".data", "challengehub.sqlite"));
-  const account = db.prepare("SELECT id FROM users WHERE email = ?").get(email) as { id: string };
-  const createdAt = new Date();
-  const expiresAt = new Date(createdAt.getTime() + 30 * 60 * 1000);
-  db.prepare(`
-    INSERT INTO password_reset_tokens (id, user_id, token_hash, expires_at, created_at, used_at)
-    VALUES (?, ?, ?, ?, ?, NULL)
-  `).run(randomUUID(), account.id, tokenHash, expiresAt.toISOString(), createdAt.toISOString());
-  db.close();
+  const databasePath = process.env.CHALLENGEHUB_DB_PATH;
+  if (!databasePath) {
+    throw new Error("CHALLENGEHUB_DB_PATH fehlt im Playwright-Testprozess.");
+  }
+  const db = new DatabaseSync(databasePath);
+  try {
+    const account = db.prepare("SELECT id FROM users WHERE email = ?").get(email) as { id: string };
+    const createdAt = new Date();
+    const expiresAt = new Date(createdAt.getTime() + 30 * 60 * 1000);
+    db.prepare(`
+      INSERT INTO password_reset_tokens (id, user_id, token_hash, expires_at, created_at, used_at)
+      VALUES (?, ?, ?, ?, ?, NULL)
+    `).run(randomUUID(), account.id, tokenHash, expiresAt.toISOString(), createdAt.toISOString());
+  } finally {
+    db.close();
+  }
 
   await page.goto(`/auth/passwort-zuruecksetzen?token=${encodeURIComponent(token)}`);
   await page.getByLabel("Neues Passwort", { exact: true }).fill(newPassword);

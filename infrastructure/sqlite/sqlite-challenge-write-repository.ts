@@ -1,8 +1,8 @@
 import type { DatabaseSync } from "node:sqlite";
 import type {
   ChallengeWriteRepository,
-  CreatePublishedChallengeInput,
-  CreatePublishedChallengeResult
+  CreatePendingChallengeInput,
+  CreatePendingChallengeResult
 } from "../../domain/challenges/challenge-write-repository.ts";
 
 type Clock = () => string;
@@ -36,7 +36,7 @@ export class SqliteChallengeWriteRepository implements ChallengeWriteRepository 
       });
   }
 
-  createPublished(input: CreatePublishedChallengeInput): CreatePublishedChallengeResult {
+  createPending(input: CreatePendingChallengeInput): CreatePendingChallengeResult {
     const now = this.now();
     const insert = this.db
       .prepare(`
@@ -44,7 +44,7 @@ export class SqliteChallengeWriteRepository implements ChallengeWriteRepository 
           id, creator_id, slug, title, level, category, duration_days, goal, description,
           rules_json, tips_json, visibility, status, created_at, updated_at
         )
-        SELECT ?, users.id, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'public', 'published', ?, ?
+        SELECT ?, users.id, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'public', 'pending', ?, ?
         FROM users
         WHERE users.id = ?
       `)

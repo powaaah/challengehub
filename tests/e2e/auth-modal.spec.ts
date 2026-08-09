@@ -8,6 +8,40 @@ test("Login akzeptiert E-Mail-Adresse oder Benutzernamen", async ({ page }) => {
   await expect(dialog.getByLabel("E-Mail-Adresse oder Benutzername")).toBeVisible();
 });
 
+test("Login-Dialog hält den Tastaturfokus und gibt ihn nach Escape zurück", async ({ page }) => {
+  await page.goto("/challenges");
+
+  const trigger = page.getByRole("button", { name: "Login" });
+  await trigger.click();
+
+  const dialog = page.getByRole("dialog", { name: "Bei ChallengeHub anmelden" });
+  const identifier = dialog.getByLabel("E-Mail-Adresse oder Benutzername");
+  await expect(identifier).toBeFocused();
+  await expect(page.locator("body")).toHaveCSS("overflow", "hidden");
+
+  const lastControl = dialog.getByRole("button", { name: "Registrieren" });
+  await lastControl.focus();
+  await page.keyboard.press("Tab");
+  await expect(dialog.getByRole("button", { name: "Anmeldedialog schließen" })).toBeFocused();
+
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
+  await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
+});
+
+test("Login-Dialog kündigt Anmeldefehler als Alert an", async ({ page }) => {
+  await page.goto("/challenges");
+  await page.getByRole("button", { name: "Login" }).click();
+
+  const dialog = page.getByRole("dialog", { name: "Bei ChallengeHub anmelden" });
+  await dialog.getByLabel("E-Mail-Adresse oder Benutzername").fill("nicht-vorhanden");
+  await dialog.getByLabel("Passwort").fill("ungueltiges-passwort");
+  await dialog.getByRole("button", { name: "Anmelden" }).click();
+
+  await expect(dialog.getByRole("alert")).toContainText("E-Mail, Benutzername oder Passwort");
+});
+
 test("neu registrierter Account kann sich mit dem Benutzernamen anmelden", async ({ page }) => {
   const unique = Date.now().toString();
   const username = `e2e-${unique}`;

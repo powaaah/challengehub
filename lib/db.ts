@@ -67,6 +67,19 @@ export function getDb() {
     CREATE INDEX IF NOT EXISTS password_reset_requests_ip_created_idx
       ON password_reset_requests (ip_hash, created_at DESC);
 
+    CREATE TABLE IF NOT EXISTS rate_limit_events (
+      id TEXT PRIMARY KEY,
+      scope TEXT NOT NULL,
+      key_hash TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS rate_limit_events_scope_key_created_idx
+      ON rate_limit_events (scope, key_hash, created_at DESC);
+
+    CREATE INDEX IF NOT EXISTS rate_limit_events_created_idx
+      ON rate_limit_events (created_at);
+
     CREATE TABLE IF NOT EXISTS challenges (
       id TEXT PRIMARY KEY,
       creator_id TEXT NOT NULL,
@@ -80,7 +93,7 @@ export function getDb() {
       rules_json TEXT NOT NULL,
       tips_json TEXT NOT NULL,
       visibility TEXT NOT NULL DEFAULT 'public',
-      status TEXT NOT NULL DEFAULT 'published',
+      status TEXT NOT NULL DEFAULT 'pending',
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL,
       FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE

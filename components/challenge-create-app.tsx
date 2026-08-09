@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import { levelLabels, type ChallengeLevel } from "@/data/challenges";
+import { INPUT_LIMITS } from "@/domain/security/input-limits";
 import type { CurrentUser } from "@/lib/auth";
 import type { CreateChallengeState } from "@/app/challenges/neu/actions";
 import { LoginModal } from "./login-modal";
@@ -15,7 +16,8 @@ const categoryOptions = ["Fitness", "Ernährung", "Fokus", "Schlaf", "Produktivi
 
 const initialState = {
   error: "",
-  duplicates: []
+  duplicates: [],
+  submitted: false
 };
 
 type ChallengeCreateAppProps = {
@@ -41,13 +43,13 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
   return (
     <>
       <SiteHeader user={user} />
-      <main className={styles.page}>
+      <main id="main-content" tabIndex={-1} className={styles.page}>
       <section className={styles.hero}>
-        <p className={styles.kicker}>Public by default</p>
+        <p className={styles.kicker}>Qualität vor Veröffentlichung</p>
         <h1>Challenge erstellen</h1>
         <p>
-          Erstelle eine öffentliche Challenge mit klarer Aufgabe, Dauer und Regeln. Eingeloggt wird
-          sie serverseitig gespeichert und erscheint direkt im Katalog.
+          Erstelle eine Challenge mit klarer Aufgabe, Dauer und Regeln. Nach dem Einreichen wird sie
+          geprüft und erst nach der Freigabe öffentlich sichtbar.
         </p>
       </section>
 
@@ -74,13 +76,29 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
               )}
             </div>
           )}
+          {formState.submitted && (
+            <div className={styles.notice} role="status">
+              <strong>Zur Moderation eingereicht.</strong>
+              <p>Deine Challenge ist gespeichert, aber bis zur Freigabe nicht öffentlich sichtbar.</p>
+            </div>
+          )}
           <label>
             Titel
-            <input name="title" value={title} maxLength={80} onChange={(event) => setTitle(event.target.value)} />
+            <input
+              name="title"
+              value={title}
+              maxLength={INPUT_LIMITS.challengeTitleChars}
+              onChange={(event) => setTitle(event.target.value)}
+            />
           </label>
           <label>
             Aufgabe
-            <input name="goal" value={goal} maxLength={140} onChange={(event) => setGoal(event.target.value)} />
+            <input
+              name="goal"
+              value={goal}
+              maxLength={INPUT_LIMITS.challengeGoalChars}
+              onChange={(event) => setGoal(event.target.value)}
+            />
           </label>
           <label>
             Beschreibung
@@ -88,6 +106,7 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
               name="description"
               value={description}
               rows={4}
+              maxLength={INPUT_LIMITS.challengeDescriptionChars}
               onChange={(event) => setDescription(event.target.value)}
             />
           </label>
@@ -133,12 +152,12 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
             <textarea name="tips" value={tipsText} rows={4} onChange={(event) => setTipsText(event.target.value)} />
           </label>
           <button className={styles.primaryButton} type="submit" disabled={!user || pending}>
-            {pending ? "Speichert..." : "Öffentlich speichern"}
+            {pending ? "Wird eingereicht…" : "Zur Prüfung einreichen"}
           </button>
         </form>
 
         <aside className={`${styles.preview} ${styles[level]}`} aria-label="Challenge Vorschau">
-          <p className={styles.previewKicker}>Öffentlich | {levelLabels[level]} | {category}</p>
+          <p className={styles.previewKicker}>Vorschau | {levelLabels[level]} | {category}</p>
           <h2>{title || "Deine neue Challenge"}</h2>
           <p>{description || "Beschreibe kurz, warum diese Challenge sinnvoll ist und was man jeden Tag tun soll."}</p>
           <div className={styles.previewMeta}>
