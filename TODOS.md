@@ -13,9 +13,9 @@ Stand: 2026-08-09
   - [x] Auth-/UGC-Rate-Limits, zentrale Eingabegrenzen, Security-Header, UGC-Moderation und echte 404-Semantik als weitere Launch-Sicherheits-Slices umsetzen.
   - [x] Unabhängige Security-Review-Befunde zu Reset-KDF-Reihenfolge, globalem Rate-Limit-Pruning, Proxy-Vertrauen, Rohgrößen und Login-Kanonisierung schließen.
   - [x] Gemeinsame barrierefreie Dialogbasis samt Fokusfalle, Escape, Fokus-Rückgabe, Scroll-Lock, Profilmenü-Escape, Skip-Link, `aria-current`, Reduced Motion und automatisiertem WCAG-AA-Scan umsetzen.
-  - [ ] Manuellen Screenreader-/Zoom-/Reflow-Test mit NVDA sowie Browserzoom 200/400 Prozent durchführen und Befunde dokumentieren.
+  - [x] Manuellen Screenreader-/Zoom-/Reflow-Test mit NVDA sowie Browserzoom 200/400 Prozent durchführen und Befunde dokumentieren.
     - [x] Reflow bei effektiven 200/400-Prozent-Breiten auf Startseite, Katalog und zentraler Detailseite automatisiert sowie visuell prüfen; abgeschnittene Info-Überschrift und überlappende Rankingköpfe beheben.
-    - [ ] Tastaturdurchlauf mit echtem Browserzoom 200/400 Prozent und NVDA-Screenreader-Test auf einem interaktiven Windows-Desktop durchführen.
+    - [x] Tastaturdurchlauf mit echtem Browserzoom 200/400 Prozent und portablem NVDA 2026.1.1 auf einem interaktiven Windows-Desktop durchführen; Skip-Link, Mobile-Navigation, Login-Dialog, Seitenstruktur und Ranking-Tabelle erfolgreich prüfen.
   - [x] Startseite als klare deutschsprachige Social-Accountability-Landingpage mit konkretem Freund-/Challenge-Loop überarbeiten.
   - [x] Challenge-Katalog mit Ergebnisanzahl, zwölf initialen Karten und schrittweisem Nachladen langer Listen kuratieren.
 - [ ] ChallengeHub in kontinuierlichen, kleinen und verifizierten Arbeitsschleifen weiterentwickeln; pro Schleife Kontext/Todos pruefen, genau einen priorisierten Slice umsetzen, Lint/Build/Tests ausfuehren und Ergebnis sowie naechsten Schritt dokumentieren.

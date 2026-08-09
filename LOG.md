@@ -2233,3 +2233,35 @@
 - Nächster Schritt: Manuellen NVDA-/Browserzoom-Test abschließen; danach Roadmap-
   Task 11 zur fachlichen und visuellen Neuordnung der Challenge-Detailseite als
   eigenen kleinen Slice fortsetzen.
+
+## 2026-08-09 – Manuellen NVDA- und Browserzoom-Test abgeschlossen
+
+- Ziel: Den letzten offenen manuellen A11y-Nachweis auf einem interaktiven
+  Windows-Desktop mit echtem Browserzoom und Screenreader abschließen.
+- Testumgebung: Offizielle portable Ausgabe von NVDA 2026.1.1 nach erfolgreichem
+  SHA-256-Abgleich temporär gestartet; ChallengeHub lief isoliert mit eigener
+  SQLite-Testdatenbank und eigenem Produktionsserver. Keine Systeminstallation
+  und keine Produktionsänderung.
+- Browserzoom: Startseite, Katalog und zentrale Challenge-Detailseite bei echtem
+  Chrome-Zoom von 200 und 400 Prozent geprüft. Die gemessenen CSS-Breiten betrugen
+  640 beziehungsweise 320 Pixel; es gab keinen horizontalen Dokumentüberlauf.
+  Auf der Detailseite lag bei 400 Prozent kein sichtbares Element außerhalb des
+  Viewports.
+- Tastatur: Skip-Link springt in den Hauptinhalt; die mobile Navigation lässt
+  sich öffnen und in korrekter Reihenfolge bedienen. Der Login-Dialog öffnet per
+  Tastatur mit Fokus im ersten Eingabefeld, hält eine sinnvolle Dialogstruktur
+  vor und gibt den Fokus nach `Escape` an den Login-Button zurück.
+- NVDA: Seitentitel, Banner-, Navigations-, Haupt- und Regionsstruktur,
+  Überschriften, Links, Listen sowie die Ranking-Tabelle mit Rang-, Teilnehmer-,
+  Streak- und Quote-Spalten wurden verständlich ausgegeben. Keine neuen
+  Screenreader-, Zoom- oder Reflow-Befunde.
+- Verifikation: Zusätzlich blieben die bereits abgeschlossenen 133/133 Unit-/
+  Infrastrukturtests, ESLint, Produktionsbuild und 35/35 Playwright-E2E-Tests
+  einschließlich Axe und Reflow maßgeblich. Für diesen reinen manuellen
+  Nachweis wurden keine Produktdateien geändert.
+- Aufräumen: Browser-Sitzung, NVDA, Testserver und isolierte Testdaten beendet;
+  Projektartefakte entfernt. Keine Produktions-, DNS-, Caddy- oder
+  Serveränderungen vorgenommen.
+- Nächster Schritt: Roadmap-Task 11 als kleinen vertikalen Slice beginnen:
+  Challenge-Detailseite in die Reihenfolge Hero, Fakten/Regeln/Sicherheit,
+  Teilnahme-CTA, Top 5 plus eigene Position, Aktivität und SEO-Inhalt bringen.
