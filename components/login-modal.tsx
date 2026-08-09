@@ -58,7 +58,9 @@ export function LoginModal({
           <p className={styles.kicker}>{isRegister ? "Registrierung" : kicker}</p>
           <h2 id={titleId}>{isRegister ? "Bei ChallengeHub registrieren" : "Bei ChallengeHub anmelden"}</h2>
           <p className={styles.intro}>
-            {isRegister ? "Erstelle deinen Account und speichere deine Challenges und Fortschritte." : intro}
+            {isRegister
+              ? "Nach der Registrierung erhältst du einen Link zur Bestätigung deiner E-Mail-Adresse."
+              : intro}
           </p>
         </div>
         <form className={styles.form} action={isRegister ? registerFormAction : loginFormAction}>
@@ -119,9 +121,14 @@ export function LoginModal({
           <SubmitButton mode={mode} />
         </form>
         {!isRegister ? (
-          <Link className={styles.forgotLink} href="/auth/passwort-vergessen" onClick={onClose}>
-            Passwort vergessen?
-          </Link>
+          <>
+            <Link className={styles.forgotLink} href="/auth/passwort-vergessen" onClick={onClose}>
+              Passwort vergessen?
+            </Link>
+            <p className={styles.smallPrint}>
+              Noch nicht bestätigt? Melde dich an und fordere im Profil einen neuen Link an.
+            </p>
+          </>
         ) : null}
         <p className={styles.smallPrint}>
           {isRegister ? "Schon registriert? " : "Noch nicht registriert? "}

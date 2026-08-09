@@ -12,13 +12,18 @@ function createRepository() {
     PRAGMA foreign_keys = ON;
     CREATE TABLE users (
       id TEXT PRIMARY KEY, email TEXT NOT NULL UNIQUE, name TEXT NOT NULL,
-      name_key TEXT NOT NULL UNIQUE, password_hash TEXT NOT NULL, created_at TEXT NOT NULL
+      name_key TEXT NOT NULL UNIQUE, password_hash TEXT NOT NULL, created_at TEXT NOT NULL,
+      email_verified_at TEXT
     );
     CREATE TABLE sessions (
       id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       token_hash TEXT NOT NULL, expires_at TEXT NOT NULL, created_at TEXT NOT NULL
     );
     CREATE TABLE password_reset_tokens (
+      id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      token_hash TEXT NOT NULL, expires_at TEXT NOT NULL, created_at TEXT NOT NULL, used_at TEXT
+    );
+    CREATE TABLE email_verification_tokens (
       id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       token_hash TEXT NOT NULL, expires_at TEXT NOT NULL, created_at TEXT NOT NULL, used_at TEXT
     );
@@ -51,12 +56,14 @@ function createRepository() {
       CHECK ((accepted_by_user_id IS NULL) = (accepted_at IS NULL))
     );
     INSERT INTO users VALUES
-      ('system', 'system@challengehub.local', 'ChallengeHub', '__system__', 'disabled:disabled', '2026-01-01T00:00:00.000Z'),
-      ('u1', 'ada@example.test', 'Ada', 'ada', 'salt:secret-hash', '2026-07-01T08:00:00.000Z'),
-      ('u2', 'ben@example.test', 'Ben', 'ben', 'salt:other-hash', '2026-07-02T08:00:00.000Z');
+      ('system', 'system@challengehub.local', 'ChallengeHub', '__system__', 'disabled:disabled', '2026-01-01T00:00:00.000Z', '2026-01-01T00:00:00.000Z'),
+      ('u1', 'ada@example.test', 'Ada', 'ada', 'salt:secret-hash', '2026-07-01T08:00:00.000Z', NULL),
+      ('u2', 'ben@example.test', 'Ben', 'ben', 'salt:other-hash', '2026-07-02T08:00:00.000Z', NULL);
     INSERT INTO sessions VALUES ('s1', 'u1', 'session-secret', '2026-09-01T00:00:00.000Z', '2026-08-01T00:00:00.000Z');
     INSERT INTO password_reset_tokens VALUES
       ('r1', 'u1', 'reset-secret', '2026-08-10T00:00:00.000Z', '2026-08-09T00:00:00.000Z', NULL);
+    INSERT INTO email_verification_tokens VALUES
+      ('v1', 'u1', 'verification-secret', '2026-08-10T00:00:00.000Z', '2026-08-09T00:00:00.000Z', NULL);
     INSERT INTO challenges VALUES
       ('c1', 'u1', 'ada-public', 'Adas Challenge', 'User', 'Alltag', 30, 'Dranbleiben', 'Beschreibung',
        '[]', '[]', 'public', 'published', '2026-07-01T08:00:00.000Z', '2026-07-01T08:00:00.000Z',
@@ -113,6 +120,8 @@ test("JSON-Export enthält eigene Produktdaten, aber keine Passwort- oder Tokenw
   const exported = repository.exportAccountData("u1", "2026-08-09T12:00:00.000Z");
   assert.equal(exported?.format, "challengehub-account-export-v1");
   assert.equal(exported?.account.email, "ada@example.test");
+  assert.equal(exported?.account.emailVerifiedAt, null);
+  assert.equal(exported?.emailVerifications[0]?.id, "v1");
   assert.equal(exported?.participations[0]?.checkIns[0]?.note, "eigene Notiz");
   assert.equal(exported?.createdChallenges[0]?.slug, "ada-public");
   assert.equal(exported?.acceptedInvitations[0]?.id, "invite-1");

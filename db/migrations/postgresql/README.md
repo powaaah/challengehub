@@ -37,6 +37,7 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0010_challen
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0011_challenge_mates.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0012_retention_notifications.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0013_account_privacy.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0014_email_verification.sql
 ```
 
 Vor der Anwendung lassen sich die unveränderlichen Inhalte im
@@ -94,3 +95,8 @@ benötigen keine Roh-Tokens in der Datenbank.
 Freigaben für öffentliche Rankings, den Aktivitätsfeed und ChallengeMate-
 Vorschläge. Zusätzlich wird ein nicht personenbezogener Betriebsnachweis für
 abgeschlossene Kontolöschungen angelegt.
+
+`0014_email_verification.sql` ergänzt den Verifikationszeitpunkt am Konto und
+kurzlebige Einmal-Tokens. Persistiert werden ausschließlich Token-Hashes;
+abgelaufene, verwendete und durch einen neu zugestellten Link ersetzte Tokens
+können kein Konto bestätigen.

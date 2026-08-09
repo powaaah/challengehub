@@ -4,6 +4,7 @@ export type Account = {
   name: string;
   passwordHash: string;
   createdAt: string;
+  emailVerifiedAt: string | null;
 };
 
 export type CreateAccountInput = {

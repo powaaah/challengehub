@@ -24,7 +24,8 @@ test("PostgreSQL migrations are ordered and keep a migration ledger", async () =
     "0010_challenge_types.sql",
     "0011_challenge_mates.sql",
     "0012_retention_notifications.sql",
-    "0013_account_privacy.sql"
+    "0013_account_privacy.sql",
+    "0014_email_verification.sql"
   ]);
 
   const versions = files.map((file) => file.slice(0, 4));
@@ -256,4 +257,18 @@ test("Account-Privacy-Migration setzt datensparsame Defaults und anonyme Löschu
   assert.match(sql, /CREATE TABLE account_deletion_audits/);
   assert.match(sql, /retention_basis TEXT NOT NULL/);
   assert.doesNotMatch(sql, /deleted_user_id|email|name|password|token/);
+});
+
+test("E-Mail-Verifikationsmigration speichert Status und ausschließlich gehashte Einmal-Tokens", async () => {
+  const sql = await readFile(
+    path.join(migrationsDirectory, "0014_email_verification.sql"),
+    "utf8"
+  );
+
+  assert.match(sql, /ADD COLUMN email_verified_at TIMESTAMPTZ/);
+  assert.match(sql, /CREATE TABLE email_verification_tokens/);
+  assert.match(sql, /token_hash TEXT NOT NULL UNIQUE/);
+  assert.match(sql, /expires_at TIMESTAMPTZ NOT NULL/);
+  assert.match(sql, /used_at TIMESTAMPTZ/);
+  assert.doesNotMatch(sql, /raw_token|\btoken\s+TEXT|secret/i);
 });

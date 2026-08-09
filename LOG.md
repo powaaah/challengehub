@@ -2468,3 +2468,36 @@
   produktive Aufbewahrungsjobs oder rechtliche Endfreigabe.
 - Nächster Schritt: Roadmap-Task 17 mit gehashten, kurzlebigen Einmal-Tokens und
   einem rate-limitierten E-Mail-Verifikationsflow beginnen.
+
+## 2026-08-09 – Roadmap-Task 17 abgeschlossen
+
+- Ziel: Neue und bestehende Mitglieder können ihre E-Mail-Adresse über einen
+  echten, kurzlebigen Einmal-Link bestätigen und ihren Status selbst erkennen.
+- Registrierung und Versand: Nach erfolgreicher Registrierung wird die
+  Verifikationsmail nicht blockierend nach der Response eingeplant. Der Resend-
+  Adapter verwendet `RESEND_API_KEY` und `EMAIL_VERIFICATION_FROM_EMAIL`; ohne
+  Konfiguration erfolgt kein externer Versand und das unzugestellte Token wird
+  verworfen.
+- Tokenmodell: 256-Bit-Base64url-Token mit 30 Minuten Laufzeit; ausschließlich
+  der SHA-256-Hash wird gespeichert. Ein neu zugestellter Link entwertet ältere
+  aktive Links, fehlgeschlagene Zustellung nicht. Bestätigung aktualisiert Konto
+  und Token atomar; Wiederverwendung und Ablauf bleiben wirkungslos.
+- Nutzerfluss: `/auth/email-bestaetigen` zeigt Erfolg oder einen klaren
+  abgelaufenen/verwendeten Zustand. Das Profil zeigt „Bestätigt“ oder bietet
+  neutralen Neuversand. Registrierung und Login erklären den nächsten Schritt.
+  Neuversand ist auf drei Versuche je Konto und 20 je IP pro Stunde begrenzt,
+  ohne den Zustand nach außen preiszugeben.
+- Datenmodell: Idempotente SQLite-Migration und PostgreSQL-Migration
+  `0014_email_verification.sql` samt Prüfsumme ergänzt. Verifikationsstatus und
+  Tokenmetadaten erscheinen auch im Account-Export, niemals der Token-Hash.
+- UX: Profil und Statusflow im echten Chromium auf Desktop und bei 390 Pixeln
+  geprüft; kein horizontaler Überlauf.
+- Verifikation: 194/194 Unit-/Domain-/Repository-/Migrationstests, ESLint ohne
+  Warnungen, TypeScript und Produktionsbuild erfolgreich. Vollständiger
+  Playwright-Lauf 49/49 grün; `git diff --check` ohne Befund.
+- Nicht geändert: harte Funktionssperren für unverifizierte Bestandskonten,
+  produktive Resend-Zugangsdaten, Deployment, DNS, Caddy oder PostgreSQL-
+  Runtime-Umschaltung.
+- Nächster Schritt: Roadmap-Task 18 mit Betreiberangaben, Rechtsgrundlagen,
+  verbindlichen Aufbewahrungsfristen und Registrierungshinweisen fachlich sowie
+  rechtlich freigabefähig vorbereiten.

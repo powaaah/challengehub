@@ -14,6 +14,7 @@ export type CurrentUser = {
   id: string;
   email: string;
   name: string;
+  emailVerifiedAt: string | null;
 };
 
 export function hashPassword(password: string) {
@@ -87,7 +88,8 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
   return {
     id: user.id,
     email: user.email,
-    name: user.name
+    name: user.name,
+    emailVerifiedAt: user.emailVerifiedAt
   };
 }
 

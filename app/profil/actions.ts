@@ -6,6 +6,10 @@ import { clearSession, getCurrentUser } from "@/lib/auth";
 import { deleteAccountWithPassword, updateAccountPrivacyPreferences } from "@/lib/account-data";
 import { updateAccountName } from "@/lib/accounts";
 import { updateProfileName } from "@/lib/profile-name";
+import { after } from "next/server";
+import { requestEmailVerificationForEmail } from "@/lib/email-verifications";
+import { allowRateLimitedAction, RATE_LIMIT_POLICIES } from "@/lib/rate-limit";
+import { getRateLimitClientIp } from "@/lib/request-ip";
 
 export type ProfileFormState = {
   error: string;
@@ -14,6 +18,7 @@ export type ProfileFormState = {
 
 export type PrivacyFormState = ProfileFormState;
 export type DeleteAccountState = ProfileFormState;
+export type EmailVerificationFormState = ProfileFormState;
 
 export async function updateProfileAction(
   _state: ProfileFormState,
@@ -42,6 +47,26 @@ export async function updateProfileAction(
 
   revalidatePath("/", "layout");
   return { error: "", success: "Benutzername gespeichert." };
+}
+
+export async function resendEmailVerificationAction(
+  _state: EmailVerificationFormState
+): Promise<EmailVerificationFormState> {
+  void _state;
+  const user = await getCurrentUser();
+  if (!user) redirect("/auth?next=/profil");
+
+  const ip = await getRateLimitClientIp();
+  if (allowRateLimitedAction([
+    { policy: RATE_LIMIT_POLICIES.emailVerificationUser, identifier: user.id },
+    { policy: RATE_LIMIT_POLICIES.emailVerificationIp, identifier: ip }
+  ])) {
+    after(() => requestEmailVerificationForEmail(user.email));
+  }
+  return {
+    error: "",
+    success: "Falls die Adresse noch unbestätigt ist, erhältst du einen neuen Link."
+  };
 }
 
 export async function updatePrivacyAction(

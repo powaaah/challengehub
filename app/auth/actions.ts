@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { randomUUID } from "node:crypto";
 import {
   isEmailRawWithinLimits,
@@ -18,6 +19,7 @@ import { getRateLimitClientIp } from "@/lib/request-ip";
 import { getSafeRelativeRedirect } from "@/lib/safe-redirect";
 import { isValidUsername } from "@/lib/profile-name";
 import { getLoginIdentifierKey, normalizeUsername } from "@/domain/accounts/username";
+import { requestEmailVerificationForEmail } from "@/lib/email-verifications";
 
 export type AuthFormState = {
   error: string;
@@ -69,6 +71,7 @@ export async function registerAction(_state: AuthFormState, formData: FormData):
   }
 
   await createSession(userId);
+  after(() => requestEmailVerificationForEmail(email));
   const participationRedirect = await getParticipationRedirect(userId, next, formData);
   if (participationRedirect) {
     redirect(participationRedirect);

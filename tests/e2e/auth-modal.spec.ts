@@ -6,6 +6,7 @@ test("Login akzeptiert E-Mail-Adresse oder Benutzernamen", async ({ page }) => {
 
   const dialog = page.getByRole("dialog", { name: "Bei ChallengeHub anmelden" });
   await expect(dialog.getByLabel("E-Mail-Adresse oder Benutzername")).toBeVisible();
+  await expect(dialog.getByText("Noch nicht bestätigt? Melde dich an und fordere im Profil einen neuen Link an.")).toBeVisible();
 });
 
 test("Login-Dialog hält den Tastaturfokus und gibt ihn nach Escape zurück", async ({ page }) => {
@@ -96,7 +97,9 @@ test("Jetzt teilnehmen oeffnet denselben Login- und Registrierungsdialog", async
   const loginDialog = page.getByRole("dialog", { name: "Bei ChallengeHub anmelden" });
   await expect(loginDialog.getByText(/^login$/i)).toBeVisible();
   await loginDialog.getByRole("button", { name: "Registrieren" }).click();
-  await expect(page.getByRole("dialog", { name: "Bei ChallengeHub registrieren" })).toBeVisible();
+  const registrationDialog = page.getByRole("dialog", { name: "Bei ChallengeHub registrieren" });
+  await expect(registrationDialog).toBeVisible();
+  await expect(registrationDialog.getByText("Nach der Registrierung erhältst du einen Link zur Bestätigung deiner E-Mail-Adresse.")).toBeVisible();
 });
 
 test("Registrierung ueber Jetzt teilnehmen startet die Challenge und zeigt die Bestaetigung", async ({ page }) => {

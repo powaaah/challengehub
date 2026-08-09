@@ -66,7 +66,8 @@ export class SqliteAccountDataRepository implements AccountDataRepository {
 
   exportAccountData(userId: string, exportedAt: string): AccountDataExport | null {
     const account = this.db.prepare(`
-      SELECT id, email, name, created_at AS createdAt FROM users WHERE id = ?
+      SELECT id, email, name, created_at AS createdAt,
+        email_verified_at AS emailVerifiedAt FROM users WHERE id = ?
     `).get(userId) as AccountDataExport["account"] | undefined;
     if (!account || userId === "system") return null;
     const privacy = this.getPrivacyPreferences(userId, exportedAt)!;
@@ -97,6 +98,10 @@ export class SqliteAccountDataRepository implements AccountDataRepository {
         SELECT id, expires_at AS expiresAt, created_at AS createdAt, used_at AS usedAt
         FROM password_reset_tokens WHERE user_id = ? ORDER BY created_at ASC
       `, userId) as AccountDataExport["passwordResets"],
+      emailVerifications: rows(this.db, `
+        SELECT id, expires_at AS expiresAt, created_at AS createdAt, used_at AS usedAt
+        FROM email_verification_tokens WHERE user_id = ? ORDER BY created_at ASC
+      `, userId) as AccountDataExport["emailVerifications"],
       createdChallenges: rows(this.db, `
         SELECT id, slug, title, level, category, duration_days AS durationDays, goal,
           description, rules_json AS rules, tips_json AS tips, visibility, status,

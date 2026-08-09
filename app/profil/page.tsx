@@ -3,7 +3,12 @@ import { redirect } from "next/navigation";
 import { ProfileApp } from "@/components/profile-app";
 import { getCurrentUser } from "@/lib/auth";
 import { getAccountPrivacyPreferences } from "@/lib/account-data";
-import { deleteAccountAction, updatePrivacyAction, updateProfileAction } from "./actions";
+import {
+  deleteAccountAction,
+  resendEmailVerificationAction,
+  updatePrivacyAction,
+  updateProfileAction
+} from "./actions";
 
 export const metadata: Metadata = {
   title: "Dein Profil | ChallengeHub",
@@ -27,6 +32,7 @@ export default async function ProfilePage() {
       user={user}
       privacy={privacy}
       updateProfile={updateProfileAction}
+      resendEmailVerification={resendEmailVerificationAction}
       updatePrivacy={updatePrivacyAction}
       deleteAccount={deleteAccountAction}
     />

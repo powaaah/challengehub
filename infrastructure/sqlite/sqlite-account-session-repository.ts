@@ -18,6 +18,7 @@ type AccountRow = {
   name: string;
   passwordHash: string;
   createdAt: string;
+  emailVerifiedAt: string | null;
 };
 
 export class SqliteAccountSessionRepository implements AccountSessionRepository {
@@ -32,7 +33,8 @@ export class SqliteAccountSessionRepository implements AccountSessionRepository 
   findAccountById(userId: string): Account | null {
     const row = this.db
       .prepare(`
-        SELECT id, email, name, password_hash as passwordHash, created_at as createdAt
+        SELECT id, email, name, password_hash as passwordHash, created_at as createdAt,
+          email_verified_at as emailVerifiedAt
         FROM users
         WHERE id = ?
       `)
@@ -44,7 +46,8 @@ export class SqliteAccountSessionRepository implements AccountSessionRepository 
   findAccountByEmail(email: string): Account | null {
     const row = this.db
       .prepare(`
-        SELECT id, email, name, password_hash as passwordHash, created_at as createdAt
+        SELECT id, email, name, password_hash as passwordHash, created_at as createdAt,
+          email_verified_at as emailVerifiedAt
         FROM users
         WHERE email = ?
       `)
@@ -58,7 +61,8 @@ export class SqliteAccountSessionRepository implements AccountSessionRepository 
     const usernameKey = getUsernameKey(identifier);
     const row = this.db
       .prepare(`
-        SELECT id, email, name, password_hash as passwordHash, created_at as createdAt
+        SELECT id, email, name, password_hash as passwordHash, created_at as createdAt,
+          email_verified_at as emailVerifiedAt
         FROM users
         WHERE email = ? OR name_key = ?
         LIMIT 1
@@ -91,7 +95,8 @@ export class SqliteAccountSessionRepository implements AccountSessionRepository 
         email,
         name,
         passwordHash: input.passwordHash,
-        createdAt
+        createdAt,
+        emailVerifiedAt: null
       }
     };
   }
@@ -119,7 +124,8 @@ export class SqliteAccountSessionRepository implements AccountSessionRepository 
     const row = this.db
       .prepare(`
         SELECT users.id, users.email, users.name,
-          users.password_hash as passwordHash, users.created_at as createdAt
+          users.password_hash as passwordHash, users.created_at as createdAt,
+          users.email_verified_at as emailVerifiedAt
         FROM sessions
         JOIN users ON users.id = sessions.user_id
         WHERE sessions.token_hash = ? AND sessions.expires_at > ?

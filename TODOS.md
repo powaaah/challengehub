@@ -24,6 +24,7 @@ Stand: 2026-08-09
   - [x] Roadmap-Task 14 abschließen: ChallengeMate-Opt-in mit Challenge/Ziel, Zeitraum und Remote/Ort, kompatible Vorschläge, gegenseitige Bestätigung, gemeinsame Ansicht sowie Blockieren/Melden umsetzen.
   - [x] Roadmap-Task 15 abschließen: persistenten In-App-Feed, freiwillige E-Mail-Erinnerungen mit Direkt-Abmeldung, Wochenrückblick, ChallengeMate-Ereignisse, wertungsfreie Reaktivierung und Abschluss-Badge samt idempotenter Zustellqueue umsetzen.
   - [x] Roadmap-Task 16 abschließen: maschinenlesbaren Account-Export, re-authentifizierte Kontolöschung, datensparsame und getrennte Sichtbarkeit für Ranking, Aktivitätsfeed und ChallengeMate sowie eine technisch wahrheitsgemäße Datenschutzseite umsetzen.
+  - [x] Roadmap-Task 17 abschließen: E-Mail-Verifikation mit gehashten 30-Minuten-Einmal-Tokens, neutralem und rate-limitiertem Neuversand, Verifikationsroute sowie Status in Auth-Dialog und Profil umsetzen.
 - [ ] ChallengeHub in kontinuierlichen, kleinen und verifizierten Arbeitsschleifen weiterentwickeln; pro Schleife Kontext/Todos pruefen, genau einen priorisierten Slice umsetzen, Lint/Build/Tests ausfuehren und Ergebnis sowie naechsten Schritt dokumentieren.
 - [ ] SEO als feste Architektur- und Abnahmeanforderung fuer alle Web-Slices sichern: serverseitig crawlbare Inhalte, stabile sprechende URLs, eindeutige Metadata/Canonical, strukturierte Daten, Sitemap/robots, interne Verlinkung, Core-Web-Vitals-orientierte Performance und keine Abhaengigkeit von der spaeteren Mobile-App fuer indexierbare Inhalte.
   - [x] Kuratierte und veröffentlichte Community-Challenge-Detailseiten um kanonische `BreadcrumbList`-Strukturdaten für Startseite, Katalog und Detailseite ergänzen.
@@ -113,8 +114,9 @@ Stand: 2026-08-09
   Benutzernamen, Profilmenü-Link und vollständigem E2E-Flow umsetzen.
 - [x] Challenge-Ranking auf Top 20 erweitern und eingeloggten Teilnehmern
   außerhalb der Top 20 die eigene Position mit direkten Nachbarn anzeigen.
-- [ ] Resend-Zugang und Absenderadresse für den produktiven Versand der
-  Passwort-Reset-E-Mails konfigurieren und mit einer echten Zustellung prüfen.
+- [ ] Resend-Zugang und Absenderadressen für den produktiven Versand der
+  Passwort-Reset- und E-Mail-Verifikationsmails konfigurieren und mit echten
+  Zustellungen prüfen.
 - [ ] `RATE_LIMIT_SECRET` und `TRUST_PROXY=true` im Zielbetrieb sicher konfigurieren,
   damit HMAC-Identifier, persistente Limits und die Client-IP-Auswertung Neustarts
   sowie den Caddy-Reverse-Proxy korrekt überstehen.

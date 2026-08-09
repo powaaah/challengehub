@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import type {
   DeleteAccountState,
+  EmailVerificationFormState,
   PrivacyFormState,
   ProfileFormState
 } from "@/app/profil/actions";
@@ -17,6 +18,7 @@ type ProfileAppProps = {
   user: CurrentUser;
   privacy: AccountPrivacyPreferences;
   updateProfile: (state: ProfileFormState, formData: FormData) => Promise<ProfileFormState>;
+  resendEmailVerification: (state: EmailVerificationFormState, formData: FormData) => Promise<EmailVerificationFormState>;
   updatePrivacy: (state: PrivacyFormState, formData: FormData) => Promise<PrivacyFormState>;
   deleteAccount: (state: DeleteAccountState, formData: FormData) => Promise<DeleteAccountState>;
 };
@@ -25,10 +27,15 @@ export function ProfileApp({
   user,
   privacy,
   updateProfile,
+  resendEmailVerification,
   updatePrivacy,
   deleteAccount
 }: ProfileAppProps) {
   const [profileState, profileAction, profilePending] = useActionState(updateProfile, initialState);
+  const [verificationState, verificationAction, verificationPending] = useActionState(
+    resendEmailVerification,
+    initialState
+  );
   const [privacyState, privacyAction, privacyPending] = useActionState(updatePrivacy, initialState);
   const [deleteState, deleteAction, deletePending] = useActionState(deleteAccount, initialState);
 
@@ -77,12 +84,23 @@ export function ProfileApp({
               <p>Kontozugang</p>
               <h2 id="email-heading">E-Mail-Adresse</h2>
             </div>
-            <span>Nicht öffentlich</span>
+            <span>{user.emailVerifiedAt ? "Bestätigt" : "Noch nicht bestätigt"}</span>
           </div>
           <div className={styles.readonlyField}>
             <span>E-Mail-Adresse</span>
             <strong>{user.email}</strong>
           </div>
+          {!user.emailVerifiedAt ? (
+            <form action={verificationAction} className={styles.inlineForm}>
+              <p className={styles.hint}>Bestätige deine Adresse über den Link in deiner E-Mail.</p>
+              {verificationState.success && <p className={styles.success} role="status">{verificationState.success}</p>}
+              <button type="submit" disabled={verificationPending}>
+                {verificationPending ? "Sendet…" : "Bestätigungslink erneut senden"}
+              </button>
+            </form>
+          ) : (
+            <p className={styles.success}>Deine E-Mail-Adresse ist bestätigt.</p>
+          )}
         </section>
 
         <section className={styles.card} aria-labelledby="privacy-heading">

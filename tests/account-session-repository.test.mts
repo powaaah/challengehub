@@ -13,7 +13,8 @@ function createRepository() {
       name TEXT NOT NULL,
       name_key TEXT NOT NULL,
       password_hash TEXT NOT NULL,
-      created_at TEXT NOT NULL
+      created_at TEXT NOT NULL,
+      email_verified_at TEXT
     );
     CREATE TABLE sessions (
       id TEXT PRIMARY KEY,
@@ -44,6 +45,7 @@ test("Account-Repository normalisiert E-Mails und verhindert doppelte Accounts a
   const created = repository.createAccount(accountInput);
   assert.equal(created.status, "created");
   assert.equal(created.status === "created" && created.account.email, "stefan@example.com");
+  assert.equal(created.status === "created" && created.account.emailVerifiedAt, null);
   assert.equal(repository.findAccountByEmail("STEFAN@example.com")?.id, "u1");
   assert.deepEqual(
     repository.createAccount({ ...accountInput, id: "u2", email: "stefan@example.com" }),

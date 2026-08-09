@@ -7,10 +7,11 @@ export type AccountPrivacyPreferences = {
 export type AccountDataExport = {
   format: "challengehub-account-export-v1";
   exportedAt: string;
-  account: { id: string; email: string; name: string; createdAt: string };
+  account: { id: string; email: string; name: string; createdAt: string; emailVerifiedAt: string | null };
   privacy: AccountPrivacyPreferences;
   sessions: Array<{ id: string; expiresAt: string; createdAt: string }>;
   passwordResets: Array<{ id: string; expiresAt: string; createdAt: string; usedAt: string | null }>;
+  emailVerifications: Array<{ id: string; expiresAt: string; createdAt: string; usedAt: string | null }>;
   createdChallenges: Array<Record<string, unknown>>;
   participations: Array<Record<string, unknown> & { checkIns: Array<Record<string, unknown>> }>;
   createdInvitations: Array<Record<string, unknown>>;

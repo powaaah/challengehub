@@ -12,6 +12,8 @@ export const RATE_LIMIT_POLICIES = {
   registerIp: { scope: "register:ip", limit: 20, windowMs: 60 * 60 * 1_000 },
   passwordResetToken: { scope: "password-reset:token", limit: 5, windowMs: 60 * 60 * 1_000 },
   passwordResetIp: { scope: "password-reset:ip", limit: 20, windowMs: 60 * 60 * 1_000 },
+  emailVerificationUser: { scope: "email-verification:user", limit: 3, windowMs: 60 * 60 * 1_000 },
+  emailVerificationIp: { scope: "email-verification:ip", limit: 20, windowMs: 60 * 60 * 1_000 },
   challengeCreate: { scope: "challenge:create", limit: 5, windowMs: 24 * 60 * 60 * 1_000 },
   challengeStart: { scope: "challenge:start", limit: 30, windowMs: 60 * 60 * 1_000 },
   invitationAccept: { scope: "invitation:accept", limit: 30, windowMs: 60 * 60 * 1_000 },
