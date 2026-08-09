@@ -10,6 +10,10 @@ import { leaveParticipationForUser } from "@/lib/participation-start";
 import { getParticipationByIdForUser } from "@/lib/participations";
 import { SITE_URL } from "@/lib/seo";
 import { allowRateLimitedAction, RATE_LIMIT_POLICIES } from "@/lib/rate-limit";
+import {
+  markRetentionNotificationRead,
+  updateRetentionPreferences
+} from "@/lib/retention";
 
 export type CreateInvitationState = {
   status: "idle" | "success" | "error";
@@ -70,6 +74,43 @@ export async function leaveChallengeAction(formData: FormData) {
   revalidatePath("/meine-challenges");
   revalidatePath(`/meine-challenges/${participationId}`);
   redirect("/meine-challenges?verlassen=erfolgreich");
+}
+
+export async function updateRetentionPreferencesAction(formData: FormData) {
+  const participationId = String(formData.get("participationId") ?? "").trim();
+  const user = await getCurrentUser();
+  if (!user || !participationId || !hasUtf8ByteLengthAtMost(participationId, 100)) {
+    redirect("/meine-challenges");
+  }
+
+  const result = updateRetentionPreferences({
+    userId: user.id,
+    participationId,
+    inAppEnabled: formData.get("inAppEnabled") === "yes",
+    emailReminderEnabled: formData.get("emailReminderEnabled") === "yes",
+    weeklyRecapEnabled: formData.get("weeklyRecapEnabled") === "yes"
+  });
+  if (result.status === "not_found") redirect("/meine-challenges");
+
+  revalidatePath(`/meine-challenges/${participationId}`);
+  redirect(`/meine-challenges/${participationId}?retention=saved`);
+}
+
+export async function markRetentionNotificationReadAction(formData: FormData) {
+  const participationId = String(formData.get("participationId") ?? "").trim();
+  const notificationId = String(formData.get("notificationId") ?? "").trim();
+  const user = await getCurrentUser();
+  if (
+    !user || !participationId || !notificationId ||
+    !hasUtf8ByteLengthAtMost(participationId, 100) ||
+    !hasUtf8ByteLengthAtMost(notificationId, 100)
+  ) redirect("/meine-challenges");
+
+  const result = markRetentionNotificationRead({ notificationId, userId: user.id });
+  if (result.status === "not_found") redirect("/meine-challenges");
+
+  revalidatePath(`/meine-challenges/${participationId}`);
+  redirect(`/meine-challenges/${participationId}?retention=read`);
 }
 
 export async function createInvitationAction(

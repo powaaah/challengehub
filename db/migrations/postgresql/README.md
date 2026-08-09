@@ -35,6 +35,7 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0008_pending
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0009_rate_limit_pruning_index.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0010_challenge_types.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0011_challenge_mates.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0012_retention_notifications.sql
 ```
 
 Vor der Anwendung lassen sich die unveränderlichen Inhalte im
@@ -82,3 +83,8 @@ alle übrigen Bestandsdaten bleiben tägliche Ja/Nein-Challenges.
 bestätigende Verbindungen sowie Blockierungen und moderierbare Meldungen. Es
 werden keine E-Mail-Adressen, Telefonnummern, präzisen Standorte oder externen
 Kontaktdaten in ChallengeMate-Profilen gespeichert.
+
+`0012_retention_notifications.sql` ergänzt teilnahmegebundene Präferenzen und
+einen idempotenten In-App-Feed mit getrenntem Zustellstatus. E-Mail-Erinnerungen
+und Wochenrückblicke sind standardmäßig deaktiviert; signierte Abmeldelinks
+benötigen keine Roh-Tokens in der Datenbank.

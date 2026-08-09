@@ -2403,3 +2403,35 @@
   Runtime-Umschaltung.
 - Nächster Schritt: Roadmap-Task 15 als Retention-Loop beginnen, zuerst mit
   einer echten In-App-Erinnerung im bestehenden Challenge-Raum.
+
+## 2026-08-09 – Roadmap-Task 15 abgeschlossen
+
+- Ziel: Aus dem Challenge-Raum einen freiwilligen, echten Retention-Loop machen,
+  der aus vorhandenen Teilnahme-, Check-in- und ChallengeMate-Daten eine klare
+  nächste Handlung ableitet.
+- In-App-Feed: Offene Tagesaktionen, sachliche Sieben-Tage-Rückblicke,
+  ChallengeMate-Anfragen und -Matches, wertungsfreie Wiedereinstiege nach einem
+  offenen Vortag sowie gespeicherte Abschlüsse erscheinen als idempotente,
+  lesbare Meldungen. Nutzer können einzelne Einträge als gelesen markieren oder
+  In-App-Erinnerungen pausieren.
+- E-Mail: Tägliche Erinnerungen und Wochenrückblicke besitzen getrennte,
+  standardmäßig deaktivierte Opt-ins. Der Resend-Adapter ergänzt den direkten
+  Challenge-Link und eine signierte Abmeldung; nur erfolgreiche Zustellungen
+  werden quittiert, nicht konfigurierte oder fehlgeschlagene Jobs bleiben offen.
+- Betrieb und Daten: Die Queue materialisiert fällige Meldungen selbst, ohne
+  vorherigen Seitenaufruf, und ist damit durch einen späteren Cron-Lauf
+  wiederholbar. Neues idempotentes SQLite-Schema und PostgreSQL-Migration
+  `0012_retention_notifications.sql` speichern Präferenzen, Feed und
+  Zustellstatus; Abmelde-Roh-Tokens werden nicht persistiert.
+- UX-Review: Den neuen Feed im echten Chromium bei 1280 und 390 Pixeln geprüft.
+  Die nächste Aktion bleibt scanbar, native Checkboxen und Touch-Ziele sind
+  verständlich, und die mobile Ansicht zeigt keine abgeschnittenen Inhalte oder
+  horizontalen Überläufe.
+- Verifikation: 174/174 Unit-/Domain-/Repository-/Migrations-Tests, ESLint,
+  TypeScript und Produktionsbuild erfolgreich. Vollständiger Playwright-Lauf
+  47/47 grün, einschließlich Registrierung, Feed, persistenter Opt-ins und
+  gelesenem Zustand.
+- Nicht geändert: produktiver Scheduler, Resend-Zugangsdaten, Deployment, DNS,
+  Caddy, Push-Nachrichten, Tracking oder PostgreSQL-Runtime-Umschaltung.
+- Nächster Schritt: Roadmap-Task 16 mit Account-Export, Account-Löschung und
+  zentralen Privatsphäre-Einstellungen beginnen.

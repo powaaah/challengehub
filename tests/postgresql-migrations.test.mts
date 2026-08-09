@@ -22,7 +22,8 @@ test("PostgreSQL migrations are ordered and keep a migration ledger", async () =
     "0008_pending_challenge_default.sql",
     "0009_rate_limit_pruning_index.sql",
     "0010_challenge_types.sql",
-    "0011_challenge_mates.sql"
+    "0011_challenge_mates.sql",
+    "0012_retention_notifications.sql"
   ]);
 
   const versions = files.map((file) => file.slice(0, 4));
@@ -222,4 +223,21 @@ test("ChallengeMate migration persists opt-in, mutual matches, blocks and report
   assert.match(sql, /CHECK \(requester_user_id <> recipient_user_id\)/);
   assert.match(sql, /CHECK \(reporter_user_id <> reported_user_id\)/);
   assert.doesNotMatch(sql, /email|phone|latitude|longitude|contact_details/);
+});
+
+test("Retention migration persists preferences, an idempotent feed and delivery state", async () => {
+  const sql = await readFile(
+    path.join(migrationsDirectory, "0012_retention_notifications.sql"),
+    "utf8"
+  );
+
+  assert.match(sql, /CREATE TABLE retention_preferences/);
+  assert.match(sql, /email_reminder_enabled BOOLEAN NOT NULL DEFAULT FALSE/);
+  assert.match(sql, /weekly_recap_enabled BOOLEAN NOT NULL DEFAULT FALSE/);
+  assert.match(sql, /CREATE TABLE retention_notifications/);
+  assert.match(sql, /source_key TEXT NOT NULL/);
+  assert.match(sql, /UNIQUE \(user_id, source_key\)/);
+  assert.match(sql, /email_delivered_at TIMESTAMPTZ/);
+  assert.match(sql, /retention_notifications_pending_email_idx/);
+  assert.doesNotMatch(sql, /unsubscribe_token|raw_token/);
 });

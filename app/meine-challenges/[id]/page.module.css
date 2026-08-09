@@ -172,6 +172,199 @@
   text-decoration: none;
 }
 
+.retention {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.retentionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.retentionHeader h2,
+.retentionHeader p {
+  margin: 0;
+}
+
+.retentionHeader h2 {
+  color: var(--background-deep);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+}
+
+.retentionHeader div > p:last-child {
+  max-width: 46rem;
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.success {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #e7f6ed;
+  color: #176b3b;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.notificationList {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notification,
+.notificationRead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--brand);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.notificationRead {
+  border-left-color: var(--border);
+  background: var(--background-soft);
+}
+
+.notification h3,
+.notification p,
+.notificationRead h3,
+.notificationRead p {
+  margin: 0;
+}
+
+.notification h3,
+.notificationRead h3 {
+  margin-top: 0.15rem;
+  color: var(--background-deep);
+  font-size: 1.05rem;
+}
+
+.notification div > p:last-child,
+.notificationRead div > p:last-child {
+  margin-top: 0.35rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.notificationMeta {
+  color: var(--brand);
+  font-size: 0.76rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.notificationActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notificationActions a,
+.notificationActions button {
+  min-height: 44px;
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  font: inherit;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.notificationActions a {
+  display: inline-flex;
+  align-items: center;
+  background: var(--brand);
+  color: white;
+}
+
+.notificationActions button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--background-deep);
+}
+
+.notificationActions span,
+.retentionEmpty {
+  color: var(--text-muted);
+  font-weight: 650;
+}
+
+.retentionSettings {
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+.retentionSettings summary {
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.retentionSettings form {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 48rem;
+  padding-top: 1rem;
+}
+
+.retentionSettings label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  min-height: 44px;
+}
+
+.retentionSettings input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-top: 0.1rem;
+  accent-color: var(--brand);
+}
+
+.retentionSettings label span {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.retentionSettings small,
+.retentionSettings form > p {
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.retentionSettings form > p {
+  margin: 0;
+}
+
+.retentionSettings button {
+  justify-self: start;
+  min-height: 46px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--brand);
+  color: white;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  font-weight: 750;
+}
+
 .dangerZone {
   margin-top: 2rem;
   border: 1px solid #e7b4b4;
@@ -214,5 +407,27 @@
   .reminder {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .retentionHeader,
+  .notificationActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .notification,
+  .notificationRead {
+    grid-template-columns: 1fr;
+  }
+
+  .notificationActions a,
+  .notificationActions button {
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .success {
+    align-self: flex-start;
   }
 }
