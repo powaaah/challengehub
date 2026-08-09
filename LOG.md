@@ -2033,3 +2033,203 @@
   und Startdatum bleibt bewusst unverändert. Absolute/relative Wertung und die
   100-Tage-Mindestbasis sind ein eigener Folgeslice.
 - Kein Deployment.
+
+## 2026-07-28 - E2E-Datenbank vollständig isoliert
+
+- Ziel: Den P0-Auditblocker schließen, durch den Playwright bisher Testkonten,
+  Challenges, Teilnahmen und Check-ins in die normale lokale SQLite-Datenbank
+  schrieb und damit Katalog, Rankings sowie Sitemap verunreinigte.
+- Änderungen: `npm run test:e2e` startet nun einen eigenen Next.js-Testserver,
+  erzwingt `CHALLENGEHUB_DB_PATH` auf einer pro Lauf frischen Datenbank im
+  Betriebssystem-Temp-Verzeichnis und entfernt dieses Verzeichnis anschließend
+  auch bei fehlgeschlagenen Testprozessen. Ein bereits laufender Server wird
+  nicht wiederverwendet. Jeder Lauf erhält außerdem einen freien Port sowie ein
+  eigenes Next.js-Build-Verzeichnis und eine eigene temporäre TypeScript-Config;
+  beide werden anschließend entfernt und die Projekt-`tsconfig.json` bleibt
+  unverändert. Zwei E2E-Prozesse können dadurch parallel laufen. E2E läuft
+  innerhalb eines Prozesses wegen der gemeinsam genutzten SQLite-Datei
+  deterministisch mit einem Worker. Alternative
+  Playwright-Configs, abweichende Ausgabeordner und Workerzahlen ungleich eins
+  werden am Runner abgewehrt. Alle Laufpfade werden atomar angelegt sowie mit
+  `lstat` und `realpath` gegen Symlink-/Junction-Umleitungen geprüft; auch
+  Playwrights `outputDir` liegt pro Lauf im Temp-Verzeichnis. Portkollisionen
+  lösen bis zu drei vollständige neue Laufumgebungen aus. Der asynchrone Runner
+  leitet SIGINT/SIGTERM an Playwright weiter, räumt danach auf und erhält die
+  üblichen Exitcodes. Der Browser ist nun das plattformübergreifend von
+  Playwright verwaltete Chromium. Cleanup wiederholt Windows-Löschvorgänge und
+  bewahrt bei Doppelfehlern den Teststatus.
+  Passwort-Reset- und Profil-E2E verwenden ausschließlich die Laufzeitumgebung.
+- TDD: Vierzehn Infrastruktur-Regressionstests einschließlich echter
+  Windows-Junction jeweils rot und danach grün ausgeführt. Die
+  vollständige E2E-Suite und ein paralleler Doppelstart deckten zusätzlich den
+  hart codierten Reset-DB-Pfad, einen hart codierten Profil-Port, fehlende
+  Clipboard-Rechte sowie den globalen Next.js-Dev-Lock auf; alle Ursachen wurden
+  geschlossen. Ein unabhängiger Review hatte zuvor Config-/Worker-Umgehungen,
+  Portkollision, Edge-Abhängigkeit und Windows-Cleanup als Blocker beanstandet.
+  Der finale unabhängige Follow-up-Review des gehärteten Stands bestand ohne
+  Security-Bedenken oder Logikfehler.
+- Verifikation: 112/112 Unit-/Infrastrukturtests, ESLint und Produktions-Build
+  erfolgreich; 19/19 Playwright-E2E-Tests grün. SHA-256 der normalen
+  `.data/challengehub.sqlite` blieb vor und nach E2E identisch; keine temporären
+  `challengehub-e2e-*`- oder `.next-e2e-*`-Verzeichnisse und kein lauschender
+  Testserver blieben zurück. Zwei gleichzeitige isolierte E2E-Läufe bestanden;
+  SHA-256 der Projekt-`tsconfig.json` blieb dabei ebenfalls identisch;
+  `git diff --check` erfolgreich.
+- Offene Risiken: Playwright meldet bestehendes Smooth-Scroll-Markup als
+  Browserhinweis. Nicht abfangbare harte Prozessbeendigungen wie SIGKILL können
+  naturgemäß keinen In-Process-Cleanup ausführen; reguläre Fehler sowie vom
+  Betriebssystem zugestellte SIGINT-/SIGTERM-Abbrüche sind abgedeckt. Next.js
+  16.2.7 bleibt bis zum nächsten separaten Slice auf der im Audit beanstandeten
+  Version. Bestehende lokale Demo-/Testdaten wurden noch nicht bereinigt, damit
+  keine Daten ohne separate Freigabe gelöscht werden.
+- Nächster Schritt: Next.js und `eslint-config-next` kontrolliert auf eine aktuell
+  gepatchte kompatible Version aktualisieren und den kompletten Gate-Satz erneut
+  ausführen.
+- Kein Deployment, Commit oder Push.
+
+## 2026-07-28 – Launch-Sicherheit: Dependencies, Limits, Header, Moderation und 404
+
+- Ziel: Die P0-/P1-Launch-Sicherheitsblöcke der 10/10-Roadmap schließen und mit
+  realen Unit-, Build-, Browser- und Dependency-Nachweisen absichern.
+- Änderungen: Next.js und `eslint-config-next` auf 16.2.12 aktualisiert;
+  Produktionsgraph über sichere `postcss`-/`sharp`-Overrides gehärtet. Zentrale
+  UTF-8-Eingabegrenzen, Dummy-KDF für unbekannte Logins und persistente,
+  transaktionale HMAC-Rate-Limits für Auth, Reset, Challenge-Start/-Erstellung,
+  Check-ins und Einladungen ergänzt. `RATE_LIMIT_SECRET` ist in Produktion
+  fail-closed; Proxy-Header werden nur mit `TRUST_PROXY=true` ausgewertet.
+- Persistenz: SQLite-Schema um Rate-Limit-Ereignisse ergänzt; PostgreSQL-
+  Migrationen `0007_action_rate_limits.sql` und
+  `0008_pending_challenge_default.sql` samt unveränderlichen Prüfsummen ergänzt.
+- HTTP-Sicherheit: globale CSP, HSTS nur in Produktion, Clickjacking-, MIME-,
+  Referrer-, Permissions- und Cross-Origin-Header, kein `X-Powered-By` sowie ein
+  Server-Action-Bodylimit von 128 KB eingerichtet. Produktions-Smoke lieferte
+  die erwarteten Header ohne Framework-Fingerabdruck.
+- UGC/SEO: neue Community-Challenges werden als `pending` gespeichert, bleiben
+  bis zur manuellen Freigabe aus öffentlichem Read-Modell, API und Sitemap und
+  zeigen dem Ersteller einen neutralen Moderationsstatus. Unbekannte und pending
+  Slugs liefern jetzt `notFound()`/HTTP 404 und eine deutsche markengerechte
+  404-Seite; `/challenges/neu` ist `noindex`.
+- Verifikation: unabhängiger Dependency-Review `passed: true`; `npm audit
+  --omit=dev` 0 Funde; 125/125 Unit-/Infrastrukturtests, ESLint und Next.js-
+  Produktionsbuild erfolgreich; 21/21 Playwright-E2E erfolgreich; normale
+  SQLite-Datenbank und Root-`tsconfig.json` nach E2E unverändert; `git diff
+  --check` ohne Fehler.
+- Restrisiken: Die CSP benötigt wegen der aktuellen statischen Next.js-
+  Auslieferung weiterhin `unsafe-inline`; `unsafe-eval` ist ausschließlich im
+  Entwicklungsmodus aktiv. Produktive Secrets/Proxy-Konfiguration, externe
+  Mailzustellung und Deployment bleiben ungeprüft und benötigen Freigabe.
+- Nächster Schritt: Phase B mit gemeinsamen barrierefreien Dialog-/
+  Menüprimitiven und vollständigen Fokus-/Tastatur-E2E-Nachweisen beginnen.
+- Kein Deployment, Commit oder Push.
+
+## 2026-07-28 – Barrierefreiheitsbasis und automatisierte WCAG-Prüfung
+
+- Ziel: Phase B mit belastbarer Tastatur-, Fokus-, Kontrast- und Reduced-Motion-
+  Basis beginnen, statt Barrierefreiheit nur visuell anzunehmen.
+- Änderungen: Wiederverwendbaren Dialog-Fokus-Hook mit initialem Fokus,
+  Tab-Fokusfalle, Escape, Fokus-Rückgabe und Body-Scroll-Lock eingeführt und im
+  Login- sowie Filterdialog genutzt. Das Profilmenü schließt per Escape und gibt
+  den Fokus an seinen Auslöser zurück. Auth-Fehler werden als `role="alert"`
+  angekündigt.
+- Navigation: globalen sichtbaren Skip-Link bei Fokus, konsistente
+  `#main-content`-Ziele und `aria-current="page"` für den aktiven
+  Challenge-Bereich ergänzt. `prefers-reduced-motion` deaktiviert sanftes
+  Scrollen und verkürzt Animationen/Transitionen.
+- Kontrast: zentrale Brand-, Orange-, Beginner-, Advanced- und User-Farbtokens
+  auf WCAG-AA-taugliche Kontraste abgedunkelt.
+- Testautomation: `@axe-core/playwright@4.12.1` exakt als Dev-Dependency ergänzt;
+  Startseite, Challenge-Katalog und zentrale Challenge-Detailseite werden gegen
+  WCAG 2 A/AA und 2.1 A/AA auf schwere/kritische Verstöße geprüft.
+- Verifikation: 125/125 Unit-/Infrastrukturtests, ESLint und Produktionsbuild
+  erfolgreich; vollständiger Playwright-Lauf 29/29 einschließlich 3/3
+  Axe-Seiten sowie Fokus-, Scroll-Lock- und Alert-Nachweisen grün;
+  Produktions-Audit weiterhin 0 Funde. E2E-Isolation ließ
+  normale SQLite-Datenbank und Root-`tsconfig.json` unverändert.
+- Restrisiken: Axe deckt nur automatisierbare Regeln ab. Manuelle NVDA-, Zoom-
+  und Reflow-Prüfungen sowie vollständige Mobile-Menü-Navigation bleiben offen.
+- Nächster Schritt: Startseite als klare deutschsprachige Social-
+  Accountability-Landingpage entlang des echten Einladungs-/Challenge-Loops
+  überarbeiten; keine erfundenen Nutzerzahlen oder Testimonials verwenden.
+- Kein Deployment, Commit oder Push.
+
+## 2026-07-28 – Security-Review geschlossen, Aktivierung und Katalog kuratiert
+
+- Ziel: Die unabhängige Phase-A3-Nachprüfung auf den aktuellen Codebestand
+  übertragen, echte Blocker schließen und anschließend die ersten
+  Aktivierungs-/Katalog-Slices aus Phase B verifizieren.
+- Review: Der gemeldete Reset-KDF-vor-Tokencheck war im aktuellen Stand bereits
+  behoben und durch den bestehenden KDF-Aufrufnachweis abgedeckt. Die übrigen
+  Blocker wurden reproduziert und testgetrieben geschlossen.
+- Rate-Limits: globale 24-Stunden-Bereinigung abgelaufener Ereignisse ergänzt,
+  ohne aktive längere Fenster zu löschen. SQLite erhält einen `created_at`-
+  Index; PostgreSQL erhält die unveränderliche Migration
+  `0009_rate_limit_pruning_index.sql` samt verifizierter SHA-256-Prüfsumme.
+- Proxy/IP: Produktion verweigert IP-Limits ohne `TRUST_PROXY=true`; bei
+  aktiviertem Proxy-Vertrauen wird ausschließlich die zuletzt vom direkten
+  Proxy ergänzte, syntaktisch gültige IP verwendet. Ungültige Proxy-Header
+  erzeugen keinen gemeinsam sperrbaren `unknown`-Bucket mehr.
+- Eingaben: Rohgrößen greifen nun vor Unicode-Normalisierung, Listenaufteilung
+  und Token-HMAC. Login-Identifier verwenden für den Rate-Limit-Bucket dieselbe
+  E-Mail-/Unicode-Benutzernamen-Kanonisierung wie der Account-Lookup.
+- Aktivierung: Startseite vollständig deutsch und auf den echten Loop
+  Challenge wählen, Freund einladen und gemeinsam einchecken ausgerichtet;
+  reale Produktvorschau, drei Start-Challenges, Trust-Bereich und klare CTAs
+  ohne erfundene Kennzahlen ergänzt.
+- Katalog: Ergebnisanzahl mit Live-Region, zwölf initiale Challenge-Karten,
+  schrittweises Nachladen und Pagination-Reset bei Suche, Filter und Sortierung.
+- Verifikation: 133/133 Unit-/Infrastrukturtests, ESLint, Produktionsbuild und
+  32/32 Playwright-E2E einschließlich Axe erfolgreich; Produktions-Audit 0
+  Funde, `git diff --check` ohne Fehler. E2E-Isolation ließ normale SQLite-DB
+  und Root-`tsconfig.json` unverändert.
+- Restrisiken: `TRUST_PROXY=true` darf produktiv nur gesetzt werden, wenn der
+  App-Port nicht öffentlich erreichbar ist und Caddy Forwarding-Header ersetzt;
+  dies muss vor einem Deployment anhand der Serverkonfiguration geprüft werden.
+  Migration `0009` ist beim nächsten freigegebenen Deployment einzuspielen.
+- Nächster Schritt: manuellen NVDA-/Zoom-/Reflow-Nachweis durchführen und danach
+  Produktloop-/Retention-Slices der Roadmap fortsetzen.
+- Kein Deployment, Commit oder Push.
+
+## 2026-07-28 – Fokusindikator nach unabhängiger A11y-Nachprüfung gehärtet
+
+- Befund: Der bisherige globale Fokus-Box-Shadow war mit rund 1,4:1 auf hellen
+  Flächen zu kontrastarm und ersetzte zugleich den Browser-Outline.
+- Änderung: Globalen zweifarbigen Fokusindikator eingeführt: drei Pixel opakes
+  Brand-Teal mit zwei Pixel Abstand plus äußerer weißer Fünf-Pixel-Ring. Damit
+  bleibt der Indikator sowohl auf hellen als auch dunklen Komponenten sichtbar.
+- Kontrastnachweis: Teal `#00607d` erreicht 7,07:1 auf Weiß, 6,49:1 auf dem
+  Seitenhintergrund und 6,10:1 auf gedecktem Weiß; der ergänzende weiße Ring
+  erreicht auf den dunklen Challenge-Flächen mindestens 5,88:1.
+- Regressionstest: Playwright prüft am fokussierten Skip-Link Outline-Farbe,
+  -Stärke, -Abstand und den äußeren Ring; RED mit dem alten transparenten Ring,
+  anschließend fokussiert 1/1 grün.
+- Kein Deployment, Commit oder Push.
+
+## 2026-08-09 – Launch-Checkpoint geprüft und 400-Prozent-Reflow gehärtet
+
+- Ziel: Den seit dem letzten Checkpoint angesammelten Launch-Sicherheits-,
+  Aktivierungs- und A11y-Stand erneut prüfen, sauber sichern und den offenen
+  Reflow-Nachweis konkretisieren.
+- Dependency-Nachprüfung: Ein inzwischen neu gemeldeter High-Severity-Befund
+  für das transitive `nanoid@3.3.16` wurde über die zulässige Lockfile-Auflösung
+  auf `nanoid@3.3.18` geschlossen; Produktions-Audit danach wieder ohne Funde.
+- UI-Regelprüfung: Aktuelle Web Interface Guidelines gegen die bearbeiteten
+  Komponenten geprüft; Ladezustände verwenden nun `…`, und Login-/E-Mail-Felder
+  deaktivieren unpassende Rechtschreibprüfung.
+- Reflow: Startseite bei effektiven 200 und 400 Prozent sowie Katalog und zentrale
+  Challenge-Detailseite bei effektiv 400 Prozent im echten Chromium geprüft und
+  als lokale, ignorierte Screenshots dokumentiert. Kein horizontaler
+  Seitenüberlauf auf 640 beziehungsweise 320 CSS-Pixeln.
+- Befunde und Fix: Der gemeinsame Zwei-Zeilen-Clamp schnitt die Info-Überschrift
+  der Detailseite ab; feste mobile Rankingbreiten ließen `Teilnehmer` und
+  `Streak` optisch kollidieren. Beide Ursachen testgetrieben geschlossen und mit
+  zwei neuen 320-Pixel-E2E-Regressionstests abgesichert.
+- Verifikation: 133/133 Unit-/Infrastrukturtests, ESLint, Produktionsbuild und
+  35/35 Playwright-E2E-Tests einschließlich Axe und Reflow erfolgreich;
+  `npm audit --omit=dev` ohne Funde.
+- Offenes Risiko: Ein echter Tastaturdurchlauf mit Browserzoom 200/400 Prozent
+  sowie der NVDA-Screenreader-Test benötigen weiterhin eine interaktive
+  Windows-Desktop-Sitzung. Keine Produktions-, DNS-, Caddy- oder
+  Serveränderungen vorgenommen.
+- Nächster Schritt: Manuellen NVDA-/Browserzoom-Test abschließen; danach Roadmap-
+  Task 11 zur fachlichen und visuellen Neuordnung der Challenge-Detailseite als
+  eigenen kleinen Slice fortsetzen.

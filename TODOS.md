@@ -1,9 +1,23 @@
 # ChallengeHub.de Todos
 
-Stand: 2026-07-25
+Stand: 2026-08-09
 
 ## Active
 
+- [ ] ChallengeHub anhand der 10/10-Roadmap in `.hermes/plans/2026-07-27_212856-challengehub-10-von-10-roadmap.md` von Launch-Sicherheit über Produktloop und Barrierefreiheit bis zu belastbarer Nutzer- und Kundenvalidierung entwickeln.
+  - [x] Playwright vollständig auf atomar erzeugte, Junction-sicher geprüfte
+    Laufpfade für Datenbank, Next-Build, TypeScript-Config und Testergebnisse
+    umstellen; eigenen Server erzwingen, Portkollisionen wiederholen und
+    SQLite-E2E-Läufe innerhalb eines Laufs deterministisch serialisieren.
+  - [x] Next.js und `eslint-config-next` auf eine aktuell gepatchte kompatible Version aktualisieren und Audit, Tests, Build sowie E2E erneut verifizieren.
+  - [x] Auth-/UGC-Rate-Limits, zentrale Eingabegrenzen, Security-Header, UGC-Moderation und echte 404-Semantik als weitere Launch-Sicherheits-Slices umsetzen.
+  - [x] Unabhängige Security-Review-Befunde zu Reset-KDF-Reihenfolge, globalem Rate-Limit-Pruning, Proxy-Vertrauen, Rohgrößen und Login-Kanonisierung schließen.
+  - [x] Gemeinsame barrierefreie Dialogbasis samt Fokusfalle, Escape, Fokus-Rückgabe, Scroll-Lock, Profilmenü-Escape, Skip-Link, `aria-current`, Reduced Motion und automatisiertem WCAG-AA-Scan umsetzen.
+  - [ ] Manuellen Screenreader-/Zoom-/Reflow-Test mit NVDA sowie Browserzoom 200/400 Prozent durchführen und Befunde dokumentieren.
+    - [x] Reflow bei effektiven 200/400-Prozent-Breiten auf Startseite, Katalog und zentraler Detailseite automatisiert sowie visuell prüfen; abgeschnittene Info-Überschrift und überlappende Rankingköpfe beheben.
+    - [ ] Tastaturdurchlauf mit echtem Browserzoom 200/400 Prozent und NVDA-Screenreader-Test auf einem interaktiven Windows-Desktop durchführen.
+  - [x] Startseite als klare deutschsprachige Social-Accountability-Landingpage mit konkretem Freund-/Challenge-Loop überarbeiten.
+  - [x] Challenge-Katalog mit Ergebnisanzahl, zwölf initialen Karten und schrittweisem Nachladen langer Listen kuratieren.
 - [ ] ChallengeHub in kontinuierlichen, kleinen und verifizierten Arbeitsschleifen weiterentwickeln; pro Schleife Kontext/Todos pruefen, genau einen priorisierten Slice umsetzen, Lint/Build/Tests ausfuehren und Ergebnis sowie naechsten Schritt dokumentieren.
 - [ ] SEO als feste Architektur- und Abnahmeanforderung fuer alle Web-Slices sichern: serverseitig crawlbare Inhalte, stabile sprechende URLs, eindeutige Metadata/Canonical, strukturierte Daten, Sitemap/robots, interne Verlinkung, Core-Web-Vitals-orientierte Performance und keine Abhaengigkeit von der spaeteren Mobile-App fuer indexierbare Inhalte.
   - [x] Kuratierte und veröffentlichte Community-Challenge-Detailseiten um kanonische `BreadcrumbList`-Strukturdaten für Startseite, Katalog und Detailseite ergänzen.
@@ -95,8 +109,9 @@ Stand: 2026-07-25
   außerhalb der Top 20 die eigene Position mit direkten Nachbarn anzeigen.
 - [ ] Resend-Zugang und Absenderadresse für den produktiven Versand der
   Passwort-Reset-E-Mails konfigurieren und mit einer echten Zustellung prüfen.
-- [ ] `PASSWORD_RESET_RATE_LIMIT_SECRET` im Zielbetrieb als dauerhaftes Secret
-  konfigurieren, damit HMAC-Identifier und Limits Neustarts stabil überstehen.
+- [ ] `RATE_LIMIT_SECRET` und `TRUST_PROXY=true` im Zielbetrieb sicher konfigurieren,
+  damit HMAC-Identifier, persistente Limits und die Client-IP-Auswertung Neustarts
+  sowie den Caddy-Reverse-Proxy korrekt überstehen.
 
 ## Later
 
