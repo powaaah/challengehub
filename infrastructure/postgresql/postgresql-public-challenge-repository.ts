@@ -3,6 +3,7 @@ import type {
   PublicChallenge,
   PublicChallengeRepository
 } from "../../domain/challenges/public-challenge.ts";
+import { parseChallengeDefinition } from "../../domain/challenges/challenge-definition.ts";
 
 export interface PostgresQueryClient {
   query(text: string, values?: unknown[]): Promise<{ rows: unknown[] }>;
@@ -22,6 +23,12 @@ type PostgresPublicChallengeRow = {
   tips_json: unknown;
   created_at: Date | string;
   creator_name: string;
+  challenge_type: string;
+  metric_unit: string;
+  target_value: number;
+  frequency: string;
+  measurement_direction: string;
+  completion_criterion: string;
 };
 
 const publishedChallengeSelect = `
@@ -37,6 +44,12 @@ const publishedChallengeSelect = `
     challenges.description,
     challenges.rules_json,
     challenges.tips_json,
+    challenges.challenge_type,
+    challenges.metric_unit,
+    challenges.target_value,
+    challenges.frequency,
+    challenges.measurement_direction,
+    challenges.completion_criterion,
     challenges.created_at,
     users.name AS creator_name
   FROM challenges
@@ -71,6 +84,18 @@ export class PostgresqlPublicChallengeRepository implements PublicChallengeRepos
 }
 
 function mapPublicChallengeRow(challenge: PostgresPublicChallengeRow): PublicChallenge {
+  const definition = parseChallengeDefinition({
+    type: challenge.challenge_type,
+    unit: challenge.metric_unit,
+    targetValue: challenge.target_value,
+    frequency: challenge.frequency,
+    direction: challenge.measurement_direction,
+    completionCriterion: challenge.completion_criterion
+  });
+  if (!definition) {
+    throw new Error(`Invalid challenge definition for ${challenge.slug}.`);
+  }
+
   return {
     id: challenge.id,
     creatorId: challenge.creator_id,
@@ -87,7 +112,8 @@ function mapPublicChallengeRow(challenge: PostgresPublicChallengeRow): PublicCha
       challenge.created_at instanceof Date
         ? challenge.created_at.toISOString()
         : challenge.created_at,
-    creatorName: challenge.creator_name
+    creatorName: challenge.creator_name,
+    definition
   };
 }
 

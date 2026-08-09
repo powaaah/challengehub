@@ -12,16 +12,22 @@ function createRepository() {
       title TEXT NOT NULL, level TEXT NOT NULL, category TEXT NOT NULL,
       duration_days INTEGER NOT NULL, goal TEXT NOT NULL, description TEXT NOT NULL,
       rules_json TEXT NOT NULL, tips_json TEXT NOT NULL, visibility TEXT NOT NULL,
-      status TEXT NOT NULL, created_at TEXT NOT NULL
+      status TEXT NOT NULL, created_at TEXT NOT NULL,
+      challenge_type TEXT NOT NULL, metric_unit TEXT NOT NULL, target_value REAL NOT NULL,
+      frequency TEXT NOT NULL, measurement_direction TEXT NOT NULL,
+      completion_criterion TEXT NOT NULL
     );
     INSERT INTO users VALUES ('u1', 'Ada');
     INSERT INTO challenges VALUES
       ('c1', 'u1', 'sichtbar', 'Sichtbar', 'Beginner', 'Fitness', 30, 'Ziel', 'Text',
-       '["Regel"]', '["Tipp"]', 'public', 'published', '2026-07-12T12:00:00.000Z'),
+       '["Regel"]', '["Tipp"]', 'public', 'published', '2026-07-12T12:00:00.000Z',
+       'cumulative_metric', 'repetitions', 1000, 'challenge_period', 'at_least', 'cumulative_target'),
       ('c2', 'u1', 'entwurf', 'Entwurf', 'User', 'Fitness', 7, 'Ziel', 'Text',
-       '[]', '[]', 'public', 'draft', '2026-07-12T13:00:00.000Z'),
+       '[]', '[]', 'public', 'draft', '2026-07-12T13:00:00.000Z',
+       'daily_boolean', 'completion', 1, 'daily', 'at_least', 'daily_check_in'),
       ('c3', 'u1', 'privat', 'Privat', 'User', 'Fitness', 7, 'Ziel', 'Text',
-       '[]', '[]', 'private', 'published', '2026-07-12T14:00:00.000Z');
+       '[]', '[]', 'private', 'published', '2026-07-12T14:00:00.000Z',
+       'daily_boolean', 'completion', 1, 'daily', 'at_least', 'daily_check_in');
   `);
   return { db, repository: new SqlitePublicChallengeRepository(db) };
 }
@@ -43,5 +49,13 @@ test("SQLite-Adapter bildet öffentliche Challenge-Daten in das Domainmodell ab"
   assert.equal(challenge.creatorName, "Ada");
   assert.deepEqual(challenge.rules, ["Regel"]);
   assert.deepEqual(challenge.tips, ["Tipp"]);
+  assert.deepEqual(challenge.definition, {
+    type: "cumulative_metric",
+    unit: "repetitions",
+    targetValue: 1000,
+    frequency: "challenge_period",
+    direction: "at_least",
+    completionCriterion: "cumulative_target"
+  });
   db.close();
 });

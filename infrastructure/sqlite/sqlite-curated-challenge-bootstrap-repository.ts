@@ -38,9 +38,11 @@ export class SqliteCuratedChallengeBootstrapRepository
       .prepare(`
         INSERT OR IGNORE INTO challenges (
           id, creator_id, slug, title, level, category, duration_days, goal, description,
-          rules_json, tips_json, visibility, status, created_at, updated_at
+          rules_json, tips_json, visibility, status, created_at, updated_at,
+          challenge_type, metric_unit, target_value, frequency, measurement_direction,
+          completion_criterion
         )
-        VALUES (?, ?, ?, ?, ?, 'Kuratierte Challenge', 0, ?, ?, ?, ?, 'internal', 'published', ?, ?)
+        VALUES (?, ?, ?, ?, ?, 'Kuratierte Challenge', 0, ?, ?, ?, ?, 'internal', 'published', ?, ?, ?, ?, ?, ?, ?, ?)
       `)
       .run(
         input.id,
@@ -53,7 +55,13 @@ export class SqliteCuratedChallengeBootstrapRepository
         JSON.stringify(input.rules),
         JSON.stringify(input.tips),
         now,
-        now
+        now,
+        input.definition.type,
+        input.definition.unit,
+        input.definition.targetValue,
+        input.definition.frequency,
+        input.definition.direction,
+        input.definition.completionCriterion
       );
 
     const challengeId = this.findChallengeId(input.slug);

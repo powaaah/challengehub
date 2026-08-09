@@ -1,6 +1,7 @@
 "use server";
 
 import { type ChallengeLevel } from "@/data/challenges";
+import { createChallengeDefinition } from "@/domain/challenges/challenge-definition";
 import { isRawChallengeInputWithinLimits, validateChallengeInput } from "@/domain/security/input-limits";
 import { requireCurrentUser } from "@/lib/auth";
 import { submitChallengeForReview } from "@/lib/challenge-creation";
@@ -46,6 +47,16 @@ export async function createChallengeAction(
   const description = rawInput.description.trim();
   const rules = parseLines(rawInput.rules);
   const tips = parseLines(rawInput.tips);
+  const challengeType = String(formData.get("challengeType") ?? "daily_boolean");
+  const metricUnit = String(formData.get("metricUnit") ?? "completion");
+  const targetValue = Number(formData.get("targetValue"));
+  const direction = String(formData.get("direction") ?? "at_least");
+  const definition = createChallengeDefinition({
+    type: challengeType,
+    unit: metricUnit,
+    targetValue,
+    direction
+  });
 
   if (!title || !category || !goal || !description || rules.length === 0) {
     return {
@@ -68,6 +79,13 @@ export async function createChallengeAction(
     };
   }
 
+  if (!definition) {
+    return {
+      error: "Bitte wähle einen gültigen Challenge-Typ mit Einheit und positivem Zielwert.",
+      ...idleState
+    };
+  }
+
   if (!allowRateLimitedAction([
     { policy: RATE_LIMIT_POLICIES.challengeCreate, identifier: user.id }
   ])) {
@@ -86,7 +104,8 @@ export async function createChallengeAction(
     goal,
     description,
     rules,
-    tips
+    tips,
+    definition
   });
 
   if (result.status === "potential_duplicate") {

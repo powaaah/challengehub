@@ -6,6 +6,7 @@ import {
   rankChallengeParticipants,
   selectChallengeRankingWindow
 } from "../lib/challenge-progress.ts";
+import { DAILY_BOOLEAN_DEFINITION } from "../domain/challenges/challenge-definition.ts";
 
 test("berechnet erfüllte und verpasste Tage inklusive Starttag", () => {
   const progress = calculateChallengeProgress({
@@ -56,13 +57,54 @@ test("ignoriert doppelte und zukünftige Check-ins", () => {
 
 test("sortiert nach aktueller Serie, Quote, erfüllten Tagen und Startdatum", () => {
   const ranked = rankChallengeParticipants([
-    { id: "b", name: "B", startedAt: "2026-07-01T00:00:00.000Z", checkInDates: ["2026-07-11"] },
-    { id: "a", name: "A", startedAt: "2026-07-10T00:00:00.000Z", checkInDates: ["2026-07-10", "2026-07-11", "2026-07-12"] },
-    { id: "c", name: "C", startedAt: "2026-07-09T00:00:00.000Z", checkInDates: ["2026-07-10", "2026-07-11", "2026-07-12"] }
+    { id: "b", name: "B", startedAt: "2026-07-01T00:00:00.000Z", checkIns: [{ date: "2026-07-11", value: null }], definition: DAILY_BOOLEAN_DEFINITION },
+    { id: "a", name: "A", startedAt: "2026-07-10T00:00:00.000Z", checkIns: ["2026-07-10", "2026-07-11", "2026-07-12"].map((date) => ({ date, value: null })), definition: DAILY_BOOLEAN_DEFINITION },
+    { id: "c", name: "C", startedAt: "2026-07-09T00:00:00.000Z", checkIns: ["2026-07-10", "2026-07-11", "2026-07-12"].map((date) => ({ date, value: null })), definition: DAILY_BOOLEAN_DEFINITION }
   ], "2026-07-12");
 
   assert.deepEqual(ranked.map((entry) => entry.id), ["a", "c", "b"]);
   assert.deepEqual(ranked.map((entry) => entry.rank), [1, 2, 3]);
+  assert.equal(ranked[0].scoreLabel, "3 Tage");
+});
+
+test("sortiert kumulative Rankings nach fachlich aufsummierten Messwerten", () => {
+  const definition = {
+    type: "cumulative_metric" as const,
+    unit: "repetitions" as const,
+    targetValue: 1000,
+    frequency: "challenge_period" as const,
+    direction: "at_least" as const,
+    completionCriterion: "cumulative_target" as const
+  };
+  const ranked = rankChallengeParticipants([
+    { id: "a", name: "A", startedAt: "2026-07-01", definition, checkIns: [{ date: "2026-07-11", value: 300 }] },
+    { id: "b", name: "B", startedAt: "2026-07-02", definition, checkIns: [{ date: "2026-07-11", value: 200 }, { date: "2026-07-12", value: 250 }] }
+  ], "2026-07-12");
+
+  assert.deepEqual(ranked.map((entry) => entry.id), ["b", "a"]);
+  assert.equal(ranked[0].scoreLabel, "450 von 1.000 Wiederholungen");
+  assert.equal(ranked[0].completionRate, 45);
+});
+
+test("sortiert einmalige Ergebnisse gemäß Messrichtung und nie typübergreifend", () => {
+  const definition = {
+    type: "one_time_result" as const,
+    unit: "seconds" as const,
+    targetValue: 1200,
+    frequency: "once" as const,
+    direction: "at_most" as const,
+    completionCriterion: "single_result" as const
+  };
+  const ranked = rankChallengeParticipants([
+    { id: "a", name: "A", startedAt: "2026-07-01", definition, checkIns: [{ date: "2026-07-11", value: 1250 }] },
+    { id: "b", name: "B", startedAt: "2026-07-02", definition, checkIns: [{ date: "2026-07-12", value: 1190 }] }
+  ], "2026-07-12");
+
+  assert.deepEqual(ranked.map((entry) => entry.id), ["b", "a"]);
+  assert.throws(() => rankChallengeParticipants([
+    ...ranked.slice(0, 1),
+    { id: "daily", name: "C", startedAt: "2026-07-03", definition: DAILY_BOOLEAN_DEFINITION, checkIns: [] }
+  ], "2026-07-12"), /verschiedener Typen/);
 });
 
 test("zeigt die Top 20 und bei einer niedrigeren eigenen Position die direkten Nachbarn", () => {

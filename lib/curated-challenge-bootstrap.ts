@@ -21,6 +21,7 @@ export function ensureParticipationChallengeRow(slug: string) {
     goal: challenge.goal,
     description: challenge.description,
     rules: challenge.rules,
-    tips: challenge.tips
+    tips: challenge.tips,
+    definition: challenge.definition
   });
 }

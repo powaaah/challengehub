@@ -23,7 +23,13 @@ function createRepository() {
       visibility TEXT NOT NULL,
       status TEXT NOT NULL,
       created_at TEXT NOT NULL,
-      updated_at TEXT NOT NULL
+      updated_at TEXT NOT NULL,
+      challenge_type TEXT NOT NULL,
+      metric_unit TEXT NOT NULL,
+      target_value REAL NOT NULL,
+      frequency TEXT NOT NULL,
+      measurement_direction TEXT NOT NULL,
+      completion_criterion TEXT NOT NULL
     );
     INSERT INTO users VALUES ('u1');
   `);
@@ -45,7 +51,15 @@ const input = {
   goal: "Jeden Morgen bewusst starten",
   description: "Eine einfache Morgenroutine fuer einen klaren Tagesbeginn.",
   rules: ["Direkt nach dem Aufstehen starten"],
-  tips: ["Am Vorabend vorbereiten"]
+  tips: ["Am Vorabend vorbereiten"],
+  definition: {
+    type: "cumulative_metric" as const,
+    unit: "repetitions" as const,
+    targetValue: 1000,
+    frequency: "challenge_period" as const,
+    direction: "at_least" as const,
+    completionCriterion: "cumulative_target" as const
+  }
 };
 
 test("Challenge-Write-Repository legt neue Community-Challenges moderationspflichtig an", () => {
@@ -65,6 +79,10 @@ test("Challenge-Write-Repository legt neue Community-Challenges moderationspflic
   assert.equal(row.created_at, "2026-07-14T12:00:00.000Z");
   assert.deepEqual(JSON.parse(String(row.rules_json)), input.rules);
   assert.deepEqual(JSON.parse(String(row.tips_json)), input.tips);
+  assert.equal(row.challenge_type, input.definition.type);
+  assert.equal(row.metric_unit, input.definition.unit);
+  assert.equal(row.target_value, input.definition.targetValue);
+  assert.equal(row.completion_criterion, input.definition.completionCriterion);
   db.close();
 });
 

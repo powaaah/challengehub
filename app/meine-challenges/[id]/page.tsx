@@ -7,9 +7,10 @@ import { ChallengeRankingTable } from "@/components/challenge-ranking-table";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getCurrentUser } from "@/lib/auth";
 import { buildChallengeHistory, calculateChallengeProgress } from "@/lib/challenge-progress";
+import { calculateChallengeOutcome, formatMetricValue } from "@/domain/challenges/challenge-outcome";
 import { getChallengeRankingBySlug } from "@/lib/challenge-participation-stats";
 import {
-  getCheckInDatesForParticipation,
+  getCheckInsForParticipation,
   getParticipationByIdForUser
 } from "@/lib/participations";
 import { checkInTodayAction, leaveChallengeAction } from "./actions";
@@ -51,10 +52,11 @@ export default async function ChallengeRoomPage({ params }: ChallengeRoomPagePro
 
   const isActive = participation.status === "active";
 
-  const checkInDates = getCheckInDatesForParticipation({
+  const checkIns = getCheckInsForParticipation({
     participationId: participation.id,
     userId: user.id
   });
+  const checkInDates = checkIns.map((checkIn) => checkIn.date);
   const today = getTodayKey();
   const progress = calculateChallengeProgress({
     startedAt: participation.startedAt,
@@ -66,6 +68,11 @@ export default async function ChallengeRoomPage({ params }: ChallengeRoomPagePro
     checkInDates,
     today
   });
+  const outcome = calculateChallengeOutcome({ definition: participation.definition, checkIns });
+  const isDailyChallenge = participation.definition.type === "daily_boolean";
+  const metricDefinition = participation.definition.type === "daily_boolean"
+    ? null
+    : participation.definition;
   const ranking = getChallengeRankingBySlug(participation.challengeSlug, today);
   const ownRanking = ranking.find((entry) => entry.id === participation.id);
 
@@ -82,11 +89,33 @@ export default async function ChallengeRoomPage({ params }: ChallengeRoomPagePro
               <p className={styles.kicker}>Challenge-Raum</p>
               <h1>{participation.challengeTitle}</h1>
               <p className={styles.goal}>{participation.challengeGoal}</p>
-              {isActive ? (
+              {isActive && isDailyChallenge ? (
                 <form action={checkInTodayAction}>
                   <input type="hidden" name="participationId" value={participation.id} />
                   <button className={styles.checkButton} type="submit" disabled={progress.hasCheckedInToday}>
                     {progress.hasCheckedInToday ? "Heute gespeichert" : "Challenge heute durchgeführt"}
+                  </button>
+                </form>
+              ) : isActive && metricDefinition ? (
+                <form action={checkInTodayAction}>
+                  <input type="hidden" name="participationId" value={participation.id} />
+                  <label>
+                    {metricDefinition.type === "cumulative_metric" ? "Wert hinzufügen" : "Ergebnis eintragen"}
+                    <input
+                      type="number"
+                      name="value"
+                      min="0.01"
+                      step="any"
+                      required
+                      disabled={progress.hasCheckedInToday}
+                    />
+                  </label>
+                  <p className={styles.note}>
+                    Ziel: {metricDefinition.direction === "at_most" ? "höchstens" : "mindestens"}{" "}
+                    {formatMetricValue(metricDefinition.targetValue, metricDefinition.unit)}
+                  </p>
+                  <button className={styles.checkButton} type="submit" disabled={progress.hasCheckedInToday}>
+                    {progress.hasCheckedInToday ? "Heute gespeichert" : "Messwert speichern"}
                   </button>
                 </form>
               ) : (
@@ -112,25 +141,28 @@ export default async function ChallengeRoomPage({ params }: ChallengeRoomPagePro
                     <dd>{formatIsoDate(participation.completedAt)}</dd>
                   </div>
                 ) : null}
-                <div>
-                  <dt>Erledigt</dt>
-                  <dd>{progress.fulfilledDays} Tage</dd>
-                </div>
-                <div>
-                  <dt>Verpasst</dt>
-                  <dd>{progress.missedDays} Tage</dd>
-                </div>
-                <div>
-                  <dt>Aktuelle Serie</dt>
-                  <dd>{progress.currentStreak} Tage</dd>
-                </div>
-                <div>
-                  <dt>Längste Serie</dt>
-                  <dd>{progress.longestStreak} Tage</dd>
-                </div>
+                {isDailyChallenge ? (
+                  <>
+                    <div><dt>Erledigt</dt><dd>{progress.fulfilledDays} Tage</dd></div>
+                    <div><dt>Verpasst</dt><dd>{progress.missedDays} Tage</dd></div>
+                    <div><dt>Aktuelle Serie</dt><dd>{progress.currentStreak} Tage</dd></div>
+                    <div><dt>Längste Serie</dt><dd>{progress.longestStreak} Tage</dd></div>
+                  </>
+                ) : (
+                  <>
+                    <div><dt>Messungen</dt><dd>{checkIns.length}</dd></div>
+                    <div><dt>Ergebnis</dt><dd>{outcome.label}</dd></div>
+                    <div><dt>Ziel erreicht</dt><dd>{outcome.completed ? "Ja" : "Noch nicht"}</dd></div>
+                  </>
+                )}
                 <div>
                   <dt>Quote</dt>
-                  <dd>{progress.completionRate}%</dd>
+                  <dd>
+                    {isDailyChallenge
+                      ? progress.completionRate
+                      : outcome.completionRate}
+                    %
+                  </dd>
                 </div>
                 <div>
                   <dt>Rang</dt>
@@ -140,9 +172,9 @@ export default async function ChallengeRoomPage({ params }: ChallengeRoomPagePro
             </aside>
           </div>
 
-          <ChallengeHistory days={history} />
+          {isDailyChallenge ? <ChallengeHistory days={history} /> : null}
 
-          {isActive ? (
+          {isActive && isDailyChallenge ? (
             <section className={styles.reminder} aria-labelledby="calendar-reminder">
               <div>
                 <p className={styles.kicker}>Erinnerung</p>

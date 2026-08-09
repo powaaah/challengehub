@@ -32,7 +32,13 @@ function createRepository() {
       visibility TEXT NOT NULL,
       status TEXT NOT NULL,
       created_at TEXT NOT NULL,
-      updated_at TEXT NOT NULL
+      updated_at TEXT NOT NULL,
+      challenge_type TEXT NOT NULL,
+      metric_unit TEXT NOT NULL,
+      target_value REAL NOT NULL,
+      frequency TEXT NOT NULL,
+      measurement_direction TEXT NOT NULL,
+      completion_criterion TEXT NOT NULL
     );
   `);
   const repository = new SqliteCuratedChallengeBootstrapRepository(
@@ -50,7 +56,15 @@ const challenge = {
   goal: "Gehe jeden Tag 10 000 Schritte.",
   description: "Eine einfache Dauer-Challenge.",
   rules: ["Taeglich 10 000 Schritte gehen."],
-  tips: ["Plane feste Gehzeiten ein."]
+  tips: ["Plane feste Gehzeiten ein."],
+  definition: {
+    type: "daily_boolean" as const,
+    unit: "completion" as const,
+    targetValue: 1 as const,
+    frequency: "daily" as const,
+    direction: "at_least" as const,
+    completionCriterion: "daily_check_in" as const
+  }
 };
 
 test("Bootstrap-Repository materialisiert Systemnutzer und kuratierte Challenge idempotent", () => {
@@ -73,7 +87,11 @@ test("Bootstrap-Repository materialisiert Systemnutzer und kuratierte Challenge 
       ...db
         .prepare(`
           SELECT id, creator_id as creatorId, slug, category, duration_days as durationDays,
-                 visibility, status, rules_json as rulesJson, tips_json as tipsJson
+                 visibility, status, rules_json as rulesJson, tips_json as tipsJson,
+                 challenge_type as challengeType, metric_unit as metricUnit,
+                 target_value as targetValue, frequency,
+                 measurement_direction as measurementDirection,
+                 completion_criterion as completionCriterion
           FROM challenges
         `)
         .get()
@@ -87,7 +105,13 @@ test("Bootstrap-Repository materialisiert Systemnutzer und kuratierte Challenge 
       visibility: "internal",
       status: "published",
       rulesJson: JSON.stringify(challenge.rules),
-      tipsJson: JSON.stringify(challenge.tips)
+      tipsJson: JSON.stringify(challenge.tips),
+      challengeType: challenge.definition.type,
+      metricUnit: challenge.definition.unit,
+      targetValue: challenge.definition.targetValue,
+      frequency: challenge.definition.frequency,
+      measurementDirection: challenge.definition.direction,
+      completionCriterion: challenge.definition.completionCriterion
     }
   );
   assert.equal(db.prepare("SELECT COUNT(*) AS count FROM users").get()?.count, 1);
@@ -102,7 +126,8 @@ test("Bootstrap-Repository respektiert eine bereits vorhandene Challenge mit gle
     INSERT INTO challenges VALUES (
       'existing', 'u1', '10000-schritte-am-tag', 'Bestehend', 'Beginner', 'Community', 30,
       'Ziel', 'Beschreibung', '[]', '[]', 'public', 'published',
-      '2026-01-01T00:00:00.000Z', '2026-01-01T00:00:00.000Z'
+      '2026-01-01T00:00:00.000Z', '2026-01-01T00:00:00.000Z',
+      'daily_boolean', 'completion', 1, 'daily', 'at_least', 'daily_check_in'
     );
   `);
 

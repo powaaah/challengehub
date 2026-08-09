@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ChallengeInvitationAcceptance } from "@/components/challenge-invitation-acceptance";
 import { ChallengeRankingTable } from "@/components/challenge-ranking-table";
+import { formatMetricValue } from "@/domain/challenges/challenge-outcome";
 import { ChallengeStart } from "@/components/challenge-start";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { DbChallengeDetail } from "@/components/db-challenge-detail";
@@ -209,6 +210,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
       buildChallengeBreadcrumbJsonLd(challenge.title, challenge.slug)
     ]
   };
+  const isDailyChallenge = challenge.definition.type === "daily_boolean";
 
   return (
     <>
@@ -267,10 +269,25 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
                 <dt>Niveau</dt>
                 <dd>{levelLabels[challenge.level]}</dd>
               </div>
+              <div>
+                <dt>Fortschritt</dt>
+                <dd>{formatChallengeType(challenge.definition.type)}</dd>
+              </div>
+              {challenge.definition.type !== "daily_boolean" ? (
+                <div>
+                  <dt>Messziel</dt>
+                  <dd>
+                    {challenge.definition.direction === "at_most" ? "Höchstens" : "Mindestens"}{" "}
+                    {formatMetricValue(challenge.definition.targetValue, challenge.definition.unit)}
+                  </dd>
+                </div>
+              ) : null}
             </dl>
           </div>
           <div className={styles.rulesPanel}>
-            <p className={styles.eyebrow}>So zählt der Tag</p>
+            <p className={styles.eyebrow}>
+              {isDailyChallenge ? "So zählt der Tag" : "So wird gemessen"}
+            </p>
             <h2>Regeln</h2>
             <ol>
               {challenge.rules.map((rule) => <li key={rule}>{rule}</li>)}
@@ -302,7 +319,11 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
               <p className={styles.eyebrow}>Ranking</p>
               <h2 id="challenge-ranking">Top 5</h2>
             </div>
-            <p>Wer hält am längsten durch?</p>
+            <p>
+              {isDailyChallenge
+                ? "Wer hält am längsten durch?"
+                : "Die besten gemessenen Ergebnisse."}
+            </p>
           </div>
           <ChallengeRankingTable
             entries={ranking}
@@ -327,7 +348,10 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
                   <p>
                     <strong>{entry.participantName}</strong> hat die Challenge am{" "}
                     <time dateTime={entry.checkInDate}>{formatActivityDate(entry.checkInDate)}</time>
-                    {" "}erfolgreich abgehakt.
+                    {entry.value !== null && challenge.definition.type !== "daily_boolean"
+                      ? ` · ${formatMetricValue(entry.value, challenge.definition.unit)}`
+                      : null}
+                    {isDailyChallenge ? " erfolgreich abgehakt." : " als Ergebnis eingetragen."}
                   </p>
                 </li>
               ))}
@@ -341,15 +365,30 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
           <div className={styles.textPanel}>
             <p className={styles.eyebrow}>Info</p>
             <h2 id="challenge-info">Mehr zur {challenge.title}</h2>
-            <p>
-              Auf dieser Seite geht es nicht um einen Trainingsplan, sondern um eine klare Aufgabe:
-              Du startest die Challenge, hältst dich an die Regeln und vergleichst deinen Streak
-              mit anderen Teilnehmern.
-            </p>
-            <p>
-              Für echte ChallengeMates zählt vor allem, wer bisher wie lange durchgehalten hat.
-              Genau diese Werte sollen mit echten Starts und Check-ins sichtbar werden.
-            </p>
+            {isDailyChallenge ? (
+              <>
+                <p>
+                  Auf dieser Seite geht es nicht um einen Trainingsplan, sondern um eine klare Aufgabe:
+                  Du startest die Challenge, hältst dich an die Regeln und vergleichst deinen Streak
+                  mit anderen Teilnehmern.
+                </p>
+                <p>
+                  Für echte ChallengeMates zählt vor allem, wer bisher wie lange durchgehalten hat.
+                  Genau diese Werte sollen mit echten Starts und Check-ins sichtbar werden.
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  Diese Challenge hat ein klar messbares Ziel. Jeder Check-in hält einen echten Wert
+                  fest und zeigt transparent, wie nah du dem Ziel bereits bist.
+                </p>
+                <p>
+                  Im Ranking werden ausschließlich Ergebnisse derselben Fortschrittsart und desselben
+                  Messziels miteinander verglichen.
+                </p>
+              </>
+            )}
           </div>
           <div className={styles.faqPanel}>
             <p className={styles.eyebrow}>Kurz beantwortet</p>
@@ -386,4 +425,10 @@ function formatActivityDate(date: string) {
     year: "numeric",
     timeZone: "Europe/Berlin"
   }).format(new Date(`${date}T12:00:00.000Z`));
+}
+
+function formatChallengeType(type: "daily_boolean" | "cumulative_metric" | "one_time_result") {
+  if (type === "daily_boolean") return "Täglicher Check-in";
+  if (type === "cumulative_metric") return "Messwert sammeln";
+  return "Einmaliges Ergebnis";
 }

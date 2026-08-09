@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import { levelLabels, type ChallengeLevel } from "@/data/challenges";
+import type { ChallengeType, MeasurementDirection, MetricUnit } from "@/domain/challenges/challenge-definition";
 import { INPUT_LIMITS } from "@/domain/security/input-limits";
 import type { CurrentUser } from "@/lib/auth";
 import type { CreateChallengeState } from "@/app/challenges/neu/actions";
@@ -13,6 +14,20 @@ import styles from "./challenge-create-app.module.css";
 const levelOptions: ChallengeLevel[] = ["User"];
 
 const categoryOptions = ["Fitness", "Ernährung", "Fokus", "Schlaf", "Produktivität", "Mindset", "Digital Detox"];
+const challengeTypeOptions: Array<{ value: ChallengeType; label: string }> = [
+  { value: "daily_boolean", label: "Täglich erledigt / nicht erledigt" },
+  { value: "cumulative_metric", label: "Messwert über die Laufzeit sammeln" },
+  { value: "one_time_result", label: "Ein einmaliges Ergebnis erreichen" }
+];
+const metricUnitOptions: Array<{ value: Exclude<MetricUnit, "completion">; label: string }> = [
+  { value: "repetitions", label: "Wiederholungen" },
+  { value: "steps", label: "Schritte" },
+  { value: "kilograms", label: "Kilogramm" },
+  { value: "kilocalories", label: "Kilokalorien" },
+  { value: "seconds", label: "Sekunden" },
+  { value: "minutes", label: "Minuten" },
+  { value: "kilometers", label: "Kilometer" }
+];
 
 const initialState = {
   error: "",
@@ -31,6 +46,10 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
   const [category, setCategory] = useState(categoryOptions[0]);
   const [level, setLevel] = useState<ChallengeLevel>("User");
   const [durationDays, setDurationDays] = useState(30);
+  const [challengeType, setChallengeType] = useState<ChallengeType>("daily_boolean");
+  const [metricUnit, setMetricUnit] = useState<Exclude<MetricUnit, "completion">>("repetitions");
+  const [targetValue, setTargetValue] = useState(100);
+  const [direction, setDirection] = useState<MeasurementDirection>("at_least");
   const [goal, setGoal] = useState("");
   const [description, setDescription] = useState("");
   const [rulesText, setRulesText] = useState("");
@@ -122,7 +141,7 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
               </select>
             </label>
             <label>
-              Challenge-Typ
+              Schwierigkeitsgrad
               <select name="level" value={level} onChange={(event) => setLevel(event.target.value as ChallengeLevel)}>
                 {levelOptions.map((option) => (
                   <option value={option} key={option}>
@@ -132,6 +151,64 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
               </select>
             </label>
           </div>
+          <label>
+            Fortschrittsart
+            <select
+              name="challengeType"
+              value={challengeType}
+              onChange={(event) => setChallengeType(event.target.value as ChallengeType)}
+            >
+              {challengeTypeOptions.map((option) => (
+                <option value={option.value} key={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </label>
+          {challengeType !== "daily_boolean" ? (
+            <div className={styles.split}>
+              <label>
+                Einheit
+                <select
+                  name="metricUnit"
+                  value={metricUnit}
+                  onChange={(event) => setMetricUnit(event.target.value as Exclude<MetricUnit, "completion">)}
+                >
+                  {metricUnitOptions.map((option) => (
+                    <option value={option.value} key={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Zielwert
+                <input
+                  type="number"
+                  name="targetValue"
+                  min="0.01"
+                  step="any"
+                  value={targetValue}
+                  onChange={(event) => setTargetValue(Number(event.target.value))}
+                />
+              </label>
+              {challengeType === "one_time_result" ? (
+                <label>
+                  Zielrichtung
+                  <select
+                    name="direction"
+                    value={direction}
+                    onChange={(event) => setDirection(event.target.value as MeasurementDirection)}
+                  >
+                    <option value="at_least">Mindestens</option>
+                    <option value="at_most">Höchstens</option>
+                  </select>
+                </label>
+              ) : <input type="hidden" name="direction" value="at_least" />}
+            </div>
+          ) : (
+            <>
+              <input type="hidden" name="metricUnit" value="completion" />
+              <input type="hidden" name="targetValue" value="1" />
+              <input type="hidden" name="direction" value="at_least" />
+            </>
+          )}
           <label>
             Dauer in Tagen
             <input
@@ -162,7 +239,7 @@ export function ChallengeCreateApp({ createChallenge, user }: ChallengeCreateApp
           <p>{description || "Beschreibe kurz, warum diese Challenge sinnvoll ist und was man jeden Tag tun soll."}</p>
           <div className={styles.previewMeta}>
             <span>{durationDays || 1} Tage</span>
-            <span>0 Teilnehmer</span>
+            <span>{challengeTypeOptions.find((option) => option.value === challengeType)?.label}</span>
           </div>
           <h3>Regeln</h3>
           <ol>

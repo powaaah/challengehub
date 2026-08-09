@@ -8,6 +8,7 @@ import type {
   ChallengeWriteRepository,
   CreatePendingChallengeResult
 } from "../domain/challenges/challenge-write-repository.ts";
+import type { ChallengeDefinition } from "../domain/challenges/challenge-definition.ts";
 import { SqliteChallengeWriteRepository } from "../infrastructure/sqlite/sqlite-challenge-write-repository.ts";
 import { getDb } from "./db.ts";
 import { createSlug } from "./slug.ts";
@@ -22,6 +23,7 @@ type CreateChallengeForUserInput = {
   description: string;
   rules: string[];
   tips: string[];
+  definition: ChallengeDefinition;
 };
 
 export type CreateChallengeForUserResult =

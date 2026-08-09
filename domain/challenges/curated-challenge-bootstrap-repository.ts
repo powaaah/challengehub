@@ -7,8 +7,10 @@ export type CuratedChallengeBootstrapInput = {
   description: string;
   rules: string[];
   tips: string[];
+  definition: ChallengeDefinition;
 };
 
 export interface CuratedChallengeBootstrapRepository {
   ensureChallenge(input: CuratedChallengeBootstrapInput): string;
 }
+import type { ChallengeDefinition } from "./challenge-definition.ts";

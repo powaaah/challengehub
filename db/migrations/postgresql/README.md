@@ -30,6 +30,10 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0003_align_c
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0004_unique_usernames.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0005_password_reset_tokens.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0006_password_reset_rate_limits.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0007_action_rate_limits.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0008_pending_challenge_default.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0009_rate_limit_pruning_index.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0010_challenge_types.sql
 ```
 
 Vor der Anwendung lassen sich die unveränderlichen Inhalte im
@@ -61,3 +65,14 @@ ihre case-insensitive Eindeutigkeit.
 `0005_password_reset_tokens.sql` ergänzt kurzlebige Passwort-Reset-Tokens. Es
 wird ausschließlich der eindeutige Token-Hash mit Ablauf-, Nutzungs- und
 Widerrufsstatus gespeichert.
+
+`0006_password_reset_rate_limits.sql` und `0007_action_rate_limits.sql`
+persistieren die Limits für sensible Passwort-Reset-, Auth- und UGC-Aktionen.
+`0008_pending_challenge_default.sql` richtet den Veröffentlichungsstandard für
+neue Community-Challenges aus; `0009_rate_limit_pruning_index.sql` ergänzt den
+Index für die globale Bereinigung abgelaufener Limit-Ereignisse.
+
+`0010_challenge_types.sql` ergänzt die typisierten Challenge-Definitionen sowie
+Messwerte an Check-ins. Bestehende kuratierte Challenges werden anhand stabiler
+Slugs deterministisch als kumulatives oder einmaliges Messziel klassifiziert;
+alle übrigen Bestandsdaten bleiben tägliche Ja/Nein-Challenges.

@@ -2338,3 +2338,36 @@
   sowie bestehende Sicherheitsseite und spätere Disclaimer-Abstimmung.
 - Nächster Schritt: Roadmap-Task 13 zu fachlich typisierten Challenge-Arten als
   eigenen Domain-/Migrations-Slice planen.
+
+## 2026-08-09 – Roadmap-Task 13 abgeschlossen
+
+- Ziel: `daily_boolean`, `cumulative_metric` und `one_time_result` als fachlich
+  vollständige Challenge-Typen statt einer impliziten Tageslogik abbilden.
+- Domain und Daten: Einheit, Zielwert, Frequenz, Messrichtung und
+  Abschlusskriterium als diskriminierte Union modelliert. Additive, idempotente
+  SQLite- und versionierte PostgreSQL-Migrationen typisieren Bestandsdaten über
+  stabile Slugs deterministisch; unbekannte Bestands-Challenges bleiben
+  tägliche Ja/Nein-Challenges.
+- Produktfluss: Challenge-Erstellung bietet Fortschrittsart, Einheit, Zielwert
+  und bei einmaligen Ergebnissen die Messrichtung. Detailseiten erklären das
+  Messziel typgerecht. Im privaten Raum erfassen Zahlen-Challenges positive
+  Messwerte, berechnen Zielquote und Ergebnis und schließen die Teilnahme beim
+  Erreichen automatisch ab.
+- Ranking und Verträge: Rankings sortieren Tages-Challenges nach Streak,
+  kumulative Challenges nach Summe und einmalige Ergebnisse richtungsabhängig
+  nach Bestwert. Gemischte Definitionen werden abgelehnt. Öffentliche API v1,
+  typisierter Client, SQLite- und PostgreSQL-Leseadapter liefern und validieren
+  dieselbe Definition.
+- UX-Review: Formular und Ergebnis-Detailseite in echtem Chromium auf Desktop
+  und bei 390 Pixeln geprüft. Kein horizontaler Überlauf; veraltete Streak- und
+  Tagesformulierungen auf Messwert-Challenges wurden typabhängig ersetzt.
+- Verifikation: 150/150 Unit-/Domain-/Repository-/Migrations-/Vertragstests,
+  ESLint, TypeScript und Produktionsbuild erfolgreich. Vollständiger
+  Playwright-Lauf 45/45 grün, einschließlich eines neuen E2E-Flows von
+  Erstellung über Mess-Check-in und automatischen Abschluss bis zu Ranking und
+  API. `git diff --check` war vor dem Commit ebenfalls ohne Befund.
+- Nicht geändert: produktive PostgreSQL-Umschaltung, Deployment, DNS, Caddy,
+  Authentifizierung sowie die ChallengeMate-Funktion.
+- Nächster Schritt: Roadmap-Task 14 als ChallengeMate-MVP mit Opt-in, passendem
+  Vorschlag, gegenseitiger Bestätigung, gemeinsamer Ansicht sowie Blockieren und
+  Melden planen.

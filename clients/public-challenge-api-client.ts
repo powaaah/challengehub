@@ -3,6 +3,7 @@ import type {
   PublicChallengeApiItem,
   PublicChallengeApiPage
 } from "../domain/challenges/public-challenge-api.ts";
+import { parseChallengeDefinition } from "../domain/challenges/challenge-definition.ts";
 
 const API_VERSION = "v1" as const;
 const MAX_PAGE_LIMIT = 100;
@@ -181,7 +182,8 @@ function isPublicChallengeApiItem(value: unknown): value is PublicChallengeApiIt
     isNonEmptyString(value.createdAt) &&
     isRecord(value.creator) &&
     isNonEmptyString(value.creator.name) &&
-    isNonEmptyString(value.url)
+    isNonEmptyString(value.url) &&
+    parseChallengeDefinition(value.definition) !== null
   );
 }
 

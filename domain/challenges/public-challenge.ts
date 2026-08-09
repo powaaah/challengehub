@@ -1,4 +1,5 @@
 import type { ChallengeLevel } from "../../data/challenges.ts";
+import type { ChallengeDefinition } from "./challenge-definition.ts";
 
 export type PublicChallenge = {
   id: string;
@@ -14,6 +15,7 @@ export type PublicChallenge = {
   tips: string[];
   createdAt: string;
   creatorName: string;
+  definition: ChallengeDefinition;
 };
 
 export interface PublicChallengeRepository {

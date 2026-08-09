@@ -42,9 +42,11 @@ export class SqliteChallengeWriteRepository implements ChallengeWriteRepository 
       .prepare(`
         INSERT OR IGNORE INTO challenges (
           id, creator_id, slug, title, level, category, duration_days, goal, description,
-          rules_json, tips_json, visibility, status, created_at, updated_at
+          rules_json, tips_json, visibility, status, created_at, updated_at,
+          challenge_type, metric_unit, target_value, frequency, measurement_direction,
+          completion_criterion
         )
-        SELECT ?, users.id, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'public', 'pending', ?, ?
+        SELECT ?, users.id, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'public', 'pending', ?, ?, ?, ?, ?, ?, ?, ?
         FROM users
         WHERE users.id = ?
       `)
@@ -61,6 +63,12 @@ export class SqliteChallengeWriteRepository implements ChallengeWriteRepository 
         JSON.stringify(input.tips),
         now,
         now,
+        input.definition.type,
+        input.definition.unit,
+        input.definition.targetValue,
+        input.definition.frequency,
+        input.definition.direction,
+        input.definition.completionCriterion,
         input.creatorId
       );
 

@@ -1,4 +1,5 @@
 import type { ChallengeRankingCandidate } from "../domain/participations/challenge-participation-stats.ts";
+import { calculateChallengeOutcome } from "../domain/challenges/challenge-outcome.ts";
 
 const millisecondsPerDay = 86_400_000;
 
@@ -20,6 +21,8 @@ export type ChallengeHistoryDay = {
 
 export type ChallengeRankingEntry = ChallengeRankingCandidate & ChallengeProgress & {
   rank: number;
+  scoreValue: number;
+  scoreLabel: string;
 };
 
 export function buildChallengeHistory(input: {
@@ -77,22 +80,65 @@ export function rankChallengeParticipants(
   candidates: ChallengeRankingCandidate[],
   today: string
 ): ChallengeRankingEntry[] {
+  assertCompatibleRankingDefinitions(candidates);
   return candidates
-    .map((candidate) => ({
-      ...candidate,
-      ...calculateChallengeProgress({
+    .map((candidate) => {
+      const progress = calculateChallengeProgress({
         startedAt: candidate.startedAt,
-        checkInDates: candidate.checkInDates,
+        checkInDates: candidate.checkIns.map((checkIn) => checkIn.date),
         today
-      })
-    }))
-    .sort((left, right) =>
-      right.currentStreak - left.currentStreak ||
+      });
+      const outcome = calculateChallengeOutcome({
+        definition: candidate.definition,
+        checkIns: candidate.checkIns
+      });
+      const isDaily = candidate.definition.type === "daily_boolean";
+      return {
+        ...candidate,
+        ...progress,
+        completionRate: isDaily ? progress.completionRate : outcome.completionRate,
+        scoreValue: isDaily ? progress.currentStreak : outcome.value,
+        scoreLabel: isDaily
+          ? `${progress.currentStreak} ${progress.currentStreak === 1 ? "Tag" : "Tage"}`
+          : outcome.label
+      };
+    })
+    .sort(compareRankingEntries)
+    .map((entry, index) => ({ ...entry, rank: index + 1 }));
+}
+
+function compareRankingEntries(
+  left: Omit<ChallengeRankingEntry, "rank">,
+  right: Omit<ChallengeRankingEntry, "rank">
+) {
+  const definition = left.definition;
+  if (definition.type === "daily_boolean") {
+    return right.currentStreak - left.currentStreak ||
       right.completionRate - left.completionRate ||
       right.fulfilledDays - left.fulfilledDays ||
-      left.startedAt.localeCompare(right.startedAt)
-    )
-    .map((entry, index) => ({ ...entry, rank: index + 1 }));
+      left.startedAt.localeCompare(right.startedAt);
+  }
+
+  const leftHasValue = left.checkIns.some((checkIn) => checkIn.value !== null);
+  const rightHasValue = right.checkIns.some((checkIn) => checkIn.value !== null);
+  if (leftHasValue !== rightHasValue) {
+    return leftHasValue ? -1 : 1;
+  }
+  const valueComparison = definition.direction === "at_most"
+    ? left.scoreValue - right.scoreValue
+    : right.scoreValue - left.scoreValue;
+  return valueComparison || left.startedAt.localeCompare(right.startedAt);
+}
+
+function assertCompatibleRankingDefinitions(candidates: ChallengeRankingCandidate[]) {
+  const firstDefinition = candidates[0]?.definition;
+  if (!firstDefinition) {
+    return;
+  }
+  const signature = JSON.stringify(firstDefinition);
+  if (candidates.some((candidate) => JSON.stringify(candidate.definition) !== signature)) {
+    throw new Error("Ranking-Kandidaten verschiedener Typen dürfen nicht verglichen werden.");
+  }
 }
 
 export function selectChallengeRankingWindow<T extends { id: string }>(

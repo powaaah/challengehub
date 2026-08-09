@@ -42,7 +42,7 @@ export function ChallengeRankingTable({
               <tr>
                 <th>Rang</th>
                 <th>Teilnehmer</th>
-                <th>Streak</th>
+                <th>Ergebnis</th>
                 <th>Quote</th>
               </tr>
             </thead>
@@ -92,7 +92,7 @@ function RankingRow({ entry, isCurrent }: { entry: ChallengeRankingEntry; isCurr
     <tr aria-current={isCurrent ? "true" : undefined}>
       <td>{entry.rank}</td>
       <td>{entry.name}{isCurrent ? " (du)" : ""}</td>
-      <td>{entry.currentStreak} Tage</td>
+      <td>{entry.scoreLabel}</td>
       <td>{entry.completionRate}%</td>
     </tr>
   );

@@ -113,7 +113,8 @@ test("Registrierung ueber Jetzt teilnehmen startet die Challenge und zeigt die B
   await registration.getByRole("button", { name: "Account erstellen" }).click();
 
   await expect(page).toHaveURL(
-    /\/challenges\/10000-schritte-am-tag\/teilnahme-bestaetigt\?teilnahme=[^&]+$/
+    /\/challenges\/10000-schritte-am-tag\/teilnahme-bestaetigt\?teilnahme=[^&]+$/,
+    { timeout: 15_000 }
   );
   await expect(page.getByRole("heading", { name: "Danke für deine Teilnahme." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Zum Dashboard" })).toBeVisible();

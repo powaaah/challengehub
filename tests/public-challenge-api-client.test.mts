@@ -18,7 +18,15 @@ const challenge = {
   tips: ["Starte mit einem Spaziergang."],
   createdAt: "2026-07-01",
   creator: { name: "ChallengeHub" },
-  url: "https://challengehub.de/challenges/10-000-schritte-am-tag"
+  url: "https://challengehub.de/challenges/10-000-schritte-am-tag",
+  definition: {
+    type: "daily_boolean",
+    unit: "completion",
+    targetValue: 1,
+    frequency: "daily",
+    direction: "at_least",
+    completionCriterion: "daily_check_in"
+  }
 };
 
 function jsonResponse(payload: unknown, status = 200) {
@@ -110,4 +118,20 @@ test("typisierter API-Client verwirft Vertragsdrift und ungültige Limits vor Nu
 
   await assert.rejects(client.list(), { code: "invalid_response", status: 0 });
   assert.equal(requests, 1);
+});
+
+test("typisierter API-Client verwirft widersprüchliche Challenge-Definitionen", async () => {
+  const client = createPublicChallengeApiClient({
+    baseUrl: "https://challengehub.de",
+    fetchImpl: async () => jsonResponse({
+      apiVersion: "v1",
+      data: [{
+        ...challenge,
+        definition: { ...challenge.definition, frequency: "once" }
+      }],
+      pagination: { limit: 20, nextCursor: null }
+    })
+  });
+
+  await assert.rejects(client.list(), { code: "invalid_response", status: 0 });
 });

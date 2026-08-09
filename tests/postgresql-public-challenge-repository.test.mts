@@ -18,7 +18,13 @@ const publishedRow = {
   rules_json: ["Regel"],
   tips_json: ["Tipp", 42],
   created_at: new Date("2026-07-16T10:00:00.000Z"),
-  creator_name: "Ada"
+  creator_name: "Ada",
+  challenge_type: "one_time_result",
+  metric_unit: "seconds",
+  target_value: 1200,
+  frequency: "once",
+  measurement_direction: "at_most",
+  completion_criterion: "single_result"
 };
 
 test("PostgreSQL-Adapter liest veröffentlichte Challenges asynchron und mappt JSONB", async () => {
@@ -37,6 +43,14 @@ test("PostgreSQL-Adapter liest veröffentlichte Challenges asynchron und mappt J
   assert.equal(challenges[0].createdAt, "2026-07-16T10:00:00.000Z");
   assert.deepEqual(challenges[0].rules, ["Regel"]);
   assert.deepEqual(challenges[0].tips, ["Tipp"]);
+  assert.deepEqual(challenges[0].definition, {
+    type: "one_time_result",
+    unit: "seconds",
+    targetValue: 1200,
+    frequency: "once",
+    direction: "at_most",
+    completionCriterion: "single_result"
+  });
   assert.match(queries[0].text, /visibility = 'public'/);
   assert.match(queries[0].text, /status = 'published'/);
   assert.match(queries[0].text, /ORDER BY challenges\.created_at DESC/);

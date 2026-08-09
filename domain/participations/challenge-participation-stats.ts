@@ -2,7 +2,8 @@ export type ChallengeRankingCandidate = {
   id: string;
   name: string;
   startedAt: string;
-  checkInDates: string[];
+  checkIns: ChallengeCheckIn[];
+  definition: ChallengeDefinition;
 };
 
 export type ChallengeActivityEntry = {
@@ -10,6 +11,7 @@ export type ChallengeActivityEntry = {
   participantName: string;
   checkInDate: string;
   createdAt: string;
+  value: number | null;
 };
 
 export interface ChallengeParticipationStatsRepository {
@@ -18,3 +20,5 @@ export interface ChallengeParticipationStatsRepository {
   listActiveRankingCandidates(slug: string): ChallengeRankingCandidate[];
   listRecentCheckIns(slug: string, limit: number): ChallengeActivityEntry[];
 }
+import type { ChallengeDefinition } from "../challenges/challenge-definition.ts";
+import type { ChallengeCheckIn } from "../challenges/challenge-outcome.ts";

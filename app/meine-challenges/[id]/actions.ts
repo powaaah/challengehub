@@ -19,6 +19,8 @@ export type CreateInvitationState = {
 
 export async function checkInTodayAction(formData: FormData) {
   const participationId = String(formData.get("participationId") ?? "").trim();
+  const rawValue = formData.get("value");
+  const value = rawValue === null ? undefined : Number(rawValue);
 
   if (!participationId) {
     redirect("/meine-challenges");
@@ -30,7 +32,9 @@ export async function checkInTodayAction(formData: FormData) {
     redirect("/auth?next=/meine-challenges");
   }
 
-  if (!hasUtf8ByteLengthAtMost(participationId, 100) || !allowRateLimitedAction([
+  if (
+    (value !== undefined && (!Number.isFinite(value) || value <= 0)) ||
+    !hasUtf8ByteLengthAtMost(participationId, 100) || !allowRateLimitedAction([
     { policy: RATE_LIMIT_POLICIES.checkIn, identifier: user.id }
   ])) {
     redirect("/meine-challenges");
@@ -39,7 +43,8 @@ export async function checkInTodayAction(formData: FormData) {
   const result = createCheckInForUser({
     participationId,
     userId: user.id,
-    date: getTodayKey()
+    date: getTodayKey(),
+    value
   });
 
   if (result === "participation_not_found") {

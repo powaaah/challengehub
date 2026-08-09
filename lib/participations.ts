@@ -17,3 +17,7 @@ export function getParticipationByIdForUser(input: { participationId: string; us
 export function getCheckInDatesForParticipation(input: { participationId: string; userId: string }) {
   return getParticipationReadRepository().listCheckInDatesForUser(input.participationId, input.userId);
 }
+
+export function getCheckInsForParticipation(input: { participationId: string; userId: string }) {
+  return getParticipationReadRepository().listCheckInsForUser(input.participationId, input.userId);
+}

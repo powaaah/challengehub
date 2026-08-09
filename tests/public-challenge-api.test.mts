@@ -10,6 +10,7 @@ import {
   toCuratedChallengeApiItem
 } from "../domain/challenges/public-challenge-api.ts";
 import type { PublicChallenge } from "../domain/challenges/public-challenge.ts";
+import { DAILY_BOOLEAN_DEFINITION } from "../domain/challenges/challenge-definition.ts";
 
 const siteUrl = "https://challengehub.de";
 
@@ -26,7 +27,8 @@ const curated: Challenge = {
   seoDescription: "SEO",
   tips: ["Tipp"],
   faq: [],
-  rules: ["Regel"]
+  rules: ["Regel"],
+  definition: DAILY_BOOLEAN_DEFINITION
 };
 
 const community: PublicChallenge = {
@@ -42,7 +44,15 @@ const community: PublicChallenge = {
   rules: ["Community-Regel"],
   tips: [],
   createdAt: "2026-07-12T12:00:00.000Z",
-  creatorName: "Ada"
+  creatorName: "Ada",
+  definition: {
+    type: "cumulative_metric",
+    unit: "repetitions",
+    targetValue: 500,
+    frequency: "challenge_period",
+    direction: "at_least",
+    completionCriterion: "cumulative_target"
+  }
 };
 
 test("v1-API bildet kuratierte und Community-Challenges auf einen stabilen Vertrag ab", () => {
@@ -55,6 +65,8 @@ test("v1-API bildet kuratierte und Community-Challenges auf einen stabilen Vertr
   assert.equal(communityItem.durationLabel, "14 Tage");
   assert.equal(communityItem.category, "Alltag");
   assert.equal(communityItem.creator.name, "Ada");
+  assert.deepEqual(curatedItem.definition, DAILY_BOOLEAN_DEFINITION);
+  assert.deepEqual(communityItem.definition, community.definition);
 });
 
 test("v1-API priorisiert bei Slug-Duplikaten kuratierte Challenges", () => {

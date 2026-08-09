@@ -4,6 +4,7 @@ import type {
   PublicChallenge,
   PublicChallengeRepository
 } from "../../domain/challenges/public-challenge.ts";
+import { parseChallengeDefinition } from "../../domain/challenges/challenge-definition.ts";
 
 type PublicChallengeRow = {
   id: string;
@@ -19,6 +20,12 @@ type PublicChallengeRow = {
   tips_json: string;
   created_at: string;
   creator_name: string;
+  challenge_type: string;
+  metric_unit: string;
+  target_value: number;
+  frequency: string;
+  measurement_direction: string;
+  completion_criterion: string;
 };
 
 export class SqlitePublicChallengeRepository implements PublicChallengeRepository {
@@ -59,6 +66,18 @@ export class SqlitePublicChallengeRepository implements PublicChallengeRepositor
 }
 
 function mapPublicChallengeRow(challenge: PublicChallengeRow): PublicChallenge {
+  const definition = parseChallengeDefinition({
+    type: challenge.challenge_type,
+    unit: challenge.metric_unit,
+    targetValue: challenge.target_value,
+    frequency: challenge.frequency,
+    direction: challenge.measurement_direction,
+    completionCriterion: challenge.completion_criterion
+  });
+  if (!definition) {
+    throw new Error(`Invalid challenge definition for ${challenge.slug}.`);
+  }
+
   return {
     id: challenge.id,
     creatorId: challenge.creator_id,
@@ -72,7 +91,8 @@ function mapPublicChallengeRow(challenge: PublicChallengeRow): PublicChallenge {
     rules: parseList(challenge.rules_json),
     tips: parseList(challenge.tips_json),
     createdAt: challenge.created_at,
-    creatorName: challenge.creator_name
+    creatorName: challenge.creator_name,
+    definition
   };
 }
 

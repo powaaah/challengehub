@@ -3,6 +3,7 @@ export type ChallengeLevel = "User" | "Beginner" | "Advanced" | "Premium";
 export type Challenge = {
   title: string;
   slug: string;
+  definition: ChallengeDefinition;
   level: ChallengeLevel;
   participants: number;
   rating: number;
@@ -79,6 +80,7 @@ export const challenges: Challenge[] = [
   {
     title: "10 000 Schritte am Tag Challenge",
     slug: "10000-schritte-am-tag",
+    definition: getCuratedChallengeDefinition("10000-schritte-am-tag"),
     level: "Beginner",
     participants: 65,
     rating: 4.8,
@@ -105,6 +107,7 @@ export const challenges: Challenge[] = [
   {
     title: "100 Liegestütze am Stück",
     slug: "100-liegestuetze-am-stueck",
+    definition: getCuratedChallengeDefinition("100-liegestuetze-am-stueck"),
     level: "Premium",
     participants: 12,
     rating: 4.2,
@@ -140,6 +143,7 @@ export const challenges: Challenge[] = [
   {
     title: "100 Burpees pro Tag",
     slug: "100-burpees-pro-tag",
+    definition: getCuratedChallengeDefinition("100-burpees-pro-tag"),
     level: "Advanced",
     participants: 27,
     rating: 3.2,
@@ -165,6 +169,7 @@ export const challenges: Challenge[] = [
   {
     title: "30 Tage ohne Zucker",
     slug: "30-tage-ohne-zucker",
+    definition: getCuratedChallengeDefinition("30-tage-ohne-zucker"),
     level: "Premium",
     participants: 0,
     rating: 4.0,
@@ -190,6 +195,7 @@ export const challenges: Challenge[] = [
   {
     title: "Marathon unter 3 Stunden",
     slug: "marathon-unter-3-stunden",
+    definition: getCuratedChallengeDefinition("marathon-unter-3-stunden"),
     level: "Premium",
     participants: 0,
     rating: 3.9,
@@ -215,6 +221,7 @@ export const challenges: Challenge[] = [
   {
     title: "1.000 Liegestütze Challenge",
     slug: "1000-liegestuetze-challenge",
+    definition: getCuratedChallengeDefinition("1000-liegestuetze-challenge"),
     level: "Premium",
     participants: 0,
     rating: 2.1,
@@ -240,6 +247,7 @@ export const challenges: Challenge[] = [
   {
     title: "100 Tage ohne soziale Medien",
     slug: "100-tage-ohne-soziale-medien",
+    definition: getCuratedChallengeDefinition("100-tage-ohne-soziale-medien"),
     level: "Advanced",
     participants: 0,
     rating: 4.6,
@@ -265,6 +273,7 @@ export const challenges: Challenge[] = [
   {
     title: "30 Tage Kaltwasser-Duschen",
     slug: "30-tage-kaltwasser-duschen",
+    definition: getCuratedChallengeDefinition("30-tage-kaltwasser-duschen"),
     level: "Advanced",
     participants: 0,
     rating: 2.6,
@@ -290,6 +299,7 @@ export const challenges: Challenge[] = [
   {
     title: "1 Jahr ohne Social Media",
     slug: "1-jahr-ohne-social-media",
+    definition: getCuratedChallengeDefinition("1-jahr-ohne-social-media"),
     level: "Premium",
     participants: 0,
     rating: 4.9,
@@ -315,6 +325,7 @@ export const challenges: Challenge[] = [
   {
     title: "500 kg Kreuzheben",
     slug: "500-kg-kreuzheben",
+    definition: getCuratedChallengeDefinition("500-kg-kreuzheben"),
     level: "Premium",
     participants: 0,
     rating: 4.0,
@@ -340,6 +351,7 @@ export const challenges: Challenge[] = [
   {
     title: "10.000 Kalorien-Challenge",
     slug: "10000-kalorien-challenge",
+    definition: getCuratedChallengeDefinition("10000-kalorien-challenge"),
     level: "Premium",
     participants: 0,
     rating: 2.2,
@@ -365,6 +377,7 @@ export const challenges: Challenge[] = [
   {
     title: "10min am Stück planken Challenge",
     slug: "10min-am-stueck-planken-challenge",
+    definition: getCuratedChallengeDefinition("10min-am-stueck-planken-challenge"),
     level: "Premium",
     participants: 0,
     rating: 3.2,
@@ -390,6 +403,7 @@ export const challenges: Challenge[] = [
   {
     title: "5 km in weniger als 20 Minuten",
     slug: "5-km-in-weniger-als-20-minuten",
+    definition: getCuratedChallengeDefinition("5-km-in-weniger-als-20-minuten"),
     level: "User",
     participants: 1,
     rating: 0.0,
@@ -415,6 +429,7 @@ export const challenges: Challenge[] = [
   {
     title: "Change your life in 90 Tagen",
     slug: "change-your-life-in-90-tagen",
+    definition: getCuratedChallengeDefinition("change-your-life-in-90-tagen"),
     level: "Premium",
     participants: 0,
     rating: 0.0,
@@ -495,3 +510,7 @@ export const levelLabels: Record<ChallengeLevel, string> = {
 export function getChallengeBySlug(slug: string) {
   return challenges.find((challenge) => challenge.slug === slug);
 }
+import {
+  getCuratedChallengeDefinition,
+  type ChallengeDefinition
+} from "../domain/challenges/challenge-definition.ts";

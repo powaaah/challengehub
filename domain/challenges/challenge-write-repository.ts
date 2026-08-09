@@ -1,4 +1,5 @@
 import type { ChallengeLevel } from "../../data/challenges.ts";
+import type { ChallengeDefinition } from "./challenge-definition.ts";
 
 export type CreatePendingChallengeInput = {
   id: string;
@@ -12,6 +13,7 @@ export type CreatePendingChallengeInput = {
   description: string;
   rules: string[];
   tips: string[];
+  definition: ChallengeDefinition;
 };
 
 export type CreatePendingChallengeResult =

@@ -8,6 +8,7 @@ import type { ChallengeActivityEntry } from "@/domain/participations/challenge-p
 import type { CurrentUser } from "@/lib/auth";
 import type { ChallengeRankingEntry } from "@/lib/challenge-progress";
 import type { PublicChallenge } from "@/domain/challenges/public-challenge";
+import { formatMetricValue } from "@/domain/challenges/challenge-outcome";
 import { buildChallengeBreadcrumbJsonLd, SITE_URL } from "@/lib/seo";
 import styles from "./user-challenge-detail.module.css";
 
@@ -65,6 +66,7 @@ export function DbChallengeDetail({
       buildChallengeBreadcrumbJsonLd(challenge.title, challenge.slug)
     ]
   };
+  const isDailyChallenge = challenge.definition.type === "daily_boolean";
 
   return (
     <>
@@ -107,11 +109,23 @@ export function DbChallengeDetail({
             <div><dt>Ziel</dt><dd>{challenge.goal}</dd></div>
             <div><dt>Dauer</dt><dd>{challenge.durationDays} Tage</dd></div>
             <div><dt>Kategorie</dt><dd>{challenge.category}</dd></div>
+            <div><dt>Fortschritt</dt><dd>{formatChallengeType(challenge.definition.type)}</dd></div>
+            {challenge.definition.type !== "daily_boolean" ? (
+              <div>
+                <dt>Messziel</dt>
+                <dd>
+                  {challenge.definition.direction === "at_most" ? "Höchstens" : "Mindestens"}{" "}
+                  {formatMetricValue(challenge.definition.targetValue, challenge.definition.unit)}
+                </dd>
+              </div>
+            ) : null}
             {participantCount > 0 ? <div><dt>Teilnahmen</dt><dd>{participantCount}</dd></div> : null}
           </dl>
         </div>
         <div className={styles.detailRules}>
-          <p className={styles.eyebrow}>So zählt der Tag</p>
+          <p className={styles.eyebrow}>
+            {isDailyChallenge ? "So zählt der Tag" : "So wird gemessen"}
+          </p>
           <h2>Regeln</h2>
           <ol>
             {challenge.rules.map((rule) => <li key={rule}>{rule}</li>)}
@@ -146,7 +160,11 @@ export function DbChallengeDetail({
             <p className={styles.eyebrow}>Ranking</p>
             <h2 id="community-ranking">Top 5</h2>
           </div>
-          <p>Wer hält am längsten durch?</p>
+          <p>
+            {isDailyChallenge
+              ? "Wer hält am längsten durch?"
+              : "Die besten gemessenen Ergebnisse."}
+          </p>
         </div>
         <ChallengeRankingTable
           entries={ranking}
@@ -170,6 +188,9 @@ export function DbChallengeDetail({
                 <strong>{entry.participantName}</strong>
                 <span>
                   Check-in am <time dateTime={entry.checkInDate}>{formatActivityDate(entry.checkInDate)}</time>
+                  {entry.value !== null && challenge.definition.type !== "daily_boolean"
+                    ? ` · ${formatMetricValue(entry.value, challenge.definition.unit)}`
+                    : null}
                 </span>
               </li>
             ))}
@@ -204,4 +225,10 @@ function formatActivityDate(date: string) {
     year: "numeric",
     timeZone: "Europe/Berlin"
   }).format(new Date(`${date}T12:00:00.000Z`));
+}
+
+function formatChallengeType(type: "daily_boolean" | "cumulative_metric" | "one_time_result") {
+  if (type === "daily_boolean") return "Täglicher Check-in";
+  if (type === "cumulative_metric") return "Messwert sammeln";
+  return "Einmaliges Ergebnis";
 }

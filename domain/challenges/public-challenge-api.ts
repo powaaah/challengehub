@@ -1,5 +1,6 @@
 import type { Challenge } from "../../data/challenges.ts";
 import type { PublicChallenge } from "./public-challenge.ts";
+import type { ChallengeDefinition } from "./challenge-definition.ts";
 
 export const PUBLIC_CHALLENGE_API_VERSION = "v1" as const;
 export const PUBLIC_CHALLENGE_API_DEFAULT_LIMIT = 20;
@@ -21,6 +22,7 @@ export type PublicChallengeApiItem = {
     name: string;
   };
   url: string;
+  definition: ChallengeDefinition;
 };
 
 export type PublicChallengeApiEnvelope<T> = {
@@ -57,7 +59,8 @@ export function toCuratedChallengeApiItem(
     tips: challenge.tips,
     createdAt: challenge.createdAt,
     creator: { name: "ChallengeHub" },
-    url: `${siteUrl}/challenges/${challenge.slug}`
+    url: `${siteUrl}/challenges/${challenge.slug}`,
+    definition: challenge.definition
   };
 }
 
@@ -78,7 +81,8 @@ export function toCommunityChallengeApiItem(
     tips: challenge.tips,
     createdAt: challenge.createdAt,
     creator: { name: challenge.creatorName },
-    url: `${siteUrl}/challenges/${challenge.slug}`
+    url: `${siteUrl}/challenges/${challenge.slug}`,
+    definition: challenge.definition
   };
 }
 
