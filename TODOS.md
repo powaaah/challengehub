@@ -1,6 +1,6 @@
 # ChallengeHub.de Todos
 
-Stand: 2026-08-09
+Stand: 2026-10-05
 
 ## Active
 
@@ -25,6 +25,35 @@ Stand: 2026-08-09
   - [x] Roadmap-Task 15 abschließen: persistenten In-App-Feed, freiwillige E-Mail-Erinnerungen mit Direkt-Abmeldung, Wochenrückblick, ChallengeMate-Ereignisse, wertungsfreie Reaktivierung und Abschluss-Badge samt idempotenter Zustellqueue umsetzen.
   - [x] Roadmap-Task 16 abschließen: maschinenlesbaren Account-Export, re-authentifizierte Kontolöschung, datensparsame und getrennte Sichtbarkeit für Ranking, Aktivitätsfeed und ChallengeMate sowie eine technisch wahrheitsgemäße Datenschutzseite umsetzen.
   - [x] Roadmap-Task 17 abschließen: E-Mail-Verifikation mit gehashten 30-Minuten-Einmal-Tokens, neutralem und rate-limitiertem Neuversand, Verifikationsroute sowie Status in Auth-Dialog und Profil umsetzen.
+  - [ ] Roadmap-Task 18 abschließen: Rechtstexte technisch wahrheitsgemäß vorbereiten und anschließend Betreiberangaben, Rechtsgrundlagen sowie verbindliche Aufbewahrungsfristen fachlich/rechtlich freigeben lassen.
+    - [x] Im Registrierungsdialog transparent und ohne irreführende Pflicht-Einwilligung auf die aktuellen Datenschutzhinweise verlinken; mobile Darstellung, Canonical und `noindex` absichern.
+    - [x] Tatsächliche Dateninventur mit Zwecken, Empfängern und implementierten Lösch-/Ablauffristen vervollständigen; offene Fristen ausdrücklich als Freigabepunkte markieren.
+    - [ ] Betreiberangaben, Rechtsgrundlagen, Aufbewahrungsfristen und Rechtstexte durch Stefan beziehungsweise Rechtsberatung final freigeben lassen.
+  - [x] Roadmap-Task 19 abschließen: SEO-Topic-Cluster und Contentqualität mit geprüften Suchintentionen, Quellenvertrauen und passenden Challenge-Einstiegen ausbauen.
+    - [x] Bestehende Wissensartikel um sichtbare Autor-/Aktualisierungsangaben, strukturierte Änderungsdaten und passende interne Challenge-CTAs ergänzen.
+    - [x] Informationsintention „Wie viele Schritte am Tag?“ mit aktueller systematischer Evidenz, ehrlicher 10.000-Schritte-Einordnung, Sicherheitshinweis und passendem Challenge-Einstieg abdecken.
+    - [x] Informationsintention „Ist Social Media Detox sinnvoll?“ mit widersprüchlicher aktueller Evidenz, umsetzbaren Pausenregeln, Hilfeschwelle und passendem Challenge-Einstieg abdecken.
+    - [x] Informationsintention „Wie lange dauert es, eine Gewohnheit aufzubauen?“ mit aktueller systematischer Evidenz, Einordnung der 21-/66-Tage-Zahlen und passendem 90-Tage-Challenge-Einstieg abdecken.
+    - [x] Die sechs Wissensartikel mit je zwei fachlich passenden, serverseitig crawlbaren Empfehlungen zu einem geschlossenen internen Themencluster verbinden und Challenge-Ankertexte konkretisieren.
+    - [x] Den Bestandsartikel zur Habit Loop fachlich überarbeiten: populäres Drei-Schritte-Modell von belastbarer Evidenz trennen, aktuelle Fachquellen ergänzen und Wirkversprechen begrenzen.
+    - [x] Den Bestandsartikel zu sieben Habit Rules als ausdrücklich begrenzte Planungswerkzeuge mit aktuellen Review-/Primärquellen, realistischen Rückkehrregeln und ohne pauschale Identitäts-, Streak- oder Belohnungsversprechen überarbeiten.
+    - [x] Den Bestandsartikel zu Tiny Habits als klar begrenzte Designmethode einordnen, direkte Forschung von Methodenbehauptungen trennen und pauschale Belohnungs- sowie Erfolgsaussagen entfernen.
+    - [x] Eine dokumentierte Cluster-Gap-Analyse gegen aktuelle deutschsprachige Suchergebnisse und geprüfte Fachquellen erstellen; „Streak verloren – wie weitermachen?“ als klar abgegrenzte nächste Informationsintention priorisieren.
+    - [x] Den priorisierten Wissensartikel „Streak verloren – wie weitermachen?“ mit sichtbaren Evidenzgrenzen, internem Wissenscluster und passendem Challenge-Einstieg umsetzen.
+  - [ ] Roadmap-Task 20 abschließen: vollständige PostgreSQL-Parität für alle Repository-Grenzen herstellen und erst nach echter Integrations-, Migrations-, Backup- und Rollback-Probe eine Runtime-Umschaltung erwägen.
+    - [x] Nutzergebundene Teilnahme-, Detail- und Check-in-Lesezugriffe als asynchronen, parametrisierten PostgreSQL-Adapter mit gemeinsamem Query-Client-Vertrag vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] Öffentliche Teilnahme-Zähler, Ranking-Kandidaten und Aktivitäts-Lesewege asynchronisieren und mit einem parametrisierten, Privacy-Opt-ins wahrenden PostgreSQL-Adapter vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] Check-in-Schreibweg asynchronisieren und einen transaktionalen PostgreSQL-Adapter mit nutzergebundener Sperre, Idempotenz, Messwertvalidierung und typgerechtem Teilnahmeabschluss vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] Teilnahme-Start und -Austritt asynchronisieren und einen transaktionalen PostgreSQL-Adapter mit Freigabe-, Duplikat-, Nutzer- und Eigentumsregeln vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] Öffentliche Challenge-Erstellung asynchronisieren und einen parametrisierten PostgreSQL-Adapter mit Moderations-, Slug-, Ersteller- und Konfliktregeln sowie passender Status-Migration vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] Account- und Session-Grenze mit parametrisiertem PostgreSQL-Adapter für NFKC-/Name-Key-Eindeutigkeit, Login, Ablauf und Tokenkonflikte samt Folgemigration vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] Passwort-Reset-Grenze asynchronisieren und einen transaktionalen PostgreSQL-Adapter für gehashte Einmal-Tokens, zustellungsabhängige Ablösung, Ablauf, konkurrierenden Verbrauch und Sessionwiderruf vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] E-Mail-Verifikationsgrenze asynchronisieren und einen transaktionalen PostgreSQL-Adapter für unverifizierte Konten, gehashte Einmal-Tokens, zustellungsabhängige Ablösung, Ablauf und atomare Verifikation vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] Challenge-Einladungsgrenze asynchronisieren und einen transaktionalen PostgreSQL-Adapter für gehashte, ablaufende Tokens, Eigentumsprüfung, aktive Teilnahme und atomare Annahme vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] ChallengeMate-Grenze asynchronisieren und einen transaktionalen PostgreSQL-Adapter für Opt-in, Privacy, kompatible Vorschläge, gegenseitige Bestätigung, Blockieren und Melden vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] Retention-Grenze asynchronisieren und einen transaktionalen PostgreSQL-Adapter für Präferenzen, idempotente In-App-Meldungen, nutzergebundene Lesestatus-/Abmeldewege sowie die E-Mail-Zustellqueue vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] Account-Daten-/Löschgrenze asynchronisieren und einen transaktionalen PostgreSQL-Adapter für datensparsame Privacy-Defaults, vollständigen Export ohne Secrets und atomare Kontolöschung vorbereiten; SQLite als aktive Runtime unverändert lassen.
+    - [x] Bootstrap-Grenze für Systemnutzer und kuratierte Challenges asynchronisieren und mit einem transaktionalen, idempotenten PostgreSQL-Adapter vorbereiten; SQLite als aktive Runtime unverändert lassen.
 - [ ] ChallengeHub in kontinuierlichen, kleinen und verifizierten Arbeitsschleifen weiterentwickeln; pro Schleife Kontext/Todos pruefen, genau einen priorisierten Slice umsetzen, Lint/Build/Tests ausfuehren und Ergebnis sowie naechsten Schritt dokumentieren.
 - [ ] SEO als feste Architektur- und Abnahmeanforderung fuer alle Web-Slices sichern: serverseitig crawlbare Inhalte, stabile sprechende URLs, eindeutige Metadata/Canonical, strukturierte Daten, Sitemap/robots, interne Verlinkung, Core-Web-Vitals-orientierte Performance und keine Abhaengigkeit von der spaeteren Mobile-App fuer indexierbare Inhalte.
   - [x] Kuratierte und veröffentlichte Community-Challenge-Detailseiten um kanonische `BreadcrumbList`-Strukturdaten für Startseite, Katalog und Detailseite ergänzen.
