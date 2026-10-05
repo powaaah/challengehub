@@ -220,7 +220,7 @@ export function buildSitemap(publishedChallenges: PublishedChallenge[] = []): Me
     })),
     ...habitArticles.map((article) => ({
       url: `${SITE_URL}/wissen/${article.slug}`,
-      lastModified: new Date(article.publishedAt),
+      lastModified: new Date(article.updatedAt),
       changeFrequency: "monthly" as const,
       priority: 0.6
     }))
