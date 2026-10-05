@@ -122,13 +122,13 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
   const { einladung } = await searchParams;
   const challenge = getChallengeBySlug(slug);
   const user = await getCurrentUser();
-  const invitation = einladung ? getChallengeInvitationPreview(einladung) : null;
+  const invitation = einladung ? await getChallengeInvitationPreview(einladung) : null;
 
   if (!challenge) {
     const dbChallenge = await getPublishedChallengeBySlug(slug);
     if (dbChallenge) {
-      const dbRanking = getChallengeRankingBySlug(dbChallenge.slug, getTodayKey(), { publicOnly: true });
-      const dbActivity = getRecentChallengeActivityBySlug(dbChallenge.slug);
+      const dbRanking = await getChallengeRankingBySlug(dbChallenge.slug, getTodayKey(), { publicOnly: true });
+      const dbActivity = await getRecentChallengeActivityBySlug(dbChallenge.slug);
       const dbCurrentParticipationId = user
         ? getParticipationsForUser(user.id).find((participation) =>
             participation.challengeSlug === dbChallenge.slug && participation.status === "active"
@@ -141,7 +141,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
           currentParticipationId={dbCurrentParticipationId}
           invitationChallengeSlug={invitation?.challengeSlug}
           invitationToken={einladung}
-          participantCount={getParticipationCountByChallengeSlug(dbChallenge.slug)}
+          participantCount={await getParticipationCountByChallengeSlug(dbChallenge.slug)}
           ranking={dbRanking}
           user={user}
         />
@@ -152,8 +152,8 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
   }
 
   const pageUrl = `${SITE_URL}/challenges/${challenge.slug}`;
-  const ranking = getChallengeRankingBySlug(challenge.slug, getTodayKey(), { publicOnly: true });
-  const activity = getRecentChallengeActivityBySlug(challenge.slug);
+  const ranking = await getChallengeRankingBySlug(challenge.slug, getTodayKey(), { publicOnly: true });
+  const activity = await getRecentChallengeActivityBySlug(challenge.slug);
   const currentParticipationId = user
     ? getParticipationsForUser(user.id).find((participation) =>
         participation.challengeSlug === challenge.slug && participation.status === "active"

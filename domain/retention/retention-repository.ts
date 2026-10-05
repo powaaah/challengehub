@@ -27,28 +27,30 @@ export type RetentionEmailJob = RetentionNotification & {
   participationId: string;
 };
 
+export type RetentionRepositoryResult<T> = T | Promise<T>;
+
 export interface RetentionRepository {
   getDashboard(input: {
     userId: string;
     participationId: string;
     today: string;
     now: string;
-  }): RetentionDashboard | null;
+  }): RetentionRepositoryResult<RetentionDashboard | null>;
   updatePreferences(input: RetentionPreferences & {
     userId: string;
     participationId: string;
     updatedAt: string;
-  }): { status: "updated" | "not_found" };
+  }): RetentionRepositoryResult<{ status: "updated" | "not_found" }>;
   markRead(input: {
     notificationId: string;
     userId: string;
     readAt: string;
-  }): { status: "updated" | "not_found" };
+  }): RetentionRepositoryResult<{ status: "updated" | "not_found" }>;
   disableEmail(input: {
     userId: string;
     participationId: string;
     updatedAt: string;
-  }): { status: "updated" | "not_found" };
-  listDueEmailJobs(input: { today: string; now: string; limit: number }): RetentionEmailJob[];
-  markEmailDelivered(input: { notificationId: string; deliveredAt: string }): void;
+  }): RetentionRepositoryResult<{ status: "updated" | "not_found" }>;
+  listDueEmailJobs(input: { today: string; now: string; limit: number }): RetentionRepositoryResult<RetentionEmailJob[]>;
+  markEmailDelivered(input: { notificationId: string; deliveredAt: string }): RetentionRepositoryResult<void>;
 }

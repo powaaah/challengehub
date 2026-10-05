@@ -22,6 +22,10 @@ export type LeaveParticipationResult = {
 };
 
 export interface ParticipationWriteRepository {
-  startForUser(input: StartParticipationInput): StartParticipationResult;
-  leaveForUser(input: LeaveParticipationInput): LeaveParticipationResult;
+  startForUser(
+    input: StartParticipationInput
+  ): StartParticipationResult | Promise<StartParticipationResult>;
+  leaveForUser(
+    input: LeaveParticipationInput
+  ): LeaveParticipationResult | Promise<LeaveParticipationResult>;
 }

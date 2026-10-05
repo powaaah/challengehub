@@ -38,6 +38,8 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0011_challen
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0012_retention_notifications.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0013_account_privacy.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0014_email_verification.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0015_challenge_pending_status.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0016_account_name_keys.sql
 ```
 
 Vor der Anwendung lassen sich die unveränderlichen Inhalte im
@@ -100,3 +102,11 @@ abgeschlossene Kontolöschungen angelegt.
 kurzlebige Einmal-Tokens. Persistiert werden ausschließlich Token-Hashes;
 abgelaufene, verwendete und durch einen neu zugestellten Link ersetzte Tokens
 können kein Konto bestätigen.
+
+`0015_challenge_pending_status.sql` gleicht die Status-Constraint an den bereits
+verwendeten Moderationsstatus `pending` an. Neue Community-Challenges bleiben
+damit bis zur Freigabe nicht öffentlich sichtbar.
+
+`0016_account_name_keys.sql` materialisiert den vom Anwendungscode verwendeten
+NFKC-/Case-Key für Benutzernamen, löst dadurch neu entstehende Bestandskollisionen
+deterministisch auf und erzwingt die Eindeutigkeit direkt auf `users.name_key`.

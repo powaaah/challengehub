@@ -2,9 +2,9 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { confirmAccountDeletion } from "../domain/accounts/account-deletion.ts";
 
-test("Kontolöschung verlangt das aktuelle Passwort vor jedem Schreibzugriff", () => {
+test("Kontolöschung verlangt das aktuelle Passwort vor jedem Schreibzugriff", async () => {
   let deleted = false;
-  const result = confirmAccountDeletion({
+  const result = await confirmAccountDeletion({
     userId: "u1",
     password: "falsch",
     findAccount: () => ({ id: "u1", passwordHash: "stored" }),
@@ -16,9 +16,9 @@ test("Kontolöschung verlangt das aktuelle Passwort vor jedem Schreibzugriff", (
   assert.equal(deleted, false);
 });
 
-test("gültige Re-Authentifizierung löscht genau das eigene Konto", () => {
+test("gültige Re-Authentifizierung löscht genau das eigene Konto", async () => {
   let deletedUserId = "";
-  const result = confirmAccountDeletion({
+  const result = await confirmAccountDeletion({
     userId: "u1",
     password: "richtig",
     findAccount: () => ({ id: "u1", passwordHash: "stored" }),

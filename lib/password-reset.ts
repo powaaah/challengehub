@@ -3,6 +3,7 @@ import type { Account } from "../domain/accounts/account-session-repository.ts";
 import type {
   CreatePasswordResetInput,
   CreatePasswordResetResult,
+  PasswordResetRepositoryResult,
   ResetPasswordInput,
   ResetPasswordResult
 } from "../domain/accounts/password-reset-repository.ts";
@@ -14,10 +15,10 @@ const RESET_TOKEN_PATTERN = /^[A-Za-z0-9_-]{43}$/;
 type RequestPasswordResetInput = {
   email: string;
   now: Date;
-  findAccountByEmail: (email: string) => Account | null;
-  createToken: (input: CreatePasswordResetInput) => CreatePasswordResetResult;
-  confirmDelivery: (input: { id: string; userId: string; deliveredAt: string }) => void;
-  discardToken: (input: { id: string; userId: string }) => void;
+  findAccountByEmail: (email: string) => PasswordResetRepositoryResult<Account | null>;
+  createToken: (input: CreatePasswordResetInput) => PasswordResetRepositoryResult<CreatePasswordResetResult>;
+  confirmDelivery: (input: { id: string; userId: string; deliveredAt: string }) => PasswordResetRepositoryResult<void>;
+  discardToken: (input: { id: string; userId: string }) => PasswordResetRepositoryResult<void>;
   generateToken: () => string;
   generateId: () => string;
   deliver: (message: { email: string; resetUrl: string }) => Promise<void>;
@@ -28,20 +29,20 @@ type ResetPasswordWithTokenInput = {
   token: string;
   password: string;
   now?: Date;
-  isTokenActive?: (input: { tokenHash: string; now: string }) => boolean;
+  isTokenActive?: (input: { tokenHash: string; now: string }) => PasswordResetRepositoryResult<boolean>;
   hashPassword?: (password: string) => string;
-  resetPassword: (input: ResetPasswordInput) => ResetPasswordResult;
+  resetPassword: (input: ResetPasswordInput) => PasswordResetRepositoryResult<ResetPasswordResult>;
 };
 
 export async function requestPasswordReset(input: RequestPasswordResetInput) {
-  const account = input.findAccountByEmail(input.email.trim().toLowerCase());
+  const account = await input.findAccountByEmail(input.email.trim().toLowerCase());
   if (!account) {
     return { status: "accepted" as const };
   }
 
   const token = input.generateToken();
   const id = input.generateId();
-  const created = input.createToken({
+  const created = await input.createToken({
     id,
     userId: account.id,
     tokenHash: hashToken(token),
@@ -57,15 +58,15 @@ export async function requestPasswordReset(input: RequestPasswordResetInput) {
       email: account.email,
       resetUrl: `${input.siteUrl}/auth/passwort-zuruecksetzen?token=${encodeURIComponent(token)}`
     });
-    input.confirmDelivery({ id, userId: account.id, deliveredAt: input.now.toISOString() });
+    await input.confirmDelivery({ id, userId: account.id, deliveredAt: input.now.toISOString() });
   } catch {
-    input.discardToken({ id, userId: account.id });
+    await input.discardToken({ id, userId: account.id });
   }
 
   return { status: "accepted" as const };
 }
 
-export function resetPasswordWithToken(input: ResetPasswordWithTokenInput) {
+export async function resetPasswordWithToken(input: ResetPasswordWithTokenInput) {
   if (!RESET_TOKEN_PATTERN.test(input.token)) {
     return { status: "invalid_token" as const };
   }
@@ -78,11 +79,11 @@ export function resetPasswordWithToken(input: ResetPasswordWithTokenInput) {
 
   const tokenHash = hashToken(input.token);
   const now = input.now.toISOString();
-  if (!input.isTokenActive({ tokenHash, now })) {
+  if (!await input.isTokenActive({ tokenHash, now })) {
     return { status: "invalid_token" as const };
   }
 
-  return input.resetPassword({
+  return await input.resetPassword({
     tokenHash,
     passwordHash: input.hashPassword(input.password),
     now

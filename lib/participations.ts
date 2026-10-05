@@ -1,8 +1,7 @@
-import type { ParticipationReadRepository } from "../domain/participations/participation.ts";
 import { SqliteParticipationReadRepository } from "../infrastructure/sqlite/sqlite-participation-read-repository.ts";
 import { getDb } from "./db.ts";
 
-function getParticipationReadRepository(): ParticipationReadRepository {
+function getParticipationReadRepository() {
   return new SqliteParticipationReadRepository(getDb());
 }
 

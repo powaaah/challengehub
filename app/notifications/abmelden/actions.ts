@@ -9,6 +9,6 @@ export async function unsubscribeRetentionEmailAction(formData: FormData) {
   const target = token.length <= 1000 ? verifyRetentionUnsubscribeToken(token) : null;
   if (!target) redirect("/notifications/abmelden?status=invalid");
 
-  disableRetentionEmail(target);
+  await disableRetentionEmail(target);
   redirect("/notifications/abmelden?status=done");
 }

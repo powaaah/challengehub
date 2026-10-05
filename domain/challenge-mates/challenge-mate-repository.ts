@@ -18,25 +18,37 @@ export type SaveChallengeMateProfileInput = {
 export interface ChallengeMateRepository {
   saveProfile(input: SaveChallengeMateProfileInput):
     | { status: "saved" }
-    | { status: "participation_not_available" | "active_match_conflict" };
-  deactivateProfile(userId: string, updatedAt: string): { status: "deactivated" | "not_found" };
-  getDashboard(userId: string): ChallengeMateDashboard;
+    | { status: "participation_not_available" | "active_match_conflict" }
+    | Promise<
+        | { status: "saved" }
+        | { status: "participation_not_available" | "active_match_conflict" }
+      >;
+  deactivateProfile(userId: string, updatedAt: string):
+    | { status: "deactivated" | "not_found" }
+    | Promise<{ status: "deactivated" | "not_found" }>;
+  getDashboard(userId: string): ChallengeMateDashboard | Promise<ChallengeMateDashboard>;
   requestMatch(input: {
     id: string;
     requesterUserId: string;
     recipientUserId: string;
     createdAt: string;
-  }): { status: "requested" | "not_available" | "already_exists"; connectionId?: string };
+  }):
+    | { status: "requested" | "not_available" | "already_exists"; connectionId?: string }
+    | Promise<{ status: "requested" | "not_available" | "already_exists"; connectionId?: string }>;
   acceptMatch(input: {
     connectionId: string;
     recipientUserId: string;
     acceptedAt: string;
-  }): { status: "matched" | "not_available"; connectionId?: string };
+  }):
+    | { status: "matched" | "not_available"; connectionId?: string }
+    | Promise<{ status: "matched" | "not_available"; connectionId?: string }>;
   blockUser(input: {
     blockerUserId: string;
     blockedUserId: string;
     createdAt: string;
-  }): { status: "blocked" | "invalid_target" };
+  }):
+    | { status: "blocked" | "invalid_target" }
+    | Promise<{ status: "blocked" | "invalid_target" }>;
   reportUser(input: {
     id: string;
     reporterUserId: string;
@@ -44,5 +56,7 @@ export interface ChallengeMateRepository {
     reason: ChallengeMateReportReason;
     details: string | null;
     createdAt: string;
-  }): { status: "reported" | "invalid_target" };
+  }):
+    | { status: "reported" | "invalid_target" }
+    | Promise<{ status: "reported" | "invalid_target" }>;
 }

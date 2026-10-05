@@ -32,7 +32,14 @@ export type AcceptChallengeInvitationResult =
   | { status: "invitation_not_available" | "self_invitation" };
 
 export interface ChallengeInvitationRepository {
-  create(input: CreateChallengeInvitationInput): CreateChallengeInvitationResult;
-  findActiveByTokenHash(tokenHash: string, now: string): ActiveChallengeInvitation | null;
-  accept(input: AcceptChallengeInvitationInput): AcceptChallengeInvitationResult;
+  create(
+    input: CreateChallengeInvitationInput
+  ): CreateChallengeInvitationResult | Promise<CreateChallengeInvitationResult>;
+  findActiveByTokenHash(
+    tokenHash: string,
+    now: string
+  ): ActiveChallengeInvitation | null | Promise<ActiveChallengeInvitation | null>;
+  accept(
+    input: AcceptChallengeInvitationInput
+  ): AcceptChallengeInvitationResult | Promise<AcceptChallengeInvitationResult>;
 }

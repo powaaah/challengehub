@@ -24,7 +24,7 @@ export default async function ProfilePage() {
     redirect("/auth?next=/profil");
   }
 
-  const privacy = getAccountPrivacyPreferences(user.id);
+  const privacy = await getAccountPrivacyPreferences(user.id);
   if (!privacy) redirect("/auth?next=/profil");
 
   return (

@@ -39,7 +39,7 @@ export async function resetPasswordAction(
     };
   }
 
-  const result = resetPasswordForToken(token, password);
+  const result = await resetPasswordForToken(token, password);
   if (result.status !== "reset") {
     return {
       error: "Der Link ist ungültig, abgelaufen oder wurde bereits verwendet.",

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const user = await getCurrentUser();
-  const participantCounts = getParticipationCountsByChallengeSlug();
+  const participantCounts = await getParticipationCountsByChallengeSlug();
   const jsonLd = buildHomePageJsonLd();
 
   return (

@@ -29,7 +29,7 @@ export function exportAccountData(userId: string) {
   return getAccountDataRepository().exportAccountData(userId, new Date().toISOString());
 }
 
-export function deleteAccountWithPassword(userId: string, password: string) {
+export async function deleteAccountWithPassword(userId: string, password: string) {
   const repository = getAccountDataRepository();
   return confirmAccountDeletion({
     userId,

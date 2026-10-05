@@ -4,10 +4,9 @@ import type {
   PublicChallengeRepository
 } from "../../domain/challenges/public-challenge.ts";
 import { parseChallengeDefinition } from "../../domain/challenges/challenge-definition.ts";
+import type { PostgresQueryClient } from "./postgres-query-client.ts";
 
-export interface PostgresQueryClient {
-  query(text: string, values?: unknown[]): Promise<{ rows: unknown[] }>;
-}
+export type { PostgresQueryClient } from "./postgres-query-client.ts";
 
 type PostgresPublicChallengeRow = {
   id: string;

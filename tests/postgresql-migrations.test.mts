@@ -25,7 +25,9 @@ test("PostgreSQL migrations are ordered and keep a migration ledger", async () =
     "0011_challenge_mates.sql",
     "0012_retention_notifications.sql",
     "0013_account_privacy.sql",
-    "0014_email_verification.sql"
+    "0014_email_verification.sql",
+    "0015_challenge_pending_status.sql",
+    "0016_account_name_keys.sql"
   ]);
 
   const versions = files.map((file) => file.slice(0, 4));
@@ -271,4 +273,29 @@ test("E-Mail-Verifikationsmigration speichert Status und ausschließlich gehasht
   assert.match(sql, /expires_at TIMESTAMPTZ NOT NULL/);
   assert.match(sql, /used_at TIMESTAMPTZ/);
   assert.doesNotMatch(sql, /raw_token|\btoken\s+TEXT|secret/i);
+});
+
+test("Challenge-Statusmigration erlaubt moderationspflichtige Einreichungen", async () => {
+  const sql = await readFile(
+    path.join(migrationsDirectory, "0015_challenge_pending_status.sql"),
+    "utf8"
+  );
+
+  assert.match(sql, /DROP CONSTRAINT IF EXISTS challenges_status_check/);
+  assert.match(sql, /CHECK \(status IN \('pending', 'draft', 'published', 'archived'\)\)/);
+  assert.match(sql, /ALTER COLUMN status SET DEFAULT 'pending'/);
+});
+
+test("Account-Name-Key-Migration gleicht PostgreSQL an die NFKC-Domainsemantik an", async () => {
+  const sql = await readFile(
+    path.join(migrationsDirectory, "0016_account_name_keys.sql"),
+    "utf8"
+  );
+
+  assert.match(sql, /ADD COLUMN name_key TEXT/);
+  assert.match(sql, /normalize\([^,]+, NFKC\)/);
+  assert.match(sql, /upper\(/);
+  assert.match(sql, /account_name_key_reserved/);
+  assert.match(sql, /ALTER COLUMN name_key SET NOT NULL/);
+  assert.match(sql, /CREATE UNIQUE INDEX users_name_unique_idx ON users \(name_key\)/);
 });

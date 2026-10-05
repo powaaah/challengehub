@@ -95,7 +95,7 @@ export async function createChallengeAction(
     };
   }
 
-  const result = submitChallengeForReview({
+  const result = await submitChallengeForReview({
     creatorId: user.id,
     title,
     level,

@@ -33,7 +33,7 @@ export default async function ChallengesPage({ searchParams }: ChallengesPagePro
   const { suche = "", sort = "standard" } = await searchParams;
   const initialSortKey = getInitialSortKey(sort);
   const serverChallenges = await getPublishedChallenges();
-  const participantCounts = getParticipationCountsByChallengeSlug();
+  const participantCounts = await getParticipationCountsByChallengeSlug();
   const user = await getCurrentUser();
   const catalogJsonLd = buildChallengeCatalogJsonLd([
     ...challenges.map(({ slug, title }) => ({ slug, title })),

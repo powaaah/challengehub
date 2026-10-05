@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import type {
   CreateEmailVerificationInput,
   CreateEmailVerificationResult,
+  EmailVerificationRepositoryResult,
   VerifyEmailResult
 } from "../domain/accounts/email-verification-repository.ts";
 
@@ -17,10 +18,10 @@ type VerificationAccount = {
 type RequestEmailVerificationInput = {
   email: string;
   now: Date;
-  findAccountByEmail: (email: string) => VerificationAccount | null;
-  createToken: (input: CreateEmailVerificationInput) => CreateEmailVerificationResult;
-  confirmDelivery: (input: { id: string; userId: string; deliveredAt: string }) => void;
-  discardToken: (input: { id: string; userId: string }) => void;
+  findAccountByEmail: (email: string) => EmailVerificationRepositoryResult<VerificationAccount | null>;
+  createToken: (input: CreateEmailVerificationInput) => EmailVerificationRepositoryResult<CreateEmailVerificationResult>;
+  confirmDelivery: (input: { id: string; userId: string; deliveredAt: string }) => EmailVerificationRepositoryResult<void>;
+  discardToken: (input: { id: string; userId: string }) => EmailVerificationRepositoryResult<void>;
   generateToken: () => string;
   generateId: () => string;
   deliver: (message: { email: string; verificationUrl: string }) => Promise<void>;
@@ -28,12 +29,12 @@ type RequestEmailVerificationInput = {
 };
 
 export async function requestEmailVerification(input: RequestEmailVerificationInput) {
-  const account = input.findAccountByEmail(input.email.trim().toLowerCase());
+  const account = await input.findAccountByEmail(input.email.trim().toLowerCase());
   if (!account || account.emailVerifiedAt) return { status: "accepted" as const };
 
   const token = input.generateToken();
   const id = input.generateId();
-  const created = input.createToken({
+  const created = await input.createToken({
     id,
     userId: account.id,
     tokenHash: hashToken(token),
@@ -46,20 +47,20 @@ export async function requestEmailVerification(input: RequestEmailVerificationIn
       email: account.email,
       verificationUrl: `${input.siteUrl}/auth/email-bestaetigen?token=${encodeURIComponent(token)}`
     });
-    input.confirmDelivery({ id, userId: account.id, deliveredAt: input.now.toISOString() });
+    await input.confirmDelivery({ id, userId: account.id, deliveredAt: input.now.toISOString() });
   } catch {
-    input.discardToken({ id, userId: account.id });
+    await input.discardToken({ id, userId: account.id });
   }
   return { status: "accepted" as const };
 }
 
-export function verifyEmailToken(input: {
+export async function verifyEmailToken(input: {
   token: string;
   now: Date;
-  verify: (input: { tokenHash: string; now: string }) => VerifyEmailResult;
+  verify: (input: { tokenHash: string; now: string }) => EmailVerificationRepositoryResult<VerifyEmailResult>;
 }) {
   if (!TOKEN_PATTERN.test(input.token)) return { status: "invalid_token" as const };
-  return input.verify({ tokenHash: hashToken(input.token), now: input.now.toISOString() });
+  return await input.verify({ tokenHash: hashToken(input.token), now: input.now.toISOString() });
 }
 
 function hashToken(token: string) {

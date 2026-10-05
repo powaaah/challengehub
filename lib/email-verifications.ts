@@ -29,9 +29,9 @@ export function requestEmailVerificationForEmail(email: string) {
   });
 }
 
-export function verifyEmailForToken(token: string) {
+export async function verifyEmailForToken(token: string) {
   const repository = getRepository();
-  return verifyEmailToken({
+  return await verifyEmailToken({
     token,
     now: new Date(),
     verify: (input) => repository.verifyEmail(input)

@@ -110,27 +110,27 @@ test("fehlgeschlagene Zustellung verwirft das neue Reset-Token", async () => {
   assert.deepEqual(discarded, [{ id: "reset-2", userId: "u1" }]);
 });
 
-test("Passwort wird nur mit syntaktisch gültigem Einmal-Token und mindestens acht Zeichen geändert", () => {
+test("Passwort wird nur mit syntaktisch gültigem Einmal-Token und mindestens acht Zeichen geändert", async () => {
   const calls: unknown[] = [];
   const resetPassword = (input: unknown) => {
     calls.push(input);
     return { status: "reset" as const };
   };
 
-  assert.deepEqual(resetPasswordWithToken({ token: "kurz", password: "neues-passwort", resetPassword }), {
+  assert.deepEqual(await resetPasswordWithToken({ token: "kurz", password: "neues-passwort", resetPassword }), {
     status: "invalid_token"
   });
-  assert.deepEqual(resetPasswordWithToken({ token: "a".repeat(43), password: "kurz", resetPassword }), {
+  assert.deepEqual(await resetPasswordWithToken({ token: "a".repeat(43), password: "kurz", resetPassword }), {
     status: "invalid_password"
   });
-  assert.deepEqual(resetPasswordWithToken({
+  assert.deepEqual(await resetPasswordWithToken({
     token: "a".repeat(43),
     password: "ä".repeat(65),
     now: new Date("2026-07-24T10:15:00.000Z"),
     hashPassword: () => assert.fail("überlange Passwörter dürfen die KDF nicht erreichen"),
     resetPassword
   }), { status: "invalid_password" });
-  assert.deepEqual(resetPasswordWithToken({
+  assert.deepEqual(await resetPasswordWithToken({
     token: "a".repeat(43),
     password: "neues-passwort",
     now: new Date("2026-07-24T10:15:00.000Z"),
@@ -138,7 +138,7 @@ test("Passwort wird nur mit syntaktisch gültigem Einmal-Token und mindestens ac
     hashPassword: () => assert.fail("unbekannte Tokens dürfen die KDF nicht erreichen"),
     resetPassword
   }), { status: "invalid_token" });
-  assert.deepEqual(resetPasswordWithToken({
+  assert.deepEqual(await resetPasswordWithToken({
     token: "a".repeat(43),
     password: "neues-passwort",
     now: new Date("2026-07-24T10:15:00.000Z"),

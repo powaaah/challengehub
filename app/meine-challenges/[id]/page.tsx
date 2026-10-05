@@ -81,9 +81,9 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
   const metricDefinition = participation.definition.type === "daily_boolean"
     ? null
     : participation.definition;
-  const ranking = getChallengeRankingBySlug(participation.challengeSlug, today);
+  const ranking = await getChallengeRankingBySlug(participation.challengeSlug, today);
   const ownRanking = ranking.find((entry) => entry.id === participation.id);
-  const retention = getRetentionDashboard({
+  const retention = await getRetentionDashboard({
     userId: user.id,
     participationId: participation.id,
     today

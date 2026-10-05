@@ -7,23 +7,23 @@ function getChallengeParticipationStatsRepository(): ChallengeParticipationStats
   return new SqliteChallengeParticipationStatsRepository(getDb());
 }
 
-export function getParticipationCountByChallengeSlug(slug: string) {
-  return getChallengeParticipationStatsRepository().countByChallengeSlug(slug);
+export async function getParticipationCountByChallengeSlug(slug: string) {
+  return await getChallengeParticipationStatsRepository().countByChallengeSlug(slug);
 }
 
-export function getParticipationCountsByChallengeSlug() {
-  return getChallengeParticipationStatsRepository().listCountsByChallengeSlug();
+export async function getParticipationCountsByChallengeSlug() {
+  return await getChallengeParticipationStatsRepository().listCountsByChallengeSlug();
 }
 
-export function getChallengeRankingBySlug(
+export async function getChallengeRankingBySlug(
   slug: string,
   today: string,
   options: { publicOnly?: boolean } = {}
 ) {
-  const candidates = getChallengeParticipationStatsRepository().listActiveRankingCandidates(slug, options);
+  const candidates = await getChallengeParticipationStatsRepository().listActiveRankingCandidates(slug, options);
   return rankChallengeParticipants(candidates, today);
 }
 
-export function getRecentChallengeActivityBySlug(slug: string, limit = 8) {
-  return getChallengeParticipationStatsRepository().listRecentCheckIns(slug, limit, { publicOnly: true });
+export async function getRecentChallengeActivityBySlug(slug: string, limit = 8) {
+  return await getChallengeParticipationStatsRepository().listRecentCheckIns(slug, limit, { publicOnly: true });
 }

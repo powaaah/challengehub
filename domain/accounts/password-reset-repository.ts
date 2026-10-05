@@ -19,10 +19,16 @@ export type ResetPasswordResult = {
   status: "reset" | "invalid_token";
 };
 
+export type PasswordResetRepositoryResult<T> = T | Promise<T>;
+
 export interface PasswordResetRepository {
-  createForUser(input: CreatePasswordResetInput): CreatePasswordResetResult;
-  confirmDelivery(input: { id: string; userId: string; deliveredAt: string }): void;
-  discard(input: { id: string; userId: string }): void;
-  isTokenActive(input: { tokenHash: string; now: string }): boolean;
-  resetPassword(input: ResetPasswordInput): ResetPasswordResult;
+  createForUser(input: CreatePasswordResetInput): PasswordResetRepositoryResult<CreatePasswordResetResult>;
+  confirmDelivery(input: {
+    id: string;
+    userId: string;
+    deliveredAt: string;
+  }): PasswordResetRepositoryResult<void>;
+  discard(input: { id: string; userId: string }): PasswordResetRepositoryResult<void>;
+  isTokenActive(input: { tokenHash: string; now: string }): PasswordResetRepositoryResult<boolean>;
+  resetPassword(input: ResetPasswordInput): PasswordResetRepositoryResult<ResetPasswordResult>;
 }

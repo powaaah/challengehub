@@ -16,6 +16,7 @@ test("deutsche Nutzertexte verwenden Umlaute und ß statt ASCII-Umschreibungen",
     lines.forEach((line, index) => {
       const userFacingPart = line
         .replace(/slug:\s*["'][^"']*["']/g, "")
+        .replace(/relatedArticleSlugs:\s*\[[^\]]*\]/g, "")
         .replace(/href=["'][^"']*["']/g, "")
         .replace(/\.replaceAll\([^)]*\)/g, "")
         .replace(/teilnahme-bestaetigt/g, "")

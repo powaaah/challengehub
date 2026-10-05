@@ -26,7 +26,9 @@ export type ChallengeCreationCandidate = {
 };
 
 export interface ChallengeWriteRepository {
-  listSlugs(): string[];
-  listPublishedChallenges(): ChallengeCreationCandidate[];
-  createPending(input: CreatePendingChallengeInput): CreatePendingChallengeResult;
+  listSlugs(): string[] | Promise<string[]>;
+  listPublishedChallenges(): ChallengeCreationCandidate[] | Promise<ChallengeCreationCandidate[]>;
+  createPending(
+    input: CreatePendingChallengeInput
+  ): CreatePendingChallengeResult | Promise<CreatePendingChallengeResult>;
 }

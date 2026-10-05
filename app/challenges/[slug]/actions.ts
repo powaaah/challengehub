@@ -24,7 +24,7 @@ export async function acceptInvitationAction(formData: FormData) {
     redirect(`${fallback}?einladung=${reason}`);
   }
 
-  const result = acceptChallengeInvitation({ token, inviteeUserId: user.id });
+  const result = await acceptChallengeInvitation({ token, inviteeUserId: user.id });
   if (result.status === "accepted") {
     redirect(`/meine-challenges/${result.participationId}`);
   }

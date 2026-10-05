@@ -34,14 +34,14 @@ function getChallengeWriteRepository(): ChallengeWriteRepository {
   return new SqliteChallengeWriteRepository(getDb());
 }
 
-export function submitChallengeForReview(
+export async function submitChallengeForReview(
   input: CreateChallengeForUserInput
-): CreateChallengeForUserResult {
+): Promise<CreateChallengeForUserResult> {
   const repository = getChallengeWriteRepository();
   const proposedSlug = createSlug(input.title, []);
   const duplicateMatches = findChallengeDuplicates(input.title, proposedSlug, [
     ...challenges.map(({ title, slug }) => ({ title, slug })),
-    ...repository.listPublishedChallenges()
+    ...(await repository.listPublishedChallenges())
   ]);
 
   if (duplicateMatches.length > 0) {
@@ -50,11 +50,11 @@ export function submitChallengeForReview(
 
   const existingSlugs = [
     ...challenges.map((challenge) => challenge.slug),
-    ...repository.listSlugs()
+    ...(await repository.listSlugs())
   ];
   const slug = createSlug(input.title, existingSlugs);
 
-  return repository.createPending({
+  return await repository.createPending({
     id: randomUUID(),
     ...input,
     slug

@@ -15,7 +15,7 @@ function unavailableAcceptance() {
   return { status: "invitation_not_available" } as const;
 }
 
-test("Einladung gibt den Roh-Token einmalig aus und persistiert nur seinen Hash", () => {
+test("Einladung gibt den Roh-Token einmalig aus und persistiert nur seinen Hash", async () => {
   const persisted: CreateChallengeInvitationInput[] = [];
   const repository: ChallengeInvitationRepository = {
     create(input) {
@@ -28,7 +28,7 @@ test("Einladung gibt den Roh-Token einmalig aus und persistiert nur seinen Hash"
     accept: unavailableAcceptance
   };
 
-  const result = createChallengeInvitation(
+  const result = await createChallengeInvitation(
     {
       inviterParticipationId: "participation-1",
       inviterUserId: "user-1",
@@ -52,7 +52,7 @@ test("Einladung gibt den Roh-Token einmalig aus und persistiert nur seinen Hash"
   assert.equal(persisted[0].inviterUserId, "user-1");
 });
 
-test("Einladung erneuert kollidierende Tokens und gibt fremde Teilnahme nicht frei", () => {
+test("Einladung erneuert kollidierende Tokens und gibt fremde Teilnahme nicht frei", async () => {
   const tokens = ["collision", "fresh-token"];
   let calls = 0;
   const repository: ChallengeInvitationRepository = {
@@ -66,7 +66,7 @@ test("Einladung erneuert kollidierende Tokens und gibt fremde Teilnahme nicht fr
     accept: unavailableAcceptance
   };
 
-  const result = createChallengeInvitation(
+  const result = await createChallengeInvitation(
     { inviterParticipationId: "participation-1", inviterUserId: "user-1" },
     {
       repository,
@@ -78,7 +78,7 @@ test("Einladung erneuert kollidierende Tokens und gibt fremde Teilnahme nicht fr
   assert.equal(result.status === "created" ? result.token : null, "fresh-token");
   assert.equal(calls, 2);
 
-  const denied = createChallengeInvitation(
+  const denied = await createChallengeInvitation(
     { inviterParticipationId: "foreign", inviterUserId: "user-1" },
     {
       repository: {
@@ -93,7 +93,7 @@ test("Einladung erneuert kollidierende Tokens und gibt fremde Teilnahme nicht fr
   assert.deepEqual(denied, { status: "participation_not_available" });
 });
 
-test("Vorschau und Annahme akzeptieren nur 256-Bit-Base64url-Tokens und verwenden den Hash", () => {
+test("Vorschau und Annahme akzeptieren nur 256-Bit-Base64url-Tokens und verwenden den Hash", async () => {
   const token = "A".repeat(43);
   let acceptedHash = "";
   const repository: ChallengeInvitationRepository = {
@@ -116,19 +116,19 @@ test("Vorschau und Annahme akzeptieren nur 256-Bit-Base64url-Tokens und verwende
   };
 
   assert.equal(
-    getChallengeInvitationPreview(token, new Date("2026-07-16T10:00:00.000Z"), repository)?.challengeSlug,
+    (await getChallengeInvitationPreview(token, new Date("2026-07-16T10:00:00.000Z"), repository))?.challengeSlug,
     "10000-schritte-am-tag"
   );
-  assert.equal(getChallengeInvitationPreview("zu-kurz", new Date(), repository), null);
+  assert.equal(await getChallengeInvitationPreview("zu-kurz", new Date(), repository), null);
 
-  const accepted = acceptChallengeInvitation(
+  const accepted = await acceptChallengeInvitation(
     { token, inviteeUserId: "friend", now: new Date("2026-07-16T10:00:00.000Z") },
     { repository, createId: () => "friend-participation" }
   );
   assert.deepEqual(accepted, { status: "accepted", participationId: "friend-participation" });
   assert.equal(acceptedHash, hashInvitationToken(token));
   assert.deepEqual(
-    acceptChallengeInvitation(
+    await acceptChallengeInvitation(
       { token: "ungueltig", inviteeUserId: "friend" },
       { repository, createId: () => "unused" }
     ),

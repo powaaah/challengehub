@@ -89,15 +89,15 @@ test("fehlgeschlagene Zustellung verwirft den neuen Verifikationslink", async ()
   assert.deepEqual(discarded, [{ id: "verify-2", userId: "u1" }]);
 });
 
-test("nur syntaktisch gültige Einmal-Tokens erreichen das Repository", () => {
+test("nur syntaktisch gültige Einmal-Tokens erreichen das Repository", async () => {
   const calls: unknown[] = [];
   const verify = (input: unknown) => {
     calls.push(input);
     return { status: "verified" as const };
   };
 
-  assert.deepEqual(verifyEmailToken({ token: "kurz", now: new Date(), verify }), { status: "invalid_token" });
-  assert.deepEqual(verifyEmailToken({
+  assert.deepEqual(await verifyEmailToken({ token: "kurz", now: new Date(), verify }), { status: "invalid_token" });
+  assert.deepEqual(await verifyEmailToken({
     token: "v".repeat(43),
     now: new Date("2026-08-09T11:10:00.000Z"),
     verify

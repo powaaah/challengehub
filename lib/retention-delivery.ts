@@ -14,7 +14,7 @@ export async function deliverRetentionEmailJobs(input: {
   siteUrl: string;
   tokenSecret: string;
   send: (message: RetentionEmailMessage) => Promise<DeliveryResult>;
-  markDelivered: (notificationId: string) => void;
+  markDelivered: (notificationId: string) => void | Promise<void>;
 }) {
   const result = { delivered: 0, deferred: 0, failed: 0 };
   for (const job of input.jobs) {
@@ -30,7 +30,7 @@ export async function deliverRetentionEmailJobs(input: {
       unsubscribeUrl: `${input.siteUrl}/notifications/abmelden?token=${encodeURIComponent(token)}`
     });
     if (delivery.status === "delivered") {
-      input.markDelivered(job.id);
+      await input.markDelivered(job.id);
       result.delivered += 1;
     } else if (delivery.status === "not_configured") {
       result.deferred += 1;
@@ -45,7 +45,7 @@ export async function deliverDueRetentionEmails(limit = 50) {
   const tokenSecret = process.env.RETENTION_TOKEN_SECRET ?? process.env.RATE_LIMIT_SECRET;
   if (!tokenSecret) return { delivered: 0, deferred: 0, failed: 0, status: "not_configured" as const };
   const result = await deliverRetentionEmailJobs({
-    jobs: getDueRetentionEmailJobs(limit),
+    jobs: await getDueRetentionEmailJobs(limit),
     siteUrl: SITE_URL,
     tokenSecret,
     send: sendRetentionEmail,

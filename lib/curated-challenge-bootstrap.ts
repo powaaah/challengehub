@@ -7,13 +7,13 @@ function getCuratedChallengeBootstrapRepository(): CuratedChallengeBootstrapRepo
   return new SqliteCuratedChallengeBootstrapRepository(getDb());
 }
 
-export function ensureParticipationChallengeRow(slug: string) {
+export async function ensureParticipationChallengeRow(slug: string) {
   const challenge = getChallengeBySlug(slug);
   if (!challenge) {
     throw new Error("Challenge not found.");
   }
 
-  return getCuratedChallengeBootstrapRepository().ensureChallenge({
+  return await getCuratedChallengeBootstrapRepository().ensureChallenge({
     id: `curated:${challenge.slug}`,
     slug: challenge.slug,
     title: challenge.title,

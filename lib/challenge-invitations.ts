@@ -22,20 +22,20 @@ export type InvitationPreview = {
   expiresAt: string;
 };
 
-export function createChallengeInvitation(
+export async function createChallengeInvitation(
   input: {
     inviterParticipationId: string;
     inviterUserId: string;
     now?: Date;
   },
   dependencies: InvitationDependencies = getInvitationDependencies()
-): CreateInvitationResult {
+): Promise<CreateInvitationResult> {
   const createdAt = (input.now ?? new Date()).toISOString();
   const expiresAt = new Date(Date.parse(createdAt) + INVITATION_LIFETIME_MS).toISOString();
 
   for (let attempt = 0; attempt < MAX_TOKEN_ATTEMPTS; attempt += 1) {
     const token = dependencies.createToken();
-    const result = dependencies.repository.create({
+    const result = await dependencies.repository.create({
       id: dependencies.createId(),
       inviterParticipationId: input.inviterParticipationId,
       inviterUserId: input.inviterUserId,
@@ -60,13 +60,16 @@ export function hashInvitationToken(token: string) {
   return `sha256:${createHash("sha256").update(token, "utf8").digest("hex")}`;
 }
 
-export function getChallengeInvitationPreview(
+export async function getChallengeInvitationPreview(
   token: string,
   now = new Date(),
   repository: ChallengeInvitationRepository = getInvitationDependencies().repository
-): InvitationPreview | null {
+): Promise<InvitationPreview | null> {
   if (!isInvitationToken(token)) return null;
-  const invitation = repository.findActiveByTokenHash(hashInvitationToken(token), now.toISOString());
+  const invitation = await repository.findActiveByTokenHash(
+    hashInvitationToken(token),
+    now.toISOString()
+  );
   if (!invitation) return null;
 
   return {
@@ -76,15 +79,15 @@ export function getChallengeInvitationPreview(
   };
 }
 
-export function acceptChallengeInvitation(
+export async function acceptChallengeInvitation(
   input: { token: string; inviteeUserId: string; now?: Date },
   dependencies: Pick<InvitationDependencies, "repository" | "createId"> = getInvitationDependencies()
-) {
+): Promise<Awaited<ReturnType<ChallengeInvitationRepository["accept"]>>> {
   if (!isInvitationToken(input.token)) {
     return { status: "invitation_not_available" } as const;
   }
 
-  return dependencies.repository.accept({
+  return await dependencies.repository.accept({
     tokenHash: hashInvitationToken(input.token),
     inviteeUserId: input.inviteeUserId,
     participationId: dependencies.createId(),

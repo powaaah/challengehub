@@ -76,7 +76,7 @@ export async function updatePrivacyAction(
   const user = await getCurrentUser();
   if (!user) redirect("/auth?next=/profil");
 
-  const result = updateAccountPrivacyPreferences(user.id, {
+  const result = await updateAccountPrivacyPreferences(user.id, {
     rankingVisible: formData.get("rankingVisible") === "on",
     activityVisible: formData.get("activityVisible") === "on",
     challengeMateDiscoverable: formData.get("challengeMateDiscoverable") === "on"
@@ -99,7 +99,7 @@ export async function deleteAccountAction(
   }
 
   const password = String(formData.get("password") ?? "");
-  const result = deleteAccountWithPassword(user.id, password);
+  const result = await deleteAccountWithPassword(user.id, password);
   if (result.status === "invalid_password") {
     return { error: "Das Passwort ist nicht korrekt.", success: "" };
   }

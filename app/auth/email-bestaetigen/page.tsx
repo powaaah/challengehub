@@ -19,7 +19,7 @@ type EmailVerificationPageProps = {
 export default async function EmailVerificationPage({ searchParams }: EmailVerificationPageProps) {
   const value = (await searchParams).token;
   const token = typeof value === "string" ? value : "";
-  const result = verifyEmailForToken(token);
+  const result = await verifyEmailForToken(token);
   const user = await getCurrentUser();
   const verified = result.status === "verified" || result.status === "already_verified";
 

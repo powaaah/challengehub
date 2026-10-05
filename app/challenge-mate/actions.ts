@@ -30,7 +30,7 @@ export async function saveChallengeMateProfileAction(formData: FormData) {
   });
   if (!parsed) redirectWithStatus("invalid_profile");
 
-  const result = saveChallengeMateProfile({
+  const result = await saveChallengeMateProfile({
     ...parsed,
     userId: user.id,
     updatedAt: new Date().toISOString()
@@ -44,7 +44,7 @@ export async function saveChallengeMateProfileAction(formData: FormData) {
 
 export async function deactivateChallengeMateProfileAction() {
   const user = await requireChallengeMateUser();
-  deactivateChallengeMateProfile(user.id, new Date().toISOString());
+  await deactivateChallengeMateProfile(user.id, new Date().toISOString());
   redirectWithStatus("profile_paused");
 }
 
@@ -52,7 +52,7 @@ export async function requestChallengeMateAction(formData: FormData) {
   const user = await requireChallengeMateUser();
   const recipientUserId = readIdentifier(formData, "recipientUserId");
   if (!recipientUserId) redirectWithStatus("action_failed");
-  const result = requestChallengeMate({
+  const result = await requestChallengeMate({
     id: randomUUID(),
     requesterUserId: user.id,
     recipientUserId,
@@ -65,7 +65,7 @@ export async function acceptChallengeMateAction(formData: FormData) {
   const user = await requireChallengeMateUser();
   const connectionId = readIdentifier(formData, "connectionId");
   if (!connectionId) redirectWithStatus("action_failed");
-  const result = acceptChallengeMate({
+  const result = await acceptChallengeMate({
     connectionId,
     recipientUserId: user.id,
     acceptedAt: new Date().toISOString()
@@ -78,7 +78,7 @@ export async function blockChallengeMateAction(formData: FormData) {
   const blockedUserId = readIdentifier(formData, "mateUserId");
   const confirmed = formData.get("confirmBlock") === "yes";
   if (!blockedUserId || !confirmed) redirectWithStatus("action_failed");
-  const result = blockChallengeMate({
+  const result = await blockChallengeMate({
     blockerUserId: user.id,
     blockedUserId,
     createdAt: new Date().toISOString()
@@ -100,7 +100,7 @@ export async function reportChallengeMateAction(formData: FormData) {
   ) {
     redirectWithStatus("action_failed");
   }
-  const result = reportChallengeMate({
+  const result = await reportChallengeMate({
     id: randomUUID(),
     reporterUserId: user.id,
     reportedUserId,

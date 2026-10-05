@@ -1,5 +1,4 @@
 import type {
-  AccountSessionRepository,
   CreateAccountInput,
   CreateAccountResult,
   CreateSessionInput,
@@ -8,7 +7,7 @@ import type {
 import { SqliteAccountSessionRepository } from "../infrastructure/sqlite/sqlite-account-session-repository";
 import { getDb } from "./db";
 
-function getAccountSessionRepository(): AccountSessionRepository {
+function getAccountSessionRepository(): SqliteAccountSessionRepository {
   return new SqliteAccountSessionRepository(getDb());
 }
 

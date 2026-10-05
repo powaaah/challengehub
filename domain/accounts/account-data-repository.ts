@@ -29,15 +29,21 @@ export type AccountDataExport = {
 };
 
 export interface AccountDataRepository {
-  getPrivacyPreferences(userId: string, updatedAt: string): AccountPrivacyPreferences | null;
+  getPrivacyPreferences(
+    userId: string,
+    updatedAt: string
+  ): AccountPrivacyPreferences | null | Promise<AccountPrivacyPreferences | null>;
   updatePrivacyPreferences(input: AccountPrivacyPreferences & {
     userId: string;
     updatedAt: string;
-  }): { status: "updated" | "not_found" };
-  exportAccountData(userId: string, exportedAt: string): AccountDataExport | null;
+  }): { status: "updated" | "not_found" } | Promise<{ status: "updated" | "not_found" }>;
+  exportAccountData(
+    userId: string,
+    exportedAt: string
+  ): AccountDataExport | null | Promise<AccountDataExport | null>;
   deleteAccountData(input: {
     userId: string;
     auditId: string;
     deletedAt: string;
-  }): { status: "deleted" | "not_found" };
+  }): { status: "deleted" | "not_found" } | Promise<{ status: "deleted" | "not_found" }>;
 }

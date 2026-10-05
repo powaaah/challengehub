@@ -12,5 +12,5 @@ export type CreateCheckInResult =
   | "participation_not_found";
 
 export interface CheckInWriteRepository {
-  createForUser(input: CreateCheckInInput): CreateCheckInResult;
+  createForUser(input: CreateCheckInInput): CreateCheckInResult | Promise<CreateCheckInResult>;
 }

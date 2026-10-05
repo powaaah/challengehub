@@ -1,3 +1,5 @@
+import type { ChallengeDefinition } from "./challenge-definition.ts";
+
 export type CuratedChallengeBootstrapInput = {
   id: string;
   slug: string;
@@ -11,6 +13,5 @@ export type CuratedChallengeBootstrapInput = {
 };
 
 export interface CuratedChallengeBootstrapRepository {
-  ensureChallenge(input: CuratedChallengeBootstrapInput): string;
+  ensureChallenge(input: CuratedChallengeBootstrapInput): string | Promise<string>;
 }
-import type { ChallengeDefinition } from "./challenge-definition.ts";

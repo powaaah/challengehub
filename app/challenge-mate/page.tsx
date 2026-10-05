@@ -45,12 +45,12 @@ export default async function ChallengeMatePage({
   const user = await getCurrentUser();
   if (!user) redirect("/auth?next=/challenge-mate");
 
-  const [{ status }, participations] = await Promise.all([
+  const [{ status }, participations, dashboard] = await Promise.all([
     searchParams,
-    Promise.resolve(getParticipationsForUser(user.id))
+    Promise.resolve(getParticipationsForUser(user.id)),
+    Promise.resolve(getChallengeMateDashboard(user.id))
   ]);
   const activeParticipations = participations.filter((participation) => participation.status === "active");
-  const dashboard = getChallengeMateDashboard(user.id);
   const message = status ? statusMessages[status] : null;
 
   return (

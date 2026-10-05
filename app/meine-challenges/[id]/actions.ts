@@ -44,7 +44,7 @@ export async function checkInTodayAction(formData: FormData) {
     redirect("/meine-challenges");
   }
 
-  const result = createCheckInForUser({
+  const result = await createCheckInForUser({
     participationId,
     userId: user.id,
     date: getTodayKey(),
@@ -66,7 +66,7 @@ export async function leaveChallengeAction(formData: FormData) {
     redirect("/meine-challenges");
   }
 
-  const result = leaveParticipationForUser({ participationId, userId: user.id });
+  const result = await leaveParticipationForUser({ participationId, userId: user.id });
   if (result.status === "not_found") {
     redirect("/meine-challenges");
   }
@@ -83,7 +83,7 @@ export async function updateRetentionPreferencesAction(formData: FormData) {
     redirect("/meine-challenges");
   }
 
-  const result = updateRetentionPreferences({
+  const result = await updateRetentionPreferences({
     userId: user.id,
     participationId,
     inAppEnabled: formData.get("inAppEnabled") === "yes",
@@ -106,7 +106,7 @@ export async function markRetentionNotificationReadAction(formData: FormData) {
     !hasUtf8ByteLengthAtMost(notificationId, 100)
   ) redirect("/meine-challenges");
 
-  const result = markRetentionNotificationRead({ notificationId, userId: user.id });
+  const result = await markRetentionNotificationRead({ notificationId, userId: user.id });
   if (result.status === "not_found") redirect("/meine-challenges");
 
   revalidatePath(`/meine-challenges/${participationId}`);
@@ -135,7 +135,7 @@ export async function createInvitationAction(
     return { status: "error", message: "Diese Teilnahme kann keine Einladung erstellen." };
   }
 
-  const result = createChallengeInvitation({
+  const result = await createChallengeInvitation({
     inviterParticipationId: participation.id,
     inviterUserId: user.id
   });

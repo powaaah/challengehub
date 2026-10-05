@@ -21,7 +21,7 @@ export async function startParticipationForUser(input: {
     ? null
     : await getPublishedChallengeBySlug(input.challengeSlug);
   const challengeId = curatedChallenge
-    ? ensureParticipationChallengeRow(input.challengeSlug)
+    ? await ensureParticipationChallengeRow(input.challengeSlug)
     : communityChallenge?.id;
 
   if (!challengeId) {
@@ -33,12 +33,12 @@ export async function startParticipationForUser(input: {
     challengeId
   };
 
-  return getParticipationWriteRepository().startForUser(repositoryInput);
+  return await getParticipationWriteRepository().startForUser(repositoryInput);
 }
 
-export function leaveParticipationForUser(input: {
+export async function leaveParticipationForUser(input: {
   userId: string;
   participationId: string;
 }) {
-  return getParticipationWriteRepository().leaveForUser(input);
+  return await getParticipationWriteRepository().leaveForUser(input);
 }

@@ -9,7 +9,7 @@ export async function GET() {
     return Response.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
 
-  const data = exportAccountData(user.id);
+  const data = await exportAccountData(user.id);
   if (!data) {
     return Response.json({ error: "Konto nicht gefunden." }, { status: 404 });
   }
