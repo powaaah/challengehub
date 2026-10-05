@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
+import { privacyDataInventory } from "@/data/privacy-data-inventory";
 import { getCurrentUser } from "@/lib/auth";
 import styles from "../legal-pages.module.css";
 
@@ -41,28 +42,42 @@ export default async function DatenschutzPage() {
               <code>Kontakt:</code><span>[vor Livegang eintragen]</span>
             </div>
 
-            <h2>Welche Daten verarbeitet werden</h2>
-            <ul>
-              <li><strong>Konto und Anmeldung:</strong> Benutzername, E-Mail-Adresse, Passwort-Hash, Sitzungen und Metadaten zu Passwort-Zurücksetzungen.</li>
-              <li><strong>Challenges:</strong> selbst erstellte Challenges, Teilnahmen, Check-ins, Messwerte, Notizen und Abschlussstatus.</li>
-              <li><strong>Gemeinsame Nutzung:</strong> Einladungen sowie freiwillige ChallengeMate-Profile, Anfragen, Matches, Blockierungen und Meldungen.</li>
-              <li><strong>Erinnerungen:</strong> deine Einstellungen, In-App-Mitteilungen und – nur nach Opt-in – der Zustellstatus von E-Mails.</li>
-              <li><strong>Betrieb:</strong> pseudonymisierte Kennungen für Missbrauchslimits sowie technisch notwendige Server- und Fehlerprotokolle.</li>
-            </ul>
-
-            <h2>Wofür die Daten verwendet werden</h2>
+            <h2>Technische Dateninventur</h2>
             <p>
-              Die Daten werden verwendet, um dein Konto zu betreiben, deine Challenges und Fortschritte zu speichern, von dir gewünschte Kontakte und Erinnerungen bereitzustellen sowie den Dienst zuverlässig zu betreiben. ChallengeHub bindet derzeit kein Analyse- oder Werbetracking ein.
+              Die folgende Übersicht nennt Daten, Zweck, mögliche Empfänger und den tatsächlich implementierten Lebenszyklus. Eine Gültigkeitsdauer bedeutet nicht automatisch, dass der zugehörige Datensatz danach bereits gelöscht wird. ChallengeHub bindet derzeit kein Analyse- oder Werbetracking ein.
             </p>
+            <div className={styles.inventory}>
+              {privacyDataInventory.map((entry) => (
+                <article className={styles.inventoryEntry} id={`daten-${entry.id}`} key={entry.id}>
+                  <h3>{entry.title}</h3>
+                  <dl>
+                    <div>
+                      <dt>Daten</dt>
+                      <dd>{entry.data}</dd>
+                    </div>
+                    <div>
+                      <dt>Zweck</dt>
+                      <dd>{entry.purpose}</dd>
+                    </div>
+                    <div>
+                      <dt>Empfänger</dt>
+                      <dd>{entry.recipients}</dd>
+                    </div>
+                    <div>
+                      <dt>Technischer Lebenszyklus</dt>
+                      <dd>{entry.implementedLifecycle}</dd>
+                    </div>
+                  </dl>
+                  {entry.reviewRequired ? (
+                    <p className={styles.reviewNote}>Offener Freigabepunkt: verbindliche Frist und Rechtsgrundlage festlegen.</p>
+                  ) : null}
+                </article>
+              ))}
+            </div>
 
             <h2>Was öffentlich sichtbar ist</h2>
             <p>
               Neue Konten erscheinen standardmäßig weder im öffentlichen Ranking noch im öffentlichen Aktivitätsfeed oder in ChallengeMate-Vorschlägen. Diese drei Freigaben kannst du getrennt im <Link href="/profil">Profil</Link> ändern. Dein privater Challenge-Raum bleibt davon unberührt.
-            </p>
-
-            <h2>Datenweitergabe</h2>
-            <p>
-              Daten werden für den technischen Betrieb auf dem Hosting-System verarbeitet. Erinnerungs-E-Mails werden nur bei aktivierter Funktion über den konfigurierten Versanddienst übermittelt. Es findet kein Verkauf personenbezogener Daten statt.
             </p>
 
             <h2>Export und Löschung</h2>
@@ -75,7 +90,7 @@ export default async function DatenschutzPage() {
 
             <h2>Speicherdauer und Rechte</h2>
             <p>
-              Kontodaten bleiben bis zur Löschung des Kontos gespeichert. Sitzungen und Zurücksetzungslinks besitzen eigene Ablaufzeiten; Rate-Limit-Ereignisse werden nach Ablauf bereinigt. Verbindliche Fristen für technische Protokolle und den anonymen Löschvermerk werden im finalen Löschkonzept festgelegt.
+              Die oben genannten technischen Lebenszyklen beschreiben den aktuellen Code-Stand, noch keine rechtlich freigegebenen Aufbewahrungsfristen. Insbesondere für abgelaufene Sitzungen und Tokens, Einladungen, Moderationsdaten, dauerhafte Mitteilungen, Hosting-Protokolle und den anonymen Löschvermerk fehlen noch verbindliche Fristen oder automatische Löschläufe.
             </p>
             <p>
               Für Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch und Datenübertragbarkeit wird vor dem Produktionsstart der Kontakt des Verantwortlichen ergänzt. Benutzername, Sichtbarkeit, Export und Kontolöschung kannst du bereits direkt im Profil verwalten.

@@ -88,6 +88,23 @@ test("Registrieren wechselt den Login-Dialog in das Registrierungsformular", asy
   await expect(dialog.getByLabel("E-Mail-Adresse")).toBeVisible();
   await expect(dialog.getByLabel("Passwort")).toBeVisible();
   await expect(dialog.getByRole("button", { name: "Account erstellen" })).toBeVisible();
+  await expect(dialog.getByText(/Wie ChallengeHub deine Kontodaten verarbeitet/)).toBeVisible();
+  await expect(dialog.getByRole("link", { name: "Datenschutzhinweise" })).toHaveAttribute(
+    "href",
+    "/datenschutz"
+  );
+  await expect(dialog.getByRole("checkbox")).toHaveCount(0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
+  await dialog.getByRole("link", { name: "Datenschutzhinweise" }).click();
+  await expect(page).toHaveURL("/datenschutz");
+  await expect(page.getByRole("heading", { name: "Datenschutz", level: 1 })).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    "https://challengehub.de/datenschutz"
+  );
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
 });
 
 test("Jetzt teilnehmen oeffnet denselben Login- und Registrierungsdialog", async ({ page }) => {

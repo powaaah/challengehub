@@ -101,3 +101,63 @@
   color: var(--brand-dark);
   font-weight: 600;
 }
+
+.inventory {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.inventoryEntry {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--background);
+  padding: clamp(1rem, 3vw, 1.4rem);
+}
+
+.inventoryEntry h3 {
+  margin-top: 0;
+  color: var(--background-deep);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.inventoryEntry dl {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+}
+
+.inventoryEntry dl > div {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 0.32fr) minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.inventoryEntry dt {
+  color: var(--text);
+  font-weight: 750;
+}
+
+.inventoryEntry dd {
+  min-width: 0;
+  margin: 0;
+  color: var(--text-muted);
+  font-weight: 600;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.inventoryEntry .reviewNote {
+  margin: 0.9rem 0 0;
+  border-left: 3px solid rgb(234, 115, 23);
+  padding-left: 0.75rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 560px) {
+  .inventoryEntry dl > div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}

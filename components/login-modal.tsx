@@ -119,6 +119,15 @@ export function LoginModal({
             />
           </label>
           <SubmitButton mode={mode} />
+          {isRegister ? (
+            <p className={styles.privacyNotice}>
+              Wie ChallengeHub deine Kontodaten verarbeitet, erfährst du in den{" "}
+              <Link href="/datenschutz" onClick={onClose}>
+                Datenschutzhinweisen
+              </Link>
+              .
+            </p>
+          ) : null}
         </form>
         {!isRegister ? (
           <>
