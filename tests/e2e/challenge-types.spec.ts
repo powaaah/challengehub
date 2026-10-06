@@ -75,6 +75,11 @@ test("kumulative Challenge durchläuft Erstellung, Mess-Check-in, Abschluss, Ran
   await expect(page.getByRole("complementary").getByText("60 von 50 Wiederholungen", { exact: true })).toBeVisible();
   await expect(page.locator('tr[aria-current="true"]')).toContainText("60 von 50 Wiederholungen");
 
+  await page.setViewportSize({ width: 320, height: 900 });
+  await page.reload();
+  await expect(page.getByRole("complementary").getByText("60 von 50 Wiederholungen", { exact: true })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+
   await page.goto("/profil");
   await page.getByLabel("Im öffentlichen Ranking anzeigen").check();
   await page.getByLabel("Check-ins im öffentlichen Aktivitätsfeed anzeigen").check();

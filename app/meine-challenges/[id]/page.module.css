@@ -399,6 +399,50 @@
   font-weight: 750;
 }
 
+.panel,
+.panel form input[type="number"],
+.checkButton,
+.reminder,
+.reminder a,
+.retention,
+.notification,
+.notificationRead {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.hero .panel:first-child {
+  border: 0;
+  border-top: 6px solid var(--orange);
+  background: #111717;
+  color: #f7f6f0;
+}
+
+.hero .panel:first-child h1,
+.hero .panel:first-child h2,
+.hero .panel:first-child .stats dd {
+  color: #f7f6f0;
+}
+
+.hero .panel:first-child .goal,
+.hero .panel:first-child .note,
+.hero .panel:first-child .stats dt {
+  color: #d4dfd4;
+}
+
+.hero .panel:first-child .kicker {
+  color: var(--orange);
+}
+
+.hero .panel:first-child form label {
+  color: #f7f6f0;
+}
+
+.panel h1,
+.panel h2 {
+  text-transform: uppercase;
+}
+
 @media (max-width: 820px) {
   .hero {
     grid-template-columns: 1fr;

@@ -350,6 +350,62 @@
   line-height: 1.6;
 }
 
+.page {
+  background: var(--background);
+}
+
+.hero {
+  border: 0;
+  border-radius: 0;
+  background: #111717;
+  color: #f7f6f0;
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+  box-shadow: none;
+}
+
+.hero h1 {
+  max-width: 17ch;
+  color: #f7f6f0;
+  font-size: clamp(3.6rem, 8vw, 7.5rem);
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.hero .description,
+.hero .backLink {
+  color: #e0e8dd;
+}
+
+.hero .level {
+  color: var(--orange);
+}
+
+.factsPanel,
+.rulesPanel,
+.participationSection,
+.rankingSection,
+.activitySection,
+.invitationError,
+.secondaryAction {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.factsPanel h2,
+.rulesPanel h2,
+.participationSection h2,
+.sectionHeader h2 {
+  text-transform: uppercase;
+}
+
+.participationSection {
+  border-left: 6px solid var(--orange);
+}
+
+.participationSection .eyebrow {
+  color: #ffae83;
+}
+
 @media (max-width: 900px) {
   .factsRulesSection,
   .participationSection,

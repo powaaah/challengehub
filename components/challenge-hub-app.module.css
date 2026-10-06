@@ -757,6 +757,124 @@
   width: 100%;
 }
 
+/* The catalog remains data-driven; only the visual language changes. */
+.primaryButton,
+.addButton,
+.emptyState a {
+  background: var(--brand);
+  box-shadow: none;
+}
+
+.primaryButton,
+.secondaryButton,
+.filterButton,
+.addButton,
+.searchLabel input,
+.sortLabel select,
+.tile,
+.tileLink:focus-visible,
+.modal,
+.closeButton,
+.emptyState {
+  border-radius: 0;
+}
+
+.hero {
+  position: relative;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: 2rem;
+  min-height: min(720px, 85svh);
+  padding-block: clamp(2rem, 5vw, 4rem);
+}
+
+.homeMain,
+.catalogPage {
+  background: var(--background);
+}
+
+.heroCopy h1,
+.catalogHero h1 {
+  max-width: 12ch;
+  font-size: clamp(3.4rem, 8vw, 7.5rem);
+  text-transform: uppercase;
+  line-height: 0.94;
+}
+
+.heroCopy h1 {
+  font-size: clamp(2.5rem, 4.2vw, 4rem);
+  overflow-wrap: normal;
+}
+
+.heroCopy > p:not(.kicker) {
+  max-width: 48ch;
+  color: var(--text-muted);
+}
+
+.productPreview {
+  min-height: 370px;
+  align-content: end;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(145deg, #30443d, #111717 72%);
+  box-shadow: 14px 14px 0 var(--orange);
+}
+
+.productPreview > strong {
+  color: var(--orange);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 5rem);
+  line-height: 0.97;
+  text-transform: uppercase;
+}
+
+.productPreview > p,
+.productPreview dt {
+  color: #d4dfd4;
+}
+
+.sectionHeading h2,
+.accountabilitySection h2,
+.trustSection h2,
+.finalCta h2 {
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  text-transform: uppercase;
+}
+
+.starterGrid a,
+.stepsGrid li {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.stepsGrid li > span {
+  border-radius: 0;
+}
+
+.catalogHero {
+  padding-block: clamp(3rem, 6vw, 6rem);
+}
+
+.catalogHero h1 {
+  max-width: 15ch;
+}
+
+.tile {
+  min-height: 260px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.tile h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.tileMeta {
+  opacity: 1;
+}
+
 @media (max-width: 820px) {
   .hero {
     grid-template-columns: 1fr;

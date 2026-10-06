@@ -223,6 +223,49 @@
   color: var(--user-text);
 }
 
+.hero h1 {
+  text-transform: uppercase;
+}
+
+.form,
+.preview,
+.form input,
+.form select,
+.form textarea,
+.primaryButton,
+.error,
+.notice,
+.previewMeta span {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.form {
+  border-top: 5px solid var(--brand);
+}
+
+.preview {
+  background: #202a29;
+  color: #f7f6f0;
+  border: 0;
+}
+
+.previewKicker {
+  color: var(--orange);
+}
+
+.preview h2 {
+  text-transform: uppercase;
+}
+
+.preview.Beginner,
+.preview.Advanced,
+.preview.Premium,
+.preview.User {
+  background: #202a29;
+  color: #f7f6f0;
+}
+
 @media (max-width: 860px) {
   .workspace,
   .split {

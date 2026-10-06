@@ -363,6 +363,53 @@
   font-weight: 650;
 }
 
+.hero {
+  border-radius: 0;
+  box-shadow: none;
+  border-top: 6px solid var(--orange);
+}
+
+.hero.Premium,
+.hero.Advanced,
+.hero.Beginner,
+.hero.User {
+  background: #111717;
+  color: #f7f6f0;
+}
+
+.hero h1 {
+  max-width: 17ch;
+  text-transform: uppercase;
+}
+
+.detailFacts,
+.detailRules,
+.detailRanking,
+.detailActivity,
+.detailSeo,
+.detailParticipation,
+.primaryPanel,
+.rulesPanel,
+.tips,
+.actions a {
+  border-radius: 0;
+}
+
+.detailParticipation {
+  border-left: 6px solid var(--orange);
+}
+
+.detailParticipation .eyebrow {
+  color: #ffae83;
+}
+
+.detailFacts h2,
+.detailRules h2,
+.detailParticipation h2,
+.detailSectionHeader h2 {
+  text-transform: uppercase;
+}
+
 @media (max-width: 820px) {
   .hero {
     padding: 1.5rem;

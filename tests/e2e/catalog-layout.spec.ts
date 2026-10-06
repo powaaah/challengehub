@@ -102,7 +102,7 @@ test("globaler Tastaturfokus verwendet einen kontrastreichen Zweifarb-Ring", asy
   });
 
   expect(focusStyle).toEqual({
-    outlineColor: "rgb(0, 96, 125)",
+    outlineColor: "rgb(189, 71, 27)",
     outlineStyle: "solid",
     outlineWidth: "3px",
     outlineOffset: "2px",
