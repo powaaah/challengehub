@@ -2808,3 +2808,14 @@
 - Live: Startseite, Katalog, Schritte-Detail, Wissen bei 1440/390/320 px jeweils HTTP 200, dunkle Themevariablen und kein horizontaler Ueberlauf. Login bei allen drei Breiten geoeffnet und per Escape geschlossen. Screenshots visuell geprueft; www ebenfalls HTTP 200. Keine produktiven Testkonten erstellt.
 - Deployment erfolgreich, Rollback nicht benoetigt; temporaere Serverarbeitskopie entfernt. Nachfolgender Dokumentationscommit aendert nur LOG/TODOS und wird ohne erneuten Containerstart synchronisiert.
 - Offen bleiben bekannte Windows-CRLF-Pruefsummenbesonderheit und zentrale Verlaufssynchronisation bei wieder verfuegbarem Wissensspeicher. Naechster Schritt: Stefans Nutzungseindruck zur veroeffentlichten Gestaltung.
+
+
+## 2026-10-15 - Challenge-Medienheader und Calisthenics vorbereitet
+
+- Stefan beauftragt die besprochene Headergestaltung fuer bestehende Challenges, eine neue 5-Minuten-Calisthenics-Challenge und anschliessend explizit Deployment. Branch feat/challenge-media-headers.
+- Gemeinsamer Header fuer kuratierte und Community-Details: Aufgabe mit Kernregeln, Teilnahme beziehungsweise Raumlink direkt oben, vollstaendige Regeln aufklappbar. Alte Fakten-/Regel-/Teilnahmekacheln entfernt; Ranking folgt direkt. Community-Beschreibung bleibt in den Details erhalten.
+- Alle 15 kuratierten Challenges haben passende lokal gespeicherte Fotos; 11 Pexels-Motive und Lizenzherkunft unter docs/challenge-media-sources.md. Mobil Medien oben, Desktop rechts, keine externen Medienabrufe. Community-Challenges ohne redaktionelles Motiv bekommen kein beliebiges Stockfoto.
+- Neue Challenge: zuerst 50 Klimmzuege, danach 100 Liegestuetze, durchlaufende Uhr, Ziel <=300 Sekunden; existierende Sekundenwertung/Bestresultat verwendet. Kein erfundener Rekord; Stefan verzichtet auf YouTube-Link. Sekunden-Eingabe im privaten Raum eindeutig beschriftet.
+- 251 Unit-Tests mit originalen LF-Migrationsbytes bestanden, Zeilenenden danach zurueckgesetzt. Lint, TypeScript und finaler Build bestanden. Vollsuite 66/68; beide Fehler korrigiert (Raumlink nach Abschluss und veraltete Kachelerwartung), gezielte Nachtests bestanden. Alle 15 Motive bei 1440/390 geladen, Bildausschnitte visuell geprueft. Login-Ueberlagerung im ersten Testlauf korrigiert, Registrierung/Einladungen im Gesamtlauf bestanden.
+- Keine Aenderung an bestehenden Challenge-Messdefinitionen, DB-Schema, Abhaengigkeiten oder Serverkonfiguration. Allgemeine Stoppuhr und neue Zeit-Zweitwertung fuer bestehende Wiederholungs-Challenges sind ein separater Funktionsschritt. Zentraler Wissensspeicher weiterhin nicht erreichbar.
+- Naechster Schritt: Push/Merge, gesichertes gezieltes Deployment und Livekontrolle.

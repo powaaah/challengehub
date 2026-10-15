@@ -1,9 +1,7 @@
-import Link from "next/link";
 import { SiteFooter, SiteHeader } from "./site-shell";
-import { ChallengeStart } from "./challenge-start";
+import { ChallengeHero } from "./challenge-hero";
 import { ChallengeInvitationAcceptance } from "./challenge-invitation-acceptance";
 import { ChallengeRankingTable } from "./challenge-ranking-table";
-import { levelLabels } from "@/data/challenges";
 import type { ChallengeActivityEntry } from "@/domain/participations/challenge-participation-stats";
 import type { CurrentUser } from "@/lib/auth";
 import type { ChallengeRankingEntry } from "@/lib/challenge-progress";
@@ -92,67 +90,12 @@ export function DbChallengeDetail({
             : "Dieser Einladungslink ist ungültig, abgelaufen oder wurde bereits verwendet."}
         </p>
       ) : null}
-      <section className={`${styles.hero} ${styles[challenge.level]}`} data-detail-section="hero">
-        <Link className={styles.backLink} href="/challenges">
-          Zurück zu den Challenges
-        </Link>
-        <p className={styles.level}>Öffentliche Challenge | {levelLabels[challenge.level]}</p>
-        <h1>{challenge.title}</h1>
-        <p className={styles.description}>{challenge.description}</p>
-      </section>
-
-      <section className={styles.detailFactsRules} data-detail-section="facts-rules" aria-label="Challenge-Fakten und Regeln">
-        <div className={styles.detailFacts}>
-          <p className={styles.eyebrow}>Die Aufgabe</p>
-          <h2>Auf einen Blick</h2>
-          <dl>
-            <div><dt>Ziel</dt><dd>{challenge.goal}</dd></div>
-            <div><dt>Dauer</dt><dd>{challenge.durationDays} Tage</dd></div>
-            <div><dt>Kategorie</dt><dd>{challenge.category}</dd></div>
-            <div><dt>Fortschritt</dt><dd>{formatChallengeType(challenge.definition.type)}</dd></div>
-            {challenge.definition.type !== "daily_boolean" ? (
-              <div>
-                <dt>Messziel</dt>
-                <dd>
-                  {challenge.definition.direction === "at_most" ? "Höchstens" : "Mindestens"}{" "}
-                  {formatMetricValue(challenge.definition.targetValue, challenge.definition.unit)}
-                </dd>
-              </div>
-            ) : null}
-            {participantCount > 0 ? <div><dt>Teilnahmen</dt><dd>{participantCount}</dd></div> : null}
-          </dl>
-        </div>
-        <div className={styles.detailRules}>
-          <p className={styles.eyebrow}>
-            {isDailyChallenge ? "So zählt der Tag" : "So wird gemessen"}
-          </p>
-          <h2>Regeln</h2>
-          <ol>
-            {challenge.rules.map((rule) => <li key={rule}>{rule}</li>)}
-          </ol>
-        </div>
-      </section>
-
-      <section className={styles.detailParticipation} data-detail-section="participation" aria-labelledby="community-participation">
-        <div>
-          <p className={styles.eyebrow}>Mitmachen</p>
-          <h2 id="community-participation">Bereit für die Challenge?</h2>
-          <p>Starte deine Teilnahme und halte deine echten Check-ins im Challenge-Raum fest.</p>
-        </div>
-        <div className={styles.detailActions}>
-          <ChallengeStart
-            isAuthenticated={Boolean(user)}
-            loginNext={`/challenges/${challenge.slug}`}
-            challenge={{
-              slug: challenge.slug,
-              title: challenge.title,
-              goal: challenge.goal,
-              duration: `${challenge.durationDays} Tage`,
-              targetDays: challenge.durationDays
-            }}
-          />
-        </div>
-      </section>
+      <ChallengeHero
+        challenge={{ ...challenge, duration: `${challenge.durationDays} Tage`, targetDays: challenge.durationDays }}
+        isAuthenticated={Boolean(user)}
+        currentParticipationId={currentParticipationId}
+        participantCount={participantCount}
+      />
 
       <section className={styles.detailRanking} data-detail-section="ranking" aria-labelledby="community-ranking">
         <div className={styles.detailSectionHeader}>
@@ -225,10 +168,4 @@ function formatActivityDate(date: string) {
     year: "numeric",
     timeZone: "Europe/Berlin"
   }).format(new Date(`${date}T12:00:00.000Z`));
-}
-
-function formatChallengeType(type: "daily_boolean" | "cumulative_metric" | "one_time_result") {
-  if (type === "daily_boolean") return "Täglicher Check-in";
-  if (type === "cumulative_metric") return "Messwert sammeln";
-  return "Einmaliges Ergebnis";
 }

@@ -1,10 +1,9 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ChallengeInvitationAcceptance } from "@/components/challenge-invitation-acceptance";
 import { ChallengeRankingTable } from "@/components/challenge-ranking-table";
 import { formatMetricValue } from "@/domain/challenges/challenge-outcome";
-import { ChallengeStart } from "@/components/challenge-start";
+import { ChallengeHero } from "@/components/challenge-hero";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { DbChallengeDetail } from "@/components/db-challenge-detail";
 import { challenges, getChallengeBySlug, levelLabels } from "@/data/challenges";
@@ -131,7 +130,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
       const dbActivity = await getRecentChallengeActivityBySlug(dbChallenge.slug);
       const dbCurrentParticipationId = user
         ? getParticipationsForUser(user.id).find((participation) =>
-            participation.challengeSlug === dbChallenge.slug && participation.status === "active"
+            participation.challengeSlug === dbChallenge.slug && (participation.status === "active" || participation.status === "completed")
           )?.id
         : undefined;
       return (
@@ -156,7 +155,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
   const activity = await getRecentChallengeActivityBySlug(challenge.slug);
   const currentParticipationId = user
     ? getParticipationsForUser(user.id).find((participation) =>
-        participation.challengeSlug === challenge.slug && participation.status === "active"
+        participation.challengeSlug === challenge.slug && (participation.status === "active" || participation.status === "completed")
       )?.id
     : undefined;
   const jsonLd = {
@@ -239,79 +238,12 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
           </p>
         ) : null}
 
-        <section className={styles.hero} data-detail-section="hero">
-          <div className={styles.heroMain}>
-            <Link className={styles.backLink} href="/challenges">
-              Zurück zu den Challenges
-            </Link>
-            <p className={styles.level}>Challenge</p>
-            <h1>{challenge.title}</h1>
-            <p className={styles.description}>
-              {challenge.description}
-            </p>
-          </div>
-        </section>
-
-        <section className={styles.factsRulesSection} data-detail-section="facts-rules" aria-label="Challenge-Fakten und Regeln">
-          <div className={styles.factsPanel}>
-            <p className={styles.eyebrow}>Die Aufgabe</p>
-            <h2>Auf einen Blick</h2>
-            <dl className={styles.factsList}>
-              <div>
-                <dt>Ziel</dt>
-                <dd>{challenge.goal}</dd>
-              </div>
-              <div>
-                <dt>Dauer</dt>
-                <dd>{challenge.duration}</dd>
-              </div>
-              <div>
-                <dt>Niveau</dt>
-                <dd>{levelLabels[challenge.level]}</dd>
-              </div>
-              <div>
-                <dt>Fortschritt</dt>
-                <dd>{formatChallengeType(challenge.definition.type)}</dd>
-              </div>
-              {challenge.definition.type !== "daily_boolean" ? (
-                <div>
-                  <dt>Messziel</dt>
-                  <dd>
-                    {challenge.definition.direction === "at_most" ? "Höchstens" : "Mindestens"}{" "}
-                    {formatMetricValue(challenge.definition.targetValue, challenge.definition.unit)}
-                  </dd>
-                </div>
-              ) : null}
-            </dl>
-          </div>
-          <div className={styles.rulesPanel}>
-            <p className={styles.eyebrow}>
-              {isDailyChallenge ? "So zählt der Tag" : "So wird gemessen"}
-            </p>
-            <h2>Regeln</h2>
-            <ol>
-              {challenge.rules.map((rule) => <li key={rule}>{rule}</li>)}
-            </ol>
-          </div>
-        </section>
-
-        <section className={styles.participationSection} data-detail-section="participation" aria-labelledby="challenge-participation">
-          <div>
-            <p className={styles.eyebrow}>Mitmachen</p>
-            <h2 id="challenge-participation">Bereit für die Challenge?</h2>
-            <p>Starte deine Teilnahme und halte danach jeden echten Check-in in deinem Challenge-Raum fest.</p>
-          </div>
-          <div className={styles.participationActions}>
-              <ChallengeStart
-                challenge={challenge}
-                isAuthenticated={Boolean(user)}
-                loginNext={`/challenges/${challenge.slug}`}
-              />
-              <Link className={styles.secondaryAction} href="/challenge-mate">
-                ChallengeMate finden
-              </Link>
-          </div>
-        </section>
+        <ChallengeHero
+          challenge={challenge}
+          isAuthenticated={Boolean(user)}
+          currentParticipationId={currentParticipationId}
+          participantCount={await getParticipationCountByChallengeSlug(challenge.slug)}
+        />
 
         <section className={styles.rankingSection} data-detail-section="ranking" aria-labelledby="challenge-ranking">
           <div className={styles.sectionHeader}>
@@ -425,10 +357,4 @@ function formatActivityDate(date: string) {
     year: "numeric",
     timeZone: "Europe/Berlin"
   }).format(new Date(`${date}T12:00:00.000Z`));
-}
-
-function formatChallengeType(type: "daily_boolean" | "cumulative_metric" | "one_time_result") {
-  if (type === "daily_boolean") return "Täglicher Check-in";
-  if (type === "cumulative_metric") return "Messwert sammeln";
-  return "Einmaliges Ergebnis";
 }
