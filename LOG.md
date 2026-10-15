@@ -2791,20 +2791,20 @@
 - Nächster Schritt: Gestaltung in der lokalen Vorschau mit Stefan abnehmen; Veröffentlichung nur nach ausdrücklicher Freigabe. SQL-Zeilenendenproblem separat bearbeiten.
 
 
-## 2026-10-15 ? Dunkles Theme zur Ver?ffentlichung integriert
+## 2026-10-15 - Dunkles Theme zur Veroeffentlichung integriert
 
-- Stefan beauftragt ausdr?cklich neuen Branch, Commit, Push, Merge und Deployment. Branch `feat/sitewide-dark-theme`; Persona-Dokumentation separat committet.
-- Neueren Remote-Stand ca765a1 integriert: freigegebenes dunkles Theme ersetzt kantige Gestaltung; zus?tzliche Hero-/320-px-Tests bleiben erhalten, Umbruchschutz f?r lange ?berschriften ?bernommen.
-- Lint, TypeScript, Produktionsbuild bestanden; 249 Unit-Tests mit unver?nderten LF-Migrationsbytes bestanden (Windows-Zeilenenden anschlie?end wiederhergestellt). Vollsuite zun?chst 65/66, 320-px-?berlauf korrigiert; alle sechs gezielten Nachtests inklusive 320-px-Raum und Hero/Login bei f?nf Breiten bestanden.
-- Serverziel anhand laufender Konfiguration best?tigt: theovina.de. Gezielter Release mit Git-/Build-/SQLite-Backup, isoliertem Linux-Build und unver?ndertem Node-Image vorbereitet; Caddy/DNS/andere Dienste bleiben unver?ndert.
-- N?chster Schritt: Nachtests, Push/Merge, Aktivierung und Livepr?fung. Zentraler Wissensspeicher weiterhin nicht erreichbar.
+- Stefan beauftragt ausdruecklich neuen Branch, Commit, Push, Merge und Deployment. Branch `feat/sitewide-dark-theme`; Persona-Dokumentation separat committet.
+- Neueren Remote-Stand ca765a1 integriert: freigegebenes dunkles Theme ersetzt kantige Gestaltung; zusaetzliche Hero-/320-px-Tests bleiben erhalten, Umbruchschutz fuer lange Ueberschriften uebernommen.
+- Lint, TypeScript, Produktionsbuild bestanden; 249 Unit-Tests mit unveraenderten LF-Migrationsbytes bestanden (Windows-Zeilenenden anschliessend wiederhergestellt). Vollsuite zunaechst 65/66, 320-px-Ueberlauf korrigiert; alle sechs gezielten Nachtests inklusive 320-px-Raum und Hero/Login bei fuenf Breiten bestanden.
+- Serverziel anhand laufender Konfiguration bestaetigt: theovina.de. Gezielter Release mit Git-/Build-/SQLite-Backup, isoliertem Linux-Build und unveraendertem Node-Image vorbereitet; Caddy/DNS/andere Dienste bleiben unveraendert.
+- Naechster Schritt: Nachtests, Push/Merge, Aktivierung und Livepruefung. Zentraler Wissensspeicher weiterhin nicht erreichbar.
 
 
-## 2026-10-15 ? Dunkles Theme ver?ffentlicht
+## 2026-10-15 - Dunkles Theme veroeffentlicht
 
 - Branch `feat/sitewide-dark-theme` gepusht, PR https://github.com/powaaah/challengehub/pull/1 gemergt. Anwendungsrelease `6c39dcefe41c14d3511e4604d2794a98c9399e6f` auf bestehender Instanz https://theovina.de aktiviert.
-- Vor Aktivierung Git-Bundle, vorherigen Next-Build, SQLite-Onlinebackup (integrity_check ok) und gesch?tzte Konfigurationskopien serverseitig gesichert. Updater-Sperre gehalten; nur ChallengeHub neu erstellt. Keine DNS-/Caddy-/Compose- oder Datenmodell?nderung.
-- Im unver?nderten Produktionsimage isoliert npm ci, alle 249 Unit-Tests, Lint und Build erfolgreich. Lokal TypeScript und alle sechs Nachtests nach Umbruchkorrektur bestanden; zuvor Vollsuite 65/66. Kein offener Testfehler.
-- Live: Startseite, Katalog, Schritte-Detail, Wissen bei 1440/390/320 px jeweils HTTP 200, dunkle Themevariablen und kein horizontaler ?berlauf. Login bei allen drei Breiten ge?ffnet und per Escape geschlossen. Screenshots visuell gepr?ft; www ebenfalls HTTP 200. Keine produktiven Testkonten erstellt.
-- Deployment erfolgreich, Rollback nicht ben?tigt; tempor?re Serverarbeitskopie entfernt. Nachfolgender Dokumentationscommit ?ndert nur LOG/TODOS und wird ohne erneuten Containerstart synchronisiert.
-- Offen bleiben bekannte Windows-CRLF-Pr?fsummenbesonderheit und zentrale Verlaufssynchronisation bei wieder verf?gbarem Wissensspeicher. N?chster Schritt: Stefans Nutzungseindruck zur ver?ffentlichten Gestaltung.
+- Vor Aktivierung Git-Bundle, vorherigen Next-Build, SQLite-Onlinebackup (integrity_check ok) und geschuetzte Konfigurationskopien serverseitig gesichert. Updater-Sperre gehalten; nur ChallengeHub neu erstellt. Keine DNS-/Caddy-/Compose- oder Datenmodellaenderung.
+- Im unveraenderten Produktionsimage isoliert npm ci, alle 249 Unit-Tests, Lint und Build erfolgreich. Lokal TypeScript und alle sechs Nachtests nach Umbruchkorrektur bestanden; zuvor Vollsuite 65/66. Kein offener Testfehler.
+- Live: Startseite, Katalog, Schritte-Detail, Wissen bei 1440/390/320 px jeweils HTTP 200, dunkle Themevariablen und kein horizontaler Ueberlauf. Login bei allen drei Breiten geoeffnet und per Escape geschlossen. Screenshots visuell geprueft; www ebenfalls HTTP 200. Keine produktiven Testkonten erstellt.
+- Deployment erfolgreich, Rollback nicht benoetigt; temporaere Serverarbeitskopie entfernt. Nachfolgender Dokumentationscommit aendert nur LOG/TODOS und wird ohne erneuten Containerstart synchronisiert.
+- Offen bleiben bekannte Windows-CRLF-Pruefsummenbesonderheit und zentrale Verlaufssynchronisation bei wieder verfuegbarem Wissensspeicher. Naechster Schritt: Stefans Nutzungseindruck zur veroeffentlichten Gestaltung.

@@ -10,7 +10,8 @@ Stand: 2026-10-15
 ## Active
 
 - [x] Dunkles Referenztheme auf die gesamte Website übertragen: zentrale Farben, Header/Footer, Startseite/Katalog, Detailseiten, private Bereiche, Formulare und Statusmeldungen; Kontrast, Desktop/Mobil und bestehende Abläufe geprüft (61/61 E2E, Lint, TypeScript, Build bestanden).
-- [ ] Dunkles Theme mit Stefan lokal abnehmen; zentrale Verlaufssynchronisation nach Wiederverfügbarkeit des Wissensspeichers nachholen. Veröffentlichung erst nach ausdrücklicher Freigabe.
+- [x] Dunkles Theme von Stefan zur Veroeffentlichung freigegeben; Branch gepusht, PR #1 gemergt und auf theovina.de deployt. Servertests/Build und Livepruefung bei 1440/390/320 px bestanden (15.10.2026).
+- [ ] Zentrale Verlaufssynchronisation nach Wiederverfuegbarkeit des Wissensspeichers nachholen.
 
 - [x] Bestätigte dunkle Challenge-Kacheln mit ruhiger Titelschrift, mehr Zeilenabstand und beschrifteten Teilnehmerzahlen umsetzen; Desktop/Mobil und bestehende Katalogfunktionen prüfen.
 - [ ] Zeilenendenstrategie für unveränderliche SQL-Migrationen klären: Windows-Checkout von `0015_challenge_pending_status.sql` verwendet CRLF und verletzt den Byte-Prüfsummentest; LF-Inhalt stimmt mit der gespeicherten Prüfsumme überein.
