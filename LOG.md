@@ -2789,3 +2789,12 @@
 - Bekannter unabhängiger Fehler: 248/249 Unit-Tests bestanden; unveränderter SQL-Prüfsummenfehler durch CRLF in Migration 0015 bleibt offen. Erster vollständiger Browserlauf 59/61; zusätzliche UI-Registrierungen führten zur Testlimit-Kollision, deshalb Fixture-Umstellung und erneuter Gesamtlauf.
 - Nicht geändert: Fachlogik, Inhalte, URLs/SEO-Verträge, Datenbankschema, Abhängigkeiten, Social-Preview-Grafiken oder Deployment. Bestehende uncommittete Persona-/Projektänderungen erhalten; kein Commit/Push. Zentraler Wissensspeicher nicht erreichbar (Transport closed); Kontext aus lokalem LOG und vorhandenem Gespräch verwendet, zentrale Verlaufssynchronisation offen.
 - Nächster Schritt: Gestaltung in der lokalen Vorschau mit Stefan abnehmen; Veröffentlichung nur nach ausdrücklicher Freigabe. SQL-Zeilenendenproblem separat bearbeiten.
+
+
+## 2026-10-15 ? Dunkles Theme zur Ver?ffentlichung integriert
+
+- Stefan beauftragt ausdr?cklich neuen Branch, Commit, Push, Merge und Deployment. Branch `feat/sitewide-dark-theme`; Persona-Dokumentation separat committet.
+- Neueren Remote-Stand ca765a1 integriert: freigegebenes dunkles Theme ersetzt kantige Gestaltung; zus?tzliche Hero-/320-px-Tests bleiben erhalten, Umbruchschutz f?r lange ?berschriften ?bernommen.
+- Lint, TypeScript, Produktionsbuild bestanden; 249 Unit-Tests mit unver?nderten LF-Migrationsbytes bestanden (Windows-Zeilenenden anschlie?end wiederhergestellt). Vollsuite zun?chst 65/66, 320-px-?berlauf korrigiert; alle sechs gezielten Nachtests inklusive 320-px-Raum und Hero/Login bei f?nf Breiten bestanden.
+- Serverziel anhand laufender Konfiguration best?tigt: theovina.de. Gezielter Release mit Git-/Build-/SQLite-Backup, isoliertem Linux-Build und unver?ndertem Node-Image vorbereitet; Caddy/DNS/andere Dienste bleiben unver?ndert.
+- N?chster Schritt: Nachtests, Push/Merge, Aktivierung und Livepr?fung. Zentraler Wissensspeicher weiterhin nicht erreichbar.
