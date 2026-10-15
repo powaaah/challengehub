@@ -2819,3 +2819,11 @@
 - 251 Unit-Tests mit originalen LF-Migrationsbytes bestanden, Zeilenenden danach zurueckgesetzt. Lint, TypeScript und finaler Build bestanden. Vollsuite 66/68; beide Fehler korrigiert (Raumlink nach Abschluss und veraltete Kachelerwartung), gezielte Nachtests bestanden. Alle 15 Motive bei 1440/390 geladen, Bildausschnitte visuell geprueft. Login-Ueberlagerung im ersten Testlauf korrigiert, Registrierung/Einladungen im Gesamtlauf bestanden.
 - Keine Aenderung an bestehenden Challenge-Messdefinitionen, DB-Schema, Abhaengigkeiten oder Serverkonfiguration. Allgemeine Stoppuhr und neue Zeit-Zweitwertung fuer bestehende Wiederholungs-Challenges sind ein separater Funktionsschritt. Zentraler Wissensspeicher weiterhin nicht erreichbar.
 - Naechster Schritt: Push/Merge, gesichertes gezieltes Deployment und Livekontrolle.
+
+
+## 2026-10-16 - Challenge-Medienheader live
+
+- PR https://github.com/powaaah/challengehub/pull/2 gemergt; Anwendungsrelease 8bdf7ef53f479902159a7ab2b69487b0a1f0887b auf theovina.de aktiviert.
+- Git-/Build-/SQLite-Backup mit Integritaetspruefung angelegt, bestehende Updater-Sperre gehalten. Im unveraenderten Produktionsimage npm ci, 251 Unit-Tests, Lint und Build erfolgreich. Nur ChallengeHub neu erstellt; Caddy/Compose unveraendert, kein Rollback erforderlich.
+- Live alle 15 kuratierten Seiten bei 1440/390 px sowie Liegestuetze und Calisthenics bei 320 px geprueft: 32-mal HTTP 200, Bilder geladen, kein horizontaler Ueberlauf, Teilnahme im Header. Wechsel zu Registrierung und Escape bei drei Breiten bestanden; Screenshots visuell geprueft. www-Neuseite HTTP 200. Keine produktiven Testkonten oder Ergebniseintraege erzeugt.
+- Deployment abgeschlossen. Temporaere Serverarbeitskopie wird entfernt, reiner LOG/TODO-Abschluss ohne weiteren Neustart synchronisiert. Naechster Schritt: Nutzerfeedback; allgemeine Stoppuhr und zusaetzliche Zeitwertung bestehender Wiederholungs-Challenges bleiben separate Funktionen.

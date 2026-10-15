@@ -1,6 +1,6 @@
 # ChallengeHub.de Todos
 
-Stand: 2026-10-15
+Stand: 2026-10-16
 
 ## Persona-Grundlage
 
@@ -11,7 +11,7 @@ Stand: 2026-10-15
 
 - [x] Challenge-Detailseiten: passende lokale Header-Fotos, kompakte Aufgabe/Regeln, Teilnahme im Header, alte Infokacheln entfernt; Desktop/Mobil und Dialoge geprüft.
 - [x] 5-Minuten-Calisthenics-Challenge (50 Klimmzüge, danach 100 Liegestütze) mit Zeitwertung ergänzt; auf Stefans Wunsch ohne YouTube-Verweis.
-- [ ] Autorisiertes Deployment der Medienheader und neuen Calisthenics-Challenge abschließen und live prüfen.
+- [x] Medienheader und neue Calisthenics-Challenge über PR #2 veröffentlicht; 251 Servertests, Build und 32 Live-Seitenprüfungen samt Bildern bestanden (16.10.2026).
 
 - [x] Dunkles Referenztheme auf die gesamte Website übertragen: zentrale Farben, Header/Footer, Startseite/Katalog, Detailseiten, private Bereiche, Formulare und Statusmeldungen; Kontrast, Desktop/Mobil und bestehende Abläufe geprüft (61/61 E2E, Lint, TypeScript, Build bestanden).
 - [x] Dunkles Theme von Stefan zur Veroeffentlichung freigegeben; Branch gepusht, PR #1 gemergt und auf theovina.de deployt. Servertests/Build und Livepruefung bei 1440/390/320 px bestanden (15.10.2026).
