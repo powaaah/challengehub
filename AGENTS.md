@@ -18,6 +18,12 @@ latest entries in `LOG.MD`.
 
 Speak German with Stefan unless he asks otherwise.
 
+## Product Personas
+
+For product, UX, feature, and copy decisions, read `docs/personas.md`.
+Tim is the primary persona; Stefan is a close second. Melanie, Aylin, and
+Matthias complete the agreed set. Keep this priority when making decisions.
+
 ## Operating Rules
 
 - Maintain a project todo list in `TODOS.md`.

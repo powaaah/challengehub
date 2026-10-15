@@ -1,6 +1,6 @@
 .page {
   min-height: 70vh;
-  background: var(--background);
+  background: transparent;
   padding: clamp(2rem, 8vw, 6rem) var(--page-gutter);
 }
 
@@ -16,7 +16,7 @@
 
 .kicker {
   margin: 0 0 0.75rem;
-  color: var(--brand);
+  color: var(--accent);
   font-size: 0.82rem;
   font-weight: 750;
   letter-spacing: 0.14em;
@@ -25,7 +25,7 @@
 
 .card h1 {
   margin: 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 7vw, 4rem);
   line-height: 1;

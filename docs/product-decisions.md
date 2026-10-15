@@ -1,6 +1,14 @@
 # ChallengeHub Product Decisions
 
-Stand: 2026-06-23
+Stand: 2026-10-12
+
+## Personas
+
+Die am 2026-10-12 bestätigte Zielgruppen-Grundlage steht in [Personas](personas.md).
+Tim ist die primäre Persona, Stefan folgt knapp dahinter. Melanie, Aylin und
+Matthias ergänzen die beiden Hauptpersonen. Melanies Journey besteht aus einer
+Sammel-Challenge mit mehreren Teil-Challenges; die konkrete Wertung ist noch offen.
+Die folgenden älteren Entscheidungen werden durch diese Dokumentation nicht technisch verändert.
 
 ## Header Navigation
 

@@ -287,8 +287,7 @@ export function ChallengeCatalogApp({
                   <p>{challenge.sourceLabel}</p>
                   <div className={styles.tileMeta}>
                     <span>
-                      <Image src="/images/icon_participants.png" width={24} height={24} alt="" />
-                      {challenge.participants}
+                      {challenge.participants} Teilnehmer
                     </span>
                     <span>{challenge.duration}</span>
                   </div>

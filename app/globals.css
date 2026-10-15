@@ -1,30 +1,40 @@
 :root {
-  --background: #e9e9e2;
-  --background-deep: #111717;
-  --surface: #f7f6f0;
-  --surface-muted: #e4e6de;
-  --text: #111717;
-  --text-muted: #45534b;
-  --brand: #a53d17;
-  --brand-dark: #973714;
-  --orange: #f07842;
-  --premium-bg: #202a29;
-  --premium-text: #f7f6f0;
-  --advanced-bg: #30443d;
-  --advanced-text: #ffffff;
-  --beginner-bg: #3b5548;
-  --beginner-text: #ffffff;
-  --user-bg: #6b3a23;
-  --user-text: #ffffff;
-  --border: #aeb9ad;
-  --shadow: 0 18px 42px rgba(18, 32, 43, 0.16);
-  --content-width: 1300px;
-  --page-gutter: 20px;
-  --radius: 0px;
-  --radius-card: 0px;
-  --focus-color: #bd471b;
-  --focus-ring: 0 0 0 5px #ffffff;
-  --font-display: Impact, "Arial Narrow", "Segoe UI", sans-serif;
+  color-scheme: dark;
+  --background: #090b0e;
+  --background-deep: #10141a;
+  --surface: #14181e;
+  --surface-muted: #1c222b;
+  --text: #f1f3f5;
+  --text-muted: #a8b1bd;
+  --brand: #087a96;
+  --brand-hover: #096b83;
+  --accent: #6cdaec;
+  --brand-dark: var(--accent);
+  --orange: #f1bd78;
+  --premium-bg: var(--surface);
+  --premium-text: var(--text);
+  --advanced-bg: var(--surface);
+  --advanced-text: var(--text);
+  --beginner-bg: var(--surface);
+  --beginner-text: var(--text);
+  --user-bg: var(--surface);
+  --user-text: var(--text);
+  --border: #303843;
+  --border-strong: #637080;
+  --accent-surface: #122d36;
+  --error: #ffaaa6;
+  --error-surface: #321c22;
+  --success: #85dfb3;
+  --success-surface: #142e25;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  --content-width: 1180px;
+  --page-gutter: 16px;
+  --radius: 8px;
+  --radius-card: 10px;
+  --radius-button: 8px;
+  --focus-color: var(--accent);
+  --focus-ring: 0 0 0 5px var(--background);
+  --font-display: "Segoe UI Variable Display", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --font-body: "Segoe UI Variable Text", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --font-ui: "Segoe UI Variable Text", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -40,7 +50,7 @@ html {
 body {
   margin: 0;
   color: var(--text);
-  background: var(--background);
+  background: radial-gradient(ellipse 85% 600px at 50% 0, #192f40 0%, transparent 100%), var(--background);
   font-family: var(--font-body);
   font-weight: 400;
   line-height: 1.5;
@@ -55,15 +65,35 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: 0.01em;
+  font-weight: 600;
+  letter-spacing: 0;
   overflow-wrap: anywhere;
 }
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
+}
+
+input,
+select,
+textarea {
+  color: var(--text);
+  background-color: var(--surface-muted);
+  accent-color: var(--accent);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--background);
 }
 
 button {

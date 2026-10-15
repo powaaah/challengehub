@@ -1,6 +1,6 @@
 .page {
   min-height: 100vh;
-  background: var(--background);
+  background: transparent;
 }
 
 .hero {
@@ -12,7 +12,7 @@
 .kicker,
 .cardKicker {
   margin: 0 0 1rem;
-  color: var(--brand);
+  color: var(--accent);
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -21,10 +21,10 @@
 
 .hero h1 {
   margin: 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-family: var(--font-display);
-  font-size: clamp(3.4rem, 9vw, 7rem);
-  line-height: 0.92;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.12;
 }
 
 .hero p,
@@ -52,7 +52,7 @@
 .emptyState h2,
 .card h2 {
   margin: 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 4rem);
   line-height: 1;
@@ -77,7 +77,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 1.25rem;
 }
 
@@ -100,7 +100,7 @@
 
 .stats div {
   border-radius: 8px;
-  background: var(--background);
+  background: transparent;
   padding: 0.8rem;
 }
 
@@ -113,7 +113,7 @@
 
 .stats dd {
   margin: 0.25rem 0 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-size: 1.35rem;
   font-weight: 600;
 }

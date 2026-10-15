@@ -1,6 +1,6 @@
 .page {
   min-height: 100vh;
-  background: var(--background);
+  background: transparent;
 }
 
 .hero {
@@ -11,7 +11,7 @@
 
 .kicker {
   margin: 0 0 1rem;
-  color: var(--brand);
+  color: var(--accent);
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -19,12 +19,13 @@
 }
 
 .hero h1 {
-  max-width: 12ch;
+  max-width: 24ch;
   margin: 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 8vw, 7rem);
-  line-height: 0.92;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.12;
+  text-wrap: balance;
 }
 
 .hero p {
@@ -36,7 +37,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   gap: 1.25rem;
   width: min(var(--content-width), calc(100% - (var(--page-gutter) * 2)));
   margin: 0 auto 5rem;
@@ -44,6 +45,7 @@
 
 .card {
   display: grid;
+  grid-template-rows: auto auto 1fr auto;
   gap: 0.8rem;
   min-height: 260px;
   border: 1px solid var(--border);
@@ -57,9 +59,11 @@
 
 .card span {
   width: max-content;
+  align-self: start;
   border-radius: 999px;
-  background: var(--orange);
-  color: white;
+  background: var(--surface-muted);
+  color: var(--orange);
+  border: 1px solid var(--border);
   padding: 0.25rem 0.55rem;
   font-size: 0.78rem;
   font-weight: 600;
@@ -67,10 +71,10 @@
 
 .card h2 {
   margin: 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  line-height: 1;
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  line-height: 1.3;
 }
 
 .card p {

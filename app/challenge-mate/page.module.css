@@ -15,7 +15,7 @@
 .eyebrow,
 .cardMeta {
   margin: 0;
-  color: var(--brand);
+  color: var(--accent);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -25,7 +25,7 @@
 .hero h1 {
   max-width: 14ch;
   margin: 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-family: var(--font-display);
   font-size: clamp(3rem, 7vw, 5.5rem);
   line-height: 0.95;
@@ -41,11 +41,11 @@
 
 .status {
   margin: 0 0 1.5rem;
-  border: 1px solid color-mix(in srgb, var(--brand) 35%, white);
+  border: 1px solid var(--brand);
   border-radius: 8px;
-  background: color-mix(in srgb, var(--brand) 9%, white);
+  background: var(--accent-surface);
   padding: 0.9rem 1rem;
-  color: var(--background-deep);
+  color: var(--text);
   font-weight: 700;
 }
 
@@ -72,7 +72,7 @@
 .results h2,
 .emptyState h2 {
   margin: 0.35rem 0 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1;
@@ -99,7 +99,7 @@
 .moderationControls label {
   display: grid;
   gap: 0.45rem;
-  color: var(--background-deep);
+  color: var(--text);
   font-weight: 650;
 }
 
@@ -110,10 +110,10 @@
 .moderationControls textarea {
   width: 100%;
   min-height: 48px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
   background: var(--surface-muted);
-  color: var(--background-deep);
+  color: var(--text);
   padding: 0.75rem;
   font: inherit;
 }
@@ -208,7 +208,7 @@
 
 .cardBody h3 {
   margin: 0.35rem 0 0.65rem;
-  color: var(--background-deep);
+  color: var(--text);
   font-size: 1.4rem;
 }
 
@@ -239,7 +239,7 @@
 
 .cardBody dd {
   margin: 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-weight: 700;
 }
 
@@ -267,7 +267,7 @@
 }
 
 .emptyInline strong {
-  color: var(--background-deep);
+  color: var(--text);
 }
 
 .moderationControls {
@@ -294,7 +294,7 @@
 }
 
 .dangerButton {
-  color: #9b2c2c;
+  color: var(--error);
 }
 
 .moderationControls .confirmBlock {
