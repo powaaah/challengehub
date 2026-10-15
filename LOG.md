@@ -2798,3 +2798,13 @@
 - Lint, TypeScript, Produktionsbuild bestanden; 249 Unit-Tests mit unver?nderten LF-Migrationsbytes bestanden (Windows-Zeilenenden anschlie?end wiederhergestellt). Vollsuite zun?chst 65/66, 320-px-?berlauf korrigiert; alle sechs gezielten Nachtests inklusive 320-px-Raum und Hero/Login bei f?nf Breiten bestanden.
 - Serverziel anhand laufender Konfiguration best?tigt: theovina.de. Gezielter Release mit Git-/Build-/SQLite-Backup, isoliertem Linux-Build und unver?ndertem Node-Image vorbereitet; Caddy/DNS/andere Dienste bleiben unver?ndert.
 - N?chster Schritt: Nachtests, Push/Merge, Aktivierung und Livepr?fung. Zentraler Wissensspeicher weiterhin nicht erreichbar.
+
+
+## 2026-10-15 ? Dunkles Theme ver?ffentlicht
+
+- Branch `feat/sitewide-dark-theme` gepusht, PR https://github.com/powaaah/challengehub/pull/1 gemergt. Anwendungsrelease `6c39dcefe41c14d3511e4604d2794a98c9399e6f` auf bestehender Instanz https://theovina.de aktiviert.
+- Vor Aktivierung Git-Bundle, vorherigen Next-Build, SQLite-Onlinebackup (integrity_check ok) und gesch?tzte Konfigurationskopien serverseitig gesichert. Updater-Sperre gehalten; nur ChallengeHub neu erstellt. Keine DNS-/Caddy-/Compose- oder Datenmodell?nderung.
+- Im unver?nderten Produktionsimage isoliert npm ci, alle 249 Unit-Tests, Lint und Build erfolgreich. Lokal TypeScript und alle sechs Nachtests nach Umbruchkorrektur bestanden; zuvor Vollsuite 65/66. Kein offener Testfehler.
+- Live: Startseite, Katalog, Schritte-Detail, Wissen bei 1440/390/320 px jeweils HTTP 200, dunkle Themevariablen und kein horizontaler ?berlauf. Login bei allen drei Breiten ge?ffnet und per Escape geschlossen. Screenshots visuell gepr?ft; www ebenfalls HTTP 200. Keine produktiven Testkonten erstellt.
+- Deployment erfolgreich, Rollback nicht ben?tigt; tempor?re Serverarbeitskopie entfernt. Nachfolgender Dokumentationscommit ?ndert nur LOG/TODOS und wird ohne erneuten Containerstart synchronisiert.
+- Offen bleiben bekannte Windows-CRLF-Pr?fsummenbesonderheit und zentrale Verlaufssynchronisation bei wieder verf?gbarem Wissensspeicher. N?chster Schritt: Stefans Nutzungseindruck zur ver?ffentlichten Gestaltung.
