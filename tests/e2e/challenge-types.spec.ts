@@ -52,8 +52,7 @@ test("kumulative Challenge durchläuft Erstellung, Mess-Check-in, Abschluss, Ran
   db.close();
 
   await page.goto(`/challenges/${slug}`);
-  await expect(page.getByText("Messwert sammeln", { exact: true })).toBeVisible();
-  await expect(page.getByText("Mindestens 50 Wiederholungen", { exact: true })).toBeVisible();
+  await expect(page.locator('[data-detail-section="hero"]')).toContainText("Insgesamt 50 saubere Wiederholungen sammeln");
 
   const apiResponse = await page.request.get(`/api/v1/challenges/${slug}`);
   expect(apiResponse.ok()).toBeTruthy();

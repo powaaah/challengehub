@@ -61,6 +61,7 @@ export const DAILY_BOOLEAN_DEFINITION: DailyBooleanChallengeDefinition = {
 };
 
 export const CURATED_CHALLENGE_DEFINITIONS: Readonly<Record<string, ChallengeDefinition>> = {
+  "5-minuten-calisthenics-challenge": metricResult("seconds", 300, "at_most"),
   "100-liegestuetze-am-stueck": metricResult("repetitions", 100, "at_least"),
   "1000-liegestuetze-challenge": cumulativeMetric("repetitions", 1000),
   "marathon-unter-3-stunden": metricResult("seconds", 10_800, "at_most"),

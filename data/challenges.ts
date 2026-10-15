@@ -78,6 +78,33 @@ const sources = {
 
 export const challenges: Challenge[] = [
   {
+    title: "5-Minuten-Calisthenics-Challenge",
+    slug: "5-minuten-calisthenics-challenge",
+    definition: getCuratedChallengeDefinition("5-minuten-calisthenics-challenge"),
+    level: "Advanced",
+    participants: 0,
+    rating: 0,
+    createdAt: "2026-10-15",
+    duration: "Auf Zeit",
+    goal: "50 Klimmzüge und anschließend 100 Liegestütze in höchstens fünf Minuten.",
+    description: "Erst 50 Klimmzüge, dann 100 Liegestütze: Schaffe alle 150 Wiederholungen in höchstens fünf Minuten. Pausen sind erlaubt, aber die Uhr läuft weiter.",
+    seoDescription: "Die 5-Minuten-Calisthenics-Challenge: 50 Klimmzüge, danach 100 Liegestütze. Klare Regeln, persönliche Bestzeit und Ranking nach Gesamtzeit.",
+    rules: [
+      "Absolviere zuerst alle 50 Klimmzüge und danach alle 100 Liegestütze; die Übungen werden nicht abgewechselt.",
+      "Klimmzüge zählen vom gestreckten Hang bis mit dem Kinn über die Stange, ohne Kipping oder Unterstützung.",
+      "Liegestütze zählen mit gerader Körperlinie, Brust bis knapp über den Boden und vollständiger Armstreckung; die Knie bleiben vom Boden.",
+      "Sätze und Pausen sind erlaubt. Die Zeit läuft vom Beginn des ersten Klimmzugs bis zur vollständigen Streckung der letzten Liegestütze durch.",
+      "Trage nur die Gesamtzeit eines vollständigen Versuchs in Sekunden ein. Das Ziel ist bei höchstens 300 Sekunden erreicht; kürzere Zeiten stehen höher im Ranking.",
+      "Ergebnisse sind selbst gemeldet. Unvollständige Versuche zählen nicht als Gesamtzeit."
+    ],
+    tips: ["Lege deine Satzaufteilung vor dem Start fest.", "Lass eine zweite Person Wiederholungen zählen und die Zeit stoppen.", "Saubere Ausführung geht vor Tempo; beende den Versuch, wenn du die Bewegung nicht mehr kontrollieren kannst."],
+    faq: [
+      { question: "Darf ich Klimmzüge und Liegestütze abwechseln?", answer: "Für dieses Ranking nicht: Zuerst werden alle 50 Klimmzüge abgeschlossen, anschließend die 100 Liegestütze. So bleiben die Ergebnisse vergleichbar." },
+      { question: "Was ist, wenn ich länger als fünf Minuten brauche?", answer: "Du kannst die Zeit eines vollständigen Versuchs trotzdem erfassen. Deine Bestzeit wird angezeigt; das Fünf-Minuten-Ziel ist erst bei höchstens 300 Sekunden erreicht." },
+      { question: "Wie gebe ich 2:43 Minuten ein?", answer: "Gib 163 Sekunden ein. Die Anzeige rechnet das Ergebnis in Minuten und Sekunden um." }
+    ]
+  },
+  {
     title: "10 000 Schritte am Tag Challenge",
     slug: "10000-schritte-am-tag",
     definition: getCuratedChallengeDefinition("10000-schritte-am-tag"),

@@ -114,7 +114,7 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
                 <form action={checkInTodayAction}>
                   <input type="hidden" name="participationId" value={participation.id} />
                   <label>
-                    {metricDefinition.type === "cumulative_metric" ? "Wert hinzufügen" : "Ergebnis eintragen"}
+                    {metricDefinition.unit === "seconds" ? "Ergebnis in Sekunden" : metricDefinition.type === "cumulative_metric" ? "Wert hinzufügen" : "Ergebnis eintragen"}
                     <input
                       type="number"
                       name="value"
@@ -124,6 +124,7 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
                       disabled={progress.hasCheckedInToday}
                     />
                   </label>
+                  {metricDefinition.unit === "seconds" && <p className={styles.note}>Beispiel: 2:43 Minuten = 163 Sekunden. Trage die gesamte verstrichene Zeit ein.</p>}
                   <p className={styles.note}>
                     Ziel: {metricDefinition.direction === "at_most" ? "höchstens" : "mindestens"}{" "}
                     {formatMetricValue(metricDefinition.targetValue, metricDefinition.unit)}

@@ -9,6 +9,10 @@ Stand: 2026-10-15
 
 ## Active
 
+- [x] Challenge-Detailseiten: passende lokale Header-Fotos, kompakte Aufgabe/Regeln, Teilnahme im Header, alte Infokacheln entfernt; Desktop/Mobil und Dialoge geprüft.
+- [x] 5-Minuten-Calisthenics-Challenge (50 Klimmzüge, danach 100 Liegestütze) mit Zeitwertung ergänzt; auf Stefans Wunsch ohne YouTube-Verweis.
+- [ ] Autorisiertes Deployment der Medienheader und neuen Calisthenics-Challenge abschließen und live prüfen.
+
 - [x] Dunkles Referenztheme auf die gesamte Website übertragen: zentrale Farben, Header/Footer, Startseite/Katalog, Detailseiten, private Bereiche, Formulare und Statusmeldungen; Kontrast, Desktop/Mobil und bestehende Abläufe geprüft (61/61 E2E, Lint, TypeScript, Build bestanden).
 - [x] Dunkles Theme von Stefan zur Veroeffentlichung freigegeben; Branch gepusht, PR #1 gemergt und auf theovina.de deployt. Servertests/Build und Livepruefung bei 1440/390/320 px bestanden (15.10.2026).
 - [ ] Zentrale Verlaufssynchronisation nach Wiederverfuegbarkeit des Wissensspeichers nachholen.

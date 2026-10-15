@@ -3,16 +3,14 @@ import { expect, test } from "@playwright/test";
 test("Challenge-Detailseite ordnet Entscheidung, Teilnahme und Belege verständlich", async ({ page }) => {
   await page.goto("/challenges/10000-schritte-am-tag");
 
-  const expectedSections = ["hero", "facts-rules", "participation", "ranking", "activity", "seo"];
+  const expectedSections = ["hero", "ranking", "activity", "seo"];
   const actualSections = await page.locator("[data-detail-section]").evaluateAll((elements) =>
     elements.map((element) => element.getAttribute("data-detail-section"))
   );
   expect(actualSections).toEqual(expectedSections);
 
-  await expect(page.getByRole("heading", { level: 2, name: "Auf einen Blick" })).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: "Regeln" })).toBeVisible();
+  await page.getByText("Vollständige Regeln", { exact: true }).click();
   await expect(page.getByText("10.000 Schritte zählen pro Kalendertag.")).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: "Bereit für die Challenge?" })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "Top 5" })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "Letzte Aktivitäten" })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "Häufige Fragen" })).toBeVisible();
@@ -40,7 +38,8 @@ test("sichtbare Regeln und FAQ stimmen mit den strukturierten Daten überein", a
     mainEntity: Array<{ name: string; acceptedAnswer: { text: string } }>;
   };
 
-  const visibleRules = await page.locator('[data-detail-section="facts-rules"] ol li').allTextContents();
+  await page.getByText("Vollständige Regeln", { exact: true }).click();
+  const visibleRules = await page.locator('[data-detail-section="hero"] details ol li').allTextContents();
   expect(howTo.step.map((step) => step.text)).toEqual(visibleRules);
   for (const item of faq.mainEntity) {
     await expect(page.getByText(item.name, { exact: true })).toBeVisible();
