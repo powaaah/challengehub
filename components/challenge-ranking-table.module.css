@@ -15,7 +15,7 @@
 }
 
 .emptyHint strong {
-  color: var(--background-deep);
+  color: var(--text);
   font-size: 1rem;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .table th {
-  background: #f4f6f7;
+  background: var(--surface-muted);
   color: var(--text-muted);
   font-size: 0.72rem;
   font-weight: 800;
@@ -111,7 +111,7 @@
 }
 
 .toggleButton:hover {
-  background: #eef8fb;
+  background: var(--accent-surface);
 }
 
 @media (max-width: 560px) {

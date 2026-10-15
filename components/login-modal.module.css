@@ -14,6 +14,9 @@
   width: min(460px, 100%);
   border-radius: 8px;
   background: var(--surface);
+  border: 1px solid var(--border);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
   padding: clamp(1.25rem, 4vw, 1.75rem);
   box-shadow: 0 24px 70px rgba(18, 32, 43, 0.28);
 }
@@ -45,6 +48,7 @@
   width: 126px;
   height: auto;
   margin: 0 auto 1rem;
+  filter: brightness(0) invert(1);
 }
 
 .header {
@@ -63,7 +67,7 @@
 
 .modal h2 {
   margin: 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-size: clamp(1.65rem, 5vw, 2.15rem);
   line-height: 1.12;
   text-align: center;
@@ -94,9 +98,9 @@
 
 .form input {
   min-height: 52px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
-  background: #f7f7f7;
+  background: var(--surface-muted);
   color: var(--text);
   padding: 0 1rem;
   font: inherit;
@@ -137,7 +141,7 @@
   border: 1px solid rgba(234, 115, 23, 0.35);
   border-radius: 8px;
   background: rgba(234, 115, 23, 0.08);
-  color: var(--background-deep);
+  color: var(--text);
   padding: 0.8rem;
   font-weight: 650;
 }
@@ -169,7 +173,7 @@
 .forgotLink {
   display: block;
   margin-top: 0.8rem;
-  color: var(--brand);
+  color: var(--accent);
   font-weight: 700;
   text-align: center;
   text-decoration: none;
@@ -181,7 +185,7 @@
 
 .switchButton {
   all: unset;
-  color: var(--brand);
+  color: var(--accent);
   font-weight: 750;
   cursor: pointer;
 }

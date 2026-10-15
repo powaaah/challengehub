@@ -16,7 +16,7 @@
 
 .header h2 {
   margin: 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 4vw, 2.6rem);
   line-height: 1.05;
@@ -31,7 +31,7 @@
 
 .kicker {
   margin: 0 0 0.5rem;
-  color: var(--brand);
+  color: var(--accent);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -52,7 +52,7 @@
 .grid li,
 .legend span {
   aspect-ratio: 1;
-  border: 1px solid rgba(18, 32, 43, 0.12);
+  border: 1px solid var(--border);
   border-radius: 3px;
 }
 
@@ -61,11 +61,11 @@
 }
 
 .missed {
-  background: #e6e9ec;
+  background: var(--surface-muted);
 }
 
 .open {
-  background: #fff;
+  background: var(--surface);
   outline: 2px solid var(--brand);
   outline-offset: -2px;
 }

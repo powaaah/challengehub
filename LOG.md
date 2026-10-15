@@ -2762,3 +2762,30 @@
 - Umfang: PostgreSQL-Repository-Vorbereitung mit weiterhin aktiver SQLite-Runtime, Wissensartikel/SEO sowie technische Datenschutzinventur und Registrierungshinweis. Bestehende ?nderungen erhalten und thematisch gruppiert.
 - Verifikation: 249/249 Unit-/Repository-/SEO-Tests, 24/24 gezielte Browsertests f?r Auth, Wissensinhalte, Reset, Verifikation, Einladungen und ChallengeMate; ESLint, TypeScript, Produktionsbuild und Diff-Whitespace-Pr?fung bestanden. PostgreSQL-Adapter bleiben ohne echte Datenbankintegration gepr?ft.
 - Releasegrenze: Aktiven VPS-Cron und Update-Skript read-only gepr?ft. `origin/main` wird alle sechs Stunden automatisch gepr?ft und produktiv ?bernommen. Deshalb separater Push-Branch; ?bernahme nach main ben?tigt ausdr?ckliche Freigabe f?r diese produktive Wirkung. Keine VPS-Konfiguration ver?ndert.
+
+## 2026-10-12 – Vereinbarte Personas dauerhaft dokumentiert
+
+- Ziel: Tim, Stefan, Melanie, Aylin und Matthias als abrufbare Projektgrundlage speichern.
+- Änderungen: docs/personas.md mit vollständigen Profilen, Beispielen und Priorisierung erstellt; AGENTS.md und docs/product-decisions.md verweisen darauf. TODOS.md ergänzt. Im zentralen Wissensspeicher Projektübersicht, Personas, Entscheidungen, Aufgaben und Verlauf angelegt.
+- Verifikation: Inhalte mit dem bestätigten Gespräch abgeglichen; zentralen Projektkontext erfolgreich zurückgelesen; Dokumentationsdiff geprüft. Keine Anwendungstests erforderlich, da ausschließlich Dokumentation geändert wurde.
+- Offen: Nutzerforschung zur Validierung und konkrete Wertung der Sammel-Challenges. Keine Änderungen an Anwendung oder Deployment; kein Push.
+- Nächster Schritt: Bei der nächsten Produktplanung Abläufe anhand der Personas prüfen.
+
+## 2026-10-15 – Lesbarkeit der dunklen Challenge-Kacheln
+
+- Ziel: Den von Stefan bestätigten visuellen Entwurf für die Katalogkacheln umsetzen.
+- Änderungen: In components/challenge-hub-app.module.css normale Body-Schrift mit 24–28 px, Gewicht 600 und Zeilenhöhe 1,3 für Titel; mehr Innen-/Textabstände, flexible Kartenhöhe, weiße Texte auch bei Premium, dezente Trennlinie und umbrechende Metadaten. In components/challenge-hub-app.tsx Teilnehmerzahl ausgeschrieben statt Bildsymbol. Dunkle Level-Hintergründe beibehalten; TODOS.md aktualisiert.
+- Verifikation: ESLint, TypeScript und Produktionsbuild bestanden. Alle sechs bestehenden Katalog-E2E-Tests sowie der WCAG-AA-Axe-Scan des Katalogs bestanden. Browserdarstellung bei 1440, 390 und 320 Pixeln visuell geprüft; mobil kein horizontaler Überlauf. Screenshots unter output/playwright/. Anwendungsdiff und Whitespace geprüft.
+- Risiko: Vollständiger Unit-Testlauf mit einem unabhängigen Fehler im SQL-Migrationsprüfsummentest. Unveränderte Migration 0015 liegt im Checkout mit CRLF vor; rein lesende LF-Normalisierung ergibt exakt die erwartete Prüfsumme. Migration und Prüfsummen nicht geändert.
+- Nicht geändert: Daten, Such-/Filter-/Sortierlogik, URLs, Detailseiten und Deployment. Vorhandene Änderungen an Persona-/Projektdokumentation erhalten. Kein Commit oder Push im Projekt.
+- Nächster Schritt: Lokale Gestaltung mit Stefan abnehmen; separate Zeilenendenkorrektur prüfen. Veröffentlichung erst nach ausdrücklicher Freigabe.
+
+## 2026-10-15 – Dunkles Referenztheme für die gesamte Website
+
+- Ziel: Stefans bestätigte Theme-Vorlage auf alle bestehenden Webbereiche übertragen; die zuvor abgestimmte Kachel-Lesbarkeit erhalten.
+- Änderungen: app/globals.css definiert dunkle Flächen, helle Texte, getrennte Akzent-/Buttonfarben, zugängliche Statusfarben, Formulare und Fokusringe. Die CSS-Module unter app/ und components/ nutzen diese Palette für Header/Footer, Startseite, Katalog, Challenge-Details, Wissen, Rechtstexte, Login/Reset, Profil, Erstellung, ChallengeMate, Teilnahmebestätigung und privaten Challenge-Raum. Startseite mit zentriertem Einstieg, zurückhaltendem blauem Verlauf und breiter Produktvorschau; Katalog mit anthrazitfarbenen Karten und kleinen Level-Labels. Wissenskarten und mobile Detailtitel erhalten ruhigere Umbrüche. Login-Dialog bleibt bei geringer Viewporthöhe scrollbar.
+- Tests: tests/e2e/dark-theme.spec.ts prüft öffentliche und private Ansichten bei 390/1440 Pixeln auf Kontrast, helle Altflächen und horizontalen Überlauf und erstellt Screenshots in output/playwright/theme/. Bestehenden Fokus-Test auf die neue Palette angepasst. Visuelle Tests verwenden isolierte Konten-/Session-Fixtures, damit zusätzliche Designprüfungen nicht das gemeinsame Registrierungslimit der funktionalen Tests verbrauchen; keine Rate-Limit-Änderung an der Anwendung.
+- Verifikation: Lint, TypeScript und finaler Produktionsbuild bestanden; gezielter Lauf mit 16 Katalog-/Barrierefreiheits-/Theme-Tests bestanden. Abschließender vollständiger Lauf: 61/61 E2E-Tests bestanden, einschließlich neuer Kontrast-/Theme-Prüfungen für Registrierung, Teilnahmebestätigung und privaten Raum. Öffentliche Seiten, Login, Profil und privater Raum anhand echter Browserbilder geprüft. Lokale Vorschau auf Port 3250 liefert HTTP 200 und nachweislich die neue dunkle CSS-Palette. Diff geprüft; keine Whitespacefehler.
+- Bekannter unabhängiger Fehler: 248/249 Unit-Tests bestanden; unveränderter SQL-Prüfsummenfehler durch CRLF in Migration 0015 bleibt offen. Erster vollständiger Browserlauf 59/61; zusätzliche UI-Registrierungen führten zur Testlimit-Kollision, deshalb Fixture-Umstellung und erneuter Gesamtlauf.
+- Nicht geändert: Fachlogik, Inhalte, URLs/SEO-Verträge, Datenbankschema, Abhängigkeiten, Social-Preview-Grafiken oder Deployment. Bestehende uncommittete Persona-/Projektänderungen erhalten; kein Commit/Push. Zentraler Wissensspeicher nicht erreichbar (Transport closed); Kontext aus lokalem LOG und vorhandenem Gespräch verwendet, zentrale Verlaufssynchronisation offen.
+- Nächster Schritt: Gestaltung in der lokalen Vorschau mit Stefan abnehmen; Veröffentlichung nur nach ausdrücklicher Freigabe. SQL-Zeilenendenproblem separat bearbeiten.

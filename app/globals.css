@@ -1,29 +1,39 @@
 :root {
-  --background: #f5f5f5;
-  --background-deep: #444444;
-  --surface: #ffffff;
-  --surface-muted: #eeeeee;
-  --text: #444444;
-  --text-muted: #555555;
-  --brand: #00607d;
-  --brand-dark: #00607d;
-  --orange: #a84400;
-  --premium-bg: #444444;
-  --premium-text: #ffc769;
-  --advanced-bg: #315d63;
-  --advanced-text: #ffffff;
-  --beginner-bg: #416c68;
-  --beginner-text: #ffffff;
-  --user-bg: #765d00;
-  --user-text: #ffffff;
-  --border: #dddddd;
-  --shadow: 0 18px 42px rgba(18, 32, 43, 0.16);
+  color-scheme: dark;
+  --background: #090b0e;
+  --background-deep: #10141a;
+  --surface: #14181e;
+  --surface-muted: #1c222b;
+  --text: #f1f3f5;
+  --text-muted: #a8b1bd;
+  --brand: #087a96;
+  --brand-hover: #096b83;
+  --accent: #6cdaec;
+  --brand-dark: var(--accent);
+  --orange: #f1bd78;
+  --premium-bg: var(--surface);
+  --premium-text: var(--text);
+  --advanced-bg: var(--surface);
+  --advanced-text: var(--text);
+  --beginner-bg: var(--surface);
+  --beginner-text: var(--text);
+  --user-bg: var(--surface);
+  --user-text: var(--text);
+  --border: #303843;
+  --border-strong: #637080;
+  --accent-surface: #122d36;
+  --error: #ffaaa6;
+  --error-surface: #321c22;
+  --success: #85dfb3;
+  --success-surface: #142e25;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
   --content-width: 1180px;
   --page-gutter: 16px;
   --radius: 8px;
   --radius-card: 10px;
-  --focus-color: #00607d;
-  --focus-ring: 0 0 0 5px #ffffff;
+  --radius-button: 8px;
+  --focus-color: var(--accent);
+  --focus-ring: 0 0 0 5px var(--background);
   --font-display: "Segoe UI Variable Display", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --font-body: "Segoe UI Variable Text", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --font-ui: "Segoe UI Variable Text", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -40,7 +50,7 @@ html {
 body {
   margin: 0;
   color: var(--text);
-  background: var(--background);
+  background: radial-gradient(ellipse 85% 600px at 50% 0, #192f40 0%, transparent 100%), var(--background);
   font-family: var(--font-body);
   font-weight: 400;
   line-height: 1.5;
@@ -61,8 +71,28 @@ h3 {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
+}
+
+input,
+select,
+textarea {
+  color: var(--text);
+  background-color: var(--surface-muted);
+  accent-color: var(--accent);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--background);
 }
 
 button {

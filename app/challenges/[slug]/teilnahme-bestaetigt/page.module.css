@@ -4,16 +4,16 @@
   place-items: center;
   background:
     radial-gradient(circle at 20% 10%, rgba(0, 137, 179, 0.14), transparent 30rem),
-    linear-gradient(180deg, #eef2f4 0, var(--background) 100%);
+    linear-gradient(180deg, transparent, var(--background));
   padding: clamp(2rem, 7vw, 6rem) var(--page-gutter);
 }
 
 .card {
   width: min(48rem, 100%);
-  border: 1px solid rgba(20, 42, 55, 0.12);
+  border: 1px solid var(--border);
   border-top: 4px solid var(--brand);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--surface);
   padding: clamp(1.5rem, 5vw, 3.5rem);
   box-shadow: 0 24px 70px rgba(18, 34, 52, 0.12);
 }
@@ -30,7 +30,7 @@
 .card h1 {
   max-width: 14ch;
   margin: 0;
-  color: var(--background-deep);
+  color: var(--text);
   font-family: var(--font-display);
   font-size: clamp(2.8rem, 7vw, 5rem);
   line-height: 1;
@@ -71,12 +71,12 @@
 }
 
 .primaryAction:hover {
-  background: var(--brand-dark);
+  background: var(--brand);
 }
 
 .secondaryAction {
   border: 1px solid rgba(0, 137, 179, 0.48);
-  background: #fff;
+  background: var(--surface);
   color: var(--brand-dark);
 }
 

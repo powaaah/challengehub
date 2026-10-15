@@ -1,8 +1,19 @@
 # ChallengeHub.de Todos
 
-Stand: 2026-10-05
+Stand: 2026-10-15
+
+## Persona-Grundlage
+
+- [x] Fünf bestätigte Personas in `docs/personas.md` dokumentieren und im Agenten-Kontext verankern: Tim zuerst, Stefan knapp dahinter, ergänzt durch Melanie, Aylin und Matthias.
+- [ ] Bei der nächsten Produktplanung bestehende Abläufe gegen die Personas prüfen und Sammel-Challenges fachlich konkretisieren.
 
 ## Active
+
+- [x] Dunkles Referenztheme auf die gesamte Website übertragen: zentrale Farben, Header/Footer, Startseite/Katalog, Detailseiten, private Bereiche, Formulare und Statusmeldungen; Kontrast, Desktop/Mobil und bestehende Abläufe geprüft (61/61 E2E, Lint, TypeScript, Build bestanden).
+- [ ] Dunkles Theme mit Stefan lokal abnehmen; zentrale Verlaufssynchronisation nach Wiederverfügbarkeit des Wissensspeichers nachholen. Veröffentlichung erst nach ausdrücklicher Freigabe.
+
+- [x] Bestätigte dunkle Challenge-Kacheln mit ruhiger Titelschrift, mehr Zeilenabstand und beschrifteten Teilnehmerzahlen umsetzen; Desktop/Mobil und bestehende Katalogfunktionen prüfen.
+- [ ] Zeilenendenstrategie für unveränderliche SQL-Migrationen klären: Windows-Checkout von `0015_challenge_pending_status.sql` verwendet CRLF und verletzt den Byte-Prüfsummentest; LF-Inhalt stimmt mit der gespeicherten Prüfsumme überein.
 
 - [ ] ChallengeHub anhand der 10/10-Roadmap in `.hermes/plans/2026-07-27_212856-challengehub-10-von-10-roadmap.md` von Launch-Sicherheit über Produktloop und Barrierefreiheit bis zu belastbarer Nutzer- und Kundenvalidierung entwickeln.
   - [x] Playwright vollständig auf atomar erzeugte, Junction-sicher geprüfte
