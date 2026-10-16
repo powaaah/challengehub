@@ -86,7 +86,8 @@ export class PostgresqlAccountDataRepository implements AccountDataRepository {
       const participations = await queryRecords(client,
         `SELECT participations.id, challenges.slug AS "challengeSlug",
            challenges.title AS "challengeTitle", participations.started_at AS "startedAt",
-           participations.status, participations.completed_at AS "completedAt"
+           participations.status, participations.completed_at AS "completedAt",
+           (SELECT seconds FROM challenge_completion_times WHERE participation_id = participations.id) AS "bestTimeSeconds"
          FROM participations
          JOIN challenges ON challenges.id = participations.challenge_id
          WHERE participations.user_id = $1 ORDER BY participations.started_at ASC`, [userId]);

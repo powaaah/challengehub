@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
+import { ensureCompletionTimes } from "../infrastructure/sqlite/sqlite-completion-times.ts";
 import test from "node:test";
 import { ensureChallengeMateSchema } from "../infrastructure/sqlite/sqlite-challenge-mate-migration.ts";
 import { ensureRetentionSchema } from "../infrastructure/sqlite/sqlite-retention-migration.ts";
@@ -84,6 +85,7 @@ function createRepository() {
   ensureChallengeMateSchema(db);
   ensureRetentionSchema(db);
   ensureAccountPrivacySchema(db);
+  ensureCompletionTimes(db);
   return { db, repository: new SqliteAccountDataRepository(db) };
 }
 
@@ -112,6 +114,7 @@ test("Privacy-Defaults sind nicht öffentlich und lassen sich granular aktualisi
 
 test("JSON-Export enthält eigene Produktdaten, aber keine Passwort- oder Tokenwerte", () => {
   const { db, repository } = createRepository();
+  db.prepare("INSERT INTO challenge_completion_times VALUES ('p1', 132, '2026-08-09T12:00:00.000Z')").run();
   repository.updatePrivacyPreferences({
     userId: "u1", rankingVisible: true, activityVisible: false,
     challengeMateDiscoverable: false, updatedAt: "2026-08-09T11:00:00.000Z"
@@ -123,6 +126,7 @@ test("JSON-Export enthält eigene Produktdaten, aber keine Passwort- oder Tokenw
   assert.equal(exported?.account.emailVerifiedAt, null);
   assert.equal(exported?.emailVerifications[0]?.id, "v1");
   assert.equal(exported?.participations[0]?.checkIns[0]?.note, "eigene Notiz");
+  assert.equal(exported?.participations[0]?.bestTimeSeconds, 132);
   assert.equal(exported?.createdChallenges[0]?.slug, "ada-public");
   assert.equal(exported?.acceptedInvitations[0]?.id, "invite-1");
   const serialized = JSON.stringify(exported);

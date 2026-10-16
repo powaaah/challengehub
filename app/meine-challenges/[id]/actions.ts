@@ -5,7 +5,8 @@ import { redirect } from "next/navigation";
 import { hasUtf8ByteLengthAtMost } from "@/domain/security/input-limits";
 import { getCurrentUser } from "@/lib/auth";
 import { createChallengeInvitation } from "@/lib/challenge-invitations";
-import { createCheckInForUser } from "@/lib/check-ins";
+import { createCheckInForUser, saveCompletionTime } from "@/lib/check-ins";
+import { supportsOptionalCompletionTime } from "@/domain/challenges/completion-result";
 import { leaveParticipationForUser } from "@/lib/participation-start";
 import { getParticipationByIdForUser } from "@/lib/participations";
 import { SITE_URL } from "@/lib/seo";
@@ -25,6 +26,8 @@ export async function checkInTodayAction(formData: FormData) {
   const participationId = String(formData.get("participationId") ?? "").trim();
   const rawValue = formData.get("value");
   const value = rawValue === null ? undefined : Number(rawValue);
+  const rawSeconds = formData.get("durationSeconds");
+  const seconds = rawSeconds === null || String(rawSeconds).trim() === "" ? undefined : Number(rawSeconds);
 
   if (!participationId) {
     redirect("/meine-challenges");
@@ -38,24 +41,37 @@ export async function checkInTodayAction(formData: FormData) {
 
   if (
     (value !== undefined && (!Number.isFinite(value) || value <= 0)) ||
+    (seconds !== undefined && (!Number.isFinite(seconds) || seconds < 1 || seconds > 604800)) ||
     !hasUtf8ByteLengthAtMost(participationId, 100) || !allowRateLimitedAction([
     { policy: RATE_LIMIT_POLICIES.checkIn, identifier: user.id }
   ])) {
     redirect("/meine-challenges");
   }
 
-  const result = await createCheckInForUser({
+  const participation = getParticipationByIdForUser({ participationId, userId: user.id });
+  if (!participation) redirect("/meine-challenges");
+  const isFixedTarget = supportsOptionalCompletionTime(participation.definition);
+  if (isFixedTarget && formData.get("completed") !== "yes") {
+    redirect(`/meine-challenges/${participationId}`);
+  }
+  if (!isFixedTarget && seconds !== undefined) redirect(`/meine-challenges/${participationId}`);
+  const result = isFixedTarget && participation.status === "completed" ? "already_exists" : await createCheckInForUser({
     participationId,
     userId: user.id,
     date: getTodayKey(),
-    value
+    value: isFixedTarget ? participation.definition.targetValue : value
   });
 
   if (result === "participation_not_found") {
     redirect("/meine-challenges");
   }
 
+  if (isFixedTarget && seconds !== undefined && (result === "created" || result === "already_exists")) {
+    saveCompletionTime({ participationId, userId: user.id, seconds });
+  }
+
   revalidatePath(`/meine-challenges/${participationId}`);
+  revalidatePath(`/challenges/${participation.challengeSlug}`);
 }
 
 export async function leaveChallengeAction(formData: FormData) {

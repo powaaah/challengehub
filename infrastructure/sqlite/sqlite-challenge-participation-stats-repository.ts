@@ -10,6 +10,7 @@ type RankingRow = {
   id: string;
   startedAt: string;
   name: string;
+  bestTimeSeconds: number | null;
   checkInDate: string | null;
   checkInValue: number | null;
   challengeType: string;
@@ -61,6 +62,7 @@ export class SqliteChallengeParticipationStatsRepository
           participations.id,
           participations.started_at as startedAt,
           users.name,
+          times.seconds AS bestTimeSeconds,
           check_ins.date as checkInDate,
           check_ins.value as checkInValue,
           challenges.challenge_type as challengeType,
@@ -72,6 +74,7 @@ export class SqliteChallengeParticipationStatsRepository
         FROM challenges
         JOIN participations ON participations.challenge_id = challenges.id
         JOIN users ON users.id = participations.user_id
+        LEFT JOIN challenge_completion_times times ON times.participation_id = participations.id
         LEFT JOIN account_privacy_preferences privacy ON privacy.user_id = users.id
         LEFT JOIN check_ins ON check_ins.participation_id = participations.id
         WHERE challenges.slug = ?
@@ -101,6 +104,7 @@ export class SqliteChallengeParticipationStatsRepository
       const candidate = candidates.get(row.id) ?? {
         id: row.id,
         name: row.name,
+        ...(row.bestTimeSeconds != null ? { bestTimeSeconds: row.bestTimeSeconds } : {}),
         startedAt: row.startedAt,
         checkIns: [],
         definition

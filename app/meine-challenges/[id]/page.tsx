@@ -8,6 +8,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getCurrentUser } from "@/lib/auth";
 import { buildChallengeHistory, calculateChallengeProgress } from "@/lib/challenge-progress";
 import { calculateChallengeOutcome, formatMetricValue } from "@/domain/challenges/challenge-outcome";
+import { supportsOptionalCompletionTime } from "@/domain/challenges/completion-result";
 import { getChallengeRankingBySlug } from "@/lib/challenge-participation-stats";
 import {
   getCheckInsForParticipation,
@@ -83,6 +84,7 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
     : participation.definition;
   const ranking = await getChallengeRankingBySlug(participation.challengeSlug, today);
   const ownRanking = ranking.find((entry) => entry.id === participation.id);
+  const isFixedTarget = supportsOptionalCompletionTime(participation.definition);
   const retention = await getRetentionDashboard({
     userId: user.id,
     participationId: participation.id,
@@ -103,14 +105,24 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
               <p className={styles.kicker}>Challenge-Raum</p>
               <h1>{participation.challengeTitle}</h1>
               <p className={styles.goal}>{participation.challengeGoal}</p>
-              {isActive && isDailyChallenge ? (
+              {isFixedTarget && (isActive || participation.status === "completed") ? (
+                <form action={checkInTodayAction}>
+                  <input type="hidden" name="participationId" value={participation.id} />
+                  <label><input type="checkbox" name="completed" value="yes" required /> Ziel vollständig geschafft</label>
+                  <label>Deine Zeit in Sekunden (optional)
+                    <input type="number" name="durationSeconds" min="1" max="604800" step="1" />
+                  </label>
+                  <p className={styles.note}>Beispiel: 2:12 Minuten = 132 Sekunden. Deine kürzeste angegebene Zeit zählt. Ohne Zeit erscheint dein Erfolg als „Geschafft“.</p>
+                  <button className={styles.checkButton} type="submit">{outcome.completed ? "Neue Bestzeit eintragen" : "Erfolg speichern"}</button>
+                </form>
+              ) : isActive && isDailyChallenge ? (
                 <form action={checkInTodayAction}>
                   <input type="hidden" name="participationId" value={participation.id} />
                   <button className={styles.checkButton} type="submit" disabled={progress.hasCheckedInToday}>
                     {progress.hasCheckedInToday ? "Heute gespeichert" : "Challenge heute durchgeführt"}
                   </button>
                 </form>
-              ) : isActive && metricDefinition ? (
+              ) : metricDefinition && (isActive || (metricDefinition.type === "one_time_result" && participation.status === "completed")) ? (
                 <form action={checkInTodayAction}>
                   <input type="hidden" name="participationId" value={participation.id} />
                   <label>
@@ -121,7 +133,7 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
                       min="0.01"
                       step="any"
                       required
-                      disabled={progress.hasCheckedInToday}
+                      disabled={metricDefinition.type !== "one_time_result" && progress.hasCheckedInToday}
                     />
                   </label>
                   {metricDefinition.unit === "seconds" && <p className={styles.note}>Beispiel: 2:43 Minuten = 163 Sekunden. Trage die gesamte verstrichene Zeit ein.</p>}
@@ -129,8 +141,8 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
                     Ziel: {metricDefinition.direction === "at_most" ? "höchstens" : "mindestens"}{" "}
                     {formatMetricValue(metricDefinition.targetValue, metricDefinition.unit)}
                   </p>
-                  <button className={styles.checkButton} type="submit" disabled={progress.hasCheckedInToday}>
-                    {progress.hasCheckedInToday ? "Heute gespeichert" : "Messwert speichern"}
+                  <button className={styles.checkButton} type="submit" disabled={metricDefinition.type !== "one_time_result" && progress.hasCheckedInToday}>
+                    {metricDefinition.type !== "one_time_result" && progress.hasCheckedInToday ? "Heute gespeichert" : "Messwert speichern"}
                   </button>
                 </form>
               ) : (
@@ -166,7 +178,7 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
                 ) : (
                   <>
                     <div><dt>Messungen</dt><dd>{checkIns.length}</dd></div>
-                    <div><dt>Ergebnis</dt><dd>{outcome.label}</dd></div>
+                    <div><dt>Ergebnis</dt><dd>{participation.definition.type === "one_time_result" ? ownRanking?.scoreLabel ?? "Noch offen" : outcome.label}</dd></div>
                     <div><dt>Ziel erreicht</dt><dd>{outcome.completed ? "Ja" : "Noch nicht"}</dd></div>
                   </>
                 )}

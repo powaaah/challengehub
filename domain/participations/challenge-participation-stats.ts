@@ -1,6 +1,7 @@
 export type ChallengeRankingCandidate = {
   id: string;
   name: string;
+  bestTimeSeconds?: number | null;
   startedAt: string;
   checkIns: ChallengeCheckIn[];
   definition: ChallengeDefinition;

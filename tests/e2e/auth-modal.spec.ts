@@ -142,12 +142,12 @@ test("Registrierung ueber Jetzt teilnehmen startet die Challenge und zeigt die B
   await expect(page.getByRole("link", { name: "Challenge-Partner finden" })).toBeVisible();
 
   await page.getByRole("link", { name: "Zurück zur Challenge" }).click();
-  await expect(page.getByRole("heading", { name: "Top 5" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Ranking" })).toBeVisible();
   await expect(page.locator('tr[aria-current="true"]')).toHaveCount(0);
   await expect(page.getByText("Noch keine Rangliste")).toBeVisible();
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.getByRole("heading", { name: "Top 5" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Ranking" })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
 });
 

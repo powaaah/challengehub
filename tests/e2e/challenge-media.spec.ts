@@ -40,8 +40,14 @@ test("new calisthenics challenge supports participation and a timed result", asy
   await page.getByRole("link", { name: "Zum Dashboard" }).click();
   await page.getByRole("spinbutton").fill("163");
   await page.getByRole("button", { name: "Messwert speichern" }).click();
-  await expect(page.getByRole("complementary")).toContainText("2:43 Minuten");
+  await expect(page.getByRole("complementary")).toContainText("2:43 min");
   await expect(page.getByRole("complementary")).toContainText("Ziel erreicht");
+  await page.getByRole("spinbutton").fill("150");
+  await page.getByRole("button", { name: "Messwert speichern" }).click();
+  await expect(page.getByRole("complementary")).toContainText("2:30 min");
+  await page.getByRole("spinbutton").fill("180");
+  await page.getByRole("button", { name: "Messwert speichern" }).click();
+  await expect(page.getByRole("complementary")).toContainText("2:30 min");
   await page.goto("/challenges/5-minuten-calisthenics-challenge");
   await expect(page.locator('[data-detail-section="hero"]').getByRole("link", { name: "Zum Challenge-Raum" })).toBeVisible();
 });

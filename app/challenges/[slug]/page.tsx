@@ -248,19 +248,13 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
         <section className={styles.rankingSection} data-detail-section="ranking" aria-labelledby="challenge-ranking">
           <div className={styles.sectionHeader}>
             <div>
-              <p className={styles.eyebrow}>Ranking</p>
-              <h2 id="challenge-ranking">Top 5</h2>
+              <h2 id="challenge-ranking">Ranking</h2>
             </div>
-            <p>
-              {isDailyChallenge
-                ? "Wer hält am längsten durch?"
-                : "Die besten gemessenen Ergebnisse."}
-            </p>
           </div>
           <ChallengeRankingTable
             entries={ranking}
             currentParticipationId={currentParticipationId}
-            collapsedLimit={5}
+            collapsedLimit={10}
           />
         </section>
 

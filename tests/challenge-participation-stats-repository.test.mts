@@ -1,5 +1,6 @@
 import * as assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
+import { ensureCompletionTimes } from "../infrastructure/sqlite/sqlite-completion-times.ts";
 import { test } from "node:test";
 import { SqliteChallengeParticipationStatsRepository } from "../infrastructure/sqlite/sqlite-challenge-participation-stats-repository.ts";
 import { ensureAccountPrivacySchema } from "../infrastructure/sqlite/sqlite-account-privacy-migration.ts";
@@ -39,6 +40,7 @@ function createRepository() {
       ('i5', 'p4', '2026-07-12', 80, '2026-07-12T10:00:00.000Z');
   `);
   ensureAccountPrivacySchema(db);
+  ensureCompletionTimes(db);
   db.exec(`
     INSERT INTO account_privacy_preferences (
       user_id, ranking_visible, activity_visible, challenge_mate_discoverable, updated_at

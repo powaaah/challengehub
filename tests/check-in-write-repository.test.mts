@@ -120,3 +120,18 @@ test("Check-in-Repository lehnt Check-ins für beendete Teilnahmen ab", () => {
   assert.equal(db.prepare("SELECT COUNT(*) as count FROM check_ins").get()?.count, 0);
   db.close();
 });
+
+test("einmalige Ergebnisse lassen bessere Versuche am selben Tag auch nach Abschluss zu", () => {
+  const { db, repository } = createRepository();
+  const input = { participationId: "p5", userId: "u1", date: "2026-07-13" };
+  assert.equal(repository.createForUser({...input,value:125}), "created");
+  assert.equal(repository.createForUser({...input,value:115}), "created");
+  assert.equal(db.prepare("SELECT status FROM participations WHERE id='p5'").get()?.status,"completed");
+  assert.equal(repository.createForUser({...input,value:100}), "created");
+  assert.equal(repository.createForUser({...input,value:110}), "already_exists");
+  assert.equal(db.prepare("SELECT value FROM check_ins WHERE participation_id='p5'").get()?.value,100);
+  assert.equal(repository.createForUser({...input,userId:"other",value:90}),"participation_not_found");
+  assert.equal(repository.createForUser({...input,date:"2026-07-14",value:95}),"created");
+  assert.equal(db.prepare("SELECT COUNT(*) AS n FROM check_ins WHERE participation_id='p5'").get()?.n,2);
+  db.close();
+});
