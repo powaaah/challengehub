@@ -9,7 +9,7 @@ Stand: 2026-10-16
 
 ## Active
 
-- [ ] Orange Highlight-/Hoverfarben nach Stefans Freigabe auf der bestehenden Instanz veröffentlichen und live prüfen.
+- [x] Orange Highlight-/Hoverfarben über PR #3 auf theovina.de veröffentlicht; 251 Servertests, Lint/Build sowie Liveprüfung bei 1440/390/320 px inklusive Hoverfarben bestanden.
 - [x] Button-Hover passend zur Highlightfarbe auf Orange mit dunkler Schrift umgestellt; Lint, mobile/ Desktop-Themechecks und echte Hover-Farbprüfung bestanden.
 - [x] Highlightfarbe auf `#ff8c00` mit passender dunkler Akzentfläche umgestellt; Lint, TypeScript, Build und öffentliche Seiten bei 390/1440 px inklusive Kontrastprüfung bestanden.
 - [x] Challenge-Detailseiten: passende lokale Header-Fotos, kompakte Aufgabe/Regeln, Teilnahme im Header, alte Infokacheln entfernt; Desktop/Mobil und Dialoge geprüft.

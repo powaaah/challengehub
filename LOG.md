@@ -2841,3 +2841,10 @@
 - Dateien: app/globals.css, Komponenten-CSS fuer Startseite/Katalog, Header/Profil, Challenge-Hero und UI-Primitives; TODOS/LOG aktualisiert. Bestehende Aenderungen der vorigen Farbanpassung beibehalten.
 - Verifikation: Lint und beide oeffentlichen Theme-Browsertests (390/1440 px, jeweils acht Seiten mit Kontrast-/Ueberlaufpruefung) bestanden. Login- und Startseiten-Hauptbutton direkt per Playwright gehovert; berechnete Hintergrund-/Textfarbe exakt geprueft. Diff geprueft.
 - Grundfarbe und Layout unveraendert, kein Deployment. Keine bekannten neuen Risiken; naechster Schritt: visuelles Feedback von Stefan.
+
+## 2026-10-16 - Orange Highlight- und Hoverfarben live
+
+- Auf Stefans ausdruecklichen Deployment-Auftrag PR https://github.com/powaaah/challengehub/pull/3 gemergt; Release f3ff4071a76b787b2f1786d0920ac2f0ae6c4142 auf https://theovina.de aktiviert.
+- Git-/Build-/SQLite-Backup mit Integritaetspruefung vor Aktivierung erstellt; Updater-Sperre gehalten. Im unveraenderten Produktionsimage npm ci, alle 251 Unit-Tests, Lint und Build bestanden. Nur ChallengeHub neu erstellt; DNS/Caddy/Compose, Abhaengigkeiten und Datenmodell unveraendert. Kein Rollback erforderlich.
+- Live-CSS auf #ff8c00, verknuepfte Hoverfarbe und dunkle Akzentflaeche geprueft. Startseite/Katalog/Schritte-Detail/Wissen bei 1440/390/320 px jeweils HTTP 200, korrekte Akzentfarbe, kein horizontaler Ueberlauf. Hauptbutton-Hover bei allen drei Breiten und Header-Hover am Desktop exakt geprueft; Login geoeffnet und per Escape geschlossen. www HTTP 200; Desktop- und 320-px-Screenshots visuell geprueft. Keine produktiven Konten oder Eintraege erzeugt.
+- Dokumentation wird ohne weiteren Neustart synchronisiert, temporaere Serverarbeitskopie entfernt. Naechster Schritt: Stefans Feedback zur veroeffentlichten Farbgebung. Keine bekannten neuen Risiken.
