@@ -47,6 +47,12 @@
 }
 
 .primaryButton:hover,
+.addButton:hover {
+  background: var(--brand-hover);
+  color: var(--background);
+}
+
+.primaryButton:hover,
 .secondaryButton:hover,
 .filterButton:hover,
 .addButton:hover {

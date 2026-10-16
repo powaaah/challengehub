@@ -2827,3 +2827,17 @@
 - Git-/Build-/SQLite-Backup mit Integritaetspruefung angelegt, bestehende Updater-Sperre gehalten. Im unveraenderten Produktionsimage npm ci, 251 Unit-Tests, Lint und Build erfolgreich. Nur ChallengeHub neu erstellt; Caddy/Compose unveraendert, kein Rollback erforderlich.
 - Live alle 15 kuratierten Seiten bei 1440/390 px sowie Liegestuetze und Calisthenics bei 320 px geprueft: 32-mal HTTP 200, Bilder geladen, kein horizontaler Ueberlauf, Teilnahme im Header. Wechsel zu Registrierung und Escape bei drei Breiten bestanden; Screenshots visuell geprueft. www-Neuseite HTTP 200. Keine produktiven Testkonten oder Ergebniseintraege erzeugt.
 - Deployment abgeschlossen. Temporaere Serverarbeitskopie wird entfernt, reiner LOG/TODO-Abschluss ohne weiteren Neustart synchronisiert. Naechster Schritt: Nutzerfeedback; allgemeine Stoppuhr und zusaetzliche Zeitwertung bestehender Wiederholungs-Challenges bleiben separate Funktionen.
+
+## 2026-10-16 - Orange Highlightfarbe
+
+- Ziel: Highlightfarbe auf Stefans Vorgabe `#ff8c00` umstellen.
+- In `app/globals.css` die zentrale Akzentfarbe und die zugehoerige dunkle Akzentflaeche angepasst. Links, Hervorhebungen, Fokusrahmen und Textauswahl uebernehmen die neue Farbe. Marken-/Buttonfarbe und Layout unveraendert.
+- Verifikation: Lint, TypeScript, Produktionsbuild und git diff --check bestanden. Beide bestehenden Browser-Theme-Tests fuer acht oeffentliche Seiten bei 390/1440 px inklusive WCAG-AA-Kontrast und Ueberlaufpruefung bestanden; Startseiten-Screenshots visuell geprueft.
+- Keine neuen Abhaengigkeiten oder Funktionseingriffe, kein Deployment. Naechster Schritt: Gestaltung durch Stefan ansehen lassen; keine bekannten neuen Risiken.
+
+## 2026-10-16 - Orange Hoverzustaende
+
+- Ziel: Hoverfarbe passend zum neuen Orange anpassen. `--brand-hover` folgt nun `--accent` (#ff8c00); betroffene primaere Buttons und Profilbutton zeigen beim Hover dunkle Schrift (#090b0e).
+- Dateien: app/globals.css, Komponenten-CSS fuer Startseite/Katalog, Header/Profil, Challenge-Hero und UI-Primitives; TODOS/LOG aktualisiert. Bestehende Aenderungen der vorigen Farbanpassung beibehalten.
+- Verifikation: Lint und beide oeffentlichen Theme-Browsertests (390/1440 px, jeweils acht Seiten mit Kontrast-/Ueberlaufpruefung) bestanden. Login- und Startseiten-Hauptbutton direkt per Playwright gehovert; berechnete Hintergrund-/Textfarbe exakt geprueft. Diff geprueft.
+- Grundfarbe und Layout unveraendert, kein Deployment. Keine bekannten neuen Risiken; naechster Schritt: visuelles Feedback von Stefan.

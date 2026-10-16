@@ -9,6 +9,9 @@ Stand: 2026-10-16
 
 ## Active
 
+- [ ] Orange Highlight-/Hoverfarben nach Stefans Freigabe auf der bestehenden Instanz veröffentlichen und live prüfen.
+- [x] Button-Hover passend zur Highlightfarbe auf Orange mit dunkler Schrift umgestellt; Lint, mobile/ Desktop-Themechecks und echte Hover-Farbprüfung bestanden.
+- [x] Highlightfarbe auf `#ff8c00` mit passender dunkler Akzentfläche umgestellt; Lint, TypeScript, Build und öffentliche Seiten bei 390/1440 px inklusive Kontrastprüfung bestanden.
 - [x] Challenge-Detailseiten: passende lokale Header-Fotos, kompakte Aufgabe/Regeln, Teilnahme im Header, alte Infokacheln entfernt; Desktop/Mobil und Dialoge geprüft.
 - [x] 5-Minuten-Calisthenics-Challenge (50 Klimmzüge, danach 100 Liegestütze) mit Zeitwertung ergänzt; auf Stefans Wunsch ohne YouTube-Verweis.
 - [x] Medienheader und neue Calisthenics-Challenge über PR #2 veröffentlicht; 251 Servertests, Build und 32 Live-Seitenprüfungen samt Bildern bestanden (16.10.2026).
