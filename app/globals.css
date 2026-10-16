@@ -7,8 +7,8 @@
   --text: #f1f3f5;
   --text-muted: #a8b1bd;
   --brand: #087a96;
-  --brand-hover: #096b83;
-  --accent: #6cdaec;
+  --brand-hover: var(--accent);
+  --accent: #ff8c00;
   --brand-dark: var(--accent);
   --orange: #f1bd78;
   --premium-bg: var(--surface);
@@ -21,7 +21,7 @@
   --user-text: var(--text);
   --border: #303843;
   --border-strong: #637080;
-  --accent-surface: #122d36;
+  --accent-surface: #33220e;
   --error: #ffaaa6;
   --error-surface: #321c22;
   --success: #85dfb3;

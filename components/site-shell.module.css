@@ -97,6 +97,8 @@
 }
 
 .primaryButton:hover {
+  background: var(--brand-hover);
+  color: var(--background);
   transform: translateY(-1px);
 }
 
@@ -180,6 +182,7 @@
 
 .profileButton:hover {
   background: var(--brand-hover);
+  color: var(--background);
 }
 
 .profileDropdown {
