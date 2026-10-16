@@ -63,6 +63,15 @@ for (const width of [390, 1440]) {
     ]) {
       await test.step(name, async () => {
         await page.goto(route);
+        if (name === "detail") {
+          const participate = page.getByRole("button", { name: "Jetzt teilnehmen", exact: true });
+          await page.mouse.move(0, 0);
+          await expect(participate).toHaveCSS("background-color", "rgb(255, 140, 0)");
+          await expect(participate).toHaveCSS("color", "rgb(9, 11, 14)");
+          await participate.hover();
+          await expect(participate).toHaveCSS("background-color", "rgb(255, 163, 51)");
+          await page.mouse.move(0, 0);
+        }
         await checkTheme(page, name, width);
       });
     }
@@ -96,5 +105,12 @@ for (const width of [390, 1440]) {
     await checkTheme(page, "participation", width);
     await page.getByRole("link", { name: "Zum Dashboard", exact: true }).click();
     await checkTheme(page, "room", width);
+    await page.goto("/challenges/10000-schritte-am-tag");
+    const roomLink = page.getByRole("link", { name: "Zum Challenge-Raum", exact: true });
+    await page.mouse.move(0, 0);
+    await expect(roomLink).toHaveCSS("background-color", "rgb(255, 140, 0)");
+    await expect(roomLink).toHaveCSS("color", "rgb(9, 11, 14)");
+    await roomLink.hover();
+    await expect(roomLink).toHaveCSS("background-color", "rgb(255, 163, 51)");
   });
 }

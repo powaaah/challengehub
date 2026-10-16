@@ -87,11 +87,11 @@
   border: 0;
   border-radius: var(--radius);
   background: var(--brand);
-  color: white;
+  color: var(--background);
   padding: 0.75rem 1rem;
   font: inherit;
   font-weight: 650;
-  box-shadow: 0 12px 28px rgba(0, 137, 179, 0.24);
+  box-shadow: 0 12px 28px rgba(255, 140, 0, 0.24);
   cursor: pointer;
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
@@ -172,12 +172,12 @@
   place-items: center;
   width: 46px;
   height: 46px;
-  border: 1px solid rgba(0, 137, 179, 0.2);
+  border: 1px solid rgba(255, 140, 0, 0.2);
   border-radius: 999px;
   background: var(--brand);
-  color: white;
+  color: var(--background);
   font-weight: 600;
-  box-shadow: 0 12px 28px rgba(0, 137, 179, 0.24);
+  box-shadow: 0 12px 28px rgba(255, 140, 0, 0.24);
 }
 
 .profileButton:hover {

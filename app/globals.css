@@ -6,8 +6,8 @@
   --surface-muted: #1c222b;
   --text: #f1f3f5;
   --text-muted: #a8b1bd;
-  --brand: #087a96;
-  --brand-hover: var(--accent);
+  --brand: var(--accent);
+  --brand-hover: #ffa333;
   --accent: #ff8c00;
   --brand-dark: var(--accent);
   --orange: #f1bd78;

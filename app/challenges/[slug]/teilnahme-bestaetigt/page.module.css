@@ -67,7 +67,7 @@
 .primaryAction {
   border: 1px solid var(--brand);
   background: var(--brand);
-  color: #fff;
+  color: var(--background);
 }
 
 .primaryAction:hover {

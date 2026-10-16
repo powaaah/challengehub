@@ -267,7 +267,7 @@
   height: 0.65rem;
   border-radius: 999px;
   background: var(--brand);
-  box-shadow: 0 0 0 4px rgba(0, 137, 179, 0.12);
+  box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.12);
 }
 
 .activityEmpty {

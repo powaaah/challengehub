@@ -15,8 +15,8 @@
 
 .primaryButton {
   background: var(--brand);
-  color: white;
-  box-shadow: 0 12px 28px rgba(0, 137, 179, 0.24);
+  color: var(--background);
+  box-shadow: 0 12px 28px rgba(255, 140, 0, 0.24);
 }
 
 .secondaryButton {
@@ -42,8 +42,8 @@
 
 .addButton {
   background: var(--brand);
-  color: white;
-  box-shadow: 0 12px 28px rgba(0, 137, 179, 0.18);
+  color: var(--background);
+  box-shadow: 0 12px 28px rgba(255, 140, 0, 0.18);
 }
 
 .primaryButton:hover,
@@ -368,7 +368,7 @@
   height: 2.3rem;
   border-radius: 999px;
   background: var(--brand);
-  color: #ffffff;
+  color: var(--background);
   font-weight: 800;
 }
 
@@ -613,10 +613,10 @@
   min-height: 44px;
   border-radius: 8px;
   background: var(--brand);
-  color: white;
+  color: var(--background);
   padding: 0.75rem 1rem;
   font-weight: 600;
-  box-shadow: 0 12px 28px rgba(0, 137, 179, 0.18);
+  box-shadow: 0 12px 28px rgba(255, 140, 0, 0.18);
 }
 
 .tile {

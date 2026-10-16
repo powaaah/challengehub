@@ -123,7 +123,7 @@
   margin-top: 0.45rem;
   border-radius: 8px;
   background: var(--brand);
-  color: white;
+  color: var(--background);
   padding: 0.85rem 1rem;
   font: inherit;
   font-weight: 700;
