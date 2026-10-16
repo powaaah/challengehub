@@ -9,8 +9,9 @@ Stand: 2026-10-16
 
 ## Active
 
-- [x] Ranking-Podium und Erfolgswertung umgesetzt: rahmenlos, Gold/Silber/Bronze, Tabelle ab Platz 4 und eigene Position; bestätigte feste einmalige Ziele mit „geschafft + optionale Bestzeit“, tägliche/Sammel- und Dauerwertungen erhalten. Standardsilhouetten, Bestzeitspeicherung samt Export/Löschung, Verbesserungen nach Abschluss und Desktop/Mobil/Barrierefreiheit geprüft. Noch nicht veröffentlicht.
-- [ ] Neues Ranking anhand der lokalen Vorschau mit Stefan ansehen; Profilbild-Upload als separaten Funktionsschritt abstimmen und Veröffentlichung ausdrücklich freigeben lassen.
+- [x] Ranking-Podium und Erfolgswertung umgesetzt: rahmenlos, Gold/Silber/Bronze, Tabelle ab Platz 4 und eigene Position; bestätigte feste einmalige Ziele mit „geschafft + optionale Bestzeit“, tägliche/Sammel- und Dauerwertungen erhalten. Standardsilhouetten, Bestzeitspeicherung samt Export/Löschung, Verbesserungen nach Abschluss und Desktop/Mobil/Barrierefreiheit geprüft. Über PR #5 veröffentlicht.
+- [x] Neues Ranking nach Stefans ausdrücklicher Deployment-Freigabe mit Backup und Migrationsprobe veröffentlicht: 255 Servertests, Lint/Build und zwölf Liveprüfungen bestanden; vorhandene Daten auch nach Aktivierung unverändert bestätigt.
+- [ ] Profilbild-Upload als separaten Funktionsschritt abstimmen; das Ranking verwendet Standardsilhouetten.
 - [x] Button-Grundfarbe auf Orange korrigiert und über PR #4 veröffentlicht; Normal-/Hoverzustand inklusive Raumlink, vier Theme-E2E-Tests und Liveprüfung bei 1440/390/320 px bestanden.
 - [x] Orange Highlight-/Hoverfarben über PR #3 auf theovina.de veröffentlicht; 251 Servertests, Lint/Build sowie Liveprüfung bei 1440/390/320 px inklusive Hoverfarben bestanden.
 - [x] Button-Hover passend zur Highlightfarbe auf Orange mit dunkler Schrift umgestellt; Lint, mobile/ Desktop-Themechecks und echte Hover-Farbprüfung bestanden.
