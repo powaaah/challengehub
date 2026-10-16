@@ -2848,3 +2848,10 @@
 - Git-/Build-/SQLite-Backup mit Integritaetspruefung vor Aktivierung erstellt; Updater-Sperre gehalten. Im unveraenderten Produktionsimage npm ci, alle 251 Unit-Tests, Lint und Build bestanden. Nur ChallengeHub neu erstellt; DNS/Caddy/Compose, Abhaengigkeiten und Datenmodell unveraendert. Kein Rollback erforderlich.
 - Live-CSS auf #ff8c00, verknuepfte Hoverfarbe und dunkle Akzentflaeche geprueft. Startseite/Katalog/Schritte-Detail/Wissen bei 1440/390/320 px jeweils HTTP 200, korrekte Akzentfarbe, kein horizontaler Ueberlauf. Hauptbutton-Hover bei allen drei Breiten und Header-Hover am Desktop exakt geprueft; Login geoeffnet und per Escape geschlossen. www HTTP 200; Desktop- und 320-px-Screenshots visuell geprueft. Keine produktiven Konten oder Eintraege erzeugt.
 - Dokumentation wird ohne weiteren Neustart synchronisiert, temporaere Serverarbeitskopie entfernt. Naechster Schritt: Stefans Feedback zur veroeffentlichten Farbgebung. Keine bekannten neuen Risiken.
+
+## 2026-10-16 - Button-Grundfarbe korrigiert
+
+- Stefans Screenshot zeigte den verbliebenen blauen Normalzustand. Ursache: separate Variable --brand war weiterhin blau, waehrend nur Akzent und Hover geaendert waren. Live reproduziert und neue Normalzustandspruefung vor Fix erwartungsgemaess rot gesehen.
+- --brand folgt jetzt #ff8c00; Hover #ffa333. Bestehende Markenflaechen erhalten dunkle Schrift, betroffene Buttonschatten Orange. Teilnahmebutton hat ebenfalls einen klaren Hoverzustand. Keine Aenderung an Layout oder Funktionen.
+- Vier bestehende Theme-E2E-Tests bei 390/1440 px bestanden, inklusive Kontrastscans und neuer Pruefung von Normal-/Hoverzustand fuer Teilnahmebutton und eingeloggten Raumlink. Lint ohne Warnungen und Produktionsbuild bestanden; Diff geprueft.
+- Korrektur wird im bestehenden autorisierten Release auf die laufende Instanz gebracht. Abhaengigkeiten und Datenmodell unveraendert.
