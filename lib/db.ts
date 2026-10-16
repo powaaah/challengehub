@@ -7,6 +7,7 @@ import { ensureRetentionSchema } from "../infrastructure/sqlite/sqlite-retention
 import { ensureUniqueUsernames } from "../infrastructure/sqlite/sqlite-usernames-migration.ts";
 import { ensureAccountPrivacySchema } from "../infrastructure/sqlite/sqlite-account-privacy-migration.ts";
 import { ensureEmailVerificationSchema } from "../infrastructure/sqlite/sqlite-email-verification-migration.ts";
+import { ensureCompletionTimes } from "../infrastructure/sqlite/sqlite-completion-times.ts";
 
 const globalForDb = globalThis as unknown as {
   challengeHubDb?: DatabaseSync;
@@ -154,6 +155,7 @@ export function getDb() {
   ensureRetentionSchema(db);
   ensureAccountPrivacySchema(db);
   ensureEmailVerificationSchema(db);
+  ensureCompletionTimes(db);
 
   globalForDb.challengeHubDb = db;
   return db;

@@ -36,7 +36,7 @@ export class SqliteCheckInWriteRepository implements CheckInWriteRepository {
         JOIN challenges ON challenges.id = participations.challenge_id
         WHERE participations.id = ?
           AND participations.user_id = ?
-          AND participations.status = 'active'
+          AND (participations.status = 'active' OR (participations.status = 'completed' AND challenges.challenge_type = 'one_time_result'))
       `)
       .get(input.participationId, input.userId) as {
         challengeType: string;
@@ -58,6 +58,20 @@ export class SqliteCheckInWriteRepository implements CheckInWriteRepository {
     }
 
     const now = this.now();
+    const isOnce = participation.challengeType === "one_time_result";
+    if (isOnce) {
+      const operator = participation.direction === "at_most" ? "<" : ">";
+      const improved = this.db.prepare(`
+        UPDATE check_ins SET value = ?, created_at = ?
+        WHERE participation_id = ? AND date = ? AND (value IS NULL OR ? ${operator} value)
+      `).run(input.value!, now, input.participationId, input.date, input.value!);
+      if (improved.changes === 1) {
+        if (hasReachedCompletion(this.db, input.participationId, participation)) {
+          this.db.prepare("UPDATE participations SET status='completed', completed_at=COALESCE(completed_at, ?) WHERE id=?").run(now, input.participationId);
+        }
+        return "created";
+      }
+    }
     const insert = this.db
       .prepare(`
         INSERT OR IGNORE INTO check_ins (id, participation_id, date, value, note, created_at)
@@ -65,7 +79,7 @@ export class SqliteCheckInWriteRepository implements CheckInWriteRepository {
         FROM participations
         WHERE participations.id = ?
           AND participations.user_id = ?
-          AND participations.status = 'active'
+          AND (participations.status = 'active' OR (participations.status = 'completed' AND ? = 1))
       `)
       .run(
         this.createId(),
@@ -73,7 +87,8 @@ export class SqliteCheckInWriteRepository implements CheckInWriteRepository {
         input.value ?? null,
         now,
         input.participationId,
-        input.userId
+        input.userId,
+        Number(isOnce)
       );
 
     if (insert.changes === 1) {
@@ -88,8 +103,8 @@ export class SqliteCheckInWriteRepository implements CheckInWriteRepository {
     }
 
     const activeParticipation = this.db
-      .prepare("SELECT id FROM participations WHERE id = ? AND user_id = ? AND status = 'active'")
-      .get(input.participationId, input.userId);
+      .prepare("SELECT id FROM participations WHERE id = ? AND user_id = ? AND (status = 'active' OR (status = 'completed' AND ? = 1))")
+      .get(input.participationId, input.userId, Number(isOnce));
 
     if (!activeParticipation) {
       return "participation_not_found";

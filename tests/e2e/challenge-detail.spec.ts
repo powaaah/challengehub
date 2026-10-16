@@ -11,7 +11,7 @@ test("Challenge-Detailseite ordnet Entscheidung, Teilnahme und Belege verständl
 
   await page.getByText("Vollständige Regeln", { exact: true }).click();
   await expect(page.getByText("10.000 Schritte zählen pro Kalendertag.")).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: "Top 5" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "Ranking" })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "Letzte Aktivitäten" })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "Häufige Fragen" })).toBeVisible();
 });

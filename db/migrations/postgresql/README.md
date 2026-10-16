@@ -40,6 +40,7 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0013_account
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0014_email_verification.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0015_challenge_pending_status.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0016_account_name_keys.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/postgresql/0017_completion_times.sql
 ```
 
 Vor der Anwendung lassen sich die unveränderlichen Inhalte im

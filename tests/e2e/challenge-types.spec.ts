@@ -72,7 +72,7 @@ test("kumulative Challenge durchläuft Erstellung, Mess-Check-in, Abschluss, Ran
 
   await expect(page.getByRole("heading", { level: 2, name: "Beendet" })).toBeVisible();
   await expect(page.getByRole("complementary").getByText("60 von 50 Wiederholungen", { exact: true })).toBeVisible();
-  await expect(page.locator('tr[aria-current="true"]')).toContainText("60 von 50 Wiederholungen");
+  await expect(page.locator('[aria-current="true"]').filter({ hasText: userName })).toContainText("60 von 50 Wiederholungen");
 
   await page.setViewportSize({ width: 320, height: 900 });
   await page.reload();

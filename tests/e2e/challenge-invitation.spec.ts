@@ -131,7 +131,7 @@ test("Freund nimmt Einladung zu einer Community-Challenge an", async ({ browser,
     elements.map((element) => element.getAttribute("data-detail-section"))
   )).toEqual(["hero", "ranking", "activity", "seo"]);
   await expect(inviterPage.locator("summary")).toBeVisible();
-  await expect(inviterPage.getByRole("heading", { name: "Top 5", exact: true })).toBeVisible();
+  await expect(inviterPage.getByRole("heading", { name: "Ranking", exact: true })).toBeVisible();
   await expect(inviterPage.getByText("Sicherheit zuerst.")).toHaveCount(0);
   await expect(inviterPage.getByRole("link", { name: "Sicherheitshinweise lesen" })).toHaveCount(0);
   await inviterPage.getByRole("button", { name: "Jetzt teilnehmen" }).first().click();

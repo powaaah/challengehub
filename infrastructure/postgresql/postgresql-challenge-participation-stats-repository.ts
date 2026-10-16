@@ -11,6 +11,7 @@ type RankingRow = {
   id: string;
   started_at: Date | string;
   name: string;
+  best_time_seconds: number | null;
   check_in_date: Date | string | null;
   check_in_value: number | null;
   challenge_type: string;
@@ -66,6 +67,7 @@ export class PostgresqlChallengeParticipationStatsRepository
     const result = await this.client.query(
       `SELECT
          participations.id, participations.started_at, users.name,
+         times.seconds AS best_time_seconds,
          check_ins.date AS check_in_date, check_ins.value AS check_in_value,
          challenges.challenge_type, challenges.metric_unit, challenges.target_value,
          challenges.frequency, challenges.measurement_direction,
@@ -73,6 +75,7 @@ export class PostgresqlChallengeParticipationStatsRepository
        FROM challenges
        JOIN participations ON participations.challenge_id = challenges.id
        JOIN users ON users.id = participations.user_id
+       LEFT JOIN challenge_completion_times times ON times.participation_id = participations.id
        LEFT JOIN account_privacy_preferences privacy ON privacy.user_id = users.id
        LEFT JOIN check_ins ON check_ins.participation_id = participations.id
        WHERE challenges.slug = $1
@@ -101,6 +104,7 @@ export class PostgresqlChallengeParticipationStatsRepository
       const candidate = candidates.get(row.id) ?? {
         id: row.id,
         name: row.name,
+        ...(row.best_time_seconds != null ? { bestTimeSeconds: Number(row.best_time_seconds) } : {}),
         startedAt: formatTimestamp(row.started_at),
         checkIns: [],
         definition

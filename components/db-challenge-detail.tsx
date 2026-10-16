@@ -64,7 +64,6 @@ export function DbChallengeDetail({
       buildChallengeBreadcrumbJsonLd(challenge.title, challenge.slug)
     ]
   };
-  const isDailyChallenge = challenge.definition.type === "daily_boolean";
 
   return (
     <>
@@ -100,19 +99,13 @@ export function DbChallengeDetail({
       <section className={styles.detailRanking} data-detail-section="ranking" aria-labelledby="community-ranking">
         <div className={styles.detailSectionHeader}>
           <div>
-            <p className={styles.eyebrow}>Ranking</p>
-            <h2 id="community-ranking">Top 5</h2>
+            <h2 id="community-ranking">Ranking</h2>
           </div>
-          <p>
-            {isDailyChallenge
-              ? "Wer hält am längsten durch?"
-              : "Die besten gemessenen Ergebnisse."}
-          </p>
         </div>
         <ChallengeRankingTable
           entries={ranking}
           currentParticipationId={currentParticipationId}
-          collapsedLimit={5}
+          collapsedLimit={10}
         />
       </section>
 

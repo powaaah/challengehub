@@ -27,7 +27,8 @@ test("PostgreSQL migrations are ordered and keep a migration ledger", async () =
     "0013_account_privacy.sql",
     "0014_email_verification.sql",
     "0015_challenge_pending_status.sql",
-    "0016_account_name_keys.sql"
+    "0016_account_name_keys.sql",
+    "0017_completion_times.sql"
   ]);
 
   const versions = files.map((file) => file.slice(0, 4));

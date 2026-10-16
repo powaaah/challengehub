@@ -38,7 +38,7 @@ test("Challenge-Detailseite hält das leere Ranking bei 400 Prozent im Viewport"
   await page.setViewportSize({ width: 320, height: 900 });
   await page.goto("/challenges/30-tage-ohne-zucker");
 
-  await expect(page.getByRole("heading", { level: 2, name: "Top 5" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "Ranking" })).toBeVisible();
   await expect(page.getByText("Noch keine Rangliste")).toBeVisible();
   await expect(page.getByRole("table")).toHaveCount(0);
 

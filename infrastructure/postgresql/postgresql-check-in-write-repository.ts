@@ -47,10 +47,14 @@ export class PostgresqlCheckInWriteRepository implements CheckInWriteRepository 
       }
 
       const now = this.now();
+      const conflict = definition.challenge_type === "one_time_result"
+        ? `DO UPDATE SET value = EXCLUDED.value, created_at = EXCLUDED.created_at
+           WHERE check_ins.value IS NULL OR EXCLUDED.value ${definition.measurement_direction === "at_most" ? "<" : ">"} check_ins.value`
+        : "DO NOTHING";
       const insert = await transaction.query(
         `INSERT INTO check_ins (id, participation_id, date, value, note, created_at)
          VALUES ($1, $2, $3::date, $4, NULL, $5::timestamptz)
-         ON CONFLICT (participation_id, date) DO NOTHING
+         ON CONFLICT (participation_id, date) ${conflict}
          RETURNING id`,
         [this.createId(), input.participationId, input.date, input.value ?? null, now]
       );
@@ -100,7 +104,7 @@ async function lockActiveParticipation(
      JOIN challenges ON challenges.id = participations.challenge_id
      WHERE participations.id = $1
        AND participations.user_id = $2
-       AND participations.status = 'active'
+       AND (participations.status = 'active' OR (participations.status = 'completed' AND challenges.challenge_type = 'one_time_result'))
      FOR UPDATE OF participations`,
     [input.participationId, input.userId]
   );

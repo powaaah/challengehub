@@ -1,5 +1,6 @@
 import type { ChallengeRankingCandidate } from "../domain/participations/challenge-participation-stats.ts";
 import { calculateChallengeOutcome } from "../domain/challenges/challenge-outcome.ts";
+import { formatRankingTime, supportsOptionalCompletionTime } from "../domain/challenges/completion-result.ts";
 
 const millisecondsPerDay = 86_400_000;
 
@@ -23,6 +24,8 @@ export type ChallengeRankingEntry = ChallengeRankingCandidate & ChallengeProgres
   rank: number;
   scoreValue: number;
   scoreLabel: string;
+  completed: boolean;
+  rankingTimeSeconds: number | null;
 };
 
 export function buildChallengeHistory(input: {
@@ -81,6 +84,7 @@ export function rankChallengeParticipants(
   today: string
 ): ChallengeRankingEntry[] {
   assertCompatibleRankingDefinitions(candidates);
+  const completedRanks = new Map<number | null, number>();
   return candidates
     .map((candidate) => {
       const progress = calculateChallengeProgress({
@@ -93,18 +97,43 @@ export function rankChallengeParticipants(
         checkIns: candidate.checkIns
       });
       const isDaily = candidate.definition.type === "daily_boolean";
+      const isOnce = candidate.definition.type === "one_time_result";
+      const optionalTime = supportsOptionalCompletionTime(candidate.definition);
+      let rankingTimeSeconds: number | null = null;
+      if (outcome.completed && isOnce) {
+        if (optionalTime) {
+          const seconds = candidate.bestTimeSeconds;
+          if (typeof seconds === "number" && Number.isFinite(seconds) && seconds > 0) {
+            rankingTimeSeconds = seconds;
+          }
+        } else if (candidate.definition.unit === "seconds") {
+          rankingTimeSeconds = outcome.value;
+        } else if (candidate.definition.unit === "minutes") {
+          rankingTimeSeconds = outcome.value * 60;
+        }
+      }
       return {
         ...candidate,
         ...progress,
+        completed: outcome.completed,
+        rankingTimeSeconds,
         completionRate: isDaily ? progress.completionRate : outcome.completionRate,
         scoreValue: isDaily ? progress.currentStreak : outcome.value,
         scoreLabel: isDaily
           ? `${progress.currentStreak} ${progress.currentStreak === 1 ? "Tag" : "Tage"}`
-          : outcome.label
+          : isOnce
+            ? !outcome.completed ? "Noch offen" : rankingTimeSeconds !== null ? formatRankingTime(rankingTimeSeconds) : "Geschafft"
+            : outcome.label
       };
     })
     .sort(compareRankingEntries)
-    .map((entry, index) => ({ ...entry, rank: index + 1 }));
+    .map((entry, index) => {
+      if (entry.definition.type === "one_time_result" && entry.completed) {
+        if (!completedRanks.has(entry.rankingTimeSeconds)) completedRanks.set(entry.rankingTimeSeconds, index + 1);
+        return { ...entry, rank: completedRanks.get(entry.rankingTimeSeconds)! };
+      }
+      return { ...entry, rank: index + 1 };
+    });
 }
 
 function compareRankingEntries(
@@ -112,6 +141,17 @@ function compareRankingEntries(
   right: Omit<ChallengeRankingEntry, "rank">
 ) {
   const definition = left.definition;
+  if (definition.type === "one_time_result") {
+    if (left.completed !== right.completed) return left.completed ? -1 : 1;
+    if (left.completed && right.completed) {
+      if (left.rankingTimeSeconds === null || right.rankingTimeSeconds === null) {
+        return left.rankingTimeSeconds === right.rankingTimeSeconds ? left.startedAt.localeCompare(right.startedAt)
+          : left.rankingTimeSeconds === null ? 1 : -1;
+      }
+      const direction = supportsOptionalCompletionTime(definition) || definition.direction === "at_most" ? 1 : -1;
+      return direction * (left.rankingTimeSeconds - right.rankingTimeSeconds) || left.startedAt.localeCompare(right.startedAt);
+    }
+  }
   if (definition.type === "daily_boolean") {
     return right.currentStreak - left.currentStreak ||
       right.completionRate - left.completionRate ||

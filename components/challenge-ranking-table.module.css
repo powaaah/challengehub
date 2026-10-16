@@ -1,147 +1,259 @@
 .rankingBox {
   display: grid;
-  gap: 0.85rem;
+  gap: 1.75rem;
+  min-width: 0;
 }
-
-.emptyHint {
+.podium {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 0.94fr;
+  align-items: end;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.podiumCard {
+  --medal: #d4ab58;
+  --medal-rgb: 212, 171, 88;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  border: 1px solid rgba(0, 137, 179, 0.18);
+  justify-content: center;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1.5rem 1rem;
+  min-height: 230px;
+  border: 1px solid rgba(var(--medal-rgb), 0.35);
+  border-top: 3px solid var(--medal);
   border-radius: 8px;
-  background: rgba(0, 137, 179, 0.06);
-  padding: 0.8rem 0.95rem;
+  background:
+    linear-gradient(160deg, rgba(var(--medal-rgb), 0.12), transparent 75%),
+    var(--surface);
+  text-align: center;
 }
-
-.emptyHint strong {
-  color: var(--text);
-  font-size: 1rem;
+.gold {
+  min-height: 290px;
+  --medal: #e4bd65;
+  --medal-rgb: 228, 189, 101;
 }
-
-.emptyHint span {
-  color: var(--text-muted);
-  font-weight: 650;
+.silver {
+  min-height: 260px;
+  --medal: #c3cdd9;
+  --medal-rgb: 195, 205, 217;
+}
+.bronze {
+  min-height: 230px;
+  --medal: #d59b78;
+  --medal-rgb: 213, 155, 120;
+}
+.place {
+  color: var(--medal);
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.gold .place {
+  font-size: 1.9rem;
+}
+.avatar {
+  width: 68px;
+  height: 68px;
+  color: var(--medal);
+  flex: 0 0 auto;
+}
+.gold .avatar {
+  width: 84px;
+  height: 84px;
+}
+.silver .avatar {
+  width: 76px;
+  height: 76px;
+}
+.podiumName {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  overflow-wrap: anywhere;
+  max-width: 100%;
   line-height: 1.4;
 }
-
+.podiumValue {
+  color: var(--medal);
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  font-weight: 650;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.gold .podiumValue {
+  font-size: clamp(1.1rem, 2.8vw, 1.9rem);
+}
+.achieved {
+  color: var(--success);
+  font-size: 0.8rem;
+}
+.you {
+  display: inline-block;
+  padding: 0.12rem 0.4rem;
+  border-radius: 4px;
+  background: var(--accent-surface);
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 650;
+}
+.emptyHint {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.emptyHint strong {
+  color: var(--text);
+}
 .table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
   table-layout: fixed;
+  font-variant-numeric: tabular-nums;
 }
-
 .table th,
 .table td {
+  padding: 0.95rem 0.7rem;
   border-bottom: 1px solid var(--border);
-  padding: 0.9rem 0.7rem;
   text-align: left;
-}
-
-.table th {
-  background: var(--surface-muted);
-  color: var(--text-muted);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.table th:first-child {
-  border-top-left-radius: 8px;
-}
-
-.table th:last-child {
-  border-top-right-radius: 8px;
-}
-
-.table td {
-  color: var(--text);
-  font-weight: 750;
-}
-
-.table td:nth-child(2) {
   overflow-wrap: anywhere;
-  word-break: normal;
 }
-
-.table tbody tr:hover td {
-  background: rgba(0, 137, 179, 0.035);
-}
-
-.table tbody tr[aria-current="true"] td {
-  background: rgba(0, 137, 179, 0.1);
-  color: var(--brand-dark);
-}
-
-.table .positionDivider td {
-  border-bottom: 1px solid rgba(0, 137, 179, 0.2);
-  background: rgba(0, 137, 179, 0.045);
+.table thead th {
   color: var(--text-muted);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: transparent;
 }
-
+.table tbody th {
+  font-weight: 550;
+}
 .table th:first-child,
 .table td:first-child {
-  width: 4.2rem;
-  color: var(--brand-dark);
+  width: 3.5rem;
+  color: var(--text-muted);
 }
-
 .table th:nth-child(3),
-.table td:nth-child(3),
+.table td:nth-child(3) {
+  width: 24%;
+  text-align: center;
+}
 .table th:nth-child(4),
 .table td:nth-child(4) {
-  width: 6rem;
+  width: 24%;
+  text-align: right;
 }
-
+.table tbody tr:hover {
+  background: var(--surface);
+}
+.table [aria-current="true"] {
+  background: var(--accent-surface);
+}
+.podiumCard[aria-current="true"] {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.check {
+  display: inline-grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  background: var(--success);
+  color: var(--background);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+.pending {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.positionDivider td {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  padding-top: 1.75rem;
+}
 .toggleButton {
   justify-self: start;
   min-height: 44px;
-  border: 1px solid var(--brand);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--brand-dark);
-  padding: 0.65rem 0.9rem;
-  font: inherit;
-  font-weight: 750;
+  background: transparent;
+  color: var(--text);
+  padding: 0.65rem 1rem;
 }
-
 .toggleButton:hover {
-  background: var(--accent-surface);
+  color: var(--accent);
+  border-color: var(--accent);
 }
-
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 @media (max-width: 560px) {
-  .emptyHint {
-    display: grid;
-    gap: 0.2rem;
+  .podiumCard {
+    padding: 1rem 0.4rem;
+    gap: 0.6rem;
+    min-height: 190px;
+    border-radius: 6px;
   }
-
+  .gold {
+    min-height: 230px;
+  }
+  .silver {
+    min-height: 210px;
+  }
+  .bronze {
+    min-height: 190px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+  }
+  .gold .avatar {
+    width: 56px;
+    height: 56px;
+  }
+  .silver .avatar {
+    width: 50px;
+    height: 50px;
+  }
+  .place {
+    font-size: 1.1rem;
+  }
+  .gold .place {
+    font-size: 1.4rem;
+  }
+  .podiumName {
+    font-size: 0.8rem;
+  }
+  .achieved {
+    font-size: 0.68rem;
+  }
   .table th,
   .table td {
-    padding: 0.75rem 0.4rem;
+    padding: 0.8rem 0.3rem;
+    font-size: 0.8rem;
   }
-
-  .table th {
-    font-size: 0.625rem;
-    letter-spacing: 0.04em;
-  }
-
   .table th:first-child,
   .table td:first-child {
-    width: 2.6rem;
+    width: 2rem;
   }
-
-  .table th:nth-child(3),
-  .table td:nth-child(3) {
-    width: 4rem;
-  }
-
-  .table th:nth-child(4),
-  .table td:nth-child(4) {
-    width: 3.6rem;
+  .table thead th {
+    font-size: 0.7rem;
   }
 }
