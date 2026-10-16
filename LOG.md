@@ -2855,3 +2855,10 @@
 - --brand folgt jetzt #ff8c00; Hover #ffa333. Bestehende Markenflaechen erhalten dunkle Schrift, betroffene Buttonschatten Orange. Teilnahmebutton hat ebenfalls einen klaren Hoverzustand. Keine Aenderung an Layout oder Funktionen.
 - Vier bestehende Theme-E2E-Tests bei 390/1440 px bestanden, inklusive Kontrastscans und neuer Pruefung von Normal-/Hoverzustand fuer Teilnahmebutton und eingeloggten Raumlink. Lint ohne Warnungen und Produktionsbuild bestanden; Diff geprueft.
 - Korrektur wird im bestehenden autorisierten Release auf die laufende Instanz gebracht. Abhaengigkeiten und Datenmodell unveraendert.
+
+## 2026-10-16 - Orange Button-Grundfarbe live korrigiert
+
+- PR https://github.com/powaaah/challengehub/pull/4 gemergt; Release 55076fd3a1e1f1d97f2f472610211084026f679d auf theovina.de aktiviert. Normalzustand #ff8c00, Hover #ffa333, Schrift #090b0e.
+- Vor Aktivierung Git-/Build-/SQLite-Backup inklusive Integritaetspruefung und Updater-Sperre. Unveraenderte Abhaengigkeiten nach Lockfile-Abgleich in isolierte Arbeitskopie kopiert; im laufenden Produktionsimage Unit-Tests, Lint und Build erfolgreich. Nur ChallengeHub neu erstellt, Caddy/DNS/Compose und Datenmodell unveraendert. Kein Rollback erforderlich.
+- Live: Startseite, Liegestuetz-Detail und Katalog bei 1440/390/320 px jeweils HTTP 200 und kein Ueberlauf. Haupt-/Teilnahmebuttons explizit vor Hover orange mit dunkler Schrift und danach heller orange gemessen; Headerbutton im Normalzustand und Login/Escape ebenfalls geprueft. www HTTP 200. Desktop-Screenshot der betroffenen Detailseite visuell geprueft. Eingeloggter Raumlink lokal in beiden privaten Theme-E2E-Tests normal und gehovert verifiziert; keine produktiven Testkonten angelegt.
+- Dokumentation wird ohne weiteren Neustart synchronisiert, temporaere Arbeitskopie entfernt. Naechster Schritt: Stefans Kontrolle des korrigierten Buttons. Keine bekannten neuen Risiken.

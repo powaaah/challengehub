@@ -9,7 +9,7 @@ Stand: 2026-10-16
 
 ## Active
 
-- [ ] Button-Grundfarbe auf Orange korrigieren, normalen und Hoverzustand auch für den Raumlink prüfen und Korrektur veröffentlichen.
+- [x] Button-Grundfarbe auf Orange korrigiert und über PR #4 veröffentlicht; Normal-/Hoverzustand inklusive Raumlink, vier Theme-E2E-Tests und Liveprüfung bei 1440/390/320 px bestanden.
 - [x] Orange Highlight-/Hoverfarben über PR #3 auf theovina.de veröffentlicht; 251 Servertests, Lint/Build sowie Liveprüfung bei 1440/390/320 px inklusive Hoverfarben bestanden.
 - [x] Button-Hover passend zur Highlightfarbe auf Orange mit dunkler Schrift umgestellt; Lint, mobile/ Desktop-Themechecks und echte Hover-Farbprüfung bestanden.
 - [x] Highlightfarbe auf `#ff8c00` mit passender dunkler Akzentfläche umgestellt; Lint, TypeScript, Build und öffentliche Seiten bei 390/1440 px inklusive Kontrastprüfung bestanden.
