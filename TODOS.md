@@ -9,10 +9,10 @@ Stand: 2026-10-17
 
 ## Active
 
-- [x] Leistungs-Challenges mit teilbarer Zeit-Herausforderung statt Mate-Zweitbutton umgesetzt; Liegestütz-Journey und 100 Tage Body Transformation angelegt. Bestzeit wird im Teiltext mit den Regeln verlinkt. Teilnahme, Kalendergrenze und Desktop/Mobil geprüft. Lokal, noch nicht veröffentlicht.
+- [x] Leistungs-Challenges mit teilbarer Zeit-Herausforderung statt Mate-Zweitbutton umgesetzt; Liegestütz-Journey und 100 Tage Body Transformation angelegt. Bestzeit wird im Teiltext mit den Regeln verlinkt. Teilnahme, Kalendergrenze und Desktop/Mobil geprüft. Mit PR #7 veröffentlicht.
 - [x] Body-Transformation-Wertung abgestimmt: Navy-KFA-Abnahme in Prozentpunkten über 100 Tage; ersetzt die vorläufige Tagesplanwertung und die zwischenzeitliche Entscheidung ohne Ranking. Details in docs/product-decisions.md.
 - [x] Body Transformation gemäß bestätigtem Modell implementiert: Navy-Berechnung, tägliche Messwerthistorie, private Start-/Endbilder, Teil-Challenges und KFA-Ranking mit getrennten Zwischenständen/100-Tage-Ergebnissen. Export, Löschung, Zugriffsschutz und mobile Bedienung geprüft.
-- [ ] Autorisierten Navy-/Journey-Release veröffentlichen: Produktionsbackup, additive Migrationsprobe, Serverprüfungen und Livekontrolle.
+- [x] Autorisierten Navy-/Journey-Release über PR #7 auf theovina.de veröffentlicht: Backup und additive Migrationsprobe ohne Änderung vorhandener Datensätze; 268 Servertests, Lint/Build, sechs lokale E2E-Tests und neun Live-Layoutprüfungen plus www/Zugriffsschutz bestanden.
 
 - [ ] Redaktionellen SEO-Lauf für „100 Liegestütze am Stück“ überarbeiten: Stefan hat `text-v2.txt` inhaltlich abgelehnt. Schwerpunkt Leistung, Zeit, Rekordvergleich und Regeln; Vorbereitung nur ein Faktor und Verweis zur Journey. Keine behaupteten Bevölkerungsperzentile. Schritt 4 teilweise: 18 sicher gemessene von 100 Kandidaten; Export-Einstellungen unbekannt. 30-Tage-Monitoring und programmierte KI-Orchestrierung offen.
 

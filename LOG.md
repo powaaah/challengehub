@@ -2957,3 +2957,11 @@
 - Formelversion und Eingabeeinheiten festgelegt; Tag-1-Basis, keine Zukunftswerte, fehlende Umfaenge ohne erfundenen KFA. Bestehende Leistungs-/Vorbereitungs-Journey-Aenderungen werden mit veroeffentlicht.
 - Verifikation: Navy-Unit-Tests und Datenschutz-/SEO-Tests bestanden. Vollstaendiger E2E-Flow einschliesslich Export, Privatsphaere und Bilder bestanden; Desktop/Mobil 1440/390/320 und Axe geprueft. Serialisierung von SQLite-Zeilen nach Upload und Tastaturzugriff auf mobile Tabelle korrigiert. Build/TypeScript und Anwendungslint bestanden. Gesamttests lokal mit bekanntem unveraendertem PostgreSQL-CRLF-Pruefsummenfehler; erneute saubere Serverpruefung vor Aktivierung.
 - Deployment ausdruecklich autorisiert, noch ausstehend. Keine DNS-/Caddy-Aenderungen. Naechster Schritt: gesicherter Release und Livekontrolle.
+
+## 2026-10-17 - Navy-Journey veröffentlicht
+
+- PR https://github.com/powaaah/challengehub/pull/7 zusammengeführt; Release 1a2f8c6648f6d581d255182f5fc2dd09ccd870ab auf theovina.de aktiviert. Navy-KFA-Ranking, private Messverläufe/Bilder, Teil-Challenges sowie Leistungs-/Vorbereitungs-Journeys sind live.
+- Git-/Build-/SQLite-Backup und additive Migrationsprobe erfolgreich, vorhandene Datensätze unverändert. Im bestehenden Produktionsimage alle 268 Tests, Lint und Build einschließlich TypeScript bestanden. Der lokale alte CRLF-Prüfsummenfehler tritt im Linux-Checkout nicht auf.
+- Sechs lokale E2E-Tests bestanden. Live neun Seiten-/Breitenkombinationen (1440/390/320), www, JavaScript-Ausführung und Zugriffsschutz geprüft; alle erfolgreich. Mobile Ansicht visuell kontrolliert. Keine produktiven Testkonten oder Testmesswerte angelegt.
+- Deployment-Vorprüfung zunächst an nicht exportiertem sharp/package.json gescheitert, noch vor jeder Aktivierung; Versionsprüfung über die öffentliche sharp.versions-Schnittstelle korrigiert. Nur ChallengeHub neu gestartet. Caddy, DNS und Compose unverändert.
+- Grenzen: Navy bleibt eine selbst gemeldete Schätzung. Keine Muskelmassemessung oder automatische Trainings-/Ernährungsvorgabe. Die separate SEO-Neufassung und KI-Orchestrierung bleiben offen. Nächster Schritt: erste echte Teilnahme und Messwerte durch Stefan.
