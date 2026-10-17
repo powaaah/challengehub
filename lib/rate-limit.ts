@@ -6,6 +6,7 @@ const runtimeSecret = randomBytes(32);
 const RATE_LIMIT_RETENTION_MS = 24 * 60 * 60 * 1_000;
 
 export const RATE_LIMIT_POLICIES = {
+  bodyPhoto: { scope: 'body:photo', limit: 20, windowMs: 60 * 60 * 1_000 },
   loginIdentifier: { scope: "login:identifier", limit: 5, windowMs: 15 * 60 * 1_000 },
   loginIp: { scope: "login:ip", limit: 30, windowMs: 15 * 60 * 1_000 },
   registerEmail: { scope: "register:email", limit: 3, windowMs: 60 * 60 * 1_000 },

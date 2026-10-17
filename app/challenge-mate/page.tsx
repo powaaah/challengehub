@@ -6,6 +6,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getCurrentUser } from "@/lib/auth";
 import { getChallengeMateDashboard } from "@/lib/challenge-mates";
 import { getParticipationsForUser } from "@/lib/participations";
+import { getJourneyPeriod } from '@/domain/challenges/journey-period';
 import {
   acceptChallengeMateAction,
   blockChallengeMateAction,
@@ -50,7 +51,8 @@ export default async function ChallengeMatePage({
     Promise.resolve(getParticipationsForUser(user.id)),
     Promise.resolve(getChallengeMateDashboard(user.id))
   ]);
-  const activeParticipations = participations.filter((participation) => participation.status === "active");
+  const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  const activeParticipations = participations.filter((participation) => participation.status === "active" && !getJourneyPeriod(participation.challengeSlug, participation.startedAt, today).ended);
   const message = status ? statusMessages[status] : null;
 
   return (

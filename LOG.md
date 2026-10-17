@@ -2908,3 +2908,52 @@
 - Erster Aktivierungsversuch automatisch zurueckgerollt: Windows-Pipeline hatte einen Umlaut im Pruefskript durch ein Fragezeichen ersetzt. Live-HTML war korrekt. ASCII-sicheren Unicode-Escape verwendet und denselben geprueften Build nach frischer Sicherung erfolgreich aktiviert; Erkenntnis zentral gemeldet.
 - Live alle fuenf Wertungsvarianten bei 1440/390/320 px geprueft: 15-mal HTTP 200, korrekter SEO-Inhalt unmittelbar nach Ranking, keine Aktivitaetensektion, kein Ueberlauf, keine Browserfehler. www erfolgreich; mobile Liveansicht visuell geprueft.
 - Nur ChallengeHub neu erstellt; Caddy, DNS, Compose und Rankinglogik unveraendert. Backups bleiben geschuetzt erhalten. Dokumentationssynchronisation ohne weiteren Neustart. Naechster Schritt: Nutzungseindruck und redaktionelle Pflege der Ausgangstexte.
+
+## 2026-10-17 - Redaktioneller SEO-Lauf fuer 100 Liegestuetze am Stueck
+
+- Auf Nutzerauftrag den gemeinsam festgelegten redaktionellen Workflow gestartet, getrennt vom zuvor veroeffentlichten Template-Generator. Schritte 1-3 ausgefuehrt: Titel/Regeln/Wertung und Live-SEO-Inhalt erfasst, 100 Keyword-Kandidaten in zehn Gruppen vorbereitet.
+- Artefakte unter docs/seo-runs/100-liegestuetze-am-stueck/2026-10-17-v1: Keyword-Importliste, strukturierte Kandidaten mit explizit fehlenden Messwerten, Bestandsinventar, oeffentlicher SEO-HTML-Abschnitt, maschinenlesbarer Laufstatus und Fortsetzungsanleitung. Kein Ranking oder Teilnehmerinhalt gespeichert.
+- Schritt 4 blockiert: kein Browser verfuegbar, IAB-Aufruf fehlgeschlagen; kein verbundener Keyword-Planner-Connector nachweisbar. Plugin-Suche geprueft. Keine erfundenen Messwerte und kein Wechsel auf einen anderen Datenanbieter.
+- Verifikation: 100 eindeutige Kandidaten, null Messwertabdeckung, Live HTTP 200 und SEO-Version 1 bestaetigt. Regelunschaerfe ohne Unterbrechung versus erlaubte kurze Pausen oben festgehalten; keine neue Regel erfunden.
+- Schritte 5-21 noch nicht durchlaufen, kein Entwurf oder Reviewer-Freigabe. Keine Codeaenderung, kein Deployment und kein Monitoringjob. Naechster Schritt: Keyword-Planner-Originalexport oder verbundenen Zugang bereitstellen, dann an Schritt 4 fortsetzen.
+
+## 2026-10-17 - Keyword-Planner-Export geprueft
+
+- Vom Nutzer abgelegte Datei im Downloads-Ordner gefunden und vollstaendig read-only als UTF-16LE/Tab-Datei eingelesen. Dateiname Keyword Forecasts 2026-10-17 at 08_54_57.csv; Original unveraendert.
+- Export enthaelt Anzeigenprognosen fuer November 2026, neun Datenzeilen, keine befuellten Keywords und keine historischen monatlichen Suchvolumina. Daher nicht fuer Schritt 4 verwendbar; Prognose-Impressionen nicht als Suchvolumen uebernommen.
+- Laufstatus um Dateihash und Importpruefung ergaenzt. Naechster Schritt: historische Keyword-Messwerte mit Keyword und durchschnittlichen monatlichen Suchanfragen exportieren. Keine Text-/Website-Aenderung.
+
+## 2026-10-17 - Screenshot-Daten und redaktioneller SEO-Entwurf
+
+- Vier Keyword-Planner-Screenshots manuell transkribiert: 43 eindeutige Zeilen, 42 Volumenbereiche; 18 Kandidaten sicher zugeordnet. Abgeschnittene Namen und unbekannte Einstellungen transparent markiert. Hauptkeyword 100 Liegestütze am Stück mit 100–1.000 Suchanfragen im Monat. Keine organische Difficulty erfunden.
+- Eigene Seiten abgegrenzt, drei Vergleichsseiten analysiert, wissenschaftliche Quellen unabhängig von Personas ausgewertet. Briefing, Gliederung und zwei Textversionen mit Quellen gespeichert.
+- Unabhängige Prüf-KI fand einen sachlichen Bezugsfehler: nur vier der 20 Studien untersuchten Muskelausdauer. Korrigiert, weitere Präzisierungen umgesetzt; zweite Prüfung ohne Blocker.
+- Verifikation: JSON parsebar, zwei interne Linkziele vorhanden, UTF-8 und Gliederung geprüft; keine identischen Zwölfwortfolgen gegenüber 15 generierten Challenge-Texten und sieben Wissensartikeln. Endfassung 871 Wörter einschließlich Quellen. Keine App-Änderung, daher keine App-Tests/Build oder Browserprüfung.
+- Offen: Textfreigabe und Einbindung, danach gerenderte Seitenprüfung. Messdaten nicht für alle 100 Keywords vorhanden. Kein Deployment, kein 30-Tage-Job, keine programmierte KI-Orchestrierung.
+
+## 2026-10-17 - Hierarchie im SEO-Entwurf
+
+- text-v2.txt um explizite Markdown-Marker erweitert: ein H2 und acht H3. H1 bleibt der bestehende Seitentitel. Inhalt unveraendert.
+- Statische Validierung erneut erfolgreich; Dateihash aktualisiert. Keine Website-Aenderung.
+
+## 2026-10-17 - Leistungs-Challenges und zwei Journeys
+
+- Hero und privater Raum einmaliger Challenges bieten eine teilbare Herausforderung statt Mate-Suche. Eigene abgeschlossene Bestzeit wird serverseitig bestimmt und erst auf Nutzeraktion mit dem Regellink kopiert/geteilt; keine automatische Nachricht und keine fremden privaten Ergebnisse an den Client. Halte-Challenges fragen nach laengerer Dauer.
+- Neue kuratierte Seiten: 100 Tage Body Transformation und Dein Weg zu 100 Liegestuetzen am Stueck; Headerbilder, Regeln, FAQ, echte Teilnahme und vorhandener Mate-Ablauf. Gegenseitige Links zwischen Liegestuetz-Journey und Leistung.
+- Body-Transformation vorlaeufig mit taeglicher persoenlicher Planumsetzung und geplanten Ruhetagen. Kalenderfenster endet nach 100 Tagen; weitere Check-ins gesperrt, Auswertung am Enddatum eingefroren, Dashboard als beendet. Keine neue Datenbankmigration.
+- Verifikation: Build erfolgreich; 260 von 261 Unit-Tests bestanden. Ein bereits bekannter Fehler bei unveraenderter PostgreSQL-Migrationspruefsumme (CRLF). Anwendungslint mit output/** ausgeschlossen bestanden; normales Lint scheitert an alten lokalen output-Hilfsskripten. Fuenf E2E-Tests bestanden, danach gezielte Wiederholung wegen Dashboard-Endstatus. Screenshots 1440/390/320 und Teilen-Dialog visuell geprueft; Axe-Dialog ohne Befunde.
+- Alte SEO-Endfassung vom Nutzer abgelehnt, Todo entsprechend korrigiert. Kein SEO-Text eingebunden, keine Prozentilwertung, kein Trainingsplan-Editor, kein Deployment. Naechster Schritt: neue Seiten sichten und Body-Transformation-Wertung bestaetigen.
+
+## 2026-10-17 - Navy-Wertung entschieden
+
+- Ziel: Body-Transformation-Wertung nach Stefans Entscheidung festhalten.
+- Produktentscheidung und Aufgaben aktualisiert: Ranking nach geschaetzter Navy-KFA-Abnahme in Prozentpunkten; benoetigte Umfaenge, Bilder, Tagesverlauf und Teil-Challenges dokumentiert. Fruehere Tagesplanannahme ersetzt.
+- Verifikation: Dokumentationsdiff auf Konsistenz mit dem Gespraech geprueft; keine Laufzeitaenderung, daher keine Code-Tests.
+- Offen: technische Umsetzung des bestaetigten Modells; kein Deployment. Naechster Schritt: Navy-Messwerte und Berechnung als ersten Funktionsschritt implementieren.
+
+## 2026-10-17 - Navy-Journey implementiert, Release vorbereitet
+
+- Tagesplan-Provisorium durch privaten Navy-Messverlauf ersetzt. Start-/Endbilder mit begrenztem Upload und EXIF-freier JPEG-Neucodierung; persoenliche Teil-Challenges mit Tages-/Wochenzielen. Ranking nur nach Profilfreigabe, Zwischenstaende getrennt von Tag-100-Ergebnissen. Export und kaskadierende Kontoloeschung erweitert.
+- Formelversion und Eingabeeinheiten festgelegt; Tag-1-Basis, keine Zukunftswerte, fehlende Umfaenge ohne erfundenen KFA. Bestehende Leistungs-/Vorbereitungs-Journey-Aenderungen werden mit veroeffentlicht.
+- Verifikation: Navy-Unit-Tests und Datenschutz-/SEO-Tests bestanden. Vollstaendiger E2E-Flow einschliesslich Export, Privatsphaere und Bilder bestanden; Desktop/Mobil 1440/390/320 und Axe geprueft. Serialisierung von SQLite-Zeilen nach Upload und Tastaturzugriff auf mobile Tabelle korrigiert. Build/TypeScript und Anwendungslint bestanden. Gesamttests lokal mit bekanntem unveraendertem PostgreSQL-CRLF-Pruefsummenfehler; erneute saubere Serverpruefung vor Aktivierung.
+- Deployment ausdruecklich autorisiert, noch ausstehend. Keine DNS-/Caddy-Aenderungen. Naechster Schritt: gesicherter Release und Livekontrolle.

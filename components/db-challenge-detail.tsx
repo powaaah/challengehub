@@ -16,6 +16,7 @@ export function DbChallengeDetail({
   participantCount,
   user,
   invitationToken,
+  ownResult,
   invitationChallengeSlug
 }: {
   challenge: PublicChallenge;
@@ -24,6 +25,7 @@ export function DbChallengeDetail({
   participantCount: number;
   user: CurrentUser | null;
   invitationToken?: string;
+  ownResult?: { completed: boolean; rankingTimeSeconds: number | null };
   invitationChallengeSlug?: string;
 }) {
   const pageUrl = `${SITE_URL}/challenges/${challenge.slug}`;
@@ -90,6 +92,7 @@ export function DbChallengeDetail({
         challenge={{ ...challenge, duration: `${challenge.durationDays} Tage`, targetDays: challenge.durationDays }}
         isAuthenticated={Boolean(user)}
         currentParticipationId={currentParticipationId}
+        ownResult={ownResult}
         participantCount={participantCount}
       />
 

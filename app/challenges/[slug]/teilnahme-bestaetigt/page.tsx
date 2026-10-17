@@ -67,8 +67,8 @@ export default async function ParticipationConfirmationPage({
             <Link className={styles.secondaryAction} href={`/challenges/${participation.challengeSlug}`}>
               Zurück zur Challenge
             </Link>
-            <Link className={styles.secondaryAction} href="/challenge-mate">
-              Challenge-Partner finden
+            <Link className={styles.secondaryAction} href={participation.definition.type === 'one_time_result' ? `/challenges/${slug}` : '/challenge-mate'}>
+              {participation.definition.type === 'one_time_result' ? 'Zur Challenge und jemanden herausfordern' : 'Challenge-Partner finden'}
             </Link>
           </div>
         </section>

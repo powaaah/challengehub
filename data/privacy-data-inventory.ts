@@ -28,6 +28,15 @@ export const privacyDataInventory: PrivacyDataInventoryEntry[] = [
     reviewRequired: true
   },
   {
+    id: "body-transformation",
+    title: "Body-Transformation-Verlauf",
+    data: "Körpergröße, Formelvariante, Gewicht, Körperumfänge, geschätzter Navy-KFA, private Start-/Endbilder und persönliche Teil-Challenges mit Tageswerten.",
+    purpose: "Persönlichen Verlauf und den gewünschten Navy-KFA-Vergleich über 100 Tage bereitstellen.",
+    recipients: "Messwerte und Bilder bleiben im eigenen Konto. Nur der abgeleitete Rankingwert mit Nutzername erscheint nach Freigabe der Rankingsichtbarkeit im Profil öffentlich. Bilder werden lokal auf dem Hosting-System verarbeitet, ohne externen Bilddienst.",
+    implementedLifecycle: "Im Kontoexport enthalten. Bei Kontolöschung werden Messwerte, Teil-Challenges und Bilder gelöscht. Bilder lassen sich auch einzeln entfernen. Keine automatische Löschung nach 100 Tagen.",
+    reviewRequired: true
+  },
+  {
     id: "challenges",
     title: "Challenges und Fortschritt",
     data: "Erstellte Challenges, Teilnahmen, Start- und Abschlusszeitpunkte, Check-in-Datum, Messwert und optionale Notiz.",
