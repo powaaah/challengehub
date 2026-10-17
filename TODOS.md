@@ -9,9 +9,11 @@ Stand: 2026-10-17
 
 ## Active
 
-- [x] Deterministischen SEO-Textgenerator für kuratierte und veröffentlichte Community-Challenges unter dem Ranking umgesetzt; 21 SEO-Tests, sechs Browserprüfungen, Lint und Build bestanden. Desktop/Mobil geprüft, Pflegeablauf in `docs/challenge-seo-workflow.md`. Noch nicht veröffentlicht.
+- [x] Autorisierter Release von SEO-Workflow und Aktivitätenentfernung über PR #6 veröffentlicht; 258 Servertests, 21 SEO-Tests, Lint/Build und 15 Liveprüfungen bestanden.
 
-- [x] „Letzte Aktivitäten“ auf kuratierten und Community-Detailseiten einschließlich Datenabruf und ungenutzter Darstellung entfernt; zwölf Browserprüfungen, Desktop/Mobil, Lint und Build bestanden. Noch nicht veröffentlicht.
+- [x] Deterministischen SEO-Textgenerator für kuratierte und veröffentlichte Community-Challenges unter dem Ranking umgesetzt; 21 SEO-Tests, sechs Browserprüfungen, Lint und Build bestanden. Desktop/Mobil geprüft, Pflegeablauf in `docs/challenge-seo-workflow.md`. Über PR #6 veröffentlicht.
+
+- [x] „Letzte Aktivitäten“ auf kuratierten und Community-Detailseiten einschließlich Datenabruf und ungenutzter Darstellung entfernt; zwölf Browserprüfungen, Desktop/Mobil, Lint und Build bestanden. Über PR #6 veröffentlicht.
 - [x] Ranking-Podium und Erfolgswertung umgesetzt: rahmenlos, Gold/Silber/Bronze, Tabelle ab Platz 4 und eigene Position; bestätigte feste einmalige Ziele mit „geschafft + optionale Bestzeit“, tägliche/Sammel- und Dauerwertungen erhalten. Standardsilhouetten, Bestzeitspeicherung samt Export/Löschung, Verbesserungen nach Abschluss und Desktop/Mobil/Barrierefreiheit geprüft. Über PR #5 veröffentlicht.
 - [x] Neues Ranking nach Stefans ausdrücklicher Deployment-Freigabe mit Backup und Migrationsprobe veröffentlicht: 255 Servertests, Lint/Build und zwölf Liveprüfungen bestanden; vorhandene Daten auch nach Aktivierung unverändert bestätigt.
 - [ ] Profilbild-Upload als separaten Funktionsschritt abstimmen; das Ranking verwendet Standardsilhouetten.

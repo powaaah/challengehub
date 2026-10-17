@@ -2756,12 +2756,12 @@
 - Risiken/Nicht geändert: Mangels lokaler PostgreSQL-Instanz ist der Adapter weiterhin mit einem transaktionalen Query-Client-Testdouble statt gegen einen echten Server geprüft. Treiber/Pool, echte SQL-/Migrationsintegration mit anonymisiertem Fixture, Backup-/Restore-/Rollback-Probe und Runtime-Umschaltung bleiben offen. Öffentliche URLs, Inhalte, Metadaten, Canonicals, strukturierte Daten, Sitemap und Robots wurden nicht verändert; bestehende uncommittete Änderungen blieben erhalten. Kein Deployment, Push oder produktiver Eingriff.
 - Nächster Schritt: Roadmap-Task 20 in einer isolierten lokalen PostgreSQL-Testumgebung mit echtem Treiber, vollständiger Migrationsfolge und Repository-Integrationsprobe fortsetzen; vor jeder Runtime-Umschaltung zusätzlich Backup, Restore und Rollback nachweisen.
 
-## 2026-10-05 ? Lokalen Stand f?r GitHub-Push gepr?ft
+## 2026-10-05 ? Lokalen Stand für GitHub-Push geprüft
 
 - Auftrag: Vorhandene ChallengeHub-?nderungen committen und pushen. Zielbranch: `updates/challengehub-2026-10-05`.
 - Umfang: PostgreSQL-Repository-Vorbereitung mit weiterhin aktiver SQLite-Runtime, Wissensartikel/SEO sowie technische Datenschutzinventur und Registrierungshinweis. Bestehende ?nderungen erhalten und thematisch gruppiert.
-- Verifikation: 249/249 Unit-/Repository-/SEO-Tests, 24/24 gezielte Browsertests f?r Auth, Wissensinhalte, Reset, Verifikation, Einladungen und ChallengeMate; ESLint, TypeScript, Produktionsbuild und Diff-Whitespace-Pr?fung bestanden. PostgreSQL-Adapter bleiben ohne echte Datenbankintegration gepr?ft.
-- Releasegrenze: Aktiven VPS-Cron und Update-Skript read-only gepr?ft. `origin/main` wird alle sechs Stunden automatisch gepr?ft und produktiv ?bernommen. Deshalb separater Push-Branch; ?bernahme nach main ben?tigt ausdr?ckliche Freigabe f?r diese produktive Wirkung. Keine VPS-Konfiguration ver?ndert.
+- Verifikation: 249/249 Unit-/Repository-/SEO-Tests, 24/24 gezielte Browsertests für Auth, Wissensinhalte, Reset, Verifikation, Einladungen und ChallengeMate; ESLint, TypeScript, Produktionsbuild und Diff-Whitespace-Pr?fung bestanden. PostgreSQL-Adapter bleiben ohne echte Datenbankintegration geprüft.
+- Releasegrenze: Aktiven VPS-Cron und Update-Skript read-only geprüft. `origin/main` wird alle sechs Stunden automatisch geprüft und produktiv ?bernommen. Deshalb separater Push-Branch; ?bernahme nach main ben?tigt ausdr?ckliche Freigabe für diese produktive Wirkung. Keine VPS-Konfiguration ver?ndert.
 
 ## 2026-10-12 – Vereinbarte Personas dauerhaft dokumentiert
 
@@ -2896,7 +2896,15 @@
 
 ## 2026-10-17 - Deterministischer Challenge-SEO-Workflow
 
-- Ziel: passende SEO-Inhalte unter jedem ?ffentlichen Challenge-Ranking. Reine versionierte Generatorfunktion und gemeinsame Server-Komponente f?r kuratierte und ver?ffentlichte Community-Challenges erg?nzt. Gleiche Daten ergeben identische Texte; neue Community-Challenges automatisch abgedeckt.
-- Inhalte: individuelle Beschreibung, Ziel/Zeitrahmen, korrekte Erfassung und Wertung f?r Streak, Summe, einmaligen Erfolg mit optionaler Zeit sowie beide Zeitrichtungen; vorhandene Tipps/FAQ, Kataloglink und Community-Ersteller erhalten. Responsive Darstellung mit bestehenden Seitenr?ndern. Bestehende Metadaten und FAQ-JSON-LD unver?ndert.
-- Pflegeablauf in docs/challenge-seo-workflow.md; npm run seo:check pr?ft alle kuratierten Inhalte, Reproduzierbarkeit, Unver?nderlichkeit, Wertungen und Community-Fallback. 21 SEO-Tests, sechs E2E-Pr?fungen einschlie?lich Community-Erstellung/Abschluss, Lint und Produktionsbuild inklusive TypeScript bestanden. Nach Layoutkorrektur gezielter Desktop-/Mobiltest erneut durchgef?hrt. HTML-Ausgabe ohne JavaScript und 1440/390/320 px gepr?ft; Screenshots visuell kontrolliert. Diff gepr?ft.
-- Grenzen: Qualit?t h?ngt von gepflegten Ausgangstexten ab; keine automatische Keyword-/Fachrecherche oder Garantie f?r Suchpositionen. Keine neuen Abh?ngigkeiten, KI-Dienste, Datenbank?nderungen oder ?nderungen an Ranking/Check-ins. Kein Deployment, Push oder Commit. N?chster Schritt: redaktionelle Sichtung und Ver?ffentlichung nach ausdr?cklicher Freigabe.
+- Ziel: passende SEO-Inhalte unter jedem öffentlichen Challenge-Ranking. Reine versionierte Generatorfunktion und gemeinsame Server-Komponente für kuratierte und veröffentlichte Community-Challenges ergänzt. Gleiche Daten ergeben identische Texte; neue Community-Challenges automatisch abgedeckt.
+- Inhalte: individuelle Beschreibung, Ziel/Zeitrahmen, korrekte Erfassung und Wertung für Streak, Summe, einmaligen Erfolg mit optionaler Zeit sowie beide Zeitrichtungen; vorhandene Tipps/FAQ, Kataloglink und Community-Ersteller erhalten. Responsive Darstellung mit bestehenden Seitenrändern. Bestehende Metadaten und FAQ-JSON-LD unverändert.
+- Pflegeablauf in docs/challenge-seo-workflow.md; npm run seo:check prüft alle kuratierten Inhalte, Reproduzierbarkeit, Unveränderlichkeit, Wertungen und Community-Fallback. 21 SEO-Tests, sechs E2E-Prüfungen einschließlich Community-Erstellung/Abschluss, Lint und Produktionsbuild inklusive TypeScript bestanden. Nach Layoutkorrektur gezielter Desktop-/Mobiltest erneut durchgeführt. HTML-Ausgabe ohne JavaScript und 1440/390/320 px geprüft; Screenshots visuell kontrolliert. Diff geprüft.
+- Grenzen: Qualität hängt von gepflegten Ausgangstexten ab; keine automatische Keyword-/Fachrecherche oder Garantie für Suchpositionen. Keine neuen Abhängigkeiten, KI-Dienste, Datenbankänderungen oder Änderungen an Ranking/Check-ins. Kein Deployment, Push oder Commit. Nächster Schritt: redaktionelle Sichtung und Veröffentlichung nach ausdrücklicher Freigabe.
+
+## 2026-10-17 - SEO-Workflow und Aktivitaetenentfernung veroeffentlicht
+
+- Auf ausdruecklichen Deployment-Auftrag PR https://github.com/powaaah/challengehub/pull/6 gemergt und Release 4de2f1c136ce9b238f664c08c5711960e98b647e auf theovina.de aktiviert.
+- Git-/Build-/SQLite-Backup mit Integritaetspruefung und Updater-Sperre; separate Arbeitskopie im bestehenden Produktionsimage geprueft: 258 Unit-Tests, 21 SEO-Tests, Lint und Build einschliesslich TypeScript erfolgreich. Abhaengigkeiten und Datenbankschema unveraendert.
+- Erster Aktivierungsversuch automatisch zurueckgerollt: Windows-Pipeline hatte einen Umlaut im Pruefskript durch ein Fragezeichen ersetzt. Live-HTML war korrekt. ASCII-sicheren Unicode-Escape verwendet und denselben geprueften Build nach frischer Sicherung erfolgreich aktiviert; Erkenntnis zentral gemeldet.
+- Live alle fuenf Wertungsvarianten bei 1440/390/320 px geprueft: 15-mal HTTP 200, korrekter SEO-Inhalt unmittelbar nach Ranking, keine Aktivitaetensektion, kein Ueberlauf, keine Browserfehler. www erfolgreich; mobile Liveansicht visuell geprueft.
+- Nur ChallengeHub neu erstellt; Caddy, DNS, Compose und Rankinglogik unveraendert. Backups bleiben geschuetzt erhalten. Dokumentationssynchronisation ohne weiteren Neustart. Naechster Schritt: Nutzungseindruck und redaktionelle Pflege der Ausgangstexte.
