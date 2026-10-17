@@ -78,6 +78,37 @@ const sources = {
 
 export const challenges: Challenge[] = [
   {
+    title: "100 Tage Body Transformation Challenge",
+    slug: "100-tage-body-transformation",
+    definition: getCuratedChallengeDefinition("100-tage-body-transformation"),
+    level: "Beginner", participants: 0, rating: 0, createdAt: "2026-10-17", duration: "100 Tage",
+    goal: "Reduziere deinen Körperfettanteil in 100 Tagen und arbeite daran, deine Muskelmasse zu erhalten.",
+    description: "Dokumentiere deine Body Transformation mit Gewicht, Umfängen und privaten Start-/Endbildern. Die Navy-Formel schätzt deinen Körperfettanteil; im Ranking zählt dessen Abnahme in Prozentpunkten. Finde einen ChallengeMate und begleite deinen Weg mit persönlichen Teil-Challenges.",
+    seoDescription: "100 Tage Body Transformation: Navy-KFA-Verlauf, private Vorher-Nachher-Bilder und Teil-Challenges. Vergleiche die geschätzte KFA-Abnahme im Ranking.",
+    rules: ["Die Challenge umfasst 100 Kalendertage einschließlich deines Starttags. Erfasse an Tag 1 und Tag 100 eine vollständige Navy-Messung.", "Die männliche Formel verwendet Körpergröße, Hals- und Bauchumfang; die weibliche Formel Körpergröße, Hals-, Taillen- und Hüftumfang. Körpergröße und Formelvariante bleiben für deine Teilnahme gleich.", "Miss unter vergleichbaren Bedingungen. Bauch bei der männlichen Variante auf Nabelhöhe, Taille bei der weiblichen Variante an der schmalsten Stelle, Hüfte an der breitesten Stelle des Gesäßes und Hals unterhalb des Kehlkopfs.", "Rankingwert: geschätzter Start-KFA minus geschätzter End-KFA in Prozentpunkten. Höhere Abnahmen stehen weiter oben. Gleiche auf eine Nachkommastelle gerundete Werte teilen sich einen Rang. Laufende Zwischenstände werden getrennt angezeigt.", "Ergebnisse sind selbst gemeldet. Die Navy-Formel ist eine Schätzung und kein Nachweis für Muskelerhalt. Fehlende Messwerte liefern keinen KFA-Wert.", "Gewicht, Umfänge und Start-/Endbilder bleiben privat. Nur dein freigegebener Rankingwert erscheint öffentlich. Persönliche Teil-Challenges verändern den Rankingwert nicht."],
+    tips: ["Nutze bei jeder Messung dasselbe Maßband und dieselben Messstellen.", "Halte Gewicht und Bauch- beziehungsweise Taillenumfang regelmäßig fest; ergänze alle Navy-Umfänge für einen KFA-Verlaufspunkt.", "Plane persönliche Teil-Challenges für Training, Erholung und Alltagsbewegung und finde einen ChallengeMate."],
+    faq: [
+      { question: "Wie wird meine Veränderung gewertet?", answer: "Die Navy-KFA-Abnahme zählt in Prozentpunkten: von 28 % auf 24 % ergibt 4 Prozentpunkte. Gewichtsverlust allein ist kein Rankingwert." },
+      { question: "Wer sieht meine Bilder und Messwerte?", answer: "Nur du in deinem Konto. Für das öffentliche Ranking wird ausschließlich dein daraus berechnetes Ergebnis mit deinem Nutzernamen verwendet, wenn du die Rankingsichtbarkeit im Profil freigegeben hast." },
+      { question: "Muss ich jeden Tag alle Umfänge messen?", answer: "Nein. Gewicht und Bauch- beziehungsweise Taillenumfang kannst du täglich dokumentieren. Ein KFA-Wert wird nur bei vollständigen Navy-Messwerten berechnet. Fehlende Tage bleiben Lücken; Teil-Challenges haben ihren eigenen Rhythmus." }
+    ]
+  },
+  {
+    title: "Dein Weg zu 100 Liegestützen am Stück",
+    slug: "journey-100-liegestuetze",
+    definition: getCuratedChallengeDefinition("journey-100-liegestuetze"),
+    level: "Beginner", participants: 0, rating: 0, createdAt: "2026-10-17", duration: "Dauerhaft",
+    goal: "Arbeite mit einem persönlichen Trainingsplan auf 100 saubere Liegestütze am Stück hin.",
+    description: "Du schaffst noch keine 100 Liegestütze am Stück? Starte deine Vorbereitung, halte deine Trainingstage und geplante Erholung fest und finde einen ChallengeMate mit demselben Ziel. Sobald du bereit bist, dokumentierst du deinen Versuch in der Leistungs-Challenge.",
+    seoDescription: "Deine Journey zu 100 Liegestützen am Stück: Vorbereitung dokumentieren, einen Trainingspartner finden und anschließend deine Leistung festhalten.",
+    rules: ["Lege deinen persönlichen Trainingsplan einschließlich Erholungstagen vorab fest.", "Bestätige einen Tag, wenn du die geplante Trainings- oder Erholungsaufgabe umgesetzt hast.", "Es gibt keine feste Erfolgsfrist. Die Check-ins dokumentieren deine Vorbereitung, nicht den Nachweis von 100 Wiederholungen.", "Erfasse deinen erfolgreichen 100er-Versuch und die optionale Zeit separat bei 100 Liegestütze am Stück."],
+    tips: ["Halte dein aktuelles Maximum sauberer Wiederholungen in deinem Trainingsprotokoll fest.", "Vereinbare regelmäßige Termine mit deinem ChallengeMate.", "Wähle einen Trainingsplan, der zu deinem Ausgangsniveau passt."],
+    faq: [
+      { question: "Ist ein Check-in ein Nachweis für 100 Liegestütze?", answer: "Nein. Hier dokumentierst du die Umsetzung deiner Vorbereitung. Deinen 100er-Versuch erfasst du in der separaten Leistungs-Challenge." },
+      { question: "Gibt es eine feste Dauer?", answer: "Nein. Wie lange du brauchst, hängt von deinem Ausgangsniveau und deinem Training ab. Diese Journey gibt keine Erfolgsfrist vor." }
+    ]
+  },
+  {
     title: "5-Minuten-Calisthenics-Challenge",
     slug: "5-minuten-calisthenics-challenge",
     definition: getCuratedChallengeDefinition("5-minuten-calisthenics-challenge"),
@@ -142,7 +173,7 @@ export const challenges: Challenge[] = [
     duration: "Einmalig",
     goal: "100 saubere Liegestütze ohne Unterbrechung schaffen.",
     description: "Eine Kraft- und Durchhalte-Challenge für Brust, Schultern, Arme und mentale Stärke.",
-    seoDescription: "Trainiere für 100 Liegestütze am Stück: Challenge-Ziel, Regeln, Tipps und saubere Ausführung.",
+    seoDescription: "Du schaffst 100 Liegestütze am Stück? Dokumentiere deinen Erfolg und deine Zeit, vergleiche dich im Ranking und fordere Freunde heraus.",
     tips: ["Trainiere mit festen Sätzen statt jeden Versuch bis ans Limit zu gehen.", "Erhöhe das Volumen schrittweise.", "Filme einzelne Sätze, um die Technik zu prüfen."],
     faq: [
       { question: "Wie streng ist die Technik?", answer: "Eine Wiederholung zählt, wenn Körperlinie, Tiefe und Streckung kontrolliert bleiben." },

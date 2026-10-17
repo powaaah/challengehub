@@ -20,8 +20,9 @@ export async function getChallengeRankingBySlug(
   today: string,
   options: { publicOnly?: boolean } = {}
 ) {
+  if (slug === '100-tage-body-transformation') return [];
   const candidates = await getChallengeParticipationStatsRepository().listActiveRankingCandidates(slug, options);
-  return rankChallengeParticipants(candidates, today);
+  return rankChallengeParticipants(candidates, today, slug);
 }
 
 export async function getRecentChallengeActivityBySlug(slug: string, limit = 8) {

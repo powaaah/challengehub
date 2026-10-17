@@ -9,6 +9,13 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Leistungs-Challenges mit teilbarer Zeit-Herausforderung statt Mate-Zweitbutton umgesetzt; Liegestütz-Journey und 100 Tage Body Transformation angelegt. Bestzeit wird im Teiltext mit den Regeln verlinkt. Teilnahme, Kalendergrenze und Desktop/Mobil geprüft. Lokal, noch nicht veröffentlicht.
+- [x] Body-Transformation-Wertung abgestimmt: Navy-KFA-Abnahme in Prozentpunkten über 100 Tage; ersetzt die vorläufige Tagesplanwertung und die zwischenzeitliche Entscheidung ohne Ranking. Details in docs/product-decisions.md.
+- [x] Body Transformation gemäß bestätigtem Modell implementiert: Navy-Berechnung, tägliche Messwerthistorie, private Start-/Endbilder, Teil-Challenges und KFA-Ranking mit getrennten Zwischenständen/100-Tage-Ergebnissen. Export, Löschung, Zugriffsschutz und mobile Bedienung geprüft.
+- [ ] Autorisierten Navy-/Journey-Release veröffentlichen: Produktionsbackup, additive Migrationsprobe, Serverprüfungen und Livekontrolle.
+
+- [ ] Redaktionellen SEO-Lauf für „100 Liegestütze am Stück“ überarbeiten: Stefan hat `text-v2.txt` inhaltlich abgelehnt. Schwerpunkt Leistung, Zeit, Rekordvergleich und Regeln; Vorbereitung nur ein Faktor und Verweis zur Journey. Keine behaupteten Bevölkerungsperzentile. Schritt 4 teilweise: 18 sicher gemessene von 100 Kandidaten; Export-Einstellungen unbekannt. 30-Tage-Monitoring und programmierte KI-Orchestrierung offen.
+
 - [x] Autorisierter Release von SEO-Workflow und Aktivitätenentfernung über PR #6 veröffentlicht; 258 Servertests, 21 SEO-Tests, Lint/Build und 15 Liveprüfungen bestanden.
 
 - [x] Deterministischen SEO-Textgenerator für kuratierte und veröffentlichte Community-Challenges unter dem Ranking umgesetzt; 21 SEO-Tests, sechs Browserprüfungen, Lint und Build bestanden. Desktop/Mobil geprüft, Pflegeablauf in `docs/challenge-seo-workflow.md`. Über PR #6 veröffentlicht.
@@ -179,6 +186,8 @@ Stand: 2026-10-17
   sowie den Caddy-Reverse-Proxy korrekt überstehen.
 
 ## Later
+
+- [x] Überschriftenhierarchie in `text-v2.txt` explizit markieren und prüfen: ein H2, acht H3 einschließlich Quellen und weiterführender Challenges.
 
 - [x] Lokale Entwicklung einrichten und dokumentieren.
 - [x] Build-, Lint- und Preview-Verifikation etablieren.

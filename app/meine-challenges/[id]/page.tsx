@@ -1,8 +1,17 @@
 import Link from "next/link";
+import { BodyTransformation } from '@/components/body-transformation';
+import { BODY_SLUG } from '@/domain/challenges/navy';
+import { readBody } from '@/infrastructure/sqlite/sqlite-body-transformation';
+import { bodyWindow } from '@/lib/body-transformation';
+import { getDb } from '@/lib/db';
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { ChallengeHistory } from "@/components/challenge-history";
 import { ChallengeInvitation } from "@/components/challenge-invitation";
+import { ChallengeShare } from '@/components/challenge-share';
+import { buildChallengeShare } from '@/domain/challenges/challenge-share';
+import { SITE_URL } from '@/lib/seo';
+import { getJourneyPeriod } from '@/domain/challenges/journey-period';
 import { ChallengeRankingTable } from "@/components/challenge-ranking-table";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getCurrentUser } from "@/lib/auth";
@@ -59,14 +68,22 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
     notFound();
   }
 
-  const isActive = participation.status === "active";
+  if (participation.challengeSlug === BODY_SLUG) {
+    const photos = getDb().prepare('SELECT slot,updated_at FROM body_transformation_photos WHERE participation_id=?').all(id) as unknown as {slot:string;updated_at:string}[];
+    return <><SiteHeader user={user}/><BodyTransformation id={id} state={readBody(getDb(),id)} window={bodyWindow(participation.startedAt)} active={participation.status==='active'} photos={photos.map(photo => ({...photo}))}>
+      {participation.status==='active'&&<details><summary>Teilnahme beenden</summary><p>Dein Verlauf bleibt erhalten. Neue Einträge sind danach nicht mehr möglich.</p><form action={leaveChallengeAction}><input type="hidden" name="participationId" value={id}/><button>Teilnahme endgültig beenden</button></form></details>}
+    </BodyTransformation><SiteFooter/></>;
+  }
+
+  const period = getJourneyPeriod(participation.challengeSlug, participation.startedAt, getTodayKey());
+  const isActive = participation.status === "active" && !period.ended;
 
   const checkIns = getCheckInsForParticipation({
     participationId: participation.id,
     userId: user.id
   });
   const checkInDates = checkIns.map((checkIn) => checkIn.date);
-  const today = getTodayKey();
+  const today = period.today;
   const progress = calculateChallengeProgress({
     startedAt: participation.startedAt,
     checkInDates,
@@ -105,6 +122,7 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
               <p className={styles.kicker}>Challenge-Raum</p>
               <h1>{participation.challengeTitle}</h1>
               <p className={styles.goal}>{participation.challengeGoal}</p>
+              {period.endDate && <p className={styles.note}>{period.ended ? 'Deine 100 Tage sind beendet.' : `Deine 100 Tage laufen bis ${formatIsoDate(period.endDate)}.`} Dein Verlauf bleibt erhalten.</p>}
               {isFixedTarget && (isActive || participation.status === "completed") ? (
                 <form action={checkInTodayAction}>
                   <input type="hidden" name="participationId" value={participation.id} />
@@ -311,7 +329,9 @@ export default async function ChallengeRoomPage({ params, searchParams }: Challe
             <ChallengeRankingTable entries={ranking} currentParticipationId={participation.id} />
           </section>
 
-          {isActive ? <ChallengeInvitation participationId={participation.id} /> : null}
+          {participation.definition.type === 'one_time_result' && (isActive || participation.status === 'completed') ? (
+            <ChallengeShare {...buildChallengeShare(participation.challengeTitle, participation.definition, ownRanking)} title={participation.challengeTitle} url={`${SITE_URL}/challenges/${participation.challengeSlug}`} />
+          ) : isActive ? <ChallengeInvitation participationId={participation.id} /> : null}
 
           {isActive ? (
             <details className={styles.dangerZone}>

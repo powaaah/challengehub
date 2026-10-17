@@ -1,6 +1,7 @@
 import type { ChallengeRankingCandidate } from "../domain/participations/challenge-participation-stats.ts";
 import { calculateChallengeOutcome } from "../domain/challenges/challenge-outcome.ts";
 import { formatRankingTime, supportsOptionalCompletionTime } from "../domain/challenges/completion-result.ts";
+import { getJourneyPeriod } from '../domain/challenges/journey-period.ts';
 
 const millisecondsPerDay = 86_400_000;
 
@@ -81,7 +82,8 @@ export function calculateChallengeProgress(input: {
 
 export function rankChallengeParticipants(
   candidates: ChallengeRankingCandidate[],
-  today: string
+  today: string,
+  challengeSlug = ''
 ): ChallengeRankingEntry[] {
   assertCompatibleRankingDefinitions(candidates);
   const completedRanks = new Map<number | null, number>();
@@ -90,7 +92,7 @@ export function rankChallengeParticipants(
       const progress = calculateChallengeProgress({
         startedAt: candidate.startedAt,
         checkInDates: candidate.checkIns.map((checkIn) => checkIn.date),
-        today
+        today: getJourneyPeriod(challengeSlug, candidate.startedAt, today).today
       });
       const outcome = calculateChallengeOutcome({
         definition: candidate.definition,

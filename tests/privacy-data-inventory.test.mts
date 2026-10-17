@@ -8,6 +8,7 @@ test("Dateninventur deckt alle implementierten personenbezogenen Datenbereiche a
     [
       "account",
       "account-tokens",
+      "body-transformation",
       "challenges",
       "invitations",
       "challenge-mate",

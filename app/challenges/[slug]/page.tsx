@@ -1,4 +1,6 @@
 import { ChallengeSeoContent } from "@/components/challenge-seo-content";
+import { BodyRanking } from '@/components/body-ranking';
+import { BODY_SLUG } from '@/domain/challenges/navy';
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ChallengeInvitationAcceptance } from "@/components/challenge-invitation-acceptance";
@@ -121,6 +123,10 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
   const challenge = getChallengeBySlug(slug);
   const user = await getCurrentUser();
   const invitation = einladung ? await getChallengeInvitationPreview(einladung) : null;
+  const ownParticipationIds = new Set(user ? getParticipationsForUser(user.id).map(participation => participation.id) : []);
+  const ownResult = user
+    ? (await getChallengeRankingBySlug(slug, getTodayKey())).find(entry => ownParticipationIds.has(entry.id))
+    : undefined;
 
   if (!challenge) {
     const dbChallenge = await getPublishedChallengeBySlug(slug);
@@ -135,6 +141,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
         <DbChallengeDetail
           challenge={dbChallenge}
           currentParticipationId={dbCurrentParticipationId}
+          ownResult={ownResult ? { completed: ownResult.completed, rankingTimeSeconds: ownResult.rankingTimeSeconds } : undefined}
           invitationChallengeSlug={invitation?.challengeSlug}
           invitationToken={einladung}
           participantCount={await getParticipationCountByChallengeSlug(dbChallenge.slug)}
@@ -237,6 +244,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
           challenge={challenge}
           isAuthenticated={Boolean(user)}
           currentParticipationId={currentParticipationId}
+          ownResult={ownResult ? { completed: ownResult.completed, rankingTimeSeconds: ownResult.rankingTimeSeconds } : undefined}
           participantCount={await getParticipationCountByChallengeSlug(challenge.slug)}
         />
 
@@ -246,11 +254,11 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
               <h2 id="challenge-ranking">Ranking</h2>
             </div>
           </div>
-          <ChallengeRankingTable
+          {slug === BODY_SLUG ? <BodyRanking/> : <ChallengeRankingTable
             entries={ranking}
             currentParticipationId={currentParticipationId}
             collapsedLimit={10}
-          />
+          />}
         </section>
 
         <ChallengeSeoContent challenge={challenge} />

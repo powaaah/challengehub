@@ -95,3 +95,19 @@ Wichtige Privacy-Anforderungen fuer spaeter:
 - Sichtbarkeit muss aktiv einstellbar sein.
 - Standort darf nur grob oder ueber Radius genutzt werden.
 - Kontakt sollte erst nach beidseitigem Interesse moeglich sein.
+
+## 2026-10-17 - Leistung und Journey
+
+Einmalige Challenges dokumentieren eine bereits erbrachte Leistung und gegebenenfalls eine Bestzeit. Zweitaktion: jemanden herausfordern; mit gespeicherter Zeit: Schlage meine Zeit. Journeys begleiten die Vorbereitung und behalten ChallengeMate finden. Liegestuetz-Leistung und Vorbereitung sind gegenseitig verlinkt. Keine unbelegten Bevoelkerungsperzentile; ein spaeterer Rangvergleich muss die reale Vergleichsgruppe nennen.
+
+### Bestätigte Body-Transformation-Wertung
+
+Stefan hat am 2026-10-17 die Navy-Formel als Grundlage bestätigt. Diese Entscheidung ersetzt die vorläufige Tagesplanwertung und die zwischenzeitliche Entscheidung gegen ein Gesamtranking. Ziel der 100 Tage Body Transformation: Fett abbauen und Muskeln erhalten. Die Rangliste wertet die Abnahme des geschätzten Körperfettanteils nach der verbreiteten US-Navy-Umfangsformel in Prozentpunkten: Start-KFA minus End-KFA. Beispiel: 28 % auf 24 % ergibt 4 Prozentpunkte. Kein zusätzlicher Muskelerhalt-Bonus, kein zusammengesetzter Score. Die Schätzung gilt nicht als Nachweis des Muskelerhalts.
+
+Benötigte Eingaben: Formelvariante und Körpergröße; für die männliche Variante Hals- und Bauchumfang, für die weibliche Variante Hals-, Taillen- und Hüftumfang. Messstellen werden eindeutig erklärt; Berechnungen verwenden konsistente Einheiten und dieselbe Formelversion für Start und Ende. Fehlende Messwerte ergeben keinen KFA und keinen Ranglistenwert.
+
+Start- und Endbild sowie tägliche Einträge von Gewicht und Bauchumfang zeigen den persönlichen Verlauf. Weitere Navy-Messwerte ermöglichen KFA-Verlaufspunkte. Gewicht ist kein Eingangswert der Navy-Formel. Teil-Challenges können parallel mit eigenen Zielen und Rhythmen geführt werden, etwa Schlaf, Schritte, Radfahren, Gym und Kalorien; sie verändern den KFA-Ranglistenwert nicht.
+
+Implementiert: private tägliche Messwertspeicherung und Verlauf, Navy-Berechnung (Version navy-circumference-v1), Start-/Endbilder, Teil-Challenges und KFA-Rangliste. Vollständige Tag-1-Messung erforderlich; Tag-100-Messung liefert das Endergebnis. Zwischenstände werden separat angezeigt. Einträge können innerhalb des vergangenen Challenge-Zeitraums korrigiert werden; keine zukünftigen Messungen. Formelvariante und Körpergröße bleiben nach dem ersten Eintrag fest. Auf eine Nachkommastelle gerundete gleiche Ergebnisse teilen sich einen Rang. Ein öffentlicher Rankingwert setzt die bestehende Freigabe im Profil voraus. Rohdaten und Bilder bleiben privat und sind in Export und Kontolöschung enthalten.
+
+Formelreferenz: https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2023.1183836/full (Umfangsformeln mit Umrechnung von cm in Zoll). Die dort beschriebenen Messgrenzen werden nicht als Muskelerhalt-Nachweis ausgelegt. Teil-Challenges zeigen Tageswerte beziehungsweise Wochensummen (Montag bis Sonntag) gegen persönliche Ziele; keine automatische medizinische Zielvorgabe.

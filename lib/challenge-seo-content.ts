@@ -3,6 +3,7 @@ import { formatMetricValue } from "../domain/challenges/challenge-outcome.ts";
 import { supportsOptionalCompletionTime } from "../domain/challenges/completion-result.ts";
 
 export type ChallengeSeoInput = {
+  slug?: string;
   title: string;
   description: string;
   goal: string;
@@ -20,7 +21,10 @@ export function buildChallengeSeoContent(challenge: ChallengeSeoInput) {
   let tracking: string;
   let ranking: string;
 
-  if (definition.type === "daily_boolean") {
+  if (challenge.slug === '100-tage-body-transformation') {
+    tracking = 'Dokumentiere Gewicht und Umfänge in deinem privaten Verlauf. Vollständige Umfangsmessungen ergeben einen geschätzten Körperfettanteil nach der Navy-Formel. Start- und Endbild zeigen deine Veränderung; persönliche Teil-Challenges begleiten die 100 Tage.';
+    ranking = 'Die Abnahme des geschätzten Navy-KFA in Prozentpunkten zählt: Startwert minus Endwert. Eine vollständige Messung an Tag 1 bildet die Basis; Tag 100 liefert das Endergebnis. Laufende Zwischenstände stehen separat. Gleiche auf eine Nachkommastelle gerundete Ergebnisse teilen sich einen Rang. Gewicht, Bilder und Teil-Challenges verändern den Rankingwert nicht. Die Schätzung weist keinen Muskelerhalt nach.';
+  } else if (definition.type === "daily_boolean") {
     tracking = "Bestätige mit einem täglichen Check-in, dass du die Aufgabe nach den Regeln erfüllt hast. Aufeinanderfolgende erfüllte Tage bilden deinen Streak. So kannst du verfolgen, wie lange du am Stück drangeblieben bist.";
     ranking = "Im Ranking zählt zuerst dein aktueller Streak. Bei gleichem Streak folgen die Erfüllungsquote und die Anzahl erfüllter Tage. Ein verpasster Tag unterbricht die Serie; deine bisherigen Check-ins bleiben im Verlauf erhalten.";
   } else {
