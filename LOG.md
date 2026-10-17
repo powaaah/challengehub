@@ -2965,3 +2965,11 @@
 - Sechs lokale E2E-Tests bestanden. Live neun Seiten-/Breitenkombinationen (1440/390/320), www, JavaScript-Ausführung und Zugriffsschutz geprüft; alle erfolgreich. Mobile Ansicht visuell kontrolliert. Keine produktiven Testkonten oder Testmesswerte angelegt.
 - Deployment-Vorprüfung zunächst an nicht exportiertem sharp/package.json gescheitert, noch vor jeder Aktivierung; Versionsprüfung über die öffentliche sharp.versions-Schnittstelle korrigiert. Nur ChallengeHub neu gestartet. Caddy, DNS und Compose unverändert.
 - Grenzen: Navy bleibt eine selbst gemeldete Schätzung. Keine Muskelmassemessung oder automatische Trainings-/Ernährungsvorgabe. Die separate SEO-Neufassung und KI-Orchestrierung bleiben offen. Nächster Schritt: erste echte Teilnahme und Messwerte durch Stefan.
+
+## 2026-10-17 - Markdown als Challenge-Backend
+
+- 17 kuratierte Challenges verlustfrei in content/challenges/*.md migriert. JSON-Metadaten, Regeln, FAQ, Header und SEO-Artikel sind die redaktionelle Quelle; generierter TypeScript-Katalog versorgt die Website.
+- Validierter, atomarer SQLite-Abgleich mit Revisionen, stabilen IDs und Archivierung/Wiederherstellung bei entfernten Dateien. Ergebnisse bleiben erhalten. Bestehende Teilnahmen sperren nachtraegliche Wertungs-/Regelaenderungen. Community-Challenges bleiben datenbankverwaltet.
+- Build kompiliert die Dateien; Start prueft den Inhaltsfingerabdruck des Builds und synchronisiert. Dokumentation: docs/challenge-markdown-backend.md. Keine neuen Abhaengigkeiten.
+- Verifikation: Build/TypeScript, Anwendungslint (output ausgeschlossen), content:check, sechs neue Unit-Tests und sieben Browser-Tests bestanden. Gesamtsuite 273/274 bestanden; einzig bekannter unveraenderter PostgreSQL-CRLF-Pruefsummenfehler unter Windows. Browser prueft Anlegen, Bearbeiten, Entfernen, 404 sowie Erhalt alter Check-ins. Bestehende Navy-/Leistungs-/Medienablaeufe einschliesslich Mobilansichten bestanden.
+- Grenzen: Markdown-Aenderungen erfordern erneutes Kompilieren bzw. Produktionsbuild/Deployment; keine Live-Dateiueberwachung. Redaktionelle Querverweise bei Loeschungen mitpflegen. KI-SEO-Orchestrierung unveraendert offen. Keine Produktionsaenderung. Naechster Schritt: Inhaltspflege, anschliessend autorisierter Release.

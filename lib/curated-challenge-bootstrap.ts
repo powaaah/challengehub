@@ -14,7 +14,7 @@ export async function ensureParticipationChallengeRow(slug: string) {
   }
 
   return await getCuratedChallengeBootstrapRepository().ensureChallenge({
-    id: `curated:${challenge.slug}`,
+    id: challenge.id,
     slug: challenge.slug,
     title: challenge.title,
     level: challenge.level,

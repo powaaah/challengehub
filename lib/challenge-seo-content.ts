@@ -3,6 +3,7 @@ import { formatMetricValue } from "../domain/challenges/challenge-outcome.ts";
 import { supportsOptionalCompletionTime } from "../domain/challenges/completion-result.ts";
 
 export type ChallengeSeoInput = {
+  seoMarkdown?: string;
   slug?: string;
   title: string;
   description: string;

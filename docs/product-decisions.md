@@ -111,3 +111,11 @@ Start- und Endbild sowie tägliche Einträge von Gewicht und Bauchumfang zeigen 
 Implementiert: private tägliche Messwertspeicherung und Verlauf, Navy-Berechnung (Version navy-circumference-v1), Start-/Endbilder, Teil-Challenges und KFA-Rangliste. Vollständige Tag-1-Messung erforderlich; Tag-100-Messung liefert das Endergebnis. Zwischenstände werden separat angezeigt. Einträge können innerhalb des vergangenen Challenge-Zeitraums korrigiert werden; keine zukünftigen Messungen. Formelvariante und Körpergröße bleiben nach dem ersten Eintrag fest. Auf eine Nachkommastelle gerundete gleiche Ergebnisse teilen sich einen Rang. Ein öffentlicher Rankingwert setzt die bestehende Freigabe im Profil voraus. Rohdaten und Bilder bleiben privat und sind in Export und Kontolöschung enthalten.
 
 Formelreferenz: https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2023.1183836/full (Umfangsformeln mit Umrechnung von cm in Zoll). Die dort beschriebenen Messgrenzen werden nicht als Muskelerhalt-Nachweis ausgelegt. Teil-Challenges zeigen Tageswerte beziehungsweise Wochensummen (Montag bis Sonntag) gegen persönliche Ziele; keine automatische medizinische Zielvorgabe.
+
+## 2026-10-17 - Markdown als fuehrende Quelle kuratierter Challenges
+
+- Pro kuratierter Challenge eine Markdown-Datei mit stabiler ID, dauerhaftem Slug, strukturierten Metadaten und redaktionellem Inhalt.
+- Markdown wird validiert und in Website-Katalog sowie SQLite synchronisiert. Nutzerdaten bleiben in SQLite.
+- Entfernte Dateien archivieren Challenge und Teilnahmen, statt Ergebnisse zu loeschen. Wiederherstellung mit gleicher ID stellt vorherige Teilnahmestatus wieder her.
+- Regeln und Wertung mit vorhandenen Teilnahmen verlangen eine neue Challenge-Ausgabe; redaktionelle Texte bleiben aenderbar. Vollstaendige Inhaltsrevisionen werden gespeichert.
+- Anleitung: docs/challenge-markdown-backend.md. Diese Entscheidung umfasst keine erneute SEO-Textgenerierung und kein Deployment.
