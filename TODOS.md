@@ -9,7 +9,7 @@ Stand: 2026-10-17
 
 ## Active
 
-- [x] Markdown als führende Quelle für die 17 kuratierten Challenges: Migration, Validierung, atomarer DB-Abgleich, Revisionen, Archivierung bei entfernten Dateien und Schutz vorhandener Wertungen. Build-/Start-Abgleich und sieben Browser-Tests erfolgreich. Anleitung: docs/challenge-markdown-backend.md. Lokal umgesetzt, noch nicht veröffentlicht.
+- [x] Markdown als führende Quelle für die 17 kuratierten Challenges: Migration, Validierung, atomarer DB-Abgleich, Revisionen, Archivierung bei entfernten Dateien und Schutz vorhandener Wertungen. Build-/Start-Abgleich und sieben Browser-Tests erfolgreich. Anleitung: docs/challenge-markdown-backend.md. Mit PR #8 auf theovina.de veroeffentlicht; 15 Dateien nach bestaetigter Entfernung der Liegestuetz-Journey und 10.000-Kalorien-Challenge.
 
 - [x] Leistungs-Challenges mit teilbarer Zeit-Herausforderung statt Mate-Zweitbutton umgesetzt; Liegestütz-Journey und 100 Tage Body Transformation angelegt. Bestzeit wird im Teiltext mit den Regeln verlinkt. Teilnahme, Kalendergrenze und Desktop/Mobil geprüft. Mit PR #7 veröffentlicht.
 - [x] Body-Transformation-Wertung abgestimmt: Navy-KFA-Abnahme in Prozentpunkten über 100 Tage; ersetzt die vorläufige Tagesplanwertung und die zwischenzeitliche Entscheidung ohne Ranking. Details in docs/product-decisions.md.

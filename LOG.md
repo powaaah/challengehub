@@ -2973,3 +2973,11 @@
 - Build kompiliert die Dateien; Start prueft den Inhaltsfingerabdruck des Builds und synchronisiert. Dokumentation: docs/challenge-markdown-backend.md. Keine neuen Abhaengigkeiten.
 - Verifikation: Build/TypeScript, Anwendungslint (output ausgeschlossen), content:check, sechs neue Unit-Tests und sieben Browser-Tests bestanden. Gesamtsuite 273/274 bestanden; einzig bekannter unveraenderter PostgreSQL-CRLF-Pruefsummenfehler unter Windows. Browser prueft Anlegen, Bearbeiten, Entfernen, 404 sowie Erhalt alter Check-ins. Bestehende Navy-/Leistungs-/Medienablaeufe einschliesslich Mobilansichten bestanden.
 - Grenzen: Markdown-Aenderungen erfordern erneutes Kompilieren bzw. Produktionsbuild/Deployment; keine Live-Dateiueberwachung. Redaktionelle Querverweise bei Loeschungen mitpflegen. KI-SEO-Orchestrierung unveraendert offen. Keine Produktionsaenderung. Naechster Schritt: Inhaltspflege, anschliessend autorisierter Release.
+
+
+## 2026-10-18 - Markdown-Backend veroeffentlicht
+
+- PR #8 (5c6ed53) auf theovina.de aktiviert. 15 kuratierte Challenges werden aus Markdown gepflegt. Stefan hat die Entfernung der Liegestuetz-Journey und 10.000-Kalorien-Challenge bestaetigt; beide URLs liefern 404 und der Journey-Verweis wird ausgeblendet. Fuer diese zwei Challenges gab es noch keine Produktions-Datenbankeintraege.
+- Git-/Build-/SQLite-Backup sowie Abgleichprobe auf Datenbankkopie erfolgreich. Alle 274 Tests, Lint und Build im bestehenden Produktionsimage bestanden; lokal vier aktualisierte Browser-Tests und sechs Markdown-Tests erfolgreich.
+- Live sechs Layoutpruefungen (1440/390/320), entfernte URLs, www und Zugriffsschutz bestanden. 15 aktive Inhaltsregistrierungen und Datenbankintegritaet verifiziert; vorhandene Nutzerdatentabellen unveraendert gegen Aktivierungsbackup.
+- Nur ChallengeHub neu erstellt; Caddy, DNS und Compose unveraendert. Bearbeitung erfordert weiterhin Build/Deployment. Separate KI-SEO-Orchestrierung bleibt offen. Naechster Schritt: redaktionelle Inhalte ueber content/challenges pflegen.
