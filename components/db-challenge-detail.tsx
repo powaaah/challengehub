@@ -2,18 +2,15 @@ import { SiteFooter, SiteHeader } from "./site-shell";
 import { ChallengeHero } from "./challenge-hero";
 import { ChallengeInvitationAcceptance } from "./challenge-invitation-acceptance";
 import { ChallengeRankingTable } from "./challenge-ranking-table";
-import type { ChallengeActivityEntry } from "@/domain/participations/challenge-participation-stats";
 import type { CurrentUser } from "@/lib/auth";
 import type { ChallengeRankingEntry } from "@/lib/challenge-progress";
 import type { PublicChallenge } from "@/domain/challenges/public-challenge";
-import { formatMetricValue } from "@/domain/challenges/challenge-outcome";
 import { buildChallengeBreadcrumbJsonLd, SITE_URL } from "@/lib/seo";
 import styles from "./user-challenge-detail.module.css";
 
 export function DbChallengeDetail({
   challenge,
   ranking,
-  activity,
   currentParticipationId,
   participantCount,
   user,
@@ -22,7 +19,6 @@ export function DbChallengeDetail({
 }: {
   challenge: PublicChallenge;
   ranking: ChallengeRankingEntry[];
-  activity: ChallengeActivityEntry[];
   currentParticipationId?: string;
   participantCount: number;
   user: CurrentUser | null;
@@ -109,31 +105,6 @@ export function DbChallengeDetail({
         />
       </section>
 
-      <section className={styles.detailActivity} data-detail-section="activity" aria-labelledby="community-activity">
-        <div className={styles.detailSectionHeader}>
-          <div>
-            <p className={styles.eyebrow}>Live aus der Challenge</p>
-            <h2 id="community-activity">Letzte Aktivitäten</h2>
-          </div>
-          <p>Echte Check-ins, keine simulierten Meldungen.</p>
-        </div>
-        {activity.length > 0 ? (
-          <ol className={styles.detailActivityList}>
-            {activity.map((entry) => (
-              <li key={entry.id}>
-                <strong>{entry.participantName}</strong>
-                <span>
-                  Check-in am <time dateTime={entry.checkInDate}>{formatActivityDate(entry.checkInDate)}</time>
-                  {entry.value !== null && challenge.definition.type !== "daily_boolean"
-                    ? ` · ${formatMetricValue(entry.value, challenge.definition.unit)}`
-                    : null}
-                </span>
-              </li>
-            ))}
-          </ol>
-        ) : <p className={styles.detailEmpty}>Noch wurden keine Check-ins gespeichert.</p>}
-      </section>
-
       <section className={styles.detailSeo} data-detail-section="seo">
         <p className={styles.eyebrow}>Tipps</p>
         <h2>So wird die Challenge machbar</h2>
@@ -152,13 +123,4 @@ export function DbChallengeDetail({
     <SiteFooter />
     </>
   );
-}
-
-function formatActivityDate(date: string) {
-  return new Intl.DateTimeFormat("de-DE", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    timeZone: "Europe/Berlin"
-  }).format(new Date(`${date}T12:00:00.000Z`));
 }

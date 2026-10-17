@@ -129,7 +129,7 @@ test("Freund nimmt Einladung zu einer Community-Challenge an", async ({ browser,
   await inviterPage.goto(`${baseURL}/challenges/${slug}`);
   expect(await inviterPage.locator("[data-detail-section]").evaluateAll((elements) =>
     elements.map((element) => element.getAttribute("data-detail-section"))
-  )).toEqual(["hero", "ranking", "activity", "seo"]);
+  )).toEqual(["hero", "ranking", "seo"]);
   await expect(inviterPage.locator("summary")).toBeVisible();
   await expect(inviterPage.getByRole("heading", { name: "Ranking", exact: true })).toBeVisible();
   await expect(inviterPage.getByText("Sicherheit zuerst.")).toHaveCount(0);

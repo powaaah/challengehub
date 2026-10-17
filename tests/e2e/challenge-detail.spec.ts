@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("Challenge-Detailseite ordnet Entscheidung, Teilnahme und Belege verständlich", async ({ page }) => {
   await page.goto("/challenges/10000-schritte-am-tag");
 
-  const expectedSections = ["hero", "ranking", "activity", "seo"];
+  const expectedSections = ["hero", "ranking", "seo"];
   const actualSections = await page.locator("[data-detail-section]").evaluateAll((elements) =>
     elements.map((element) => element.getAttribute("data-detail-section"))
   );
@@ -12,7 +12,7 @@ test("Challenge-Detailseite ordnet Entscheidung, Teilnahme und Belege verständl
   await page.getByText("Vollständige Regeln", { exact: true }).click();
   await expect(page.getByText("10.000 Schritte zählen pro Kalendertag.")).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "Ranking" })).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: "Letzte Aktivitäten" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "Letzte Aktivitäten" })).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 2, name: "Häufige Fragen" })).toBeVisible();
 });
 
