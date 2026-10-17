@@ -30,7 +30,7 @@ function database() {
   return db;
 }
 const catalog = () => structuredClone(challenges.slice(0, 3));
-test("all 17 Markdown files exactly match the website catalog, including headers and SEO", () => {
+test("all Markdown files exactly match the website catalog, including headers and SEO", () => {
   assert.deepEqual(
     loadChallengeFiles(path.resolve("content/challenges")),
     challenges,

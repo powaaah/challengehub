@@ -61,15 +61,14 @@ test('journeys retain Mate action and body transformation accepts Navy measureme
   await expect(page.getByRole('button',{name:'Challenge heute durchgeführt'})).toHaveCount(0);
   await page.goto('/meine-challenges');
   await expect(page.locator('article').filter({hasText:'100 Tage Body Transformation Challenge'})).toContainText('Beendet');
-  await page.goto('/challenges/journey-100-liegestuetze');
-  await expect(page.getByRole('link',{name:/ChallengeMate finden/})).toBeVisible();
-  await expect(page.getByRole('link',{name:/Halte deinen 100er-Versuch/})).toHaveAttribute('href','/challenges/100-liegestuetze-am-stueck');
+  expect((await page.goto('/challenges/journey-100-liegestuetze'))!.status()).toBe(404);
+  expect((await page.goto('/challenges/10000-kalorien-challenge'))!.status()).toBe(404);
 });
 
 test('new pages and share dialog fit desktop and mobile', async ({page}) => {
   for (const width of [1440,390,320]) {
     await page.setViewportSize({width,height:900});
-    for (const slug of ['100-tage-body-transformation','journey-100-liegestuetze','100-liegestuetze-am-stueck']) {
+    for (const slug of ['100-tage-body-transformation','100-liegestuetze-am-stueck']) {
       await page.goto(`/challenges/${slug}`);
       await expect(page.locator('[data-detail-section="hero"] img')).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

@@ -27,7 +27,7 @@ export const generatedChallenges = [
     },
     "goal": "Reduziere deinen Körperfettanteil in 100 Tagen und arbeite daran, deine Muskelmasse zu erhalten.",
     "description": "Dokumentiere deine Body Transformation mit Gewicht, Umfängen und privaten Start-/Endbildern. Die Navy-Formel schätzt deinen Körperfettanteil; im Ranking zählt dessen Abnahme in Prozentpunkten. Finde einen ChallengeMate und begleite deinen Weg mit persönlichen Teil-Challenges.",
-    "seoDescription": "100 Tage Body Transformation: Navy-KFA-Verlauf, private Vorher-Nachher-Bilder und Teil-Challenges. Vergleiche die geschätzte KFA-Abnahme im Ranking.",
+    "seoDescription": "100 Tage Body Transformation: Navy-KFA-Verlauf, Vorher-Nachher-Bilder und Teil-Challenges. Vergleiche die geschätzte KFA-Abnahme im Ranking.",
     "rules": [
       "Die Challenge umfasst 100 Kalendertage einschließlich deines Starttags. Erfasse an Tag 1 und Tag 100 eine vollständige Navy-Messung.",
       "Die männliche Formel verwendet Körpergröße, Hals- und Bauchumfang; die weibliche Formel Körpergröße, Hals-, Taillen- und Hüftumfang. Körpergröße und Formelvariante bleiben für deine Teilnahme gleich.",
@@ -56,57 +56,6 @@ export const generatedChallenges = [
       }
     ],
     "seoMarkdown": "## 100 Tage Body Transformation Challenge: Ablauf und Wertung\n\nDokumentiere deine Body Transformation mit Gewicht, Umfängen und privaten Start-/Endbildern. Die Navy-Formel schätzt deinen Körperfettanteil; im Ranking zählt dessen Abnahme in Prozentpunkten. Finde einen ChallengeMate und begleite deinen Weg mit persönlichen Teil-Challenges.\n\n### Dein Ziel und Zeitrahmen\n\nReduziere deinen Körperfettanteil in 100 Tagen und arbeite daran, deine Muskelmasse zu erhalten.\n\nZeitrahmen: 100 Tage. Dokumentiere Gewicht und Umfänge in deinem privaten Verlauf. Vollständige Umfangsmessungen ergeben einen geschätzten Körperfettanteil nach der Navy-Formel. Start- und Endbild zeigen deine Veränderung; persönliche Teil-Challenges begleiten die 100 Tage.\n\n### So zählt dein Ergebnis im Ranking\n\nDie Abnahme des geschätzten Navy-KFA in Prozentpunkten zählt: Startwert minus Endwert. Eine vollständige Messung an Tag 1 bildet die Basis; Tag 100 liefert das Endergebnis. Laufende Zwischenstände stehen separat. Gleiche auf eine Nachkommastelle gerundete Ergebnisse teilen sich einen Rang. Gewicht, Bilder und Teil-Challenges verändern den Rankingwert nicht. Die Schätzung weist keinen Muskelerhalt nach.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
-  },
-  {
-    "id": "curated:journey-100-liegestuetze",
-    "order": 1,
-    "title": "Dein Weg zu 100 Liegestützen am Stück",
-    "slug": "journey-100-liegestuetze",
-    "definition": {
-      "type": "daily_boolean",
-      "unit": "completion",
-      "targetValue": 1,
-      "frequency": "daily",
-      "direction": "at_least",
-      "completionCriterion": "daily_check_in"
-    },
-    "level": "Beginner",
-    "participants": 0,
-    "rating": 0,
-    "createdAt": "2026-10-17",
-    "duration": "Dauerhaft",
-    "header": {
-      "image": "pushups",
-      "alt": "Ein Sportler übt Liegestütze im Freien.",
-      "summary": "Du schaffst noch keine 100 am Stück? Dokumentiere deine Vorbereitung und finde einen ChallengeMate mit demselben Ziel. Dein erfolgreicher Versuch bekommt später seinen eigenen Platz in der Leistungs-Challenge.",
-      "highlight": "Dein Weg",
-      "caption": "Gemeinsam auf die 100 hinarbeiten."
-    },
-    "goal": "Arbeite mit einem persönlichen Trainingsplan auf 100 saubere Liegestütze am Stück hin.",
-    "description": "Du schaffst noch keine 100 Liegestütze am Stück? Starte deine Vorbereitung, halte deine Trainingstage und geplante Erholung fest und finde einen ChallengeMate mit demselben Ziel. Sobald du bereit bist, dokumentierst du deinen Versuch in der Leistungs-Challenge.",
-    "seoDescription": "Deine Journey zu 100 Liegestützen am Stück: Vorbereitung dokumentieren, einen Trainingspartner finden und anschließend deine Leistung festhalten.",
-    "rules": [
-      "Lege deinen persönlichen Trainingsplan einschließlich Erholungstagen vorab fest.",
-      "Bestätige einen Tag, wenn du die geplante Trainings- oder Erholungsaufgabe umgesetzt hast.",
-      "Es gibt keine feste Erfolgsfrist. Die Check-ins dokumentieren deine Vorbereitung, nicht den Nachweis von 100 Wiederholungen.",
-      "Erfasse deinen erfolgreichen 100er-Versuch und die optionale Zeit separat bei 100 Liegestütze am Stück."
-    ],
-    "tips": [
-      "Halte dein aktuelles Maximum sauberer Wiederholungen in deinem Trainingsprotokoll fest.",
-      "Vereinbare regelmäßige Termine mit deinem ChallengeMate.",
-      "Wähle einen Trainingsplan, der zu deinem Ausgangsniveau passt."
-    ],
-    "faq": [
-      {
-        "question": "Ist ein Check-in ein Nachweis für 100 Liegestütze?",
-        "answer": "Nein. Hier dokumentierst du die Umsetzung deiner Vorbereitung. Deinen 100er-Versuch erfasst du in der separaten Leistungs-Challenge."
-      },
-      {
-        "question": "Gibt es eine feste Dauer?",
-        "answer": "Nein. Wie lange du brauchst, hängt von deinem Ausgangsniveau und deinem Training ab. Diese Journey gibt keine Erfolgsfrist vor."
-      }
-    ],
-    "seoMarkdown": "## Dein Weg zu 100 Liegestützen am Stück: Ablauf und Wertung\n\nDu schaffst noch keine 100 Liegestütze am Stück? Starte deine Vorbereitung, halte deine Trainingstage und geplante Erholung fest und finde einen ChallengeMate mit demselben Ziel. Sobald du bereit bist, dokumentierst du deinen Versuch in der Leistungs-Challenge.\n\n### Dein Ziel und Zeitrahmen\n\nArbeite mit einem persönlichen Trainingsplan auf 100 saubere Liegestütze am Stück hin.\n\nZeitrahmen: Dauerhaft. Bestätige mit einem täglichen Check-in, dass du die Aufgabe nach den Regeln erfüllt hast. Aufeinanderfolgende erfüllte Tage bilden deinen Streak. So kannst du verfolgen, wie lange du am Stück drangeblieben bist.\n\n### So zählt dein Ergebnis im Ranking\n\nIm Ranking zählt zuerst dein aktueller Streak. Bei gleichem Streak folgen die Erfüllungsquote und die Anzahl erfüllter Tage. Ein verpasster Tag unterbricht die Serie; deine bisherigen Check-ins bleiben im Verlauf erhalten.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
   },
   {
     "id": "curated:5-minuten-calisthenics-challenge",
@@ -630,10 +579,10 @@ export const generatedChallenges = [
     "seoMarkdown": "## 100 Tage ohne soziale Medien: Ablauf und Wertung\n\nMehr Fokus, weniger Ablenkung und ein bewussterer Umgang mit digitaler Aufmerksamkeit.\n\n### Dein Ziel und Zeitrahmen\n\n100 Tage lang keine Social-Media-Apps privat nutzen.\n\nZeitrahmen: Zeitraum. Bestätige mit einem täglichen Check-in, dass du die Aufgabe nach den Regeln erfüllt hast. Aufeinanderfolgende erfüllte Tage bilden deinen Streak. So kannst du verfolgen, wie lange du am Stück drangeblieben bist.\n\n### So zählt dein Ergebnis im Ranking\n\nIm Ranking zählt zuerst dein aktueller Streak. Bei gleichem Streak folgen die Erfüllungsquote und die Anzahl erfüllter Tage. Ein verpasster Tag unterbricht die Serie; deine bisherigen Check-ins bleiben im Verlauf erhalten.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
   },
   {
-    "id": "curated:30-tage-kaltwasser-duschen",
+    "id": "curated:30-tage-kalt-duschen",
     "order": 10,
-    "title": "30 Tage Kaltwasser-Duschen",
-    "slug": "30-tage-kaltwasser-duschen",
+    "title": "30 Tage Kalt-Duschen",
+    "slug": "30-tage-kalt-duschen",
     "definition": {
       "type": "daily_boolean",
       "unit": "completion",
@@ -808,66 +757,6 @@ export const generatedChallenges = [
       }
     ],
     "seoMarkdown": "## 500 kg Kreuzheben: Ablauf und Wertung\n\nEine extreme Kraft-Challenge, die nur für sehr erfahrene Athletinnen und Athleten gedacht ist.\n\n### Dein Ziel und Zeitrahmen\n\n500 kg im Kreuzheben bewegen.\n\nZeitrahmen: Einmalig. Das messbare Ziel beträgt mindestens 500 kg in einem Versuch. Bestätige den erfolgreichen Abschluss, wenn du das Ziel nach den Regeln erreicht hast. Optional kannst du die dafür benötigte Zeit in Sekunden ergänzen.\n\n### So zählt dein Ergebnis im Ranking\n\nGeschaffte Ziele stehen im Ranking vor offenen Teilnahmen. Unter den Erfolgen zählen kürzere gemeldete Zeiten zuerst. Erfolge ohne Zeit stehen dahinter gemeinsam auf einem Rang. Du kannst deine persönliche Bestzeit nach dem Abschluss weiter verbessern.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
-  },
-  {
-    "id": "curated:10000-kalorien-challenge",
-    "order": 13,
-    "title": "10.000 Kalorien-Challenge",
-    "slug": "10000-kalorien-challenge",
-    "definition": {
-      "type": "one_time_result",
-      "unit": "kilocalories",
-      "targetValue": 10000,
-      "frequency": "once",
-      "direction": "at_least",
-      "completionCriterion": "single_result"
-    },
-    "level": "Premium",
-    "participants": 0,
-    "rating": 2.2,
-    "createdAt": "2024-05-16",
-    "duration": "Einmalig",
-    "benefits": [
-      {
-        "title": "Eher Entertainment als Gesundheitsziel.",
-        "text": "Für nachhaltige Körperveränderung ist eine durchhaltbare Energie- und Essensstruktur wichtiger als extreme Einzeltage.",
-        "source": {
-          "label": "Pavlou et al., Time-restricted eating RCT",
-          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11937878/"
-        }
-      }
-    ],
-    "header": {
-      "image": "food",
-      "alt": "Verschiedene Gerichte auf einem gedeckten Tisch.",
-      "summary": "Diese Extrem-Challenge erfasst 10.000 kcal innerhalb eines Tages. Dokumentiere Portionen und Kalorien nachvollziehbar. Sie ist kein Gesundheitsziel und keine Ernährungsempfehlung.",
-      "highlight": "10.000 kcal",
-      "caption": "Eine Extrem-Challenge."
-    },
-    "goal": "An einem Tag 10.000 Kalorien essen.",
-    "description": "Eine sehr spezielle Food-Challenge, bei der Planung und persönliche Grenzen besonders wichtig sind.",
-    "seoDescription": "10.000 Kalorien-Challenge: Ziel, Regeln und Hinweise für eine extreme Food-Challenge.",
-    "rules": [
-      "Nur teilnehmen, wenn gesundheitlich unbedenklich.",
-      "Trinke ausreichend Wasser.",
-      "Brich ab, wenn du dich schlecht fühlst."
-    ],
-    "tips": [
-      "Plane Lebensmittel vorher statt spontan zu essen.",
-      "Achte auf Wasser und Pausen.",
-      "Setze Gesundheit klar vor das Ziel."
-    ],
-    "faq": [
-      {
-        "question": "Ist diese Challenge gesund?",
-        "answer": "Sie ist extrem und nicht für jede Person geeignet."
-      },
-      {
-        "question": "Darf ich abbrechen?",
-        "answer": "Ja, bei Unwohlsein solltest du sofort abbrechen."
-      }
-    ],
-    "seoMarkdown": "## 10.000 Kalorien-Challenge: Ablauf und Wertung\n\nEine sehr spezielle Food-Challenge, bei der Planung und persönliche Grenzen besonders wichtig sind.\n\n### Dein Ziel und Zeitrahmen\n\nAn einem Tag 10.000 Kalorien essen.\n\nZeitrahmen: Einmalig. Das messbare Ziel beträgt mindestens 10.000 kcal in einem Versuch. Bestätige den erfolgreichen Abschluss, wenn du das Ziel nach den Regeln erreicht hast. Optional kannst du die dafür benötigte Zeit in Sekunden ergänzen.\n\n### So zählt dein Ergebnis im Ranking\n\nGeschaffte Ziele stehen im Ranking vor offenen Teilnahmen. Unter den Erfolgen zählen kürzere gemeldete Zeiten zuerst. Erfolge ohne Zeit stehen dahinter gemeinsam auf einem Rang. Du kannst deine persönliche Bestzeit nach dem Abschluss weiter verbessern.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
   },
   {
     "id": "curated:10min-am-stueck-planken-challenge",

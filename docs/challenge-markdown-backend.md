@@ -1,6 +1,6 @@
 # Challenges über Markdown pflegen
 
-Die 17 kuratierten Challenges werden in `content/challenges/` gepflegt. Jede Markdown-Datei enthält die vollständige redaktionelle Definition einschließlich Regeln, FAQ, Header und SEO-Text unter dem Ranking. Nutzerkonten, Teilnahmen, Messwerte und Bilder bleiben in der Datenbank. Von Nutzern erstellte Challenges werden weiterhin über die Anwendung verwaltet.
+Die 15 kuratierten Challenges werden in `content/challenges/` gepflegt. Jede Markdown-Datei enthält die vollständige redaktionelle Definition einschließlich Regeln, FAQ, Header und SEO-Text unter dem Ranking. Nutzerkonten, Teilnahmen, Messwerte und Bilder bleiben in der Datenbank. Von Nutzern erstellte Challenges werden weiterhin über die Anwendung verwaltet.
 
 ## Bearbeiten und veröffentlichen
 

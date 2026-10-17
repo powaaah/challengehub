@@ -12,7 +12,7 @@ test("Markdown creates and edits a real page, removal archives results and remov
   const slug = `markdown-e2e-${randomUUID()}`;
   const file = `content/challenges/${slug}.md`;
   const source = fs
-    .readFileSync("content/challenges/journey-100-liegestuetze.md", "utf8")
+    .readFileSync("content/challenges/10000-schritte-am-tag.md", "utf8")
     .replace(/\r\n/g, "\n");
   const match = source.match(/^---\n([\s\S]+?)\n---\n([\s\S]*)$/)!;
   const meta = JSON.parse(match[1]);
