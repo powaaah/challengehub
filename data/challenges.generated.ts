@@ -1,0 +1,1042 @@
+// Generated from content/challenges/*.md. Do not edit.
+export const generatedChallenges = [
+  {
+    "id": "curated:100-tage-body-transformation",
+    "order": 0,
+    "title": "100 Tage Body Transformation Challenge",
+    "slug": "100-tage-body-transformation",
+    "definition": {
+      "type": "daily_boolean",
+      "unit": "completion",
+      "targetValue": 1,
+      "frequency": "daily",
+      "direction": "at_least",
+      "completionCriterion": "daily_check_in"
+    },
+    "level": "Beginner",
+    "participants": 0,
+    "rating": 0,
+    "createdAt": "2026-10-17",
+    "duration": "100 Tage",
+    "header": {
+      "image": "deadlift",
+      "alt": "Ein Sportler trainiert mit einer Langhantel.",
+      "summary": "Reduziere deinen Körperfettanteil und dokumentiere deine Veränderung. Tracke Gewicht und Umfänge, vergleiche private Start-/Endbilder und begleite deine 100 Tage mit Teil-Challenges. Im Ranking zählt deine geschätzte Navy-KFA-Abnahme.",
+      "highlight": "100 Tage",
+      "caption": "Deine Veränderung. Dein Fortschritt."
+    },
+    "goal": "Reduziere deinen Körperfettanteil in 100 Tagen und arbeite daran, deine Muskelmasse zu erhalten.",
+    "description": "Dokumentiere deine Body Transformation mit Gewicht, Umfängen und privaten Start-/Endbildern. Die Navy-Formel schätzt deinen Körperfettanteil; im Ranking zählt dessen Abnahme in Prozentpunkten. Finde einen ChallengeMate und begleite deinen Weg mit persönlichen Teil-Challenges.",
+    "seoDescription": "100 Tage Body Transformation: Navy-KFA-Verlauf, Vorher-Nachher-Bilder und Teil-Challenges. Vergleiche die geschätzte KFA-Abnahme im Ranking.",
+    "rules": [
+      "Die Challenge umfasst 100 Kalendertage einschließlich deines Starttags. Erfasse an Tag 1 und Tag 100 eine vollständige Navy-Messung.",
+      "Die männliche Formel verwendet Körpergröße, Hals- und Bauchumfang; die weibliche Formel Körpergröße, Hals-, Taillen- und Hüftumfang. Körpergröße und Formelvariante bleiben für deine Teilnahme gleich.",
+      "Miss unter vergleichbaren Bedingungen. Bauch bei der männlichen Variante auf Nabelhöhe, Taille bei der weiblichen Variante an der schmalsten Stelle, Hüfte an der breitesten Stelle des Gesäßes und Hals unterhalb des Kehlkopfs.",
+      "Rankingwert: geschätzter Start-KFA minus geschätzter End-KFA in Prozentpunkten. Höhere Abnahmen stehen weiter oben. Gleiche auf eine Nachkommastelle gerundete Werte teilen sich einen Rang. Laufende Zwischenstände werden getrennt angezeigt.",
+      "Ergebnisse sind selbst gemeldet. Die Navy-Formel ist eine Schätzung und kein Nachweis für Muskelerhalt. Fehlende Messwerte liefern keinen KFA-Wert.",
+      "Gewicht, Umfänge und Start-/Endbilder bleiben privat. Nur dein freigegebener Rankingwert erscheint öffentlich. Persönliche Teil-Challenges verändern den Rankingwert nicht."
+    ],
+    "tips": [
+      "Nutze bei jeder Messung dasselbe Maßband und dieselben Messstellen.",
+      "Halte Gewicht und Bauch- beziehungsweise Taillenumfang regelmäßig fest; ergänze alle Navy-Umfänge für einen KFA-Verlaufspunkt.",
+      "Plane persönliche Teil-Challenges für Training, Erholung und Alltagsbewegung und finde einen ChallengeMate."
+    ],
+    "faq": [
+      {
+        "question": "Wie wird meine Veränderung gewertet?",
+        "answer": "Die Navy-KFA-Abnahme zählt in Prozentpunkten: von 28 % auf 24 % ergibt 4 Prozentpunkte. Gewichtsverlust allein ist kein Rankingwert."
+      },
+      {
+        "question": "Wer sieht meine Bilder und Messwerte?",
+        "answer": "Nur du in deinem Konto. Für das öffentliche Ranking wird ausschließlich dein daraus berechnetes Ergebnis mit deinem Nutzernamen verwendet, wenn du die Rankingsichtbarkeit im Profil freigegeben hast."
+      },
+      {
+        "question": "Muss ich jeden Tag alle Umfänge messen?",
+        "answer": "Nein. Gewicht und Bauch- beziehungsweise Taillenumfang kannst du täglich dokumentieren. Ein KFA-Wert wird nur bei vollständigen Navy-Messwerten berechnet. Fehlende Tage bleiben Lücken; Teil-Challenges haben ihren eigenen Rhythmus."
+      }
+    ],
+    "seoMarkdown": "## 100 Tage Body Transformation Challenge: Ablauf und Wertung\n\nDokumentiere deine Body Transformation mit Gewicht, Umfängen und privaten Start-/Endbildern. Die Navy-Formel schätzt deinen Körperfettanteil; im Ranking zählt dessen Abnahme in Prozentpunkten. Finde einen ChallengeMate und begleite deinen Weg mit persönlichen Teil-Challenges.\n\n### Dein Ziel und Zeitrahmen\n\nReduziere deinen Körperfettanteil in 100 Tagen und arbeite daran, deine Muskelmasse zu erhalten.\n\nZeitrahmen: 100 Tage. Dokumentiere Gewicht und Umfänge in deinem privaten Verlauf. Vollständige Umfangsmessungen ergeben einen geschätzten Körperfettanteil nach der Navy-Formel. Start- und Endbild zeigen deine Veränderung; persönliche Teil-Challenges begleiten die 100 Tage.\n\n### So zählt dein Ergebnis im Ranking\n\nDie Abnahme des geschätzten Navy-KFA in Prozentpunkten zählt: Startwert minus Endwert. Eine vollständige Messung an Tag 1 bildet die Basis; Tag 100 liefert das Endergebnis. Laufende Zwischenstände stehen separat. Gleiche auf eine Nachkommastelle gerundete Ergebnisse teilen sich einen Rang. Gewicht, Bilder und Teil-Challenges verändern den Rankingwert nicht. Die Schätzung weist keinen Muskelerhalt nach.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:5-minuten-calisthenics-challenge",
+    "order": 2,
+    "title": "5-Minuten-Calisthenics-Challenge",
+    "slug": "5-minuten-calisthenics-challenge",
+    "definition": {
+      "type": "one_time_result",
+      "unit": "seconds",
+      "targetValue": 300,
+      "frequency": "once",
+      "direction": "at_most",
+      "completionCriterion": "single_result"
+    },
+    "level": "Advanced",
+    "participants": 0,
+    "rating": 0,
+    "createdAt": "2026-10-15",
+    "duration": "Auf Zeit",
+    "header": {
+      "image": "pullups",
+      "alt": "Ein Sportler macht einen Klimmzug an einer Stange im Freien.",
+      "summary": "Schaffe zuerst 50 Klimmzüge, danach 100 Liegestütze in höchstens fünf Minuten. Sätze und Pausen sind erlaubt, die Uhr läuft durch. Nur vollständige Wiederholungen zählen.",
+      "highlight": "50 + 100",
+      "caption": "Klimmzüge + Liegestütze. 5 Minuten."
+    },
+    "goal": "50 Klimmzüge und anschließend 100 Liegestütze in höchstens fünf Minuten.",
+    "description": "Erst 50 Klimmzüge, dann 100 Liegestütze: Schaffe alle 150 Wiederholungen in höchstens fünf Minuten. Pausen sind erlaubt, aber die Uhr läuft weiter.",
+    "seoDescription": "Die 5-Minuten-Calisthenics-Challenge: 50 Klimmzüge, danach 100 Liegestütze. Klare Regeln, persönliche Bestzeit und Ranking nach Gesamtzeit.",
+    "rules": [
+      "Absolviere zuerst alle 50 Klimmzüge und danach alle 100 Liegestütze; die Übungen werden nicht abgewechselt.",
+      "Klimmzüge zählen vom gestreckten Hang bis mit dem Kinn über die Stange, ohne Kipping oder Unterstützung.",
+      "Liegestütze zählen mit gerader Körperlinie, Brust bis knapp über den Boden und vollständiger Armstreckung; die Knie bleiben vom Boden.",
+      "Sätze und Pausen sind erlaubt. Die Zeit läuft vom Beginn des ersten Klimmzugs bis zur vollständigen Streckung der letzten Liegestütze durch.",
+      "Trage nur die Gesamtzeit eines vollständigen Versuchs in Sekunden ein. Das Ziel ist bei höchstens 300 Sekunden erreicht; kürzere Zeiten stehen höher im Ranking.",
+      "Ergebnisse sind selbst gemeldet. Unvollständige Versuche zählen nicht als Gesamtzeit."
+    ],
+    "tips": [
+      "Lege deine Satzaufteilung vor dem Start fest.",
+      "Lass eine zweite Person Wiederholungen zählen und die Zeit stoppen.",
+      "Saubere Ausführung geht vor Tempo; beende den Versuch, wenn du die Bewegung nicht mehr kontrollieren kannst."
+    ],
+    "faq": [
+      {
+        "question": "Darf ich Klimmzüge und Liegestütze abwechseln?",
+        "answer": "Für dieses Ranking nicht: Zuerst werden alle 50 Klimmzüge abgeschlossen, anschließend die 100 Liegestütze. So bleiben die Ergebnisse vergleichbar."
+      },
+      {
+        "question": "Was ist, wenn ich länger als fünf Minuten brauche?",
+        "answer": "Du kannst die Zeit eines vollständigen Versuchs trotzdem erfassen. Deine Bestzeit wird angezeigt; das Fünf-Minuten-Ziel ist erst bei höchstens 300 Sekunden erreicht."
+      },
+      {
+        "question": "Wie gebe ich 2:43 Minuten ein?",
+        "answer": "Gib 163 Sekunden ein. Die Anzeige rechnet das Ergebnis in Minuten und Sekunden um."
+      }
+    ],
+    "seoMarkdown": "## 5-Minuten-Calisthenics-Challenge: Ablauf und Wertung\n\nErst 50 Klimmzüge, dann 100 Liegestütze: Schaffe alle 150 Wiederholungen in höchstens fünf Minuten. Pausen sind erlaubt, aber die Uhr läuft weiter.\n\n### Dein Ziel und Zeitrahmen\n\n50 Klimmzüge und anschließend 100 Liegestütze in höchstens fünf Minuten.\n\nZeitrahmen: Auf Zeit. Erfasse das Ergebnis eines einzelnen Versuchs. Das Ziel ist bei höchstens 5:00 Minuten erreicht. Mehrere Versuche werden nicht addiert; dein bestes Ergebnis zählt.\n\n### So zählt dein Ergebnis im Ranking\n\nErreichte Ziele stehen vor offenen Teilnahmen. Bei dieser Zeitwertung sind kürzere Zeiten besser. Weitere Versuche können deine persönliche Bestleistung verbessern.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:10000-schritte-am-tag",
+    "order": 3,
+    "title": "10 000 Schritte am Tag Challenge",
+    "slug": "10000-schritte-am-tag",
+    "definition": {
+      "type": "daily_boolean",
+      "unit": "completion",
+      "targetValue": 1,
+      "frequency": "daily",
+      "direction": "at_least",
+      "completionCriterion": "daily_check_in"
+    },
+    "level": "Beginner",
+    "participants": 65,
+    "rating": 4.8,
+    "createdAt": "2023-08-01",
+    "duration": "Dauerhaft",
+    "benefits": [
+      {
+        "title": "Mehr Schritte sind eine einfache Orientierung.",
+        "text": "10.000 Schritte sind keine magische Grenze, aber eine klare Zahl: leicht zu verstehen, leicht zu tracken und gut genug, um jeden Tag Bewegung sichtbar zu machen.",
+        "source": {
+          "label": "Paluch et al., Lancet Public Health 2022",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9289978/"
+        }
+      }
+    ],
+    "header": {
+      "image": "walking",
+      "alt": "Eine Person geht auf einem Waldweg zwischen hohen Bäumen.",
+      "summary": "Erreiche jeden Tag 10.000 Schritte bis Mitternacht. Alltag und Training zählen; bestätige deinen Tageswert per Check-in. Ein verpasster Tag setzt deinen Streak zurück.",
+      "highlight": "10.000",
+      "caption": "Schritte. Jeden Tag."
+    },
+    "goal": "Jeden Tag 10.000 Schritte.",
+    "description": "Laufe jeden Tag 10.000 Schritte. Egal ob auf dem Laufband, beim Joggen, im Fußballtraining oder auf einer Extrarunde am Abend: Nimm deinen Schrittzähler, erreiche die 10.000 und hak den Tag ab. Es klingt einfach. Aber jeden Tag 10.000 Schritte, ohne Ausrede.",
+    "seoDescription": "Starte die 10.000 Schritte am Tag Challenge: jeden Tag 10.000 Schritte erreichen, abhaken, Streak halten und dich im Ranking messen.",
+    "rules": [
+      "10.000 Schritte zählen pro Kalendertag.",
+      "Der Tageswert muss vor Mitternacht erreicht sein.",
+      "Verpasst ist verpasst: Der Streak startet wieder bei 0."
+    ],
+    "tips": [
+      "Checke deinen Stand am Nachmittag, nicht erst kurz vor Mitternacht.",
+      "Speichere dir eine feste Abendrunde für fehlende Schritte.",
+      "Mach Telefonate im Gehen.",
+      "Steig eine Haltestelle früher aus oder parke weiter weg.",
+      "Wenn noch 2.000 Schritte offen sind: Schuhe an und Runde fertig machen."
+    ],
+    "faq": [
+      {
+        "question": "Zählen Schritte aus dem Alltag?",
+        "answer": "Ja, alle Schritte zählen: Spaziergang, Arbeitsweg, Einkauf, Treppen und die kleine Extrarunde am Abend."
+      },
+      {
+        "question": "Brauche ich eine Smartwatch?",
+        "answer": "Nein. Smartphone, Smartwatch oder einfacher Schrittzähler reichen. Wichtig ist nur, dass du jeden Tag gleich zählst."
+      },
+      {
+        "question": "Was passiert, wenn ich nur 8.000 Schritte habe?",
+        "answer": "Dann fehlen noch 2.000. Genau darum geht es: rausgehen, Runde drehen, 10.000 vollmachen."
+      }
+    ],
+    "seoMarkdown": "## 10 000 Schritte am Tag Challenge: Ablauf und Wertung\n\nLaufe jeden Tag 10.000 Schritte. Egal ob auf dem Laufband, beim Joggen, im Fußballtraining oder auf einer Extrarunde am Abend: Nimm deinen Schrittzähler, erreiche die 10.000 und hak den Tag ab. Es klingt einfach. Aber jeden Tag 10.000 Schritte, ohne Ausrede.\n\n### Dein Ziel und Zeitrahmen\n\nJeden Tag 10.000 Schritte.\n\nZeitrahmen: Dauerhaft. Bestätige mit einem täglichen Check-in, dass du die Aufgabe nach den Regeln erfüllt hast. Aufeinanderfolgende erfüllte Tage bilden deinen Streak. So kannst du verfolgen, wie lange du am Stück drangeblieben bist.\n\n### So zählt dein Ergebnis im Ranking\n\nIm Ranking zählt zuerst dein aktueller Streak. Bei gleichem Streak folgen die Erfüllungsquote und die Anzahl erfüllter Tage. Ein verpasster Tag unterbricht die Serie; deine bisherigen Check-ins bleiben im Verlauf erhalten.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:100-liegestuetze-am-stueck",
+    "order": 4,
+    "title": "100 Liegestütze am Stück",
+    "slug": "100-liegestuetze-am-stueck",
+    "definition": {
+      "type": "one_time_result",
+      "unit": "repetitions",
+      "targetValue": 100,
+      "frequency": "once",
+      "direction": "at_least",
+      "completionCriterion": "single_result"
+    },
+    "level": "Premium",
+    "participants": 12,
+    "rating": 4.2,
+    "createdAt": "2023-08-15",
+    "duration": "Einmalig",
+    "benefits": [
+      {
+        "title": "Krafttraining ist mehr als Optik.",
+        "text": "Eine systematische Review und Meta-Analyse fand Zusammenhänge zwischen muskelstärkenden Aktivitäten und niedrigerem Risiko für Gesamtsterblichkeit und mehrere nicht übertragbare Erkrankungen.",
+        "source": {
+          "label": "Momma et al., British Journal of Sports Medicine 2022",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9209691/"
+        }
+      }
+    ],
+    "plan": {
+      "title": "6-Wochen-Liegestütz-Plan",
+      "intro": "Trainiere nicht jeden Satz bis zum Scheitern. Das Ziel ist Volumen, Technik und eine starke letzte Testwoche.",
+      "weeks": [
+        {
+          "label": "Woche 1-2",
+          "focus": "Technik und Basis",
+          "tasks": [
+            "3 Einheiten pro Woche.",
+            "5 Sätze mit etwa 50 Prozent deiner Max-Wiederholungen."
+          ]
+        },
+        {
+          "label": "Woche 3-4",
+          "focus": "Volumen aufbauen",
+          "tasks": [
+            "4 Einheiten pro Woche.",
+            "Pro Einheit 40-70 saubere Wiederholungen sammeln."
+          ]
+        },
+        {
+          "label": "Woche 5",
+          "focus": "Lange Sätze",
+          "tasks": [
+            "2 schwere Tage mit langen Sätzen.",
+            "2 leichte Tage für Technik und Erholung."
+          ]
+        },
+        {
+          "label": "Woche 6",
+          "focus": "Test vorbereiten",
+          "tasks": [
+            "Volumen reduzieren.",
+            "Nach 2 leichten Tagen den 100er-Versuch starten."
+          ]
+        }
+      ]
+    },
+    "header": {
+      "image": "pushups",
+      "alt": "Ein Sportler macht eine Liegestütze auf einem Weg im Freien.",
+      "summary": "Schaffe 100 saubere Liegestütze in einer Serie. Kurze Pausen oben sind erlaubt, die Knie bleiben vom Boden. Kontrollierte Tiefe und vollständige Streckung zählen.",
+      "highlight": "100",
+      "caption": "Wiederholungen. Eine Serie."
+    },
+    "goal": "100 saubere Liegestütze ohne Unterbrechung schaffen.",
+    "description": "Eine Kraft- und Durchhalte-Challenge für Brust, Schultern, Arme und mentale Stärke.",
+    "seoDescription": "Du schaffst 100 Liegestütze am Stück? Dokumentiere deinen Erfolg und deine Zeit, vergleiche dich im Ranking und fordere Freunde heraus.",
+    "rules": [
+      "Nur saubere Wiederholungen zählen.",
+      "Kurze Pausen in der oberen Position sind erlaubt.",
+      "Die Knie dürfen den Boden nicht berühren."
+    ],
+    "tips": [
+      "Trainiere mit festen Sätzen statt jeden Versuch bis ans Limit zu gehen.",
+      "Erhöhe das Volumen schrittweise.",
+      "Filme einzelne Sätze, um die Technik zu prüfen."
+    ],
+    "faq": [
+      {
+        "question": "Wie streng ist die Technik?",
+        "answer": "Eine Wiederholung zählt, wenn Körperlinie, Tiefe und Streckung kontrolliert bleiben."
+      },
+      {
+        "question": "Sind kurze Pausen erlaubt?",
+        "answer": "Kurze Pausen in der oberen Position sind erlaubt, solange die Serie nicht abgebrochen wird."
+      }
+    ],
+    "seoMarkdown": "## 100 Liegestütze am Stück: Ablauf und Wertung\n\nEine Kraft- und Durchhalte-Challenge für Brust, Schultern, Arme und mentale Stärke.\n\n### Dein Ziel und Zeitrahmen\n\n100 saubere Liegestütze ohne Unterbrechung schaffen.\n\nZeitrahmen: Einmalig. Das messbare Ziel beträgt mindestens 100 Wiederholungen in einem Versuch. Bestätige den erfolgreichen Abschluss, wenn du das Ziel nach den Regeln erreicht hast. Optional kannst du die dafür benötigte Zeit in Sekunden ergänzen.\n\n### So zählt dein Ergebnis im Ranking\n\nGeschaffte Ziele stehen im Ranking vor offenen Teilnahmen. Unter den Erfolgen zählen kürzere gemeldete Zeiten zuerst. Erfolge ohne Zeit stehen dahinter gemeinsam auf einem Rang. Du kannst deine persönliche Bestzeit nach dem Abschluss weiter verbessern.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:100-burpees-pro-tag",
+    "order": 5,
+    "title": "100 Burpees pro Tag",
+    "slug": "100-burpees-pro-tag",
+    "definition": {
+      "type": "daily_boolean",
+      "unit": "completion",
+      "targetValue": 1,
+      "frequency": "daily",
+      "direction": "at_least",
+      "completionCriterion": "daily_check_in"
+    },
+    "level": "Advanced",
+    "participants": 27,
+    "rating": 3.2,
+    "createdAt": "2023-09-02",
+    "duration": "Zeitraum",
+    "benefits": [
+      {
+        "title": "Kombiniert Ausdauer, Kraft und Gewohnheit.",
+        "text": "Regelmäßige körperliche Aktivität und muskelstärkende Belastung sind in Studien mit besseren Gesundheitsmarkern und niedrigerem Krankheitsrisiko verbunden.",
+        "source": {
+          "label": "Momma et al., British Journal of Sports Medicine 2022",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9209691/"
+        }
+      }
+    ],
+    "header": {
+      "image": "burpees",
+      "alt": "Ein Sportler springt mit erhobenen Armen – die Abschlussbewegung eines Burpees.",
+      "summary": "Absolviere 30 Tage lang täglich 100 Burpees. Du darfst sie über den Tag verteilen; jede Wiederholung endet mit einem Strecksprung. Bestätige deinen Tag per Check-in.",
+      "highlight": "100 × 30",
+      "caption": "Burpees pro Tag. Tage am Stück."
+    },
+    "goal": "30 Tage lang jeden Tag 100 Burpees absolvieren.",
+    "description": "Intensives Ganzkörpertraining für Kondition, Disziplin und eine gute Portion Willenskraft.",
+    "seoDescription": "100 Burpees pro Tag als 30-Tage-Challenge: Regeln, Ziel, Trainingshinweise und Motivation.",
+    "rules": [
+      "Die 100 Burpees dürfen über den Tag verteilt werden.",
+      "Jede Wiederholung endet mit einem Strecksprung.",
+      "Dokumentiere deinen Fortschritt täglich."
+    ],
+    "tips": [
+      "Teile die Wiederholungen in kleine Blöcke auf.",
+      "Starte mit sauberem Tempo statt maximaler Geschwindigkeit.",
+      "Plane leichte Mobility nach dem Training ein."
+    ],
+    "faq": [
+      {
+        "question": "Muss ich alle Burpees am Stück machen?",
+        "answer": "Nein, du kannst die 100 Wiederholungen über den Tag verteilen."
+      },
+      {
+        "question": "Ist die Challenge für Anfänger geeignet?",
+        "answer": "Sie ist eher fortgeschritten und sollte an Fitnesslevel und Gesundheit angepasst werden."
+      }
+    ],
+    "seoMarkdown": "## 100 Burpees pro Tag: Ablauf und Wertung\n\nIntensives Ganzkörpertraining für Kondition, Disziplin und eine gute Portion Willenskraft.\n\n### Dein Ziel und Zeitrahmen\n\n30 Tage lang jeden Tag 100 Burpees absolvieren.\n\nZeitrahmen: Zeitraum. Bestätige mit einem täglichen Check-in, dass du die Aufgabe nach den Regeln erfüllt hast. Aufeinanderfolgende erfüllte Tage bilden deinen Streak. So kannst du verfolgen, wie lange du am Stück drangeblieben bist.\n\n### So zählt dein Ergebnis im Ranking\n\nIm Ranking zählt zuerst dein aktueller Streak. Bei gleichem Streak folgen die Erfüllungsquote und die Anzahl erfüllter Tage. Ein verpasster Tag unterbricht die Serie; deine bisherigen Check-ins bleiben im Verlauf erhalten.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:30-tage-ohne-zucker",
+    "order": 6,
+    "title": "30 Tage ohne Zucker",
+    "slug": "30-tage-ohne-zucker",
+    "definition": {
+      "type": "daily_boolean",
+      "unit": "completion",
+      "targetValue": 1,
+      "frequency": "daily",
+      "direction": "at_least",
+      "completionCriterion": "daily_check_in"
+    },
+    "level": "Premium",
+    "participants": 0,
+    "rating": 4,
+    "createdAt": "2023-10-10",
+    "duration": "Zeitraum",
+    "benefits": [
+      {
+        "title": "Klare Essensregeln können Verhalten vereinfachen.",
+        "text": "Randomisierte Studien zu Zeitfenstern und Kalorienreduktion zeigen: einfache, durchhaltbare Essensregeln können beim Gewichtsmanagement helfen, wenn sie zu geringerer Energieaufnahme führen.",
+        "source": {
+          "label": "Pavlou et al., Time-restricted eating RCT",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11937878/"
+        }
+      }
+    ],
+    "header": {
+      "image": "sugar",
+      "alt": "Eine Tasse mit Zuckerwürfeln als Symbol für zugesetzten Zucker.",
+      "summary": "Verzichte 30 Tage auf zugesetzten Zucker – auch Honig und Sirup zählen dazu. Obst bleibt erlaubt. Prüfe Zutatenlisten und bestätige jeden erfolgreichen Tag.",
+      "highlight": "30 Tage",
+      "caption": "Ohne zugesetzten Zucker."
+    },
+    "goal": "30 Tage lang auf zugesetzten Zucker verzichten.",
+    "description": "Eine Ernährungs-Challenge, die Bewusstsein für Gewohnheiten, Snacks und versteckte Zuckerquellen schafft.",
+    "seoDescription": "30 Tage ohne Zucker: Challenge-Regeln, Tipps für den Alltag und Motivation für bewusste Ernährung.",
+    "rules": [
+      "Zugesetzter Zucker ist tabu.",
+      "Obst ist erlaubt.",
+      "Prüfe Zutatenlisten vor dem Kauf."
+    ],
+    "tips": [
+      "Prüfe Getränke zuerst, dort versteckt sich oft Zucker.",
+      "Bereite einfache Snacks vor.",
+      "Notiere Situationen, in denen Heißhunger entsteht."
+    ],
+    "faq": [
+      {
+        "question": "Ist Obst erlaubt?",
+        "answer": "Ja, Obst ist erlaubt; die Challenge zielt auf zugesetzten Zucker."
+      },
+      {
+        "question": "Was ist mit Honig oder Sirup?",
+        "answer": "Honig, Sirup und ähnliche Süßungsmittel gelten als zugesetzter Zucker."
+      }
+    ],
+    "seoMarkdown": "## 30 Tage ohne Zucker: Ablauf und Wertung\n\nEine Ernährungs-Challenge, die Bewusstsein für Gewohnheiten, Snacks und versteckte Zuckerquellen schafft.\n\n### Dein Ziel und Zeitrahmen\n\n30 Tage lang auf zugesetzten Zucker verzichten.\n\nZeitrahmen: Zeitraum. Bestätige mit einem täglichen Check-in, dass du die Aufgabe nach den Regeln erfüllt hast. Aufeinanderfolgende erfüllte Tage bilden deinen Streak. So kannst du verfolgen, wie lange du am Stück drangeblieben bist.\n\n### So zählt dein Ergebnis im Ranking\n\nIm Ranking zählt zuerst dein aktueller Streak. Bei gleichem Streak folgen die Erfüllungsquote und die Anzahl erfüllter Tage. Ein verpasster Tag unterbricht die Serie; deine bisherigen Check-ins bleiben im Verlauf erhalten.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:marathon-unter-3-stunden",
+    "order": 7,
+    "title": "Marathon unter 3 Stunden",
+    "slug": "marathon-unter-3-stunden",
+    "definition": {
+      "type": "one_time_result",
+      "unit": "seconds",
+      "targetValue": 10800,
+      "frequency": "once",
+      "direction": "at_most",
+      "completionCriterion": "single_result"
+    },
+    "level": "Premium",
+    "participants": 0,
+    "rating": 3.9,
+    "createdAt": "2023-11-03",
+    "duration": "Einmalig",
+    "benefits": [
+      {
+        "title": "Ausdauerziele machen Training messbar.",
+        "text": "Schritt- und Aktivitätsdaten zeigen konsistent, dass mehr alltägliche Bewegung mit besseren Gesundheitsoutcomes zusammenhängt.",
+        "source": {
+          "label": "Paluch et al., Lancet Public Health 2022",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9289978/"
+        }
+      }
+    ],
+    "header": {
+      "image": "running",
+      "alt": "Ein Läufer auf einer roten Laufbahn.",
+      "summary": "Laufe ein offizielles Marathonrennen über 42,195 km in weniger als drei Stunden. Erfasse die offizielle Zeit deines vollständigen Laufs.",
+      "highlight": "42,195 km",
+      "caption": "Dein Ziel: unter 3 Stunden."
+    },
+    "goal": "Einen offiziellen Marathon in unter 3 Stunden finishen.",
+    "description": "Eine ambitionierte Ausdauer-Challenge für erfahrene Läuferinnen und Läufer mit strukturiertem Training.",
+    "seoDescription": "Marathon unter 3 Stunden: anspruchsvolle Lauf-Challenge mit Ziel, Regeln und Trainingsfokus.",
+    "rules": [
+      "Die Zeit muss aus einem offiziellen Rennen stammen.",
+      "Die Distanz beträgt 42,195 km.",
+      "Gesundheit und Regeneration haben Priorität."
+    ],
+    "tips": [
+      "Nutze einen strukturierten Trainingsplan.",
+      "Teste Verpflegung und Pace vor dem Wettkampf.",
+      "Plane Regeneration so ernst wie harte Einheiten."
+    ],
+    "faq": [
+      {
+        "question": "Zählt ein Trainingslauf?",
+        "answer": "Für diese Challenge zählt ein offizielles Rennen mit messbarer Zeit."
+      },
+      {
+        "question": "Welche Pace brauche ich?",
+        "answer": "Du brauchst im Schnitt schneller als etwa 4:16 Minuten pro Kilometer."
+      }
+    ],
+    "seoMarkdown": "## Marathon unter 3 Stunden: Ablauf und Wertung\n\nEine ambitionierte Ausdauer-Challenge für erfahrene Läuferinnen und Läufer mit strukturiertem Training.\n\n### Dein Ziel und Zeitrahmen\n\nEinen offiziellen Marathon in unter 3 Stunden finishen.\n\nZeitrahmen: Einmalig. Erfasse das Ergebnis eines einzelnen Versuchs. Das Ziel ist bei höchstens 180:00 Minuten erreicht. Mehrere Versuche werden nicht addiert; dein bestes Ergebnis zählt.\n\n### So zählt dein Ergebnis im Ranking\n\nErreichte Ziele stehen vor offenen Teilnahmen. Bei dieser Zeitwertung sind kürzere Zeiten besser. Weitere Versuche können deine persönliche Bestleistung verbessern.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:1000-liegestuetze-challenge",
+    "order": 8,
+    "title": "1.000 Liegestütze Challenge",
+    "slug": "1000-liegestuetze-challenge",
+    "definition": {
+      "type": "cumulative_metric",
+      "unit": "repetitions",
+      "targetValue": 1000,
+      "frequency": "challenge_period",
+      "direction": "at_least",
+      "completionCriterion": "cumulative_target"
+    },
+    "level": "Premium",
+    "participants": 0,
+    "rating": 2.1,
+    "createdAt": "2023-11-18",
+    "duration": "Einmalig",
+    "benefits": [
+      {
+        "title": "Kraftausdauer baut Belastbarkeit auf.",
+        "text": "Muskelstärkende Aktivitäten wurden in einer Meta-Analyse mit reduziertem Risiko für Gesamtsterblichkeit und chronische Erkrankungen assoziiert.",
+        "source": {
+          "label": "Momma et al., British Journal of Sports Medicine 2022",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9209691/"
+        }
+      }
+    ],
+    "header": {
+      "image": "pushups",
+      "alt": "Ein Sportler trainiert Liegestütze im Freien.",
+      "summary": "Sammle insgesamt 1.000 saubere Liegestütze. Teile sie in Sätze auf, absolviere alle Wiederholungen an einem Kalendertag und trage nur tatsächlich geleistete Wiederholungen ein.",
+      "highlight": "1.000",
+      "caption": "Jede Wiederholung zählt."
+    },
+    "goal": "1.000 Liegestütze an einem Tag absolvieren.",
+    "description": "Ein großer Tagesblock für Kraftausdauer, Planung und saubere Einteilung.",
+    "seoDescription": "1.000 Liegestütze Challenge: Ziel, Tagesstrategie, Regeln und Tipps für Kraftausdauer.",
+    "rules": [
+      "Die Wiederholungen dürfen in Sätze aufgeteilt werden.",
+      "Alle Wiederholungen müssen an einem Kalendertag erfolgen.",
+      "Saubere Technik geht vor Tempo."
+    ],
+    "tips": [
+      "Plane kleine Sätze mit festen Pausen.",
+      "Starte deutlich leichter als du dich fühlst.",
+      "Schütze Handgelenke, Schultern und Ellbogen."
+    ],
+    "faq": [
+      {
+        "question": "Darf ich die Liegestütze aufteilen?",
+        "answer": "Ja, alle Wiederholungen dürfen über den Tag verteilt werden."
+      },
+      {
+        "question": "Zählen unsaubere Wiederholungen?",
+        "answer": "Nein, nur kontrollierte Wiederholungen sollten gezählt werden."
+      }
+    ],
+    "seoMarkdown": "## 1.000 Liegestütze Challenge: Ablauf und Wertung\n\nEin großer Tagesblock für Kraftausdauer, Planung und saubere Einteilung.\n\n### Dein Ziel und Zeitrahmen\n\n1.000 Liegestütze an einem Tag absolvieren.\n\nZeitrahmen: Einmalig. Sammle insgesamt 1.000 Wiederholungen. Trage bei jedem Check-in den neu erreichten Wert ein: Die Einträge werden addiert. Du musst das Gesamtziel nicht in einem einzigen Versuch erreichen.\n\n### So zählt dein Ergebnis im Ranking\n\nIm Ranking zählt die gesammelte Summe; höhere Werte stehen weiter oben. Sobald deine Summe mindestens 1.000 Wiederholungen erreicht, ist das Ziel geschafft.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:100-tage-ohne-soziale-medien",
+    "order": 9,
+    "title": "100 Tage ohne soziale Medien",
+    "slug": "100-tage-ohne-soziale-medien",
+    "definition": {
+      "type": "daily_boolean",
+      "unit": "completion",
+      "targetValue": 1,
+      "frequency": "daily",
+      "direction": "at_least",
+      "completionCriterion": "daily_check_in"
+    },
+    "level": "Advanced",
+    "participants": 0,
+    "rating": 4.6,
+    "createdAt": "2024-01-05",
+    "duration": "Zeitraum",
+    "benefits": [
+      {
+        "title": "Vorher festgelegte Wenn-Dann-Regeln helfen beim Durchhalten.",
+        "text": "Meta-Analysen zu Implementation Intentions zeigen, dass konkrete Wenn-Dann-Pläne Zielverhalten unterstützen können.",
+        "source": {
+          "label": "Cross & Sheffield, Implementation Intentions Meta-Analysis",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8149892/"
+        }
+      }
+    ],
+    "header": {
+      "image": "offline",
+      "alt": "Ein Smartphone mit leerem Bildschirm neben einem geschlossenen Notizbuch.",
+      "summary": "Verzichte 100 Tage auf private Social-Media-Nutzung. Lege notwendige berufliche Ausnahmen vorher fest und bestätige jeden eingehaltenen Tag.",
+      "highlight": "100 Tage",
+      "caption": "Weniger Scrollen. Mehr Zeit."
+    },
+    "goal": "100 Tage lang keine Social-Media-Apps privat nutzen.",
+    "description": "Mehr Fokus, weniger Ablenkung und ein bewussterer Umgang mit digitaler Aufmerksamkeit.",
+    "seoDescription": "100 Tage ohne soziale Medien: Digital-Detox-Challenge mit Regeln, Tipps und Fokus auf neue Routinen.",
+    "rules": [
+      "Social-Media-Apps bleiben deinstalliert oder blockiert.",
+      "Berufliche Pflichtnutzung wird vorher klar begrenzt.",
+      "Notiere, was du mit der gewonnenen Zeit machst."
+    ],
+    "tips": [
+      "Entferne Apps vom Homescreen oder deinstalliere sie.",
+      "Lege Ersatzroutinen für Pausen fest.",
+      "Schreibe auf, welche Auslöser dich normalerweise öffnen lassen."
+    ],
+    "faq": [
+      {
+        "question": "Zählt berufliche Nutzung als Rückfall?",
+        "answer": "Nicht, wenn sie vorher klar begrenzt und notwendig ist."
+      },
+      {
+        "question": "Was mache ich bei Langeweile?",
+        "answer": "Plane vorher einfache Alternativen wie Lesen, Spaziergang oder kurze Aufgaben."
+      }
+    ],
+    "seoMarkdown": "## 100 Tage ohne soziale Medien: Ablauf und Wertung\n\nMehr Fokus, weniger Ablenkung und ein bewussterer Umgang mit digitaler Aufmerksamkeit.\n\n### Dein Ziel und Zeitrahmen\n\n100 Tage lang keine Social-Media-Apps privat nutzen.\n\nZeitrahmen: Zeitraum. Bestätige mit einem täglichen Check-in, dass du die Aufgabe nach den Regeln erfüllt hast. Aufeinanderfolgende erfüllte Tage bilden deinen Streak. So kannst du verfolgen, wie lange du am Stück drangeblieben bist.\n\n### So zählt dein Ergebnis im Ranking\n\nIm Ranking zählt zuerst dein aktueller Streak. Bei gleichem Streak folgen die Erfüllungsquote und die Anzahl erfüllter Tage. Ein verpasster Tag unterbricht die Serie; deine bisherigen Check-ins bleiben im Verlauf erhalten.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:30-tage-kalt-duschen",
+    "order": 10,
+    "title": "30 Tage Kalt-Duschen",
+    "slug": "30-tage-kalt-duschen",
+    "definition": {
+      "type": "daily_boolean",
+      "unit": "completion",
+      "targetValue": 1,
+      "frequency": "daily",
+      "direction": "at_least",
+      "completionCriterion": "daily_check_in"
+    },
+    "level": "Advanced",
+    "participants": 0,
+    "rating": 2.6,
+    "createdAt": "2024-02-12",
+    "duration": "Zeitraum",
+    "benefits": [
+      {
+        "title": "Kurze Routinen trainieren Verbindlichkeit.",
+        "text": "Konkrete Wenn-Dann-Pläne können helfen, aus Absichten tatsächliches Verhalten zu machen.",
+        "source": {
+          "label": "Cross & Sheffield, Implementation Intentions Meta-Analysis",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8149892/"
+        }
+      }
+    ],
+    "header": {
+      "image": "shower",
+      "alt": "Wasser aus einem Duschkopf trifft auf eine ausgestreckte Hand.",
+      "summary": "Beende 30 Tage lang jede Dusche mit mindestens 60 Sekunden kaltem Wasser. Überspringe keine Tage und dokumentiere deinen Fortschritt. Höre auf deinen Körper.",
+      "highlight": "30 Tage",
+      "caption": "Ein kalter Abschluss."
+    },
+    "goal": "30 Tage lang jede Dusche kalt beenden.",
+    "description": "Eine kurze, unangenehme und sehr klare Disziplin-Challenge für den Start in den Tag.",
+    "seoDescription": "30 Tage Kaltwasser-Duschen: Challenge-Ziel, Regeln und Tipps für einen kontrollierten Einstieg.",
+    "rules": [
+      "Beende jede Dusche mit mindestens 60 Sekunden kaltem Wasser.",
+      "Überspringe keine Tage.",
+      "Höre auf deinen Körper und übertreibe nicht."
+    ],
+    "tips": [
+      "Beginne mit kurzen Intervallen.",
+      "Atme ruhig und gleichmäßig.",
+      "Wähle eine feste Tageszeit."
+    ],
+    "faq": [
+      {
+        "question": "Muss die ganze Dusche kalt sein?",
+        "answer": "Nein, die Challenge verlangt mindestens den kalten Abschluss."
+      },
+      {
+        "question": "Ist das für jeden geeignet?",
+        "answer": "Nicht unbedingt; bei gesundheitlichen Fragen solltest du vorsichtig sein."
+      }
+    ],
+    "seoMarkdown": "## 30 Tage Kaltwasser-Duschen: Ablauf und Wertung\n\nEine kurze, unangenehme und sehr klare Disziplin-Challenge für den Start in den Tag.\n\n### Dein Ziel und Zeitrahmen\n\n30 Tage lang jede Dusche kalt beenden.\n\nZeitrahmen: Zeitraum. Bestätige mit einem täglichen Check-in, dass du die Aufgabe nach den Regeln erfüllt hast. Aufeinanderfolgende erfüllte Tage bilden deinen Streak. So kannst du verfolgen, wie lange du am Stück drangeblieben bist.\n\n### So zählt dein Ergebnis im Ranking\n\nIm Ranking zählt zuerst dein aktueller Streak. Bei gleichem Streak folgen die Erfüllungsquote und die Anzahl erfüllter Tage. Ein verpasster Tag unterbricht die Serie; deine bisherigen Check-ins bleiben im Verlauf erhalten.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:1-jahr-ohne-social-media",
+    "order": 11,
+    "title": "1 Jahr ohne Social Media",
+    "slug": "1-jahr-ohne-social-media",
+    "definition": {
+      "type": "daily_boolean",
+      "unit": "completion",
+      "targetValue": 1,
+      "frequency": "daily",
+      "direction": "at_least",
+      "completionCriterion": "daily_check_in"
+    },
+    "level": "Premium",
+    "participants": 0,
+    "rating": 4.9,
+    "createdAt": "2024-03-22",
+    "duration": "Dauerhaft",
+    "benefits": [
+      {
+        "title": "Langfristige Regeln reduzieren tägliche Reibung.",
+        "text": "Implementation-Intention-Forschung stützt die Idee, konkrete Regeln und Auslöser vorab zu definieren, statt jeden Tag neu zu verhandeln.",
+        "source": {
+          "label": "Cross & Sheffield, Implementation Intentions Meta-Analysis",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8149892/"
+        }
+      }
+    ],
+    "header": {
+      "image": "offline",
+      "alt": "Ein Smartphone ohne sichtbare Inhalte neben einem Notizbuch.",
+      "summary": "Verzichte ein Jahr auf die vorher festgelegten Social-Media-Dienste. Nutze keine Ausweichaccounts, bestätige deine Tage und reflektiere monatlich die Veränderungen.",
+      "highlight": "1 Jahr",
+      "caption": "Deine Zeit gehört dir."
+    },
+    "goal": "Ein volles Jahr auf private Social-Media-Nutzung verzichten.",
+    "description": "Die Langstrecken-Version für alle, die Aufmerksamkeit, Freizeit und Gewohnheiten neu ordnen wollen.",
+    "seoDescription": "1 Jahr ohne Social Media: langfristige Digital-Detox-Challenge mit Ziel, Regeln und Reflexionsideen.",
+    "rules": [
+      "Definiere vorab, welche Dienste tabu sind.",
+      "Nutze keine Ausweichaccounts.",
+      "Reflektiere monatlich deine Veränderungen."
+    ],
+    "tips": [
+      "Informiere wichtige Kontakte über alternative Wege.",
+      "Blockiere Gewohnheitszugriffe technisch.",
+      "Prüfe monatlich, was sich verbessert hat."
+    ],
+    "faq": [
+      {
+        "question": "Sind Messenger erlaubt?",
+        "answer": "Das hängt von deiner Definition ab; lege die erlaubten Dienste vor dem Start fest."
+      },
+      {
+        "question": "Was passiert bei einem Rückfall?",
+        "answer": "Dokumentiere ihn ehrlich und entscheide, ob du neu startest oder weiterzählst."
+      }
+    ],
+    "seoMarkdown": "## 1 Jahr ohne Social Media: Ablauf und Wertung\n\nDie Langstrecken-Version für alle, die Aufmerksamkeit, Freizeit und Gewohnheiten neu ordnen wollen.\n\n### Dein Ziel und Zeitrahmen\n\nEin volles Jahr auf private Social-Media-Nutzung verzichten.\n\nZeitrahmen: Dauerhaft. Bestätige mit einem täglichen Check-in, dass du die Aufgabe nach den Regeln erfüllt hast. Aufeinanderfolgende erfüllte Tage bilden deinen Streak. So kannst du verfolgen, wie lange du am Stück drangeblieben bist.\n\n### So zählt dein Ergebnis im Ranking\n\nIm Ranking zählt zuerst dein aktueller Streak. Bei gleichem Streak folgen die Erfüllungsquote und die Anzahl erfüllter Tage. Ein verpasster Tag unterbricht die Serie; deine bisherigen Check-ins bleiben im Verlauf erhalten.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:500-kg-kreuzheben",
+    "order": 12,
+    "title": "500 kg Kreuzheben",
+    "slug": "500-kg-kreuzheben",
+    "definition": {
+      "type": "one_time_result",
+      "unit": "kilograms",
+      "targetValue": 500,
+      "frequency": "once",
+      "direction": "at_least",
+      "completionCriterion": "single_result"
+    },
+    "level": "Premium",
+    "participants": 0,
+    "rating": 4,
+    "createdAt": "2024-04-09",
+    "duration": "Einmalig",
+    "benefits": [
+      {
+        "title": "Schwere Kraftziele brauchen langfristige Muskelentwicklung.",
+        "text": "Krafttraining ist in Beobachtungsdaten mit Gesundheitsvorteilen verbunden; extreme Maximalziele gehören aber nur in erfahrene, sicher betreute Trainingsprozesse.",
+        "source": {
+          "label": "Momma et al., British Journal of Sports Medicine 2022",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9209691/"
+        }
+      }
+    ],
+    "header": {
+      "image": "deadlift",
+      "alt": "Ein Kraftsportler hebt eine Langhantel beim Kreuzheben.",
+      "summary": "Hebe 500 kg in einer gültigen Kreuzheben-Wiederholung. Dokumentiere Gesamtgewicht und Ausführung nachvollziehbar; nur vollständig abgeschlossene Versuche zählen.",
+      "highlight": "500 kg",
+      "caption": "Eine Wiederholung. Ein Extremziel."
+    },
+    "goal": "500 kg im Kreuzheben bewegen.",
+    "description": "Eine extreme Kraft-Challenge, die nur für sehr erfahrene Athletinnen und Athleten gedacht ist.",
+    "seoDescription": "500 kg Kreuzheben als extreme Kraft-Challenge: Ziel, Sicherheitsregeln und Trainingshinweise.",
+    "rules": [
+      "Nur mit sicherem Setup und fachlicher Begleitung trainieren.",
+      "Die Ausführung muss kontrolliert sein.",
+      "Gesundheit steht über Rekordversuchen."
+    ],
+    "tips": [
+      "Trainiere nur mit sehr erfahrenem Coaching.",
+      "Priorisiere Technik, Belastungssteuerung und Regeneration.",
+      "Plane keine Maximalversuche ohne Vorbereitung."
+    ],
+    "faq": [
+      {
+        "question": "Ist die Challenge für Einsteiger geeignet?",
+        "answer": "Nein, diese Challenge ist extrem fortgeschritten."
+      },
+      {
+        "question": "Was ist wichtiger als das Gewicht?",
+        "answer": "Sichere Ausführung, Gesundheit und langfristige Belastbarkeit."
+      }
+    ],
+    "seoMarkdown": "## 500 kg Kreuzheben: Ablauf und Wertung\n\nEine extreme Kraft-Challenge, die nur für sehr erfahrene Athletinnen und Athleten gedacht ist.\n\n### Dein Ziel und Zeitrahmen\n\n500 kg im Kreuzheben bewegen.\n\nZeitrahmen: Einmalig. Das messbare Ziel beträgt mindestens 500 kg in einem Versuch. Bestätige den erfolgreichen Abschluss, wenn du das Ziel nach den Regeln erreicht hast. Optional kannst du die dafür benötigte Zeit in Sekunden ergänzen.\n\n### So zählt dein Ergebnis im Ranking\n\nGeschaffte Ziele stehen im Ranking vor offenen Teilnahmen. Unter den Erfolgen zählen kürzere gemeldete Zeiten zuerst. Erfolge ohne Zeit stehen dahinter gemeinsam auf einem Rang. Du kannst deine persönliche Bestzeit nach dem Abschluss weiter verbessern.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:10min-am-stueck-planken-challenge",
+    "order": 14,
+    "title": "10min am Stück planken Challenge",
+    "slug": "10min-am-stueck-planken-challenge",
+    "definition": {
+      "type": "one_time_result",
+      "unit": "seconds",
+      "targetValue": 600,
+      "frequency": "once",
+      "direction": "at_least",
+      "completionCriterion": "single_result"
+    },
+    "level": "Premium",
+    "participants": 0,
+    "rating": 3.2,
+    "createdAt": "2024-06-01",
+    "duration": "Einmalig",
+    "benefits": [
+      {
+        "title": "Core-Training ist Teil muskelstärkender Aktivität.",
+        "text": "Muskelstärkende Aktivitäten sind in Studien mit niedrigerem Risiko für mehrere große Krankheitsgruppen verbunden.",
+        "source": {
+          "label": "Momma et al., British Journal of Sports Medicine 2022",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9209691/"
+        }
+      }
+    ],
+    "header": {
+      "image": "plank",
+      "alt": "Eine Frau hält eine Plank auf einer Trainingsmatte.",
+      "summary": "Halte zehn Minuten ohne Absetzen im Unterarmstütz. Der Körper bleibt in einer geraden Linie; die Zeit endet, sobald du absetzt oder die Position aufgibst.",
+      "highlight": "10:00",
+      "caption": "Halten. Ohne Absetzen."
+    },
+    "goal": "10 Minuten ohne Unterbrechung in der Plank halten.",
+    "description": "Eine Core-Challenge für Körperspannung, Geduld und ruhige Atmung.",
+    "seoDescription": "10 Minuten Plank Challenge: Ziel, Regeln und Tipps für Körperspannung und Core-Ausdauer.",
+    "rules": [
+      "Unterarme und Zehen bleiben am Boden.",
+      "Hüfte bleibt stabil.",
+      "Bei Schmerz abbrechen."
+    ],
+    "tips": [
+      "Trainiere mit Intervallen und steigere langsam.",
+      "Halte Nacken und Rücken neutral.",
+      "Nutze ruhige Atmung als Taktgeber."
+    ],
+    "faq": [
+      {
+        "question": "Zählt ein kurzer Positionswechsel?",
+        "answer": "Nein, die Plank soll ohne Unterbrechung gehalten werden."
+      },
+      {
+        "question": "Was tun bei Schmerzen?",
+        "answer": "Bei Schmerzen solltest du abbrechen und Technik oder Belastung prüfen."
+      }
+    ],
+    "seoMarkdown": "## 10min am Stück planken Challenge: Ablauf und Wertung\n\nEine Core-Challenge für Körperspannung, Geduld und ruhige Atmung.\n\n### Dein Ziel und Zeitrahmen\n\n10 Minuten ohne Unterbrechung in der Plank halten.\n\nZeitrahmen: Einmalig. Erfasse das Ergebnis eines einzelnen Versuchs. Das Ziel ist bei mindestens 10:00 Minuten erreicht. Mehrere Versuche werden nicht addiert; dein bestes Ergebnis zählt.\n\n### So zählt dein Ergebnis im Ranking\n\nErreichte Ziele stehen vor offenen Teilnahmen. Bei dieser Zeitwertung sind längere Zeiten besser. Weitere Versuche können deine persönliche Bestleistung verbessern.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:5-km-in-weniger-als-20-minuten",
+    "order": 15,
+    "title": "5 km in weniger als 20 Minuten",
+    "slug": "5-km-in-weniger-als-20-minuten",
+    "definition": {
+      "type": "one_time_result",
+      "unit": "seconds",
+      "targetValue": 1200,
+      "frequency": "once",
+      "direction": "at_most",
+      "completionCriterion": "single_result"
+    },
+    "level": "User",
+    "participants": 1,
+    "rating": 0,
+    "createdAt": "2024-06-18",
+    "duration": "Einmalig",
+    "benefits": [
+      {
+        "title": "Laufziele verbinden Fitness und Messbarkeit.",
+        "text": "Mehr tägliche Bewegung ist mit geringerer Gesamtsterblichkeit verbunden; strukturierte Laufziele können ein starker Anlass für regelmäßiges Training sein.",
+        "source": {
+          "label": "Paluch et al., Lancet Public Health 2022",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9289978/"
+        }
+      }
+    ],
+    "header": {
+      "image": "running",
+      "alt": "Ein Läufer trainiert auf einer Laufbahn.",
+      "summary": "Laufe mindestens fünf Kilometer in weniger als 20 Minuten. Miss Strecke und gesamte verstrichene Zeit; Pausen werden nicht herausgerechnet.",
+      "highlight": "5 km",
+      "caption": "Dein Ziel: unter 20 Minuten."
+    },
+    "goal": "5 Kilometer in unter 20 Minuten laufen.",
+    "description": "Eine knackige Lauf-Challenge für Tempo, Pacing und kontrolliertes Training.",
+    "seoDescription": "5 km unter 20 Minuten laufen: Challenge-Ziel, Pace, Regeln und Tipps für schnelleres Laufen.",
+    "rules": [
+      "Die Strecke muss mindestens 5 km lang sein.",
+      "Die Zeit muss unter 20:00 Minuten liegen.",
+      "Warm-up und Cool-down gehören dazu."
+    ],
+    "tips": [
+      "Trainiere Tempoeinheiten und lockere Läufe getrennt.",
+      "Teste Zielpace in kürzeren Intervallen.",
+      "Starte den Versuch nicht ohne Warm-up."
+    ],
+    "faq": [
+      {
+        "question": "Welche Pace brauche ich?",
+        "answer": "Du musst schneller als 4:00 Minuten pro Kilometer laufen."
+      },
+      {
+        "question": "Zählt Laufband?",
+        "answer": "Die Challenge ist am klarsten auf einer gemessenen Strecke; Laufband sollte getrennt markiert werden."
+      }
+    ],
+    "seoMarkdown": "## 5 km in weniger als 20 Minuten: Ablauf und Wertung\n\nEine knackige Lauf-Challenge für Tempo, Pacing und kontrolliertes Training.\n\n### Dein Ziel und Zeitrahmen\n\n5 Kilometer in unter 20 Minuten laufen.\n\nZeitrahmen: Einmalig. Erfasse das Ergebnis eines einzelnen Versuchs. Das Ziel ist bei höchstens 20:00 Minuten erreicht. Mehrere Versuche werden nicht addiert; dein bestes Ergebnis zählt.\n\n### So zählt dein Ergebnis im Ranking\n\nErreichte Ziele stehen vor offenen Teilnahmen. Bei dieser Zeitwertung sind kürzere Zeiten besser. Weitere Versuche können deine persönliche Bestleistung verbessern.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  },
+  {
+    "id": "curated:change-your-life-in-90-tagen",
+    "order": 16,
+    "title": "Change your life in 90 Tagen",
+    "slug": "change-your-life-in-90-tagen",
+    "definition": {
+      "type": "daily_boolean",
+      "unit": "completion",
+      "targetValue": 1,
+      "frequency": "daily",
+      "direction": "at_least",
+      "completionCriterion": "daily_check_in"
+    },
+    "level": "Premium",
+    "participants": 0,
+    "rating": 0,
+    "createdAt": "2024-07-01",
+    "duration": "90 Tage",
+    "benefits": [
+      {
+        "title": "Mehr Bewegung und Schritte können langfristig Gesundheit unterstützen.",
+        "text": "Die Schritte-Meta-Analyse fand eine Verbindung zwischen höherer Schrittzahl und niedrigerer Gesamtsterblichkeit.",
+        "source": {
+          "label": "Paluch et al., Lancet Public Health 2022",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9289978/"
+        }
+      },
+      {
+        "title": "Krafttraining ist ein eigener Gesundheitshebel.",
+        "text": "Muskelstärkende Aktivitäten waren in einer Meta-Analyse mit niedrigerem Risiko für Gesamtsterblichkeit und mehrere Erkrankungen assoziiert.",
+        "source": {
+          "label": "Momma et al., British Journal of Sports Medicine 2022",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9209691/"
+        }
+      },
+      {
+        "title": "Schlaf ist Teil der Performance, nicht der Gegner davon.",
+        "text": "Die AASM und Sleep Research Society empfehlen Erwachsenen regelmäßig mindestens 7 Stunden Schlaf für optimale Gesundheit.",
+        "source": {
+          "label": "AASM/Sleep Research Society Consensus Statement",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4442216/"
+        }
+      },
+      {
+        "title": "Lernen braucht Schlaf und Wiederholung.",
+        "text": "Eine systematische Review beschreibt Schlaf als wichtigen Faktor für Konsolidierung, Verarbeitung und Funktion von Lernen und Gedächtnis.",
+        "source": {
+          "label": "Sleep and Learning: A Systematic Review",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11511274/"
+        }
+      },
+      {
+        "title": "Hustle braucht Grenzen.",
+        "text": "WHO/ILO-Analysen verbinden sehr lange Arbeitszeiten mit höheren Risiken für Schlaganfall und ischämische Herzkrankheit; deshalb setzt die Challenge auf Fokus statt Dauerstress.",
+        "source": {
+          "label": "WHO/ILO long working hours analysis",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8204267/"
+        }
+      }
+    ],
+    "stack": [
+      {
+        "title": "Abnehmen",
+        "text": "Tägliches Schrittziel, einfache Protein-/Gemüse-Regel und ein realistisches Kaloriendefizit."
+      },
+      {
+        "title": "Kraftaufbau",
+        "text": "3 Krafttrainings pro Woche mit Grundmustern: Drücken, Ziehen, Beine, Core."
+      },
+      {
+        "title": "Fokusarbeit",
+        "text": "5 fokussierte Arbeitsblöcke pro Woche für ein persönliches Projekt oder Business-Ziel."
+      },
+      {
+        "title": "Schlaf",
+        "text": "7+ Stunden Schlaf als Mindeststandard, weil Regeneration Teil des Systems ist."
+      },
+      {
+        "title": "Täglich lernen",
+        "text": "20 Minuten Lesen, Kurs, Sprache, Skill oder schriftliche Reflexion pro Tag."
+      }
+    ],
+    "plan": {
+      "title": "90-Tage-Plan",
+      "intro": "Die Challenge ist in drei Phasen aufgebaut: Stabilisieren, Steigern, Identität festigen.",
+      "weeks": [
+        {
+          "label": "Tag 1-14",
+          "focus": "Baseline und einfache Siege",
+          "tasks": [
+            "8.000 Schritte pro Tag.",
+            "2 Krafttrainings pro Woche.",
+            "7 Stunden Schlaf an mindestens 5 Nächten.",
+            "10 Minuten Lernen pro Tag."
+          ]
+        },
+        {
+          "label": "Tag 15-42",
+          "focus": "System aufbauen",
+          "tasks": [
+            "10.000 Schritte pro Tag.",
+            "3 Krafttrainings pro Woche.",
+            "3 Fokusblöcke pro Woche.",
+            "20 Minuten Lernen pro Tag."
+          ]
+        },
+        {
+          "label": "Tag 43-70",
+          "focus": "Intensität steigern",
+          "tasks": [
+            "Progression im Krafttraining dokumentieren.",
+            "5 Fokusblöcke pro Woche.",
+            "Eine schlechte Gewohnheit aktiv ersetzen.",
+            "Wöchentlicher Review am Sonntag."
+          ]
+        },
+        {
+          "label": "Tag 71-90",
+          "focus": "Neues Normal festigen",
+          "tasks": [
+            "Keine neuen Regeln mehr hinzufügen.",
+            "Beste 3 Gewohnheiten für danach auswählen.",
+            "Vorher/Nachher-Review schreiben.",
+            "Nächste 90 Tage planen."
+          ]
+        }
+      ]
+    },
+    "header": {
+      "image": "offline",
+      "alt": "Ein Notizbuch und ein Smartphone auf einem Tisch als Ausgangspunkt für geplante Routinen.",
+      "summary": "Tracke 90 Tage lang Schritte, Training, Schlaf, Fokus und Lernen. Mindestens 80 Prozent der Tage sollen gelingen; überprüfe deine Routinen jede Woche.",
+      "highlight": "90 Tage",
+      "caption": "Fünf Gewohnheiten. Dein Alltag."
+    },
+    "goal": "90 Tage lang Körper, Fokus, Schlaf und Lernen gleichzeitig auf ein neues Level bringen.",
+    "description": "Eine Meta-Challenge aus mehreren Kerngewohnheiten: Fett verlieren, Kraft aufbauen, fokussiert arbeiten, ausreichend schlafen und täglich etwas lernen.",
+    "seoDescription": "Change your life in 90 Tagen: kombinierte Challenge für Abnehmen, Kraftaufbau, Fokusarbeit, Schlaf und tägliches Lernen mit wissenschaftlichen Quellen.",
+    "rules": [
+      "Tracke täglich Schritte, Training, Schlaf, Fokusblock und Lernen.",
+      "Mindestens 80 Prozent der Tage müssen erfolgreich sein.",
+      "Kein Schlaf gegen Hustle tauschen: unter 6 Stunden Schlaf zählt als Warnsignal.",
+      "Ein wöchentlicher Review ist Pflicht."
+    ],
+    "tips": [
+      "Starte klein genug, dass du die Routine auch an stressigen Tagen halten kannst.",
+      "Tracke nur die wichtigsten 5 Gewohnheiten, nicht dein ganzes Leben.",
+      "Plane jede Woche eine echte Erholungsphase ein."
+    ],
+    "faq": [
+      {
+        "question": "Ist das eine Hustle-Culture-Challenge?",
+        "answer": "Nicht im Sinne von endlos arbeiten. Der Fokus liegt auf Output, Schlaf, Training und Lernen in Balance."
+      },
+      {
+        "question": "Muss ich alle Teilbereiche perfekt schaffen?",
+        "answer": "Nein. Ziel ist ein 90-Tage-System, das mehr gute Tage erzeugt als schlechte."
+      }
+    ],
+    "seoMarkdown": "## Change your life in 90 Tagen: Ablauf und Wertung\n\nEine Meta-Challenge aus mehreren Kerngewohnheiten: Fett verlieren, Kraft aufbauen, fokussiert arbeiten, ausreichend schlafen und täglich etwas lernen.\n\n### Dein Ziel und Zeitrahmen\n\n90 Tage lang Körper, Fokus, Schlaf und Lernen gleichzeitig auf ein neues Level bringen.\n\nZeitrahmen: 90 Tage. Bestätige mit einem täglichen Check-in, dass du die Aufgabe nach den Regeln erfüllt hast. Aufeinanderfolgende erfüllte Tage bilden deinen Streak. So kannst du verfolgen, wie lange du am Stück drangeblieben bist.\n\n### So zählt dein Ergebnis im Ranking\n\nIm Ranking zählt zuerst dein aktueller Streak. Bei gleichem Streak folgen die Erfüllungsquote und die Anzahl erfüllter Tage. Ein verpasster Tag unterbricht die Serie; deine bisherigen Check-ins bleiben im Verlauf erhalten.\n\nDie Ergebnisse werden von den Teilnehmenden selbst eingetragen. Im öffentlichen Ranking erscheinen nur freigegebene Teilnahmen."
+  }
+];

@@ -1,3 +1,4 @@
+import { getChallengeBySlug } from "@/data/challenges";
 import Image from "next/image";
 import Link from "next/link";
 import { ChallengeStart } from "./challenge-start";
@@ -36,8 +37,8 @@ export function ChallengeHero({ challenge, isAuthenticated, currentParticipation
           {isPerformance ? <ChallengeShare {...share} title={challenge.title} url={`${SITE_URL}/challenges/${challenge.slug}`} /> : <Link className={styles.secondary} href="/challenge-mate">ChallengeMate finden ↗</Link>}
         </div>
         <p className={styles.meta}>{participantCount} Teilnehmer <span aria-hidden="true">·</span> {challenge.duration}</p>
-        {challenge.slug === '100-liegestuetze-am-stueck' && <p className={styles.summary}>Noch keine 100 am Stück? <Link className={styles.secondary} href="/challenges/journey-100-liegestuetze">Starte deine Vorbereitung mit einem ChallengeMate →</Link></p>}
-        {challenge.slug === 'journey-100-liegestuetze' && <p className={styles.summary}>Du bist bereit? <Link className={styles.secondary} href="/challenges/100-liegestuetze-am-stueck">Halte deinen 100er-Versuch und deine Zeit fest →</Link></p>}
+        {challenge.slug === '100-liegestuetze-am-stueck' && getChallengeBySlug('journey-100-liegestuetze') && <p className={styles.summary}>Noch keine 100 am Stück? <Link className={styles.secondary} href="/challenges/journey-100-liegestuetze">Starte deine Vorbereitung mit einem ChallengeMate →</Link></p>}
+        {challenge.slug === 'journey-100-liegestuetze' && getChallengeBySlug('100-liegestuetze-am-stueck') && <p className={styles.summary}>Du bist bereit? <Link className={styles.secondary} href="/challenges/100-liegestuetze-am-stueck">Halte deinen 100er-Versuch und deine Zeit fest →</Link></p>}
         <details className={styles.rules}>
           <summary>Vollständige Regeln</summary>
           {!content && <p>{challenge.description}</p>}

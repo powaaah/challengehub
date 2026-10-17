@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChallengeMarkdown } from './challenge-markdown';
 import { buildChallengeSeoContent, type ChallengeSeoInput } from "@/lib/challenge-seo-content";
 import styles from "./challenge-seo-content.module.css";
 
@@ -10,6 +11,7 @@ export function ChallengeSeoContent({ challenge, creatorName }: {
   return (
     <section className={styles.content} data-detail-section="seo" data-seo-version={content.version} aria-labelledby="challenge-info">
       <div>
+        {challenge.seoMarkdown ? <ChallengeMarkdown text={challenge.seoMarkdown}/> : <>
         <h2 id="challenge-info">{content.heading}</h2>
         <p>{content.intro}</p>
         {content.sections.map((section) => (
@@ -18,6 +20,7 @@ export function ChallengeSeoContent({ challenge, creatorName }: {
             {section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
           </div>
         ))}
+        </>}
         {content.tips.length > 0 && (
           <div>
             <h3>Tipps für deinen Versuch</h3>

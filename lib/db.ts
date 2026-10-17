@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from 'node:crypto';
 import { DatabaseSync } from "node:sqlite";
 import { ensureChallengeTypes } from "../infrastructure/sqlite/sqlite-challenge-types-migration.ts";
 import { ensureChallengeMateSchema } from "../infrastructure/sqlite/sqlite-challenge-mate-migration.ts";
@@ -9,13 +10,18 @@ import { ensureAccountPrivacySchema } from "../infrastructure/sqlite/sqlite-acco
 import { ensureEmailVerificationSchema } from "../infrastructure/sqlite/sqlite-email-verification-migration.ts";
 import { ensureCompletionTimes } from "../infrastructure/sqlite/sqlite-completion-times.ts";
 import { ensureBodyTransformation } from '../infrastructure/sqlite/sqlite-body-transformation.ts';
+import { challenges } from '../data/challenges.ts';
+import { syncChallengeContent } from '../infrastructure/sqlite/sqlite-challenge-content.ts';
 
 const globalForDb = globalThis as unknown as {
   challengeHubDb?: DatabaseSync;
+  challengeHubCatalogHash?: string;
 };
 
-export function getDb() {
+export function getDb(options: { syncContent?: boolean } = {}) {
+  const catalogHash=createHash('sha256').update(JSON.stringify(challenges)).digest('hex');
   if (globalForDb.challengeHubDb) {
+    if(options.syncContent!==false && globalForDb.challengeHubCatalogHash!==catalogHash){syncChallengeContent(globalForDb.challengeHubDb,challenges);globalForDb.challengeHubCatalogHash=catalogHash;}
     return globalForDb.challengeHubDb;
   }
 
@@ -158,6 +164,11 @@ export function getDb() {
   ensureEmailVerificationSchema(db);
   ensureCompletionTimes(db);
   ensureBodyTransformation(db);
+  if (options.syncContent !== false) {
+    try { syncChallengeContent(db, challenges); }
+    catch(error) { db.close(); throw error; }
+  }
+  if(options.syncContent!==false)globalForDb.challengeHubCatalogHash=catalogHash;
 
   globalForDb.challengeHubDb = db;
   return db;
