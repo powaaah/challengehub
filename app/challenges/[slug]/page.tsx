@@ -1,3 +1,4 @@
+import { ChallengeSeoContent } from "@/components/challenge-seo-content";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ChallengeInvitationAcceptance } from "@/components/challenge-invitation-acceptance";
@@ -204,7 +205,6 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
       buildChallengeBreadcrumbJsonLd(challenge.title, challenge.slug)
     ]
   };
-  const isDailyChallenge = challenge.definition.type === "daily_boolean";
 
   return (
     <>
@@ -253,48 +253,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
           />
         </section>
 
-        <section className={styles.seoContent} data-detail-section="seo" aria-labelledby="challenge-info">
-          <div className={styles.textPanel}>
-            <p className={styles.eyebrow}>Info</p>
-            <h2 id="challenge-info">Mehr zur {challenge.title}</h2>
-            {isDailyChallenge ? (
-              <>
-                <p>
-                  Auf dieser Seite geht es nicht um einen Trainingsplan, sondern um eine klare Aufgabe:
-                  Du startest die Challenge, hältst dich an die Regeln und vergleichst deinen Streak
-                  mit anderen Teilnehmern.
-                </p>
-                <p>
-                  Für echte ChallengeMates zählt vor allem, wer bisher wie lange durchgehalten hat.
-                  Genau diese Werte sollen mit echten Starts und Check-ins sichtbar werden.
-                </p>
-              </>
-            ) : (
-              <>
-                <p>
-                  Diese Challenge hat ein klar messbares Ziel. Jeder Check-in hält einen echten Wert
-                  fest und zeigt transparent, wie nah du dem Ziel bereits bist.
-                </p>
-                <p>
-                  Im Ranking werden ausschließlich Ergebnisse derselben Fortschrittsart und desselben
-                  Messziels miteinander verglichen.
-                </p>
-              </>
-            )}
-          </div>
-          <div className={styles.faqPanel}>
-            <p className={styles.eyebrow}>Kurz beantwortet</p>
-            <h2>Häufige Fragen</h2>
-            <dl>
-              {challenge.faq.map((item) => (
-                <div key={item.question}>
-                  <dt>{item.question}</dt>
-                  <dd>{item.answer}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </section>
+        <ChallengeSeoContent challenge={challenge} />
       </main>
       <SiteFooter />
     </>

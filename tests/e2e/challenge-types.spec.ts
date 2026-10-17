@@ -88,4 +88,6 @@ test("kumulative Challenge durchläuft Erstellung, Mess-Check-in, Abschluss, Ran
   await page.goto(`/challenges/${slug}`);
   await expect(page.locator('[data-detail-section="ranking"]')).toContainText("60 von 50 Wiederholungen");
   await expect(page.locator('[data-detail-section="activity"]')).toHaveCount(0);
+  await expect(page.locator('[data-detail-section="seo"]')).toContainText("Sammle insgesamt 50 Wiederholungen");
+  await expect(page.locator('[data-detail-section="seo"]')).toContainText("gesammelte Summe");
 });

@@ -1,3 +1,4 @@
+import { ChallengeSeoContent } from "./challenge-seo-content";
 import { SiteFooter, SiteHeader } from "./site-shell";
 import { ChallengeHero } from "./challenge-hero";
 import { ChallengeInvitationAcceptance } from "./challenge-invitation-acceptance";
@@ -105,20 +106,10 @@ export function DbChallengeDetail({
         />
       </section>
 
-      <section className={styles.detailSeo} data-detail-section="seo">
-        <p className={styles.eyebrow}>Tipps</p>
-        <h2>So wird die Challenge machbar</h2>
-        {challenge.tips.length > 0 ? (
-          <ul>
-            {challenge.tips.map((tip) => (
-              <li key={tip}>{tip}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>Starte klein, plane deinen Check-in fest ein und halte die Tagesregel eindeutig.</p>
-        )}
-        <p className={styles.detailCreator}>Erstellt von {challenge.creatorName}</p>
-      </section>
+      <ChallengeSeoContent
+        challenge={{ ...challenge, duration: `${challenge.durationDays} Tage` }}
+        creatorName={challenge.creatorName}
+      />
     </main>
     <SiteFooter />
     </>
