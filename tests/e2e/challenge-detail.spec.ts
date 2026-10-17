@@ -1,9 +1,25 @@
 import { expect, test } from "@playwright/test";
+import { mkdir } from "node:fs/promises";
+
+test("SEO-Inhalt steht im Server-HTML und bleibt auf Desktop und Mobil lesbar", async ({ page, request }) => {
+  const response = await request.get("/challenges/100-liegestuetze-am-stueck");
+  expect(response.ok()).toBeTruthy();
+  expect(await response.text()).toContain("Erfolge ohne Zeit stehen dahinter gemeinsam auf einem Rang");
+  await mkdir("output/playwright", { recursive: true });
+  for (const width of [1440, 390, 320]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("/challenges/100-liegestuetze-am-stueck");
+    const seo = page.locator('[data-detail-section="seo"]');
+    await expect(seo).toContainText("100 Liegestütze am Stück: Ablauf und Wertung");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBeTruthy();
+    await page.screenshot({ path: `output/playwright/challenge-seo-${width}.png`, fullPage: true });
+  }
+});
 
 test("Challenge-Detailseite ordnet Entscheidung, Teilnahme und Belege verständlich", async ({ page }) => {
   await page.goto("/challenges/10000-schritte-am-tag");
 
-  const expectedSections = ["hero", "ranking", "activity", "seo"];
+  const expectedSections = ["hero", "ranking", "seo"];
   const actualSections = await page.locator("[data-detail-section]").evaluateAll((elements) =>
     elements.map((element) => element.getAttribute("data-detail-section"))
   );
@@ -12,7 +28,7 @@ test("Challenge-Detailseite ordnet Entscheidung, Teilnahme und Belege verständl
   await page.getByText("Vollständige Regeln", { exact: true }).click();
   await expect(page.getByText("10.000 Schritte zählen pro Kalendertag.")).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "Ranking" })).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: "Letzte Aktivitäten" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "Letzte Aktivitäten" })).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 2, name: "Häufige Fragen" })).toBeVisible();
 });
 

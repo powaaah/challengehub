@@ -1,8 +1,8 @@
+import { ChallengeSeoContent } from "@/components/challenge-seo-content";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ChallengeInvitationAcceptance } from "@/components/challenge-invitation-acceptance";
 import { ChallengeRankingTable } from "@/components/challenge-ranking-table";
-import { formatMetricValue } from "@/domain/challenges/challenge-outcome";
 import { ChallengeHero } from "@/components/challenge-hero";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { DbChallengeDetail } from "@/components/db-challenge-detail";
@@ -11,8 +11,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getChallengeInvitationPreview } from "@/lib/challenge-invitations";
 import {
   getChallengeRankingBySlug,
-  getParticipationCountByChallengeSlug,
-  getRecentChallengeActivityBySlug
+  getParticipationCountByChallengeSlug
 } from "@/lib/challenge-participation-stats";
 import { getParticipationsForUser } from "@/lib/participations";
 import { getPublishedChallengeBySlug } from "@/lib/public-challenges";
@@ -127,7 +126,6 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
     const dbChallenge = await getPublishedChallengeBySlug(slug);
     if (dbChallenge) {
       const dbRanking = await getChallengeRankingBySlug(dbChallenge.slug, getTodayKey(), { publicOnly: true });
-      const dbActivity = await getRecentChallengeActivityBySlug(dbChallenge.slug);
       const dbCurrentParticipationId = user
         ? getParticipationsForUser(user.id).find((participation) =>
             participation.challengeSlug === dbChallenge.slug && (participation.status === "active" || participation.status === "completed")
@@ -135,7 +133,6 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
         : undefined;
       return (
         <DbChallengeDetail
-          activity={dbActivity}
           challenge={dbChallenge}
           currentParticipationId={dbCurrentParticipationId}
           invitationChallengeSlug={invitation?.challengeSlug}
@@ -152,7 +149,6 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
 
   const pageUrl = `${SITE_URL}/challenges/${challenge.slug}`;
   const ranking = await getChallengeRankingBySlug(challenge.slug, getTodayKey(), { publicOnly: true });
-  const activity = await getRecentChallengeActivityBySlug(challenge.slug);
   const currentParticipationId = user
     ? getParticipationsForUser(user.id).find((participation) =>
         participation.challengeSlug === challenge.slug && (participation.status === "active" || participation.status === "completed")
@@ -209,7 +205,6 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
       buildChallengeBreadcrumbJsonLd(challenge.title, challenge.slug)
     ]
   };
-  const isDailyChallenge = challenge.definition.type === "daily_boolean";
 
   return (
     <>
@@ -258,77 +253,7 @@ export default async function ChallengePage({ params, searchParams }: ChallengeP
           />
         </section>
 
-        <section className={styles.activitySection} data-detail-section="activity" aria-labelledby="challenge-activity">
-          <div className={styles.sectionHeader}>
-            <div>
-              <p className={styles.eyebrow}>Live aus der Challenge</p>
-              <h2 id="challenge-activity">Letzte Aktivitäten</h2>
-            </div>
-            <p>Echte Check-ins, keine simulierten Meldungen.</p>
-          </div>
-          {activity.length > 0 ? (
-            <ol className={styles.activityList}>
-              {activity.map((entry) => (
-                <li key={entry.id}>
-                  <span className={styles.activityMarker} aria-hidden="true" />
-                  <p>
-                    <strong>{entry.participantName}</strong> hat die Challenge am{" "}
-                    <time dateTime={entry.checkInDate}>{formatActivityDate(entry.checkInDate)}</time>
-                    {entry.value !== null && challenge.definition.type !== "daily_boolean"
-                      ? ` · ${formatMetricValue(entry.value, challenge.definition.unit)}`
-                      : null}
-                    {isDailyChallenge ? " erfolgreich abgehakt." : " als Ergebnis eingetragen."}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <p className={styles.activityEmpty}>Noch wurden keine Check-ins gespeichert.</p>
-          )}
-        </section>
-
-        <section className={styles.seoContent} data-detail-section="seo" aria-labelledby="challenge-info">
-          <div className={styles.textPanel}>
-            <p className={styles.eyebrow}>Info</p>
-            <h2 id="challenge-info">Mehr zur {challenge.title}</h2>
-            {isDailyChallenge ? (
-              <>
-                <p>
-                  Auf dieser Seite geht es nicht um einen Trainingsplan, sondern um eine klare Aufgabe:
-                  Du startest die Challenge, hältst dich an die Regeln und vergleichst deinen Streak
-                  mit anderen Teilnehmern.
-                </p>
-                <p>
-                  Für echte ChallengeMates zählt vor allem, wer bisher wie lange durchgehalten hat.
-                  Genau diese Werte sollen mit echten Starts und Check-ins sichtbar werden.
-                </p>
-              </>
-            ) : (
-              <>
-                <p>
-                  Diese Challenge hat ein klar messbares Ziel. Jeder Check-in hält einen echten Wert
-                  fest und zeigt transparent, wie nah du dem Ziel bereits bist.
-                </p>
-                <p>
-                  Im Ranking werden ausschließlich Ergebnisse derselben Fortschrittsart und desselben
-                  Messziels miteinander verglichen.
-                </p>
-              </>
-            )}
-          </div>
-          <div className={styles.faqPanel}>
-            <p className={styles.eyebrow}>Kurz beantwortet</p>
-            <h2>Häufige Fragen</h2>
-            <dl>
-              {challenge.faq.map((item) => (
-                <div key={item.question}>
-                  <dt>{item.question}</dt>
-                  <dd>{item.answer}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </section>
+        <ChallengeSeoContent challenge={challenge} />
       </main>
       <SiteFooter />
     </>
@@ -342,13 +267,4 @@ function getTodayKey() {
     month: "2-digit",
     day: "2-digit"
   }).format(new Date());
-}
-
-function formatActivityDate(date: string) {
-  return new Intl.DateTimeFormat("de-DE", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    timeZone: "Europe/Berlin"
-  }).format(new Date(`${date}T12:00:00.000Z`));
 }
