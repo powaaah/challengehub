@@ -2981,3 +2981,18 @@
 - Git-/Build-/SQLite-Backup sowie Abgleichprobe auf Datenbankkopie erfolgreich. Alle 274 Tests, Lint und Build im bestehenden Produktionsimage bestanden; lokal vier aktualisierte Browser-Tests und sechs Markdown-Tests erfolgreich.
 - Live sechs Layoutpruefungen (1440/390/320), entfernte URLs, www und Zugriffsschutz bestanden. 15 aktive Inhaltsregistrierungen und Datenbankintegritaet verifiziert; vorhandene Nutzerdatentabellen unveraendert gegen Aktivierungsbackup.
 - Nur ChallengeHub neu erstellt; Caddy, DNS und Compose unveraendert. Bearbeitung erfordert weiterhin Build/Deployment. Separate KI-SEO-Orchestrierung bleibt offen. Naechster Schritt: redaktionelle Inhalte ueber content/challenges pflegen.
+
+## 2026-10-20 - Bearbeitbare Markdown-Seitentexte
+
+- Ziel: Die öffentlichen Seitentexte neben den Challenges ohne TSX-Bearbeitung pflegen können.
+- Änderungen: Sieben Markdown-Dateien unter `content/pages` für Startseite, Challenge- und Wissensübersicht, Impressum, Datenschutz, Sicherheit und Karriere. Vorhandene Texte und Layouts übernommen; Anbieterfelder separat editierbar. Parser, validierender Compiler und generierte Textdaten ergänzt. Dev/Build/Start integrieren die Inhalte einschließlich Schutz vor veraltetem Produktionsbuild. Anleitung in `content/README.md`.
+- Verifikation: Drei Parser-/Dateitests, fünf Browser-Tests (echte Markdown-Änderung auf Startseite und Impressum, sieben Seiten bei 1440/390 px, bestehender Startseitenablauf) bestanden. Nach Trennung der Anbieterfelder alle drei neuen Browser-Tests erneut bestanden. TypeScript, ESLint für geänderte Dateien, Produktionsbuild, content:check und Diff-Prüfung erfolgreich.
+- Grenzen: Abschnitte sind Klartext mit festen Schlüsseln; Layout und Linkziele bleiben im Code. Wissensartikel, technische Dateninventur, SEO-Metadaten und Kontoseiten bleiben in bisherigen Dateien. Bestehende vorläufige Rechtstexte nicht fachlich geändert. Keine neuen Abhängigkeiten, keine Datenbankänderung und kein Deployment. Vorhandene Nutzeränderungen erhalten. Zentraler Wissensspeicher meldete Projekt nicht gefunden.
+- Nächster Schritt: Stefan kann die Texte unter `content/pages` bearbeiten; danach Inhalte neu kompilieren bzw. Build und separat freigegebenes Deployment ausführen.
+
+## 2026-10-20 - Neue Startseitenstruktur und Markdown-Seitentexte
+
+- Stefans neue Startseitentexte übernommen, Vorschaukachel vollständig entfernt und drei Challenge-Varianten als responsive Abschnitte umgesetzt. Hero-Button führt in den Katalog; übrige Textfassung beibehalten. Nicht mehr benötigte Teilnahmeabfrage entfernt.
+- Sieben öffentliche Seiten aus Markdown versorgt, Abschnittsschlüssel validiert und Build-/Start-Abgleich integriert. Anleitung: content/README.md. Keine neuen Dependencies oder Änderungen am Datenmodell.
+- Verifikation: zwölf E2E-Tests einschließlich echter Textänderung, Desktop/Mobil bei 1440/390/320 px, Hero/ Login bei fünf Breiten und Axe ohne Befunde. Screenshots geprüft. Lint und Produktionsbuild inklusive TypeScript bestanden. Lokal 276/277 Unit-Tests bestanden; einziger Fehler ist die bereits dokumentierte Windows-CRLF-Prüfsumme der unveränderten SQL-Migration.
+- Deployment ausdrücklich beauftragt; vollständige Suite im Produktionsimage, Backup und Liveprüfung folgen vor Abschluss. Unabhängige SEO-/Sketch- und Nutzeränderungen nicht Teil des Releases.

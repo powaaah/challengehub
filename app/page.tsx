@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ChallengeHubApp } from "@/components/challenge-hub-app";
 import { getCurrentUser } from "@/lib/auth";
-import { getParticipationCountsByChallengeSlug } from "@/lib/challenge-participation-stats";
 import { buildHomePageJsonLd } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +21,6 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const user = await getCurrentUser();
-  const participantCounts = await getParticipationCountsByChallengeSlug();
   const jsonLd = buildHomePageJsonLd();
 
   return (
@@ -33,7 +31,7 @@ export default async function Home() {
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c")
         }}
       />
-      <ChallengeHubApp participantCounts={participantCounts} user={user} />
+      <ChallengeHubApp user={user} />
     </>
   );
 }

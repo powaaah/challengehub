@@ -1,3 +1,4 @@
+import { pageContent } from "@/data/pages.generated";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function KnowledgePage() {
+  const copy = pageContent.wissen;
   const user = await getCurrentUser();
   const catalogJsonLd = buildKnowledgeCatalogJsonLd(habitArticles);
 
@@ -37,13 +39,9 @@ export default async function KnowledgePage() {
       <SiteHeader user={user} />
       <main id="main-content" tabIndex={-1} className={styles.page}>
         <section className={styles.hero}>
-          <p className={styles.kicker}>Habit Rules</p>
-          <h1>Wissen für Challenges, die wirklich kleben bleiben.</h1>
-          <p>
-            Eine Challenge ist mehr als ein Ziel. Sie braucht Auslöser, einfache
-            Starts, sichtbaren Fortschritt und eine Umgebung, die dich nicht jeden
-            Tag neu verhandeln lässt.
-          </p>
+          <p className={styles.kicker}>{copy["habit-rules"]}</p>
+          <h1>{copy["wissen-fur-challenges-die-wirklich-kleben"]}</h1>
+          <p>{copy["eine-challenge-ist-mehr-als-ein"]}</p>
         </section>
 
         <section className={styles.grid} aria-label="Habit-Wissen Artikel">

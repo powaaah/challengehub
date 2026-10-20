@@ -1,3 +1,4 @@
+import { pageContent } from "@/data/pages.generated";
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getCurrentUser } from "@/lib/auth";
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function ImpressumPage() {
+  const copy = pageContent.impressum;
   const user = await getCurrentUser();
 
   return (
@@ -25,49 +27,41 @@ export default async function ImpressumPage() {
     <SiteHeader user={user} />
     <main id="main-content" tabIndex={-1} className={styles.page}>
       <section className={styles.content}>
-        <p className={styles.kicker}>Rechtliches</p>
-        <h1>Impressum</h1>
-        <p className={styles.intro}>
-          Diese Seite ist als Struktur für die Anbieterkennzeichnung angelegt.
-          Die konkreten Pflichtangaben müssen vor einem Livegang final von Stefan
-          eingetragen und geprüft werden.
-        </p>
+        <p className={styles.kicker}>{copy["rechtliches"]}</p>
+        <h1>{copy["impressum"]}</h1>
+        <p className={styles.intro}>{copy["diese-seite-ist-als-struktur-fur"]}</p>
 
         <div className={styles.warning}>
-          <h2>Vor Livegang ausfüllen</h2>
-          <p>
-            Nach DDG § 5 müssen relevante Anbieterangaben leicht erkennbar,
-            unmittelbar erreichbar und ständig verfügbar sein. Die folgenden
-            Felder sind Platzhalter und nicht als finales Impressum geeignet.
-          </p>
+          <h2>{copy["vor-livegang-ausfullen"]}</h2>
+          <p>{copy["nach-ddg-5-mussen-relevante-anbieterangaben"]}</p>
         </div>
 
         <div className={styles.panel}>
-          <h2>Anbieter</h2>
+          <h2>{copy["anbieter"]}</h2>
           <div className={styles.placeholder}>
-            <code>Name/Firma:</code>
-            <span>[Bitte final eintragen]</span>
-            <code>Anschrift:</code>
-            <span>[Bitte final eintragen]</span>
-            <code>Vertretungsberechtigte Person, falls zutreffend:</code>
-            <span>[Bitte final eintragen]</span>
+            <code>{copy["name-firma"]}</code>
+            <span>{copy["anbieter-name"]}</span>
+            <code>{copy["anschrift"]}</code>
+            <span>{copy["anbieter-anschrift"]}</span>
+            <code>{copy["vertretungsberechtigte-person-falls-zutreffend"]}</code>
+            <span>{copy["anbieter-vertretung"]}</span>
           </div>
 
-          <h3>Kontakt</h3>
+          <h3>{copy["kontakt"]}</h3>
           <div className={styles.placeholder}>
-            <code>E-Mail:</code>
-            <span>[Bitte final eintragen]</span>
-            <code>Telefon, falls erforderlich/gewünscht:</code>
-            <span>[Bitte final eintragen]</span>
+            <code>{copy["e-mail"]}</code>
+            <span>{copy["anbieter-email"]}</span>
+            <code>{copy["telefon-falls-erforderlich-gewunscht"]}</code>
+            <span>{copy["anbieter-telefon"]}</span>
           </div>
 
-          <h3>Weitere Angaben, falls zutreffend</h3>
+          <h3>{copy["weitere-angaben-falls-zutreffend"]}</h3>
           <ul>
-            <li>Umsatzsteuer-ID oder Wirtschafts-ID</li>
-            <li>Registereintrag</li>
-            <li>Zuständige Aufsichtsbehörde</li>
-            <li>Berufsrechtliche Angaben</li>
-            <li>Angaben zur Verbraucherstreitbeilegung</li>
+            <li>{copy["umsatzsteuer-id-oder-wirtschafts-id"]}</li>
+            <li>{copy["registereintrag"]}</li>
+            <li>{copy["zustandige-aufsichtsbehorde"]}</li>
+            <li>{copy["berufsrechtliche-angaben"]}</li>
+            <li>{copy["angaben-zur-verbraucherstreitbeilegung"]}</li>
           </ul>
         </div>
       </section>

@@ -1,15 +1,16 @@
 import { expect, test } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test("Startseite erklärt den echten Freund-Challenge-Loop mit klaren CTAs", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.getByRole("heading", {
     level: 1,
-    name: "Starte eine Challenge. Bleib gemeinsam dran."
+    name: "Finde Deine Challenge und miss Dich mit anderen."
   })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Kostenlos Challenge starten" }).first()).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Alle Challenges entdecken" }).first()).toHaveAttribute(
     "href",
-    "/challenges/10000-schritte-am-tag"
+    "/challenges"
   );
   await expect(page.getByRole("heading", { name: "So funktioniert’s" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Gemeinsam verbindlich" })).toBeVisible();
@@ -17,17 +18,19 @@ test("Startseite erklärt den echten Freund-Challenge-Loop mit klaren CTAs", asy
   await expect(page.locator("main")).not.toContainText("Find your challenge");
   await expect(page.locator("main")).not.toContainText("Unleash Your Potential");
 
-  const starterLinks = page.locator('[data-testid="starter-challenge"]');
-  await expect(starterLinks).toHaveCount(3);
-  expect(await starterLinks.evaluateAll((links) => links.map((link) => link.getAttribute("href")))).toEqual([
-    "/challenges/10000-schritte-am-tag",
-    "/challenges/30-tage-ohne-zucker",
-    "/challenges/100-tage-ohne-soziale-medien"
-  ]);
+  const variants = page.getByTestId("challenge-variant");
+  await expect(variants).toHaveCount(3);
+  await expect(variants.nth(0)).toContainText("Einmal-Challenge");
+  await expect(variants.nth(1)).toContainText("Zeitraum-Challenge");
+  await expect(variants.nth(2)).toContainText("Dauer-Challenges");
+  await expect(page.getByLabel("Echte ChallengeHub Produktvorschau")).toHaveCount(0);
+  await page.getByRole("link", { name: "Alle Challenges entdecken" }).click();
+  await expect(page).toHaveURL(/\/challenges$/);
 });
 
-test("Startseiten-Hauptführung bleibt bei 390 Pixeln ohne horizontalen Überlauf", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+for (const width of [1440, 390, 320]) {
+test(`Startseite bleibt bei ${width}px lesbar und zugänglich`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 900 });
   await page.goto("/");
 
   const dimensions = await page.evaluate(() => ({
@@ -36,4 +39,9 @@ test("Startseiten-Hauptführung bleibt bei 390 Pixeln ohne horizontalen Überlau
   }));
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByTestId("challenge-variant")).toHaveCount(3);
+  const scan = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+  expect(scan.violations).toEqual([]);
+  await page.screenshot({ path: `output/playwright/homepage-variants-${width}.png`, fullPage: true });
 });
+}

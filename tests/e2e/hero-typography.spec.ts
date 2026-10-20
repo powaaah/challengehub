@@ -19,7 +19,7 @@ for (const width of [1280, 1024, 821, 390, 320]) {
     expect(words.every(({ lines }) => lines === 1)).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBe(0);
 
-    const cta = page.getByRole("link", { name: "Kostenlos Challenge starten" }).first();
+    const cta = page.getByRole("link", { name: "Alle Challenges entdecken" }).first();
     await expect(cta).toBeVisible();
     if (width >= 821) {
       const box = await cta.boundingBox();

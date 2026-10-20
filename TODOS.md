@@ -218,3 +218,9 @@ Stand: 2026-10-17
 - [ ] Medizinische/gesundheitliche Disclaimer und sichere Teilnahmehinweise final abstimmen.
 - [ ] Weitere Wissensartikel planen: Motivation, Streaks, Rueckfaelle, Identitaet, Umgebung, Tracking.
 - [ ] Deployment-Strategie fuer VPS/Caddy mit Stefan abstimmen.
+
+## Markdown-Seitentexte und Startseite (2026-10-20)
+
+- [x] Sieben öffentliche Seiten über content/pages bearbeitbar machen, validieren und dokumentieren.
+- [x] Neue Startseitentexte und drei Challenge-Varianten integrieren; Vorschaukachel entfernen. Lint, Build und zwölf Browserprüfungen erfolgreich.
+- [ ] Autorisierten Release nach Produktionsimage-Prüfung mit Backup aktivieren und live prüfen.
