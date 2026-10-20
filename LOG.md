@@ -3004,3 +3004,10 @@
 - Live: Startseite bei 1440/390/320 px, Katalog-CTA, sechs weitere Seiten, mobiler Login und www erfolgreich. Screenshots geprüft, keine JavaScript-Laufzeitfehler. 24 Datenbanktabellen unverändert gegenüber Aktivierungsbackup, Integrität ok. Caddy, DNS und Compose unverändert.
 - Reiner Prüfskriptfehler behoben: Nach Next-Clientnavigation explizit auf Ziel-URL warten. Bestehendes fehlendes favicon.ico (404) außerhalb dieses Slices unverändert. Nutzertexte inhaltlich beibehalten.
 - Nächster Schritt: Texte weiterhin in content/pages/startseite.md bearbeiten; zukünftige Strukturänderungen brauchen eine Anpassung der Komponente. Kein offener Deployment-Schritt.
+
+## 2026-10-20 - Hero-Padding veröffentlicht
+
+- Autorisierte CSS-Anpassung über PR #10 auf theovina.de veröffentlicht: heroCopy erhält oben und unten 32–64 px zusätzliches responsives Padding. Nur eine CSS-Zeile geändert; Texte und Funktionen unverändert.
+- Neun lokale Browserprüfungen inklusive Desktop/Mobil, Login und Axe bestanden. Lint und Build lokal sowie 277 Tests, Lint und Build im Produktionsimage erfolgreich. Git-/Build-/SQLite-Backup vorhanden.
+- Live Padding bei 1440/390/320 px anhand berechneter CSS-Werte, Überlauf und Katalog-Navigation geprüft; Screenshots kontrolliert. Keine Infrastruktur- oder Datenmodelländerung.
+- Deployment abgeschlossen; kein weiterer Schritt erforderlich.
