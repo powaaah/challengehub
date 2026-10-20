@@ -2996,3 +2996,11 @@
 - Sieben öffentliche Seiten aus Markdown versorgt, Abschnittsschlüssel validiert und Build-/Start-Abgleich integriert. Anleitung: content/README.md. Keine neuen Dependencies oder Änderungen am Datenmodell.
 - Verifikation: zwölf E2E-Tests einschließlich echter Textänderung, Desktop/Mobil bei 1440/390/320 px, Hero/ Login bei fünf Breiten und Axe ohne Befunde. Screenshots geprüft. Lint und Produktionsbuild inklusive TypeScript bestanden. Lokal 276/277 Unit-Tests bestanden; einziger Fehler ist die bereits dokumentierte Windows-CRLF-Prüfsumme der unveränderten SQL-Migration.
 - Deployment ausdrücklich beauftragt; vollständige Suite im Produktionsimage, Backup und Liveprüfung folgen vor Abschluss. Unabhängige SEO-/Sketch- und Nutzeränderungen nicht Teil des Releases.
+
+## 2026-10-20 - Startseite und Markdown-Seitentexte veröffentlicht
+
+- PR #9 (7328225) auf ausdrücklichen Auftrag auf theovina.de aktiviert. Neue Hero-Texte, drei Challenge-Varianten, entfallene Vorschaukachel und Markdown-Pflege für sieben öffentliche Seiten live.
+- Git-/Build-/SQLite-Backups angelegt. Alle 277 Unit-Tests, content:check, Lint und Produktionsbuild im bestehenden Linux-Image bestanden. Keine Schema-/Dependency-Änderung.
+- Live: Startseite bei 1440/390/320 px, Katalog-CTA, sechs weitere Seiten, mobiler Login und www erfolgreich. Screenshots geprüft, keine JavaScript-Laufzeitfehler. 24 Datenbanktabellen unverändert gegenüber Aktivierungsbackup, Integrität ok. Caddy, DNS und Compose unverändert.
+- Reiner Prüfskriptfehler behoben: Nach Next-Clientnavigation explizit auf Ziel-URL warten. Bestehendes fehlendes favicon.ico (404) außerhalb dieses Slices unverändert. Nutzertexte inhaltlich beibehalten.
+- Nächster Schritt: Texte weiterhin in content/pages/startseite.md bearbeiten; zukünftige Strukturänderungen brauchen eine Anpassung der Komponente. Kein offener Deployment-Schritt.

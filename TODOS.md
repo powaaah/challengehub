@@ -223,4 +223,4 @@ Stand: 2026-10-17
 
 - [x] Sieben öffentliche Seiten über content/pages bearbeitbar machen, validieren und dokumentieren.
 - [x] Neue Startseitentexte und drei Challenge-Varianten integrieren; Vorschaukachel entfernen. Lint, Build und zwölf Browserprüfungen erfolgreich.
-- [ ] Autorisierten Release nach Produktionsimage-Prüfung mit Backup aktivieren und live prüfen.
+- [x] Über PR #9 auf theovina.de veröffentlicht: 277 Servertests, Lint/Build, Backups und Liveprüfungen erfolgreich; alle 24 Datenbanktabellen unverändert.
