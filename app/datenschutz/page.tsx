@@ -1,3 +1,4 @@
+import { pageContent } from "@/data/pages.generated";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function DatenschutzPage() {
+  const copy = pageContent.datenschutz;
   const user = await getCurrentUser();
 
   return (
@@ -22,79 +24,63 @@ export default async function DatenschutzPage() {
       <SiteHeader user={user} />
       <main id="main-content" tabIndex={-1} className={styles.page}>
         <section className={styles.content}>
-          <p className={styles.kicker}>Rechtliches</p>
-          <h1>Datenschutz</h1>
-          <p className={styles.intro}>
-            Hier erfährst du, welche Daten ChallengeHub im aktuellen Produktstand verarbeitet und welche Einstellungen du selbst steuern kannst.
-          </p>
+          <p className={styles.kicker}>{copy["rechtliches"]}</p>
+          <h1>{copy["datenschutz"]}</h1>
+          <p className={styles.intro}>{copy["hier-erfahrst-du-welche-daten-challengehub"]}</p>
 
           <div className={styles.warning}>
-            <h2>Aktueller technischer Stand</h2>
-            <p>
-              Diese Beschreibung bildet die implementierten Funktionen ab. Angaben zum Verantwortlichen, zu Rechtsgrundlagen und verbindlichen Aufbewahrungsfristen werden vor dem Produktionsstart ergänzt.
-            </p>
+            <h2>{copy["aktueller-technischer-stand"]}</h2>
+            <p>{copy["diese-beschreibung-bildet-die-implementierten-funktionen"]}</p>
           </div>
 
           <div className={styles.panel}>
-            <h2>Verantwortlicher</h2>
+            <h2>{copy["verantwortlicher"]}</h2>
             <div className={styles.placeholder}>
-              <code>Name/Firma:</code><span>[vor Livegang eintragen]</span>
-              <code>Kontakt:</code><span>[vor Livegang eintragen]</span>
+              <code>{copy["name-firma"]}</code><span>{copy["verantwortlicher-name"]}</span>
+              <code>{copy["kontakt"]}</code><span>{copy["verantwortlicher-kontakt"]}</span>
             </div>
 
-            <h2>Technische Dateninventur</h2>
-            <p>
-              Die folgende Übersicht nennt Daten, Zweck, mögliche Empfänger und den tatsächlich implementierten Lebenszyklus. Eine Gültigkeitsdauer bedeutet nicht automatisch, dass der zugehörige Datensatz danach bereits gelöscht wird. ChallengeHub bindet derzeit kein Analyse- oder Werbetracking ein.
-            </p>
+            <h2>{copy["technische-dateninventur"]}</h2>
+            <p>{copy["die-folgende-ubersicht-nennt-daten-zweck"]}</p>
             <div className={styles.inventory}>
               {privacyDataInventory.map((entry) => (
                 <article className={styles.inventoryEntry} id={`daten-${entry.id}`} key={entry.id}>
                   <h3>{entry.title}</h3>
                   <dl>
                     <div>
-                      <dt>Daten</dt>
+                      <dt>{copy["daten"]}</dt>
                       <dd>{entry.data}</dd>
                     </div>
                     <div>
-                      <dt>Zweck</dt>
+                      <dt>{copy["zweck"]}</dt>
                       <dd>{entry.purpose}</dd>
                     </div>
                     <div>
-                      <dt>Empfänger</dt>
+                      <dt>{copy["empfanger"]}</dt>
                       <dd>{entry.recipients}</dd>
                     </div>
                     <div>
-                      <dt>Technischer Lebenszyklus</dt>
+                      <dt>{copy["technischer-lebenszyklus"]}</dt>
                       <dd>{entry.implementedLifecycle}</dd>
                     </div>
                   </dl>
                   {entry.reviewRequired ? (
-                    <p className={styles.reviewNote}>Offener Freigabepunkt: verbindliche Frist und Rechtsgrundlage festlegen.</p>
+                    <p className={styles.reviewNote}>{copy["offener-freigabepunkt-verbindliche-frist-und-rechtsgrundlage"]}</p>
                   ) : null}
                 </article>
               ))}
             </div>
 
-            <h2>Was öffentlich sichtbar ist</h2>
-            <p>
-              Neue Konten erscheinen standardmäßig weder im öffentlichen Ranking noch im öffentlichen Aktivitätsfeed oder in ChallengeMate-Vorschlägen. Diese drei Freigaben kannst du getrennt im <Link href="/profil">Profil</Link> ändern. Dein privater Challenge-Raum bleibt davon unberührt.
-            </p>
+            <h2>{copy["was-offentlich-sichtbar-ist"]}</h2>
+            <p>{copy["neue-konten-erscheinen-standardmaig-weder-im"]}{" "}<Link href="/profil">{copy["profil"]}</Link>{" "}{copy["andern-dein-privater-challenge-raum-bleibt"]}</p>
 
-            <h2>Export und Löschung</h2>
-            <p>
-              Im <Link href="/profil">Profil</Link> kannst du deine gespeicherten Kontodaten als maschinenlesbare JSON-Datei herunterladen. Dort kannst du dein Konto nach erneuter Passwortprüfung auch endgültig löschen.
-            </p>
-            <p>
-              Dabei werden persönliche Konto-, Teilnahme-, Check-in-, Einladungs-, ChallengeMate- und Erinnerungsdaten entfernt. Veröffentlichte Challenges bleiben ohne Verbindung zu deinem Konto erhalten, damit Teilnahmen anderer Mitglieder nicht gelöscht werden; unveröffentlichte eigene Challenges werden entfernt. Ein nicht personenbezogener Löschvermerk hält nur Zeitpunkt und Anzahl übertragener Veröffentlichungen als Betriebsnachweis fest.
-            </p>
+            <h2>{copy["export-und-loschung"]}</h2>
+            <p>{copy["im"]}{" "}<Link href="/profil">{copy["profil"]}</Link>{" "}{copy["kannst-du-deine-gespeicherten-kontodaten-als"]}</p>
+            <p>{copy["dabei-werden-personliche-konto-teilnahme-check"]}</p>
 
-            <h2>Speicherdauer und Rechte</h2>
-            <p>
-              Die oben genannten technischen Lebenszyklen beschreiben den aktuellen Code-Stand, noch keine rechtlich freigegebenen Aufbewahrungsfristen. Insbesondere für abgelaufene Sitzungen und Tokens, Einladungen, Moderationsdaten, dauerhafte Mitteilungen, Hosting-Protokolle und den anonymen Löschvermerk fehlen noch verbindliche Fristen oder automatische Löschläufe.
-            </p>
-            <p>
-              Für Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch und Datenübertragbarkeit wird vor dem Produktionsstart der Kontakt des Verantwortlichen ergänzt. Benutzername, Sichtbarkeit, Export und Kontolöschung kannst du bereits direkt im Profil verwalten.
-            </p>
+            <h2>{copy["speicherdauer-und-rechte"]}</h2>
+            <p>{copy["die-oben-genannten-technischen-lebenszyklen-beschreiben"]}</p>
+            <p>{copy["fur-auskunft-berichtigung-loschung-einschrankung-widerspruch"]}</p>
           </div>
         </section>
       </main>

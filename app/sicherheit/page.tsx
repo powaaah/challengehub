@@ -1,3 +1,4 @@
+import { pageContent } from "@/data/pages.generated";
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getCurrentUser } from "@/lib/auth";
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function SicherheitPage() {
+  const copy = pageContent.sicherheit;
   const user = await getCurrentUser();
 
   return (
@@ -21,42 +23,33 @@ export default async function SicherheitPage() {
     <SiteHeader user={user} />
     <main id="main-content" tabIndex={-1} className={styles.page}>
       <section className={styles.content}>
-        <p className={styles.kicker}>Sicherheit</p>
-        <h1>Gesundheit geht vor Challenge.</h1>
-        <p className={styles.intro}>
-          ChallengeHub motiviert zu Zielen, Gewohnheiten und Training. Die Inhalte
-          sind aber keine medizinische, psychologische, ernährungswissenschaftliche
-          oder sporttherapeutische Beratung.
-        </p>
+        <p className={styles.kicker}>{copy["sicherheit"]}</p>
+        <h1>{copy["gesundheit-geht-vor-challenge"]}</h1>
+        <p className={styles.intro}>{copy["challengehub-motiviert-zu-zielen-gewohnheiten-und"]}</p>
 
         <div className={styles.warning}>
-          <h2>Wichtiger Hinweis</h2>
-          <p>
-            Starte intensive Challenges nur, wenn sie zu deiner Gesundheit, deinem
-            Trainingsstand und deiner Lebenssituation passen. Bei Vorerkrankungen,
-            Schmerzen, Schwangerschaft, Essstörungen, Herz-Kreislauf-Themen oder
-            Unsicherheit solltest du vorher fachlichen Rat einholen.
-          </p>
+          <h2>{copy["wichtiger-hinweis"]}</h2>
+          <p>{copy["starte-intensive-challenges-nur-wenn-sie"]}</p>
         </div>
 
         <div className={styles.panel}>
-          <h2>Grundregeln für sichere Challenges</h2>
+          <h2>{copy["grundregeln-fur-sichere-challenges"]}</h2>
           <ul>
-            <li>Brich eine Challenge ab, wenn Schmerzen, Schwindel, Atemnot oder starkes Unwohlsein auftreten.</li>
-            <li>Steigere Belastung schrittweise statt sprunghaft.</li>
-            <li>Schlaf, Regeneration und Essen sind Teil der Performance.</li>
-            <li>Extreme Challenges sind nicht automatisch bessere Challenges.</li>
-            <li>Vergleiche dich nicht blind mit anderen Teilnehmern.</li>
-            <li>Bei Ernährungszielen steht nachhaltiges Verhalten vor extremen Einzeltagen.</li>
+            <li>{copy["brich-eine-challenge-ab-wenn-schmerzen"]}</li>
+            <li>{copy["steigere-belastung-schrittweise-statt-sprunghaft"]}</li>
+            <li>{copy["schlaf-regeneration-und-essen-sind-teil"]}</li>
+            <li>{copy["extreme-challenges-sind-nicht-automatisch-bessere"]}</li>
+            <li>{copy["vergleiche-dich-nicht-blind-mit-anderen"]}</li>
+            <li>{copy["bei-ernahrungszielen-steht-nachhaltiges-verhalten-vor"]}</li>
           </ul>
 
-          <h2>Besonders vorsichtig bei</h2>
+          <h2>{copy["besonders-vorsichtig-bei"]}</h2>
           <ul>
-            <li>Maximalkraft- und sehr schweren Kraftzielen</li>
-            <li>extremen Kalorien- oder Verzichts-Challenges</li>
-            <li>langen Ausdauerbelastungen ohne Trainingsgrundlage</li>
-            <li>Challenges, die Schlaf dauerhaft reduzieren</li>
-            <li>Challenges, die Druck, Schuldgefühle oder Kontrollverlust auslösen</li>
+            <li>{copy["maximalkraft-und-sehr-schweren-kraftzielen"]}</li>
+            <li>{copy["extremen-kalorien-oder-verzichts-challenges"]}</li>
+            <li>{copy["langen-ausdauerbelastungen-ohne-trainingsgrundlage"]}</li>
+            <li>{copy["challenges-die-schlaf-dauerhaft-reduzieren"]}</li>
+            <li>{copy["challenges-die-druck-schuldgefuhle-oder-kontrollverlust"]}</li>
           </ul>
         </div>
       </section>

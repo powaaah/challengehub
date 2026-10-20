@@ -12,6 +12,7 @@ const hash = () =>
         .readFileSync("data/challenges.generated.ts", "utf8")
         .replace(/\r\n/g, "\n"),
     )
+    .update(fs.readFileSync("data/pages.generated.ts", "utf8").replace(/\r\n/g, "\n"))
     .digest("hex");
 function run(script: string, extra: string[] = []) {
   const result = spawnSync(process.execPath, [script, ...extra], {
@@ -22,16 +23,18 @@ function run(script: string, extra: string[] = []) {
 }
 if (mode === "build") {
   run("scripts/compile-challenges.mts");
+  run("scripts/compile-pages.mts");
   run(require.resolve("next/dist/bin/next"), ["build", ...args]);
   fs.writeFileSync(".next/challenge-content.sha256", hash() + "\n");
 } else if (mode === "start") {
   run("scripts/compile-challenges.mts", ["--check"]);
+  run("scripts/compile-pages.mts", ["--check"]);
   if (
     !fs.existsSync(".next/challenge-content.sha256") ||
     fs.readFileSync(".next/challenge-content.sha256", "utf8").trim() !== hash()
   )
     throw new Error(
-      "Challenge-Dateien passen nicht zum Produktionsbuild. Erst npm run build ausführen.",
+      "Inhaltsdateien passen nicht zum Produktionsbuild. Erst npm run build ausführen.",
     );
   run("scripts/sync-challenges.mts", ["--apply"]);
   const child = spawn(

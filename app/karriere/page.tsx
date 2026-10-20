@@ -1,3 +1,4 @@
+import { pageContent } from "@/data/pages.generated";
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getCurrentUser } from "@/lib/auth";
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function KarrierePage() {
+  const copy = pageContent.karriere;
   const user = await getCurrentUser();
 
   return (
@@ -21,28 +23,24 @@ export default async function KarrierePage() {
     <SiteHeader user={user} />
     <main id="main-content" tabIndex={-1} className={styles.page}>
       <section className={styles.content}>
-        <p className={styles.kicker}>Karriere</p>
-        <h1>Mitbauen an besseren Challenges.</h1>
-        <p className={styles.intro}>
-          ChallengeHub ist aktuell im Rebuild. Konkrete Stellen sind noch nicht
-          ausgeschrieben, aber diese Seite ist als Platz für spätere Rollen,
-          Partnerschaften und Mitwirkungsmöglichkeiten vorbereitet.
-        </p>
+        <p className={styles.kicker}>{copy["karriere"]}</p>
+        <h1>{copy["mitbauen-an-besseren-challenges"]}</h1>
+        <p className={styles.intro}>{copy["challengehub-ist-aktuell-im-rebuild-konkrete"]}</p>
 
         <div className={styles.panel}>
-          <h2>Woran wir arbeiten</h2>
+          <h2>{copy["woran-wir-arbeiten"]}</h2>
           <ul>
-            <li>Challenges, die Menschen wirklich starten und durchhalten.</li>
-            <li>Wissensinhalte zu Gewohnheiten, Training, Schlaf und Lernen.</li>
-            <li>Ein späterer Teilnahme-Flow mit Check-ins, Streaks und Fortschritt.</li>
+            <li>{copy["challenges-die-menschen-wirklich-starten-und"]}</li>
+            <li>{copy["wissensinhalte-zu-gewohnheiten-training-schlaf-und"]}</li>
+            <li>{copy["ein-spaterer-teilnahme-flow-mit-check"]}</li>
           </ul>
 
-          <h2>Mögliche Bereiche</h2>
+          <h2>{copy["mogliche-bereiche"]}</h2>
           <ul>
-            <li>Content und Recherche</li>
-            <li>Frontend und Produktdesign</li>
-            <li>Community und Challenge-Ideen</li>
-            <li>Sport, Gesundheit und Gewohnheitspsychologie</li>
+            <li>{copy["content-und-recherche"]}</li>
+            <li>{copy["frontend-und-produktdesign"]}</li>
+            <li>{copy["community-und-challenge-ideen"]}</li>
+            <li>{copy["sport-gesundheit-und-gewohnheitspsychologie"]}</li>
           </ul>
         </div>
       </section>
