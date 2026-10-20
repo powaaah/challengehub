@@ -3018,3 +3018,11 @@
 - Filter kombinieren Gruppen mit UND und Mehrfachauswahlen mit ODER. Format aus bestehenden Inhalts-/Wertungsdaten, Teilnehmerzahl aus echten Teilnahmezählungen; Bewertungen aus vorhandenen Markdown-Metadaten, fehlende Werte unbewertet. Keine neue Nutzerbewertungsfunktion, Schemaänderung oder neue Abhängigkeit.
 - Verifikation: fünf neue Unit-Tests, TypeScript, Lint und Produktionsbuild bestanden; Desktop/Mobil 1440/390/320 px inklusive Axe geprüft. Gesamtsuite lokal 281/282 bestanden; bekannter Windows-CRLF-Prüfsummenfehler der unveränderten SQL-Migration. Linux-Prüfung vor Aktivierung erforderlich.
 - Nächster Schritt: autorisierten Release nach finaler Browserprüfung über PR veröffentlichen, Backups und Liveprüfung durchführen. Unabhängige lokale Nutzeränderungen nicht Teil des Releases.
+
+## 2026-10-20 - Neuer Filter veröffentlicht
+
+- Bestätigte Variante auf feat/catalog-filter-slider entwickelt und über PR #11 (08eb210) auf theovina.de veröffentlicht: Format-/Schwierigkeitschips, Mindestbewertung als Regler und Teilnehmergrenzen, Treffer-Vorschau, Entwurf/Anwenden und Reset.
+- Fünf neue Unit-Tests und zehn lokale E2E-Prüfungen einschließlich Tastatur/Fokus, Desktop/Mobil und Axe erfolgreich. Lint, TypeScript und Build bestanden. Im bestehenden Linux-Produktionsimage alle 282 Tests, content:check, Lint und Build bestanden.
+- Git-/Build-/SQLite-Backup vor Aktivierung; nur ChallengeHub neu gestartet. Live bei 1440/390/320 px: kombinierte Ergebnisse, halbe Sterne, ungültige Teilnehmergrenzen, Reset/Abbrechen, Scrollen und www geprüft. Screenshots kontrolliert, keine JavaScript-Laufzeitfehler. Alle 24 Datenbanktabellen gegen Aktivierungsbackup unverändert, Integrität ok.
+- Bewertungen verwenden vorhandene Inhaltsmetadaten; keine neue Nutzerbewertungsfunktion. Bestehender favicon.ico-404 sowie bekannte lokale Windows-CRLF-Prüfsumme außerhalb dieses Slices. Caddy, DNS, Schema, Dependencies und unabhängige Nutzeränderungen unverändert.
+- Deployment abgeschlossen; weiterer Schritt nur bei gewünschter Anpassung der Filter oder Aufbau echter Nutzerbewertungen.

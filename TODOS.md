@@ -227,4 +227,5 @@ Stand: 2026-10-17
 
 - [x] Hero-Padding über PR #10 auf theovina.de veröffentlicht; neun lokale E2E-Tests, 277 Servertests, Lint/Build und Liveprüfung erfolgreich.
 
-- [ ] Filter-Release: Umsetzung auf feat/catalog-filter-slider abgeschlossen; autorisierter Release mit Linux-Prüfungen, Backup und Liveprüfung folgt.
+
+- [x] Filter auf eigenem Branch entwickelt und über PR #11 auf theovina.de veröffentlicht; 282 Servertests, zehn lokale E2E-Prüfungen, Lint/Build und Liveprüfung bei 1440/390/320 px bestanden.
