@@ -226,3 +226,5 @@ Stand: 2026-10-17
 - [x] Über PR #9 auf theovina.de veröffentlicht: 277 Servertests, Lint/Build, Backups und Liveprüfungen erfolgreich; alle 24 Datenbanktabellen unverändert.
 
 - [x] Hero-Padding über PR #10 auf theovina.de veröffentlicht; neun lokale E2E-Tests, 277 Servertests, Lint/Build und Liveprüfung erfolgreich.
+
+- [ ] Filter-Release: Umsetzung auf feat/catalog-filter-slider abgeschlossen; autorisierter Release mit Linux-Prüfungen, Backup und Liveprüfung folgt.

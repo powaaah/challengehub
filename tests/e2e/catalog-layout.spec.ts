@@ -59,11 +59,11 @@ test("Filterdialog hält den Fokus und schließt per Escape", async ({ page }) =
   const trigger = page.getByRole("button", { name: "Filter", exact: true });
   await trigger.click();
 
-  const dialog = page.getByRole("dialog", { name: "Filter" });
+  const dialog = page.getByRole("dialog", { name: "Challenges filtern" });
   const close = dialog.getByRole("button", { name: "Dialog schließen" });
   await expect(close).toBeFocused();
 
-  await dialog.getByRole("button", { name: "Zurücksetzen" }).focus();
+  await dialog.getByRole("button", { name: "Challenges anzeigen" }).focus();
   await page.keyboard.press("Tab");
   await expect(close).toBeFocused();
 
