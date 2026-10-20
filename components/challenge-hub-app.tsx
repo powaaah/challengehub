@@ -2,13 +2,13 @@
 
 import { pageContent } from "@/data/pages.generated";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { challenges, levelLabels, type ChallengeLevel } from "@/data/challenges";
+import { useEffect, useMemo, useState } from "react";
+import { challenges, levelLabels } from "@/data/challenges";
 import type { CurrentUser } from "@/lib/auth";
 import type { PublicChallenge } from "@/domain/challenges/public-challenge";
-import { useDialogFocus } from "@/hooks/use-dialog-focus";
+import { CatalogFilter } from "./catalog-filter";
+import { emptyCatalogFilters, getChallengeFormat, matchesCatalogFilters, type CatalogFilters } from "@/domain/challenges/catalog-filters";
 import { SiteFooter, SiteHeader } from "./site-shell";
 import {
   readUserChallenges,
@@ -20,7 +20,6 @@ import styles from "./challenge-hub-app.module.css";
 type Dialog = "filter" | null;
 export type SortKey = "standard" | "newest" | "participants";
 
-const levelOptions: ChallengeLevel[] = ["User", "Beginner", "Advanced", "Premium"];
 const CATALOG_PAGE_SIZE = 12;
 
 export function ChallengeHubApp({ user }: { user: CurrentUser | null }) {
@@ -136,7 +135,7 @@ export function ChallengeCatalogApp({
   const [dialog, setDialog] = useState<Dialog>(null);
   const [sortKey, setSortKey] = useState<SortKey>(initialSortKey);
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
-  const [selectedLevels, setSelectedLevels] = useState<ChallengeLevel[]>([]);
+  const [filters, setFilters] = useState<CatalogFilters>(emptyCatalogFilters);
   const [userChallenges, setUserChallenges] = useState<UserChallenge[]>([]);
   const [visibleCount, setVisibleCount] = useState(CATALOG_PAGE_SIZE);
 
@@ -149,11 +148,12 @@ export function ChallengeCatalogApp({
     return subscribeToUserChallenges(syncUserChallenges);
   }, []);
 
-  const visibleChallenges = useMemo(() => {
+  const matchingSearchChallenges = useMemo(() => {
     const normalizedSearch = normalizeSearchText(searchQuery);
     const allChallenges = [
       ...serverChallenges.map((challenge) => ({
         ...challenge,
+        format: getChallengeFormat(challenge),
         participants: participantCounts[challenge.slug] ?? 0,
         duration: `${challenge.durationDays} Tage`,
         isUserCreated: true,
@@ -161,6 +161,7 @@ export function ChallengeCatalogApp({
       })),
       ...userChallenges.map((challenge) => ({
         ...challenge,
+        format: getChallengeFormat(challenge),
         participants: 0,
         duration: `${challenge.durationDays} Tage`,
         isUserCreated: true,
@@ -168,6 +169,7 @@ export function ChallengeCatalogApp({
       })),
       ...challenges.map((challenge) => ({
         ...challenge,
+        format: getChallengeFormat(challenge),
         participants: participantCounts[challenge.slug] ?? 0,
         category: "Kuratierte Challenge",
         durationDays: undefined,
@@ -176,14 +178,13 @@ export function ChallengeCatalogApp({
       }))
     ];
     const filtered = allChallenges.filter((challenge) => {
-      const levelMatches = selectedLevels.length === 0 || selectedLevels.includes(challenge.level);
       const searchMatches =
         normalizedSearch.length === 0 ||
         normalizeSearchText(`${challenge.title} ${levelLabels[challenge.level]} ${challenge.category}`).includes(
           normalizedSearch
         );
 
-      return levelMatches && searchMatches;
+      return searchMatches;
     });
 
     return [...filtered].sort((left, right) => {
@@ -197,14 +198,9 @@ export function ChallengeCatalogApp({
 
       return 0;
     });
-  }, [participantCounts, searchQuery, selectedLevels, sortKey, userChallenges, serverChallenges]);
+  }, [participantCounts, searchQuery, sortKey, userChallenges, serverChallenges]);
 
-  function toggleLevel(level: ChallengeLevel) {
-    setVisibleCount(CATALOG_PAGE_SIZE);
-    setSelectedLevels((current) =>
-      current.includes(level) ? current.filter((item) => item !== level) : [...current, level]
-    );
-  }
+  const visibleChallenges = matchingSearchChallenges.filter(challenge => matchesCatalogFilters(challenge, filters));
 
   return (
     <>
@@ -275,32 +271,16 @@ export function ChallengeCatalogApp({
       <SiteFooter />
 
       {dialog === "filter" && (
-        <Modal title="Filter" onClose={() => setDialog(null)}>
-          <div className={styles.filterGroup}>
-            <strong>{copy["challenge-typ"]}</strong>
-            {levelOptions.map((level) => (
-              <label className={styles.checkbox} key={level}>
-                <input
-                  type="checkbox"
-                  checked={selectedLevels.includes(level)}
-                  onChange={() => toggleLevel(level)}
-                />
-                {levelLabels[level]}
-              </label>
-            ))}
-          </div>
-          <div className={styles.formRow}>
-            <button className={styles.primaryButton} type="button" onClick={() => setDialog(null)}>{copy["filter-anwenden"]}</button>
-            <button
-              className={styles.secondaryButton}
-              type="button"
-              onClick={() => {
-                setSelectedLevels([]);
-                setVisibleCount(CATALOG_PAGE_SIZE);
-              }}
-            >{copy["zurucksetzen"]}</button>
-          </div>
-        </Modal>
+        <CatalogFilter
+          value={filters}
+          countResults={draft => matchingSearchChallenges.filter(challenge => matchesCatalogFilters(challenge, draft)).length}
+          onClose={() => setDialog(null)}
+          onApply={draft => {
+            setFilters(draft);
+            setVisibleCount(CATALOG_PAGE_SIZE);
+            setDialog(null);
+          }}
+        />
       )}
     </>
   );
@@ -326,38 +306,4 @@ function normalizeSearchText(value: string) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .trim();
-}
-
-function Modal({
-  title,
-  children,
-  onClose
-}: {
-  title: string;
-  children: React.ReactNode;
-  onClose: () => void;
-}) {
-  const copy = pageContent.challenges;
-  const dialogRef = useRef<HTMLElement>(null);
-  const initialFocusRef = useRef<HTMLButtonElement>(null);
-  const dialogFocus = useDialogFocus({ containerRef: dialogRef, initialFocusRef, onClose });
-
-  return (
-    <div className={styles.modalBackdrop} role="presentation" onMouseDown={onClose}>
-      <section
-        ref={dialogRef}
-        className={styles.modal}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
-        onKeyDown={dialogFocus.onKeyDown}
-        onMouseDown={(event) => event.stopPropagation()}
-      >
-        <button ref={initialFocusRef} className={styles.closeButton} type="button" aria-label="Dialog schließen" onClick={onClose}>{copy["x"]}</button>
-        <Image src="/logo.png" width={150} height={49} alt="ChallengeHub" />
-        <h2 id="modal-title">{title}</h2>
-        {children}
-      </section>
-    </div>
-  );
 }

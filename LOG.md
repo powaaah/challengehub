@@ -3011,3 +3011,10 @@
 - Neun lokale Browserprüfungen inklusive Desktop/Mobil, Login und Axe bestanden. Lint und Build lokal sowie 277 Tests, Lint und Build im Produktionsimage erfolgreich. Git-/Build-/SQLite-Backup vorhanden.
 - Live Padding bei 1440/390/320 px anhand berechneter CSS-Werte, Überlauf und Katalog-Navigation geprüft; Screenshots kontrolliert. Keine Infrastruktur- oder Datenmodelländerung.
 - Deployment abgeschlossen; kein weiterer Schritt erforderlich.
+
+## 2026-10-20 - Bestätigtes Filter-Popup umgesetzt
+
+- Auf eigenem Branch feat/catalog-filter-slider: kompakter Dialog ohne Logo, Format-/Schwierigkeitschips, Mindestbewertung per Schieberegler (Alle, 1–5 in halben Sternen), optionale Teilnehmergrenzen und Treffer-Vorschau. Entwurf erst beim Anwenden übernehmen; Reset, Escape und Fokus-Rückgabe erhalten.
+- Filter kombinieren Gruppen mit UND und Mehrfachauswahlen mit ODER. Format aus bestehenden Inhalts-/Wertungsdaten, Teilnehmerzahl aus echten Teilnahmezählungen; Bewertungen aus vorhandenen Markdown-Metadaten, fehlende Werte unbewertet. Keine neue Nutzerbewertungsfunktion, Schemaänderung oder neue Abhängigkeit.
+- Verifikation: fünf neue Unit-Tests, TypeScript, Lint und Produktionsbuild bestanden; Desktop/Mobil 1440/390/320 px inklusive Axe geprüft. Gesamtsuite lokal 281/282 bestanden; bekannter Windows-CRLF-Prüfsummenfehler der unveränderten SQL-Migration. Linux-Prüfung vor Aktivierung erforderlich.
+- Nächster Schritt: autorisierten Release nach finaler Browserprüfung über PR veröffentlichen, Backups und Liveprüfung durchführen. Unabhängige lokale Nutzeränderungen nicht Teil des Releases.

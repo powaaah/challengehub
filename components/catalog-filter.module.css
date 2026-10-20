@@ -1,0 +1,39 @@
+.backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: rgb(7 11 17 / 75%); }
+.dialog { width: min(560px, 100%); max-height: calc(100dvh - 32px); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-strong); border-radius: 16px; background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 24px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.header h2 { margin: 0; font-size: clamp(1.25rem, 4vw, 1.65rem); line-height: 1.25; }
+.close { width: 44px; height: 44px; flex-shrink: 0; background: transparent; border: 0; border-radius: 8px; color: var(--text-muted); font-size: 2rem; line-height: 1; }
+.close:hover { color: var(--text); background: var(--surface-muted); }
+.body { padding: 0 24px; overflow-y: auto; overscroll-behavior: contain; }
+.group { position: relative; min-width: 0; margin: 0; padding: 20px 0; border: 0; }
+.group + .group { border-top: 1px solid var(--border); }
+.group legend { float: left; padding: 0; margin-bottom: 14px; font-weight: 650; font-size: 1rem; }
+.groupTitle { display: block; font-weight: 650; font-size: 1rem; }
+.hint { display: block; text-align: right; color: var(--text-muted); font-size: .75rem; padding-top: 3px; }
+.chips { display: flex; clear: both; flex-wrap: wrap; gap: 10px; padding-top: 2px; }
+.chip { border: 1px solid var(--border-strong); border-radius: 10px; min-height: 44px; padding: 9px 15px; color: var(--text); background: var(--surface-muted); }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #17120a; font-weight: 650; }
+.ratingValue { display: block; text-align: center; margin: 14px 0 4px; font-size: 1.2rem; font-weight: 650; }
+.slider { display: block; appearance: none; width: 100%; height: 44px; margin: 0; background: transparent; cursor: pointer; }
+.slider::-webkit-slider-runnable-track { height: 8px; border-radius: 8px; background: linear-gradient(to right, var(--accent) var(--rating-progress), var(--border-strong) var(--rating-progress)); }
+.slider::-webkit-slider-thumb { appearance: none; width: 26px; height: 26px; margin-top: -9px; background: var(--surface); border: 7px solid var(--accent); border-radius: 50%; }
+.slider::-moz-range-track { height: 8px; border-radius: 8px; background: var(--border-strong); }
+.slider::-moz-range-progress { height: 8px; border-radius: 8px; background: var(--accent); }
+.slider::-moz-range-thumb { box-sizing: border-box; width: 26px; height: 26px; background: var(--surface); border: 7px solid var(--accent); border-radius: 50%; }
+.ticks { position: relative; height: 26px; margin: 0 13px; color: var(--text-muted); font-size: .8rem; }
+.ticks span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.help { margin: 6px 0 0; color: var(--text-muted); font-size: .8rem; }
+.bounds { display: grid; clear: both; grid-template-columns: 1fr 1fr; gap: 16px; }
+.bounds > div { display: grid; gap: 6px; min-width: 0; }
+.bounds label { color: var(--text-muted); font-size: .9rem; }
+.bounds select { width: 100%; min-width: 0; min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 1rem; }
+.error { color: var(--error); font-size: .85rem; margin: 10px 0 0; }
+.footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; flex-shrink: 0; padding: 12px 24px 18px; border-top: 1px solid var(--border); }
+.result { flex-basis: 100%; color: var(--text-muted); font-size: .8rem; margin: 0 0 4px; }
+.reset { background: transparent; color: var(--text-muted); border: 0; padding: 10px 0; min-height: 44px; }
+.reset:hover { color: var(--text); text-decoration: underline; }
+.apply { border: 0; border-radius: 8px; padding: 12px 18px; min-height: 46px; color: #17120a; background: var(--accent); font-weight: 650; }
+.apply:hover { background: var(--brand-hover); }
+.apply:disabled { opacity: .55; cursor: not-allowed; }
+@media (max-width: 420px) { .backdrop { padding: 8px; } .dialog { max-height: calc(100dvh - 16px); } .header { padding: 12px 16px; } .body { padding: 0 16px; } .group { padding: 16px 0; } .hint { font-size: .7rem; } .chip { padding-inline: 12px; } .bounds { gap: 10px; } .footer { padding: 10px 16px 14px; } .apply { flex-grow: 1; } }
