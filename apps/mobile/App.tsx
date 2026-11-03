@@ -4,9 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const modes = [
-  { id: 'duel', title: '1 gegen 1', subtitle: 'Fordere jemanden heraus.', symbol: '01', description: 'Ein Gegner. Eine Challenge. Euer Duell.', detail: 'Private Duelle für zwei bestätigte Konten kommen als Nächstes. Hier kannst du später eine Challenge auswählen und deinen Gegner einladen.' },
-  { id: 'group', title: 'Gruppe', subtitle: 'Mit deinen Leuten.', symbol: '02', description: 'Deine Leute. Eure Challenge.', detail: 'Private Gruppen-Challenges für 3 bis 20 Personen kommen als Nächstes. Einladungen, gemeinsame Fortschritte und Ergebnisse bleiben in eurer Gruppe.' },
-  { id: 'global', title: 'Global', subtitle: 'Miss dich mit den Besten der Welt.', symbol: '03', description: 'Wie weit kommst du?', detail: 'Hier findest du künftig die öffentlichen Challenges und Rankings. Deine privaten Battle-Ergebnisse bleiben davon getrennt.' },
+  { id: 'duel', title: '1 vs 1', subtitle: 'Fordere jemanden heraus.', description: 'Ein Gegner. Eine Challenge. Euer Duell.', detail: 'Private Duelle für zwei bestätigte Konten kommen als Nächstes. Hier kannst du später eine Challenge auswählen und deinen Gegner einladen.' },
+  { id: 'group', title: 'Gruppe', subtitle: 'Mit deinen Leuten.', description: 'Deine Leute. Eure Challenge.', detail: 'Private Gruppen-Challenges für 3 bis 20 Personen kommen als Nächstes. Einladungen, gemeinsame Fortschritte und Ergebnisse bleiben in eurer Gruppe.' },
+  { id: 'global', title: 'Global', subtitle: 'Miss dich mit den Besten der Welt.', description: 'Wie weit kommst du?', detail: 'Hier findest du künftig die öffentlichen Challenges und Rankings. Deine privaten Battle-Ergebnisse bleiben davon getrennt.' },
 ] as const;
 type Mode = typeof modes[number];
 
@@ -48,7 +48,6 @@ export default function App() {
                 {modes.map(mode => (
                   <View key={mode.id} style={styles.tileColumn}>
                   <Pressable accessibilityRole="button" accessibilityLabel={`${mode.title}. ${mode.subtitle}`} accessibilityHint="Öffnet den Einstieg für diesen Modus" onPress={() => setSelected(mode)} style={({ pressed }) => [styles.tile, pressed && styles.pressed]}>
-                    <Text accessible={false} style={styles.number}>{mode.symbol}</Text>
                     <Text style={styles.tileTitle}>{mode.title}</Text>
                   </Pressable>
                   <Text style={styles.subtitle}>{mode.subtitle}</Text>
@@ -75,7 +74,6 @@ const styles = StyleSheet.create({
   tileColumn: { flex: 1, minWidth: 0 },
   tile: { width: '100%', aspectRatio: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 16, padding: 8, backgroundColor: '#202224', borderWidth: 1, borderColor: '#494b4d' },
   pressed: { backgroundColor: '#34302a', borderColor: '#ff8c00' },
-  number: { color: '#ff8c00', fontWeight: '700', fontSize: 20, marginBottom: 4 },
   tileTitle: { color: '#ffffff', fontWeight: '700', fontSize: 16, textAlign: 'center' },
   subtitle: { color: '#cccccc', fontSize: 14, lineHeight: 21, marginTop: 12 },
   footer: { color: '#aaaaaa', fontSize: 14, lineHeight: 22, marginTop: 32 },

@@ -12,7 +12,7 @@ describe('Mobile-Einstieg', () => {
   });
 
   it.each([
-    ['1 gegen 1. Fordere jemanden heraus.', '1 gegen 1'],
+    ['1 vs 1. Fordere jemanden heraus.', '1 vs 1'],
     ['Gruppe. Mit deinen Leuten.', 'Gruppe'],
     ['Global. Miss dich mit den Besten der Welt.', 'Global'],
   ])('öffnet %s und kehrt zur Startseite zurück', async (label, title) => {

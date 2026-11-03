@@ -9,6 +9,8 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Mobile-Kacheln auf „1 vs 1“, „Gruppe“, „Global“ ohne dekorative Nummern reduziert; Untertexte erhalten.
+
 - [x] Drei Mobile-Startkacheln auf gewünschtes quadratisches 1:1-Format mit Unterzeilen umgestellt.
 
 - [x] Lokale interaktive Geräte-Vorschau für iPhone 14 Pro und Galaxy S26 mit Umschaltung und Zoom unter `npm run simulator` ergänzt.
