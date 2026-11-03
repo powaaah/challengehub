@@ -49,8 +49,8 @@ export default function App() {
                   <View key={mode.id} style={styles.tileColumn}>
                   <Pressable accessibilityRole="button" accessibilityLabel={`${mode.title}. ${mode.subtitle}`} accessibilityHint="Öffnet den Einstieg für diesen Modus" onPress={() => setSelected(mode)} style={({ pressed }) => [styles.tile, pressed && styles.pressed]}>
                     <Text style={styles.tileTitle}>{mode.title}</Text>
+                    <Text style={styles.subtitle}>{mode.subtitle}</Text>
                   </Pressable>
-                  <Text style={styles.subtitle}>{mode.subtitle}</Text>
                   </View>
                 ))}
               </View>
@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
   intro: { color: '#cccccc', fontSize: 17, lineHeight: 26, marginTop: 16, marginBottom: 32 },
   tiles: { flexDirection: 'row', alignItems: 'stretch', gap: 8 },
   tileColumn: { flex: 1, minWidth: 0 },
-  tile: { width: '100%', aspectRatio: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 16, padding: 8, backgroundColor: '#202224', borderWidth: 1, borderColor: '#494b4d' },
+  tile: { width: '100%', aspectRatio: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 16, padding: 4, backgroundColor: '#202224', borderWidth: 1, borderColor: '#494b4d' },
   pressed: { backgroundColor: '#34302a', borderColor: '#ff8c00' },
-  tileTitle: { color: '#ffffff', fontWeight: '700', fontSize: 16, textAlign: 'center' },
-  subtitle: { color: '#cccccc', fontSize: 14, lineHeight: 21, marginTop: 12 },
+  tileTitle: { color: '#ffffff', fontWeight: '700', fontSize: 16, lineHeight: 18, textAlign: 'center' },
+  subtitle: { color: '#cccccc', fontSize: 12, lineHeight: 14, marginTop: 4, textAlign: 'center', alignSelf: 'stretch' },
   footer: { color: '#aaaaaa', fontSize: 14, lineHeight: 22, marginTop: 32 },
   destination: { gap: 12 },
   back: { minHeight: 48, justifyContent: 'center', alignSelf: 'flex-start', paddingRight: 20 },

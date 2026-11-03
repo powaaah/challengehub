@@ -3056,3 +3056,9 @@
 
 - Dekorative Nummern 01/02/03 samt Daten und Styles entfernt, Duell-Titel auf „1 vs 1“ geändert. Quadratische Kacheln und Untertexte bleiben erhalten.
 - Mobile-Lint, TypeScript, vier Navigationstests und Web-Export bestanden. Browserprüfung bei 393/412 px bestätigt Quadrate ohne Nummerierung und neuen Titel. Keine Produktionsänderung.
+
+
+## 2026-11-03 - Beschreibung innerhalb der Kacheln
+
+- Auf Nutzerwunsch Beschreibung direkt unter den Titel in jede quadratische Startkachel gesetzt. Schriftgröße/Zeilenhöhe und Innenabstände angepasst.
+- Lint, TypeScript, vier Tests und Web-Export bestanden. Browserprüfung bei 320/393/412 px bestätigt, dass Titel und Beschreibung vollständig innerhalb der Kacheln liegen; 393-px-Ansicht visuell geprüft. Keine Produktionsänderung.

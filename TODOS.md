@@ -9,6 +9,8 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Beschreibungstexte auf Wunsch innerhalb der quadratischen Mobile-Kacheln direkt unter dem Titel platziert.
+
 - [x] Mobile-Kacheln auf „1 vs 1“, „Gruppe“, „Global“ ohne dekorative Nummern reduziert; Untertexte erhalten.
 
 - [x] Drei Mobile-Startkacheln auf gewünschtes quadratisches 1:1-Format mit Unterzeilen umgestellt.
