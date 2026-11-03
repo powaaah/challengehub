@@ -29,7 +29,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "jest --runInBand",
-    "export:native": "expo export --platform ios --platform android"
+    "export:native": "expo export --platform ios --platform android",
+    "simulator": "expo export --platform web --output-dir dist-web && node preview/server.mjs"
   },
   "private": true
 }

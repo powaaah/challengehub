@@ -3036,3 +3036,11 @@
 - Verifikation: 282 bestehende Tests, Web-Lint und Next-Build bestanden. Mobile-Typecheck, Lint, vier Navigation-/Starttests und native iOS-/Android-Exports bestanden. Expo Doctor 20/20 nach Aktivierung der Node-Proxy-Unterstützung; zuvor waren zwei Netzwerkprüfungen nicht erreichbar. Web-Export und lokale Browserprüfung bei 320/390/768/1440 px: gleiche Kachelbreiten in einer Reihe und alle Hin-/Zurückwege; keine JavaScript-Fehler. 320-px-Screenshot visuell geprüft und Textumbrüche verbessert.
 - Grenzen: keine APK/IPA, Emulator-/Geräteprüfung, native Anmeldung, API-Anbindung oder echten Battles. Die Ziele weisen auf kommende Funktionen hin; keine Demo-Ergebnisse, Produktionszugriffe, Migrationen, Deployments oder Store-Veröffentlichung. Expo-Exports sind keine nativen Testbuilds.
 - Nächster Schritt: PR reviewen; danach Session-/Katalog-Slice und Geräteabnahme gemäß ADR.
+
+
+## 2026-11-03 - Interaktive Handy-Vorschau
+
+- Browser-Vorschau mit iPhone-14-Pro- und Galaxy-S26-Rahmen, Status-/Gestenbereichen, Gerätewechsel und Zoom ergänzt. Die echte Expo-Web-App läuft im iframe und bleibt bedienbar. Galaxy-Viewport ausdrücklich als Annahme markiert.
+- `npm run simulator` exportiert Web und startet einen lokalen Node-Server auf 127.0.0.1:8096; keine neuen Dependencies, kein Deployment. Anleitung in apps/mobile/README.md.
+- Verifikation: Mobile-Lint und TypeScript bestanden, Web-Export erfolgreich. Browserprüfung beider Geräte inklusive Global-Einstieg/Zurück, iframe-Breiten 393/412 und Zoom erfolgreich; keine JavaScript-Fehler. iPhone-Vorschau visuell geprüft.
+- Grenze: Bildschirmvorschau, keine native Betriebssystem- oder Hardware-Emulation.

@@ -34,3 +34,13 @@ Das URL-Scheme allein implementiert keine Einladung und keine Deferred Links.
 Die Website bleibt am Repository-Root mit ihren bisherigen npm-Kommandos.
 Mobile-Abhängigkeiten/Lockfile werden separat gepflegt, damit unterschiedliche
 React-Versionen die Website nicht verändern. Kein Deployment in diesem Slice.
+
+## Handy-Vorschau am Rechner
+
+`npm run simulator` baut die Web-Vorschau und startet einen ausschließlich lokalen
+Server. Öffne **http://localhost:8096/simulator**. Umschaltbar: iPhone 14 Pro
+(393 × 852 logische Pixel) und Galaxy S26 (angenommener Android-Viewport
+412 × 915). Rahmen, Statusbereich und Gestenleiste umgeben die echte interaktive
+Web-App. Der Größenregler skaliert die Vorschau, ohne die Layoutbreite zu ändern.
+Keine native OS-Emulation; Android-Anzeigeeinstellungen können abweichen.
+Zum Beenden Strg+C drücken.

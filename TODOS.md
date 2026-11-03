@@ -9,6 +9,8 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Lokale interaktive Geräte-Vorschau für iPhone 14 Pro und Galaxy S26 mit Umschaltung und Zoom unter `npm run simulator` ergänzt.
+
 - [x] Issue #12: Architektur-ADR und isoliertes Expo-Grundgerüst mit drei horizontalen Startkacheln und Navigation umgesetzt; Tests, TypeScript, Lint, native Exports und Web-Layout geprüft. Siehe `docs/mobile-architecture.md`.
 - [ ] Mobile-PR reviewen; installierbare iOS-/Android-Testbuilds und Geräteabnahme folgen separat.
 - [ ] Mobile-Folgeslices: native Session-API, privates Battle-Modell, Einladungen, Wertungen und Geräte-/Beta-Tests.
