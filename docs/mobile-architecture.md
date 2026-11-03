@@ -91,6 +91,20 @@ Persistierte Daten werden beim Lesen validiert; Fehler sperren Schreibzugriffe.
 Eine spätere Serverübernahme benötigt einen expliziten Vertrag für Gastbesitz,
 Validierung/Moderation und Idempotenz; lokale IDs sind keine Zugriffsschlüssel.
 
+### Aktualisierung: Persönliche lokale Teilnahme (2026-11-03)
+
+Katalogeinträge und lokale Vorlagen können als persönlicher Versuch gestartet
+werden. Definition/Regeln und Zeitraum werden kopiert; die gespeicherte
+Gerätezeitzone bestimmt Kalendertage und exklusive Endgrenze. Einträge werden
+separat versioniert gespeichert, nicht in globale Ergebnisse übernommen.
+`calculateChallengeOutcome` liefert Summen/Bestwerte; täglicher Fortschritt zählt
+maximal einen Eintrag pro Tag bezogen auf die gewählte Dauer. Zielerreichung und
+bloßer Ablauf werden getrennt dargestellt. Die Geräteuhr ist keine vertrauenswürdige
+Zeitquelle für spätere Battles; dort bleiben serverseitige Prüfung/Idempotenz nötig.
+Body Transformation ist wegen der abweichenden Wertungsregeln nicht startbar.
+Bei fehlender API-Tagesdauer wird ein persönliches Zeitfenster ausdrücklich
+gewählt; dies erzeugt keine öffentliche Wertung oder neue Challenge-Definition.
+
 ## Vorgeschlagenes additives Datenmodell (nächster Slice)
 
 Alle IDs serverseitig erzeugen, Zeiten als UTC speichern, Fremdschlüssel auf

@@ -9,6 +9,8 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Persönliche Challenge-Teilnahme ohne Login: Start aus Katalog/eigener Vorlage, Regel-/Zeitraum-Snapshot, tägliche oder metrische Einträge, Verlauf und Abschluss unter „Meine Challenges“, lokale Persistenz und bestätigtes Löschen.
+
 - [x] Plus-Button mit lokalem Erstellungsformular, Vorschau, dauerhaftem Gerätespeicher und Liste eigener Challenges samt bestätigtem Löschen verbunden. Kein Login oder Upload.
 
 - [x] Mobile-Gast-Katalog: vorhandene öffentliche API ohne Login, Modi → Katalog → Regeln/Ziele/Tipps, Nachladen, Lade-/Leer-/Fehlerzustände und lokaler Web-Proxy.

@@ -46,8 +46,34 @@ Die bestehende Challenge-Definition wird für Wertungsarten wiederverwendet;
 Grenzen für Titel, Ziel, Regeln und Dauer entsprechen den bestehenden Textgrenzen.
 Nach diesem Update einmal `npm ci` ausführen (neue native Speicherabhängigkeit).
 
-Battle-Erstellung, Einladungen, Check-ins und Rankings folgen als Gastabläufe
-in eigenen Slices. Login ist keine Voraussetzung für den hier gebauten Ablauf.
+## Persönliche Teilnahme und Fortschritt
+
+Bestehende oder eigene Challenge öffnen → „Challenge starten“ → Fortschritt.
+Wenn die öffentliche API keine feste Tagesdauer liefert, wird vor dem Start ein
+persönliches Zeitfenster gewählt (1–365 Tage; Regeln beachten). Einmalige Ziele
+schlagen einen Tag vor, tägliche/kumulative Ziele 30 Tage. Body Transformation
+bleibt wegen ihrer speziellen Messwert-/Bildlogik vom Start ausgeschlossen.
+
+„Meine Challenges“ auf der Startseite trennt laufende und beendete Versuche.
+Tägliche Challenges erlauben einen Haken pro Kalendertag. Kumulative Einträge
+werden addiert; bei einmaligen Ergebnissen zählt je nach Richtung der höchste
+oder niedrigste positive Wert. Bei Zielerreichung wird der Versuch abgeschlossen;
+ein ohne Zielerreichung abgelaufener Zeitraum heißt ausdrücklich „Zeitraum beendet“.
+Verläufe lassen sich nach Bestätigung löschen; die Vorlage bleibt erhalten.
+
+Beim Start werden Regeln, Definition, Dauer und Gerätezeitzone festgehalten.
+Heute zählt als Tag 1; das Ende ist die lokale Mitternacht nach dem letzten Tag
+(exklusive Endgrenze). Einträge vor Start, nach Ende, nach Abschluss und doppelte
+Tageshaken werden abgewiesen. Reisen verändern die festgelegte Zeitzone nicht.
+Diese lokale Zeitprüfung verwendet die Geräteuhr und ist kein manipulationssicherer
+Wettbewerbsnachweis. Ein offener Versuch derselben Quelle wird wieder geöffnet.
+
+Fortschritt liegt separat unter `challengehub.participations.v1` im Gerätespeicher
+(maximal 100 Versuche mit je 2000 Einträgen); Regeln werden beim Lesen validiert.
+Beschädigte Daten blockieren neue Schreibvorgänge. Speicherfehler erhalten den
+bisherigen Zustand und erlauben erneutes Speichern. Keine Synchronisierung,
+Einladungen, privaten Battles oder öffentlichen Ranglisteneinträge; diese folgen
+in eigenen Slices. Kein Login für die hier gebauten Abläufe.
 
 ```sh
 npm run typecheck

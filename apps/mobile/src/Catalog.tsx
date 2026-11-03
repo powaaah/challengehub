@@ -1,3 +1,5 @@
+import { StartParticipation } from './StartParticipation';
+import type { ParticipationStore } from './useParticipations';
 import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { createCatalogClient, type CatalogChallenge } from './catalog-client';
@@ -69,7 +71,7 @@ export function Catalog({ onSelect }: Props) {
   );
 }
 
-export function ChallengeDetails({ challenge, mode }: { challenge: CatalogChallenge; mode: string }) {
+export function ChallengeDetails({ challenge, mode, runs, onOpen }: { challenge: CatalogChallenge; mode: string; runs: ParticipationStore; onOpen: (id: string) => void }) {
   return <View style={styles.list}>
     <Text style={styles.meta}>{mode} · {challenge.durationLabel}</Text>
     <Text accessibilityRole="header" style={styles.detailTitle}>{challenge.title}</Text>
@@ -80,7 +82,7 @@ export function ChallengeDetails({ challenge, mode }: { challenge: CatalogChalle
     {challenge.rules.map((rule, index) => <Text key={index} style={styles.body}>{index + 1}. {rule}</Text>)}
     {challenge.tips.length > 0 && <Text accessibilityRole="header" style={styles.section}>Tipps für dich</Text>}
     {challenge.tips.map((tip, index) => <Text key={index} style={styles.body}>• {tip}</Text>)}
-    <View style={styles.card}><Text style={styles.body}>{mode === 'Global' ? 'Die öffentlichen Rankings und die Teilnahme folgen als Nächstes.' : 'Deine Challenge ist ausgewählt. Das Erstellen und Einladen als Gast folgt als Nächstes.'}</Text></View>
+    <StartParticipation key={challenge.slug} store={runs} onOpen={onOpen} source={{ sourceKey: `public:${challenge.slug}`, title: challenge.title, goal: challenge.goal, rules: challenge.rules, definition: challenge.definition, durationDays: challenge.durationDays }} />
   </View>;
 }
 

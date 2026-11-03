@@ -1,3 +1,5 @@
+import { StartParticipation } from './StartParticipation';
+import type { ParticipationStore } from './useParticipations';
 import { useState } from 'react';
 import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -5,7 +7,7 @@ import type { LocalChallengeStore } from './useLocalChallenges';
 import type { LocalChallenge } from './local-challenges';
 import { formStyles as s, scoringLabel } from './CreateChallengeForm';
 
-export function LocalChallengeLibrary({ store }: { store: LocalChallengeStore }) {
+export function LocalChallengeLibrary({ store, runs, onOpen }: { store: LocalChallengeStore; runs: ParticipationStore; onOpen: (id: string) => void }) {
   const [selected, setSelected] = useState<LocalChallenge | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -38,6 +40,7 @@ export function LocalChallengeLibrary({ store }: { store: LocalChallengeStore })
           <Text style={s.body}>{scoringLabel(selected)}</Text>
           <Text style={s.label}>Dein Ziel</Text><Text style={s.body}>{selected.goal}</Text>
           <Text style={s.label}>Regeln</Text>{selected.rules.map((rule, index) => <Text key={index} style={s.body}>{index + 1}. {rule}</Text>)}
+          <StartParticipation key={selected.id} source={{ ...selected, sourceKey: selected.id }} store={runs} onOpen={id => { close(); onOpen(id); }} />
           {!!error && <Text accessibilityRole="alert" style={s.error}>{error}</Text>}
           {confirmDelete ? <>
             <Text style={s.body}>Diese Challenge endgültig von diesem Gerät löschen?</Text>
