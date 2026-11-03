@@ -1,3 +1,5 @@
+import { GuestDuels } from './src/GuestDuels';
+import type { DuelSource } from '../../domain/guest-duels/types';
 import { MyChallenges } from './src/MyChallenges';
 import { useParticipations } from './src/useParticipations';
 import { LocalChallengeLibrary } from './src/LocalChallengeLibrary';
@@ -20,6 +22,7 @@ type Mode = typeof modes[number];
 export default function App() {
   const localChallenges = useLocalChallenges();
   const runs = useParticipations();
+  const [duelSource, setDuelSource] = useState<DuelSource | null>(null);
   const [runId, setRunId] = useState<string | null>(null);
   function openRun(id: string) { setSelected(null); setChallenge(null); setRunId(id); }
   const [selected, setSelected] = useState<Mode | null>(null);
@@ -47,7 +50,7 @@ export default function App() {
               <Pressable accessibilityRole="button" accessibilityLabel={challenge ? "Zurück zum Katalog" : "Zurück zur Startseite"} onPress={() => challenge ? setChallenge(null) : setSelected(null)} style={styles.back}>
                 <Text style={styles.backText}>← Zurück</Text>
               </Pressable>
-              {challenge ? <ChallengeDetails challenge={challenge} mode={selected.title} runs={runs} onOpen={openRun} /> : <>
+              {challenge ? <ChallengeDetails challenge={challenge} mode={selected.title} onDuel={setDuelSource} runs={runs} onOpen={openRun} /> : <>
                 <Text accessibilityRole="header" style={styles.heading}>{selected.title}</Text>
                 <Text style={styles.intro}>{selected.description}</Text>
               </>}
@@ -71,10 +74,11 @@ export default function App() {
                 ))}
               </View>
               <MyChallenges store={runs} selectedId={runId} onSelect={setRunId} />
-              <LocalChallengeLibrary store={localChallenges} runs={runs} onOpen={openRun} />
+              <LocalChallengeLibrary onDuel={setDuelSource} store={localChallenges} runs={runs} onOpen={openRun} />
               <Text style={styles.footer}>Deine Challenge. Dein nächster Schritt.</Text>
             </View>
           )}
+          <GuestDuels source={duelSource} onClear={() => setDuelSource(null)} />
         </ScrollView>
         <CreateChallengeButton store={localChallenges} onSaved={() => { setSelected(null); setChallenge(null); }} />
       </SafeAreaView>

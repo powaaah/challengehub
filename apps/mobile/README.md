@@ -71,9 +71,7 @@ Wettbewerbsnachweis. Ein offener Versuch derselben Quelle wird wieder geöffnet.
 Fortschritt liegt separat unter `challengehub.participations.v1` im Gerätespeicher
 (maximal 100 Versuche mit je 2000 Einträgen); Regeln werden beim Lesen validiert.
 Beschädigte Daten blockieren neue Schreibvorgänge. Speicherfehler erhalten den
-bisherigen Zustand und erlauben erneutes Speichern. Keine Synchronisierung,
-Einladungen, privaten Battles oder öffentlichen Ranglisteneinträge; diese folgen
-in eigenen Slices. Kein Login für die hier gebauten Abläufe.
+bisherigen Zustand und erlauben erneutes Speichern. Persönliche Versuche werden nicht synchronisiert und erscheinen nicht in öffentlichen Ranglisten. Gemeinsame Gast-Duelle sind davon getrennt (siehe unten). Kein Login für die hier gebauten Abläufe.
 
 ```sh
 npm run typecheck
@@ -105,3 +103,22 @@ Server. Öffne **http://localhost:8096/simulator**. Umschaltbar: iPhone 14 Pro
 Web-App. Der Größenregler skaliert die Vorschau, ohne die Layoutbreite zu ändern.
 Keine native OS-Emulation; Android-Anzeigeeinstellungen können abweichen.
 Zum Beenden Strg+C drücken.
+
+
+## Gemeinsame Gast-Duelle (lokaler Test)
+
+Voraussetzung: Node.js 24, `npm ci` in `apps/mobile`. Nach `npm run simulator`:
+
+1. „1 vs 1“ → Challenge → „Gemeinsames Duell anlegen“ (auch aus eigenen Vorlagen möglich).
+2. Namen und 1–7 Kalendertage wählen, Duell anlegen und Einladungslink erzeugen.
+3. Link in einem privaten Browserfenster oder anderen Browser öffnen; zweiten Namen eingeben.
+4. Im Gastgeberfenster starten. Beide können manuelle Ergebnisse speichern und anschließend „Ich bin fertig“ bestätigen.
+5. Beide Abschlüsse oder das Zeitende ergeben den gemeinsamen Endstand. UTC-Tageswechsel; heute zählt als erster Tag. Kleinere positive Zeitwerte gewinnen, sonst der höhere Wert; Gleichstand ist möglich.
+
+Der lokale Server speichert diese Duelle in der ignorierten Datei `.data/guest-duels.sqlite` am Repository-Root. Er leitet **keine Schreibanfragen an Produktion** weiter. Einladung im URL-Fragment, 24 Stunden gültig und für genau einen Gegner; Neuausstellung ersetzt den alten Link. Gastzugänge laufen nach 30 Tagen ab, Duelle sind 30 Tage ab Erstellung verfügbar. Kein Wiederherstellen ohne erhaltenen Gastzugang: Web verwendet pro Tab `sessionStorage`, native Vorbereitung `expo-secure-store`. Kein Account nötig. Gastgeheimnisse und Einladungen liegen serverseitig nur gehasht vor.
+
+Der Link mit `localhost` funktioniert nur auf diesem Rechner. Native geräteübergreifende Einladung/Deep Links, HealthKit/Health Connect und eine öffentliche Testumgebung sind **noch nicht eingerichtet**. Die native API-Vorbereitung verlangt `EXPO_PUBLIC_GUEST_DUEL_URL=https://…`; ohne diese Konfiguration gibt es einen erklärenden Hinweis. Kein automatisches Ausweichen auf die Produktions-API.
+
+Die optionale Next-Route `/api/v1/guest-duels` bleibt standardmäßig 404 und öffnet keine Datenbank. Nur ein ausdrücklich konfigurierter Testbetrieb mit `CHALLENGEHUB_GUEST_DUELS_ENABLED=1` aktiviert sie; optional separate Datei über `CHALLENGEHUB_GUEST_DUELS_DB_PATH`. Keine Variablen auf einem Server gesetzt, kein Deployment. Next verwendet derzeit ein gemeinsames Rate-Limit; vor öffentlichem Betrieb sind vertrauenswürdige Proxy-IP-Auswertung und Betriebskonzept nötig.
+
+Prüfungen vom Repository-Root: `node --test tests/guest-duels.test.mts`. Bei laufender Vorschau prüft `node scripts/mobile-duels-smoke.mjs` zwei unabhängige Browser-Kontexte einschließlich Wiederöffnen nach Reload. Der Test legt lokale Gast-Duelle an.

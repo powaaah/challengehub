@@ -5,8 +5,19 @@
     "version": "0.1.0",
     "scheme": "challengehub",
     "userInterfaceStyle": "dark",
-    "platforms": ["ios", "android", "web"],
-    "ios": { "supportsTablet": true },
-    "android": { "permissions": [] }
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "permissions": []
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
   }
 }

@@ -1,3 +1,4 @@
+import type { DuelSource } from '../../../domain/guest-duels/types';
 import { StartParticipation } from './StartParticipation';
 import type { ParticipationStore } from './useParticipations';
 import { useEffect, useRef, useState } from 'react';
@@ -71,7 +72,7 @@ export function Catalog({ onSelect }: Props) {
   );
 }
 
-export function ChallengeDetails({ challenge, mode, runs, onOpen }: { challenge: CatalogChallenge; mode: string; runs: ParticipationStore; onOpen: (id: string) => void }) {
+export function ChallengeDetails({ challenge, mode, runs, onOpen, onDuel }: { challenge: CatalogChallenge; mode: string; onDuel?: (source: DuelSource) => void; runs: ParticipationStore; onOpen: (id: string) => void }) {
   return <View style={styles.list}>
     <Text style={styles.meta}>{mode} · {challenge.durationLabel}</Text>
     <Text accessibilityRole="header" style={styles.detailTitle}>{challenge.title}</Text>
@@ -82,6 +83,7 @@ export function ChallengeDetails({ challenge, mode, runs, onOpen }: { challenge:
     {challenge.rules.map((rule, index) => <Text key={index} style={styles.body}>{index + 1}. {rule}</Text>)}
     {challenge.tips.length > 0 && <Text accessibilityRole="header" style={styles.section}>Tipps für dich</Text>}
     {challenge.tips.map((tip, index) => <Text key={index} style={styles.body}>• {tip}</Text>)}
+    {mode === '1 vs 1' && challenge.slug !== '100-tage-body-transformation' && onDuel && <Pressable accessibilityRole="button" style={styles.button} onPress={() => onDuel({ ...challenge, sourceKey: `public:${challenge.slug}`, durationDays: challenge.durationDays })}><Text style={styles.link}>Gemeinsames Duell anlegen</Text></Pressable>}
     <StartParticipation key={challenge.slug} store={runs} onOpen={onOpen} source={{ sourceKey: `public:${challenge.slug}`, title: challenge.title, goal: challenge.goal, rules: challenge.rules, definition: challenge.definition, durationDays: challenge.durationDays }} />
   </View>;
 }

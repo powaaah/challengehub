@@ -1,4 +1,5 @@
 import http from 'node:http';
+import guestDuels from './guest-duels.cjs';
 import proxyCatalog from './catalog-proxy.cjs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -9,6 +10,7 @@ const preview = fileURLToPath(new URL('./index.html', import.meta.url));
 const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
 const server = http.createServer(async (request, response) => {
   try {
+    if (await guestDuels(request, response)) return;
     if (await proxyCatalog(request, response)) return;
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
     const filename = pathname === '/simulator' ? preview : path.resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
