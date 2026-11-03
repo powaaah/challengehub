@@ -30,6 +30,22 @@ dieser Host CORS erlauben. Die Variable ist öffentlich und darf keine Secrets
 enthalten. Bei Unternehmensproxy kann unter Node 24 `NODE_USE_ENV_PROXY=1`
 für den lokalen Server nötig sein.
 
+Über den weißen Plus-Button lassen sich jetzt eigene Challenges lokal erstellen:
+Titel, Ziel, Dauer (1–365 Tage), Regeln und Wertung (täglich abhaken, Werte sammeln
+oder einmaliges Ergebnis mit Einheit/Zielrichtung). Vorschau vor dem Speichern;
+„Deine eigenen Challenges“ auf der Startseite erlaubt Öffnen und bestätigtes Löschen.
+
+Speicherung via AsyncStorage unter `challengehub.local-challenges.v1` (Web:
+Browser-Speicher dieses Ursprungs; native App: Gerätespeicher), maximal 100 Einträge.
+Keine Registrierung, kein Upload und keine Veröffentlichung. Einträge überleben
+das Neuladen, gehen aber bei Löschen der Browser-/App-Daten verloren und werden
+nicht zwischen Geräten oder Browser-Ursprüngen synchronisiert. Keine Zugangstokens
+in diesem Speicher. Beschädigte/unbekannte Speicherdaten sperren neue Schreibzugriffe,
+statt vorhandene Daten zu überschreiben; ein erneuter Leseversuch ist möglich.
+Die bestehende Challenge-Definition wird für Wertungsarten wiederverwendet;
+Grenzen für Titel, Ziel, Regeln und Dauer entsprechen den bestehenden Textgrenzen.
+Nach diesem Update einmal `npm ci` ausführen (neue native Speicherabhängigkeit).
+
 Battle-Erstellung, Einladungen, Check-ins und Rankings folgen als Gastabläufe
 in eigenen Slices. Login ist keine Voraussetzung für den hier gebauten Ablauf.
 

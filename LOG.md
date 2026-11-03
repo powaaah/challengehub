@@ -3078,3 +3078,11 @@
 - Großen weißen Kreis (72 px) mit schwarzem Plus unten rechts ergänzt, mit Safe-Area-Abstand und Accessibility-Label „Neue Challenge erstellen“. Zusätzlicher Inhaltsabstand verhindert verdeckte letzte Einträge.
 - Button öffnet vorerst einen schließbaren Hinweis auf die noch folgende Erstellung ohne Login; keine vorgetäuschte Speicherung.
 - Mobile-Lint, TypeScript, neun bestehende Tests und Web-Export bestanden. Browserprüfung bei 393/412 px bestätigt Größe, Farbe, Position und Öffnen/Schließen; Ansicht visuell geprüft. Keine Produktionsänderung.
+
+
+## 2026-11-03 - Eigene Challenges ohne Login lokal erstellen
+
+- Plus-Button öffnet vollständiges Formular mit Titel, Ziel, Dauer, Regeln und den bestehenden Wertungstypen (täglich, kumulativ, einmalig mit Einheit/Zielrichtung). Vorschau, Korrektur und Speicherung mit Erfolg erst nach bestätigtem Schreibzugriff.
+- Eigene Challenges erscheinen getrennt vom öffentlichen Katalog auf der Startseite; Details und bestätigtes Löschen ergänzt. AsyncStorage 2.2.0 SDK-kompatibel installiert; versioniertes Format, max. 100 Einträge, Lesefehler/ungültige Daten blockieren überschreibende Schreibzugriffe. Schutz gegen doppelte Speicherklicks, Fehler mit Retry. Keine Gastidentität als Account-Ersatz oder öffentliche Veröffentlichung vorgetäuscht.
+- Verifikation: Mobile-Lint/TypeScript und Root-Lint, 20 Mobile-Tests sowie drei Proxytests bestanden. Native iOS-/Android- und Web-Exports erfolgreich. Beide Geräte-Vorschauen mit Pflichtfeldfehler, metrischer Eingabe, Vorschau, Speichern, Neuladen/Persistenz, Details, Behalten und bestätigtem Löschen geprüft; keine JavaScript-Fehler oder Netzwerk-Schreibanfragen. Vorschau visuell geprüft.
+- Grenzen: lokale Speicherung pro Gerät/Browser-Ursprung; keine Synchronisierung, Einladungen, laufenden Battles oder Server-Schreibwege. Löschen der App-/Browser-Daten entfernt eigene Einträge. Keine Produktionsänderung oder Deployment. Nächster Schritt: Gast-Battles und Einladungen auf Basis bestehender oder eigener Challenges.

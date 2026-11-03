@@ -1,3 +1,5 @@
+import { LocalChallengeLibrary } from './src/LocalChallengeLibrary';
+import { useLocalChallenges } from './src/useLocalChallenges';
 import { CreateChallengeButton } from './src/CreateChallengeButton';
 import { Catalog, ChallengeDetails } from './src/Catalog';
 import type { CatalogChallenge } from './src/catalog-client';
@@ -14,6 +16,7 @@ const modes = [
 type Mode = typeof modes[number];
 
 export default function App() {
+  const localChallenges = useLocalChallenges();
   const [selected, setSelected] = useState<Mode | null>(null);
   const [challenge, setChallenge] = useState<CatalogChallenge | null>(null);
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
@@ -62,11 +65,12 @@ export default function App() {
                   </View>
                 ))}
               </View>
+              <LocalChallengeLibrary store={localChallenges} />
               <Text style={styles.footer}>Deine Challenge. Dein nächster Schritt.</Text>
             </View>
           )}
         </ScrollView>
-        <CreateChallengeButton />
+        <CreateChallengeButton store={localChallenges} onSaved={() => { setSelected(null); setChallenge(null); }} />
       </SafeAreaView>
     </SafeAreaProvider>
   );

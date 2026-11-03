@@ -9,7 +9,7 @@ Stand: 2026-10-17
 
 ## Active
 
-- [x] Großen weißen Plus-Button unten rechts als Einstieg für neue Challenges ergänzt; eigentlicher Erstellungsablauf bleibt offen.
+- [x] Plus-Button mit lokalem Erstellungsformular, Vorschau, dauerhaftem Gerätespeicher und Liste eigener Challenges samt bestätigtem Löschen verbunden. Kein Login oder Upload.
 
 - [x] Mobile-Gast-Katalog: vorhandene öffentliche API ohne Login, Modi → Katalog → Regeln/Ziele/Tipps, Nachladen, Lade-/Leer-/Fehlerzustände und lokaler Web-Proxy.
 - [ ] Nächster Mobile-Slice: Gast-Battle-Erstellung und Einladungen mit geschütztem Gastzugang; Login-Gates erst später entscheiden.

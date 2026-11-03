@@ -80,6 +80,17 @@ keine Schreibmethoden und folgen keinen Redirects. Nur die öffentlichen
 Katalogdaten werden gelesen. Globale Rankings und private Battle-Ergebnisse
 sind weiterhin nicht implementiert.
 
+### Aktualisierung: Lokale eigene Challenges (2026-11-03)
+
+Der Plus-Button bietet Formular → Vorschau → lokale Speicherung. Für eigene
+Challenge-Entwürfe wird AsyncStorage eingesetzt (versioniertes JSON, max. 100,
+keine Tokens). Diese Einträge sind ausdrücklich nur auf diesem Gerät sichtbar,
+keine parallele Kopie des öffentlichen Katalogs und noch keine öffentlichen
+Challenges oder Battles. Wiederverwendet wird `createChallengeDefinition`.
+Persistierte Daten werden beim Lesen validiert; Fehler sperren Schreibzugriffe.
+Eine spätere Serverübernahme benötigt einen expliziten Vertrag für Gastbesitz,
+Validierung/Moderation und Idempotenz; lokale IDs sind keine Zugriffsschlüssel.
+
 ## Vorgeschlagenes additives Datenmodell (nächster Slice)
 
 Alle IDs serverseitig erzeugen, Zeiten als UTC speichern, Fremdschlüssel auf
