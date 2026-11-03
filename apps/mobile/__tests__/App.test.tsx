@@ -26,7 +26,7 @@ describe('Mobile-Einstieg ohne Login', () => {
   it('zeigt drei horizontale Kacheln und lädt erst nach Auswahl', async () => {
     await render(<App />);
     expect(screen.getByTestId('start-tiles')).toHaveStyle({ flexDirection: 'row' });
-    expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getAllByRole('button')).toHaveLength(4);
     expect(list).not.toHaveBeenCalled();
   });
 
@@ -40,7 +40,7 @@ describe('Mobile-Einstieg ohne Login', () => {
     expect(screen.getByRole('header', { name: title })).toBeOnTheScreen();
     await screen.findByRole('button', { name: 'Test-Challenge ansehen' });
     await fireEvent.press(screen.getByRole('button', { name: 'Zurück zur Startseite' }));
-    expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getAllByRole('button')).toHaveLength(4);
   });
 
   it('zeigt Regeln und Ziele und behält den geladenen Katalog beim Zurückgehen', async () => {

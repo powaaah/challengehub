@@ -3071,3 +3071,10 @@
 - Öffentliche API auf theovina.de per lesendem Request verifiziert; challengehub.de liefert derzeit 404. Native App verwendet HTTPS ohne Credentials. Lokaler Simulator und Metro-Webserver haben einen auf öffentliche Katalog-GETs begrenzten Proxy ohne Cookie-/Authorization-Weitergabe, ohne Redirects und mit Timeout. Keine Produktions-CORS-/Auth-Änderung.
 - Verifikation: 282 bestehende Tests, Root-Lint/Next-Build, Mobile-Typecheck/Lint, neun UI-/Lade-/Fehlertests und drei Proxytests bestanden. iOS-/Android- und Web-Exports erfolgreich. Beide Geräte-Vorschauen: alle drei Modi, 10 → 15 echte Challenges, Details/Ziele/Regeln, Erhalt der Liste beim Zurückgehen und Fehler/Retry bestanden; keine JavaScript-Fehler. Detailansicht visuell geprüft. Metro-Devproxy separat erfolgreich geprüft.
 - Grenzen: Gast-Battle-Erstellung, Einladungen, Check-ins und öffentliche Rankings folgen separat. Keine Schreibzugriffe auf Produktion, Migration, Veröffentlichung oder native Geräteabnahme. Architektur und README auf Gast-zuerst angepasst.
+
+
+## 2026-11-03 - Weißer Erstellen-Button
+
+- Großen weißen Kreis (72 px) mit schwarzem Plus unten rechts ergänzt, mit Safe-Area-Abstand und Accessibility-Label „Neue Challenge erstellen“. Zusätzlicher Inhaltsabstand verhindert verdeckte letzte Einträge.
+- Button öffnet vorerst einen schließbaren Hinweis auf die noch folgende Erstellung ohne Login; keine vorgetäuschte Speicherung.
+- Mobile-Lint, TypeScript, neun bestehende Tests und Web-Export bestanden. Browserprüfung bei 393/412 px bestätigt Größe, Farbe, Position und Öffnen/Schließen; Ansicht visuell geprüft. Keine Produktionsänderung.

@@ -1,3 +1,4 @@
+import { CreateChallengeButton } from './src/CreateChallengeButton';
 import { Catalog, ChallengeDetails } from './src/Catalog';
 import type { CatalogChallenge } from './src/catalog-client';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
@@ -65,6 +66,7 @@ export default function App() {
             </View>
           )}
         </ScrollView>
+        <CreateChallengeButton />
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -72,7 +74,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#101112' },
-  page: { paddingHorizontal: 16, paddingVertical: 24, width: '100%', maxWidth: 760, alignSelf: 'center', flexGrow: 1 },
+  page: { paddingHorizontal: 16, paddingVertical: 24, paddingBottom: 112, width: '100%', maxWidth: 760, alignSelf: 'center', flexGrow: 1 },
   brand: { color: '#ff8c00', fontWeight: '800', fontSize: 19, letterSpacing: 2, marginBottom: 48 },
   eyebrow: { color: '#bbbbbb', fontSize: 12, letterSpacing: 1, marginBottom: 16 },
   heading: { color: '#ffffff', fontWeight: '700', fontSize: 36, lineHeight: 43 },
