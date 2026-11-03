@@ -9,6 +9,10 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Issue #12: Architektur-ADR und isoliertes Expo-Grundgerüst mit drei horizontalen Startkacheln und Navigation umgesetzt; Tests, TypeScript, Lint, native Exports und Web-Layout geprüft. Siehe `docs/mobile-architecture.md`.
+- [ ] Mobile-PR reviewen; installierbare iOS-/Android-Testbuilds und Geräteabnahme folgen separat.
+- [ ] Mobile-Folgeslices: native Session-API, privates Battle-Modell, Einladungen, Wertungen und Geräte-/Beta-Tests.
+
 - [x] Markdown als führende Quelle für die 17 kuratierten Challenges: Migration, Validierung, atomarer DB-Abgleich, Revisionen, Archivierung bei entfernten Dateien und Schutz vorhandener Wertungen. Build-/Start-Abgleich und sieben Browser-Tests erfolgreich. Anleitung: docs/challenge-markdown-backend.md. Mit PR #8 auf theovina.de veroeffentlicht; 15 Dateien nach bestaetigter Entfernung der Liegestuetz-Journey und 10.000-Kalorien-Challenge.
 
 - [x] Leistungs-Challenges mit teilbarer Zeit-Herausforderung statt Mate-Zweitbutton umgesetzt; Liegestütz-Journey und 100 Tage Body Transformation angelegt. Bestzeit wird im Teiltext mit den Regeln verlinkt. Teilnahme, Kalendergrenze und Desktop/Mobil geprüft. Mit PR #7 veröffentlicht.

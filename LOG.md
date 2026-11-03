@@ -3026,3 +3026,13 @@
 - Git-/Build-/SQLite-Backup vor Aktivierung; nur ChallengeHub neu gestartet. Live bei 1440/390/320 px: kombinierte Ergebnisse, halbe Sterne, ungültige Teilnehmergrenzen, Reset/Abbrechen, Scrollen und www geprüft. Screenshots kontrolliert, keine JavaScript-Laufzeitfehler. Alle 24 Datenbanktabellen gegen Aktivierungsbackup unverändert, Integrität ok.
 - Bewertungen verwenden vorhandene Inhaltsmetadaten; keine neue Nutzerbewertungsfunktion. Bestehender favicon.ico-404 sowie bekannte lokale Windows-CRLF-Prüfsumme außerhalb dieses Slices. Caddy, DNS, Schema, Dependencies und unabhängige Nutzeränderungen unverändert.
 - Deployment abgeschlossen; weiterer Schritt nur bei gewünschter Anpassung der Filter oder Aufbau echter Nutzerbewertungen.
+
+
+## 2026-11-03 - Mobile-Architektur und Expo-Grundgerüst (Issue #12)
+
+- Ziel: vorhandene Architektur prüfen und den ersten mobilen Slice für iOS/Android auf separatem Branch vorbereiten. Die zunächst ausgefallene Cloud-Umgebung ist wieder erreichbar. AGENTS, Todos, Log und Personas gelesen.
+- Bestandsaufnahme: Next.js/SQLite bleiben aktiv; öffentliche v1-Katalog-API vorhanden, native Session-API und private Battle-Mitgliedschaften fehlen. ADR mit Quellpfaden, Daten-/API-Entwurf, Datenschutz, Wertungsgrenzen und Implementierungsfolge unter `docs/mobile-architecture.md`.
+- Änderungen: eigenständige Expo-58-App unter `apps/mobile`, eigenes Lockfile, drei gleichrangige horizontale Startkacheln mit Global-Unterzeile, eigene Einstiege, Safe Areas und Android-Zurück. Root-Typecheck/Lint schließen Mobile aus; Website-Abhängigkeiten und Runtime bleiben unverändert. Todos und Start-/Prüfanleitung gepflegt.
+- Verifikation: 282 bestehende Tests, Web-Lint und Next-Build bestanden. Mobile-Typecheck, Lint, vier Navigation-/Starttests und native iOS-/Android-Exports bestanden. Expo Doctor 20/20 nach Aktivierung der Node-Proxy-Unterstützung; zuvor waren zwei Netzwerkprüfungen nicht erreichbar. Web-Export und lokale Browserprüfung bei 320/390/768/1440 px: gleiche Kachelbreiten in einer Reihe und alle Hin-/Zurückwege; keine JavaScript-Fehler. 320-px-Screenshot visuell geprüft und Textumbrüche verbessert.
+- Grenzen: keine APK/IPA, Emulator-/Geräteprüfung, native Anmeldung, API-Anbindung oder echten Battles. Die Ziele weisen auf kommende Funktionen hin; keine Demo-Ergebnisse, Produktionszugriffe, Migrationen, Deployments oder Store-Veröffentlichung. Expo-Exports sind keine nativen Testbuilds.
+- Nächster Schritt: PR reviewen; danach Session-/Katalog-Slice und Geräteabnahme gemäß ADR.
