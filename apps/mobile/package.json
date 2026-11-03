@@ -30,7 +30,8 @@
     "lint": "eslint .",
     "test": "jest --runInBand",
     "export:native": "expo export --platform ios --platform android",
-    "simulator": "expo export --platform web --output-dir dist-web && node preview/server.mjs"
+    "simulator": "expo export --platform web --output-dir dist-web && node preview/server.mjs",
+    "test:proxy": "node --test preview/catalog-proxy.test.cjs"
   },
   "private": true
 }

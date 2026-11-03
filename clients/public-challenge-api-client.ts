@@ -2,7 +2,7 @@ import type {
   PublicChallengeApiEnvelope,
   PublicChallengeApiItem,
   PublicChallengeApiPage
-} from "../domain/challenges/public-challenge-api.ts";
+} from "../domain/challenges/public-challenge-api-types.ts";
 import { parseChallengeDefinition } from "../domain/challenges/challenge-definition.ts";
 
 const API_VERSION = "v1" as const;

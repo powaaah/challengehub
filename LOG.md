@@ -3062,3 +3062,12 @@
 
 - Auf Nutzerwunsch Beschreibung direkt unter den Titel in jede quadratische Startkachel gesetzt. Schriftgröße/Zeilenhöhe und Innenabstände angepasst.
 - Lint, TypeScript, vier Tests und Web-Export bestanden. Browserprüfung bei 320/393/412 px bestätigt, dass Titel und Beschreibung vollständig innerhalb der Kacheln liegen; 393-px-Ansicht visuell geprüft. Keine Produktionsänderung.
+
+
+## 2026-11-03 - Öffentlicher Mobile-Katalog ohne Login
+
+- Gemäß Nutzerentscheidung Gastabläufe priorisiert. Alle drei Modi öffnen den vorhandenen öffentlichen Challenge-Katalog; Details zeigen Ziele, Regeln und Tipps. Zehn Einträge pro Seite, Nachladen, Duplikatschutz, Lade-/Leer-/Fehlerzustände, Wiederholen, Timeout und Abbruch beim Verlassen. Katalog bleibt beim Detail-Zurückweg geladen; Android-Zurück berücksichtigt die Detailstufe.
+- Vorhandenen v1-Client/Validator wiederverwendet; DTO-Typen serverunabhängig extrahiert und alte Exporte kompatibel erhalten. Keine Katalogkopie oder neue Datenbank. Metro bindet nur die gemeinsamen clients/domain-Verzeichnisse zusätzlich ein.
+- Öffentliche API auf theovina.de per lesendem Request verifiziert; challengehub.de liefert derzeit 404. Native App verwendet HTTPS ohne Credentials. Lokaler Simulator und Metro-Webserver haben einen auf öffentliche Katalog-GETs begrenzten Proxy ohne Cookie-/Authorization-Weitergabe, ohne Redirects und mit Timeout. Keine Produktions-CORS-/Auth-Änderung.
+- Verifikation: 282 bestehende Tests, Root-Lint/Next-Build, Mobile-Typecheck/Lint, neun UI-/Lade-/Fehlertests und drei Proxytests bestanden. iOS-/Android- und Web-Exports erfolgreich. Beide Geräte-Vorschauen: alle drei Modi, 10 → 15 echte Challenges, Details/Ziele/Regeln, Erhalt der Liste beim Zurückgehen und Fehler/Retry bestanden; keine JavaScript-Fehler. Detailansicht visuell geprüft. Metro-Devproxy separat erfolgreich geprüft.
+- Grenzen: Gast-Battle-Erstellung, Einladungen, Check-ins und öffentliche Rankings folgen separat. Keine Schreibzugriffe auf Produktion, Migration, Veröffentlichung oder native Geräteabnahme. Architektur und README auf Gast-zuerst angepasst.

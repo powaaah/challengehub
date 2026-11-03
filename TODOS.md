@@ -9,6 +9,9 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Mobile-Gast-Katalog: vorhandene öffentliche API ohne Login, Modi → Katalog → Regeln/Ziele/Tipps, Nachladen, Lade-/Leer-/Fehlerzustände und lokaler Web-Proxy.
+- [ ] Nächster Mobile-Slice: Gast-Battle-Erstellung und Einladungen mit geschütztem Gastzugang; Login-Gates erst später entscheiden.
+
 - [x] Beschreibungstexte auf Wunsch innerhalb der quadratischen Mobile-Kacheln direkt unter dem Titel platziert.
 
 - [x] Mobile-Kacheln auf „1 vs 1“, „Gruppe“, „Global“ ohne dekorative Nummern reduziert; Untertexte erhalten.
@@ -19,7 +22,7 @@ Stand: 2026-10-17
 
 - [x] Issue #12: Architektur-ADR und isoliertes Expo-Grundgerüst mit drei horizontalen Startkacheln und Navigation umgesetzt; Tests, TypeScript, Lint, native Exports und Web-Layout geprüft. Siehe `docs/mobile-architecture.md`.
 - [ ] Mobile-PR reviewen; installierbare iOS-/Android-Testbuilds und Geräteabnahme folgen separat.
-- [ ] Mobile-Folgeslices: native Session-API, privates Battle-Modell, Einladungen, Wertungen und Geräte-/Beta-Tests.
+- [ ] Mobile-Folgeslices: privates Battle-Modell mit Gastzugang, Einladungen, Wertungen und Geräte-/Beta-Tests; native Kontoanbindung später optional.
 
 - [x] Markdown als führende Quelle für die 17 kuratierten Challenges: Migration, Validierung, atomarer DB-Abgleich, Revisionen, Archivierung bei entfernten Dateien und Schutz vorhandener Wertungen. Build-/Start-Abgleich und sieben Browser-Tests erfolgreich. Anleitung: docs/challenge-markdown-backend.md. Mit PR #8 auf theovina.de veroeffentlicht; 15 Dateien nach bestaetigter Entfernung der Liegestuetz-Journey und 10.000-Kalorien-Challenge.
 

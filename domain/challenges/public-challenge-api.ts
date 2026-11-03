@@ -1,41 +1,11 @@
 import type { Challenge } from "../../data/challenges.ts";
 import type { PublicChallenge } from "./public-challenge.ts";
-import type { ChallengeDefinition } from "./challenge-definition.ts";
+import type { PublicChallengeApiItem, PublicChallengeApiEnvelope, PublicChallengeApiPage } from "./public-challenge-api-types.ts";
+export type { PublicChallengeApiItem, PublicChallengeApiEnvelope, PublicChallengeApiPage } from "./public-challenge-api-types.ts";
 
 export const PUBLIC_CHALLENGE_API_VERSION = "v1" as const;
 export const PUBLIC_CHALLENGE_API_DEFAULT_LIMIT = 20;
 export const PUBLIC_CHALLENGE_API_MAX_LIMIT = 100;
-
-export type PublicChallengeApiItem = {
-  slug: string;
-  title: string;
-  level: Challenge["level"];
-  category: string | null;
-  durationDays: number | null;
-  durationLabel: string;
-  goal: string;
-  description: string;
-  rules: string[];
-  tips: string[];
-  createdAt: string;
-  creator: {
-    name: string;
-  };
-  url: string;
-  definition: ChallengeDefinition;
-};
-
-export type PublicChallengeApiEnvelope<T> = {
-  apiVersion: typeof PUBLIC_CHALLENGE_API_VERSION;
-  data: T;
-};
-
-export type PublicChallengeApiPage = PublicChallengeApiEnvelope<PublicChallengeApiItem[]> & {
-  pagination: {
-    limit: number;
-    nextCursor: string | null;
-  };
-};
 
 export type PublicChallengeApiPagination = {
   limit: number;

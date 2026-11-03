@@ -14,14 +14,30 @@ npm run android  # laufender Android-Emulator bzw. verbundenes Gerät
 npm run web      # lokale Layoutvorschau
 ```
 
-Die drei Startkacheln öffnen die jeweiligen vorbereiteten Einstiege. Anmeldung,
-Katalog, Battles und Rankings sind noch nicht angebunden. Die App ruft keine
-Produktionsdienste auf und enthält keine Demo-Ergebnisse.
+Die drei Startkacheln öffnen den öffentlichen Challenge-Katalog ohne Login.
+Challenges lassen sich auswählen; Details zeigen Ziel, Regeln und Tipps.
+Lade-, Leer- und Fehlerzustände sowie Nachladen sind implementiert. Beim Zurückgehen
+bleiben geladene Katalogseiten erhalten. Es gibt keine Demo-Ergebnisse.
+
+Native Apps lesen die vorhandene öffentliche v1-API auf `https://theovina.de`.
+`challengehub.de/api/v1/challenges` liefert derzeit 404. Die Browser-Vorschau
+und der Expo-Web-Devserver leiten ausschließlich öffentliche Katalog-GETs über
+einen lokalen Proxy weiter (keine Cookies, keine Authorization, keine Schreibwege).
+Die Website und ihre CORS-/Auth-Konfiguration werden nicht geändert.
+Internetverbindung nötig. Ein anderer HTTPS-API-Host kann über
+`EXPO_PUBLIC_API_BASE_URL` in `.env.local` eingestellt werden; im Browser muss
+dieser Host CORS erlauben. Die Variable ist öffentlich und darf keine Secrets
+enthalten. Bei Unternehmensproxy kann unter Node 24 `NODE_USE_ENV_PROXY=1`
+für den lokalen Server nötig sein.
+
+Battle-Erstellung, Einladungen, Check-ins und Rankings folgen als Gastabläufe
+in eigenen Slices. Login ist keine Voraussetzung für den hier gebauten Ablauf.
 
 ```sh
 npm run typecheck
 npm run lint
 npm test
+npm run test:proxy
 npm run export:native
 ```
 
@@ -33,7 +49,10 @@ Das URL-Scheme allein implementiert keine Einladung und keine Deferred Links.
 
 Die Website bleibt am Repository-Root mit ihren bisherigen npm-Kommandos.
 Mobile-Abhängigkeiten/Lockfile werden separat gepflegt, damit unterschiedliche
-React-Versionen die Website nicht verändern. Kein Deployment in diesem Slice.
+React-Versionen die Website nicht verändern. Metro beobachtet zusätzlich nur
+`clients` und `domain`: der vorhandene API-Client und sein Validator werden
+wiederverwendet. Die gemeinsamen DTO-Typen liegen ohne Node-/Server-Abhängigkeiten
+in `domain/challenges/public-challenge-api-types.ts`. Kein Deployment in diesem Slice.
 
 ## Handy-Vorschau am Rechner
 

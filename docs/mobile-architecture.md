@@ -58,10 +58,27 @@ Theme, deutsche Accessibility-Labels, sichtbare Zurück-Navigation und Android-
 Hardware-Zurück. Tim erhält den direkten Wettstreit-Einstieg, Stefan und Matthias
 den Gruppeneinstieg. Global trägt exakt „Miss dich mit den Besten der Welt.“
 
-Die Ziele zeigen ausdrücklich den noch ausstehenden Funktionsumfang. Es gibt
-keine Dummy-Konten, Fake-Rankings, lokale Ersatzdatenbank oder Netzwerkaufrufe.
-Login, API-Katalog und Battle-Abläufe folgen in eigenen vertikalen Slices.
-Web dient nur der lokalen Layoutprüfung; native Bundles bleiben das Hauptziel.
+### Aktualisierung: Gast-Katalog (2026-11-03)
+
+Nutzerentscheidung: zuerst alle Abläufe ohne Login entwickeln. Die frühere
+Auth-zuerst-Reihenfolge unten ist damit überholt; Login-Gates werden erst später
+gezielt entschieden. Private Gast-Battles benötigen weiterhin serverseitige
+Autorisierung über einen geschützten Gastzugang, bevor Schreibwege entstehen.
+
+Der erste funktionale Slice lädt den bestehenden öffentlichen Katalog über den
+geteilten v1-Client: Modi → paginierter Katalog → Ziele/Regeln/Tipps → zurück.
+Keine Anmeldung, Session, neue Datenbank oder Kopie des Katalogs. DTO-Typen sind
+in ein serverunabhängiges Modul ausgelagert, bisherige Exporte bleiben kompatibel.
+Native Requests verwenden HTTPS und `credentials: omit`; auf Web verwenden der
+lokale Vorschau- und Metro-Server einen auf Katalog-GETs begrenzten Proxy. Keine
+Produktions-CORS-Änderung. Aktiver öffentlicher API-Host ist `theovina.de`, während
+die kanonische Domain beim Prüfen 404 für diese API lieferte. Fehler und Timeouts
+sind sichtbar und wiederholbar; ein späterer Hostwechsel erfolgt konfiguriert.
+
+Die lokalen Proxys übertragen keine Cookies oder Authorization-Header, erlauben
+keine Schreibmethoden und folgen keinen Redirects. Nur die öffentlichen
+Katalogdaten werden gelesen. Globale Rankings und private Battle-Ergebnisse
+sind weiterhin nicht implementiert.
 
 ## Vorgeschlagenes additives Datenmodell (nächster Slice)
 
@@ -113,8 +130,8 @@ Kein Passwortspeichern und keine WebView-Cookie-Übernahme.
 ## Reihenfolge und Migrationsrisiken
 
 1. Dieses Grundgerüst samt reproduzierbaren Checks und Architekturreview.
-2. Native Session-API, SecureStore, echte Kataloganbindung mit Lade-, Fehler-,
-   Leerzustand und Pagination; Vertragstests gegen lokalen Testserver.
+2. Gast-Katalog umgesetzt. Als Nächstes geschützte Gast-Battle-Erstellung und
+   Einladungsannahme ohne Login; Konto-/Session-API erst bei späterem Bedarf.
 3. Additive Battle-Migrationen, Zugriffstests, atomare Einladungen und Grenzen
    2/3/20/21, parallele Annahme, Zeitgrenzen, Idempotenz und Gleichstand testen.
 4. Erstellen → Einladung → Raum → Check-in → Ergebnis → Revanche vollständig.

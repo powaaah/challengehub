@@ -1,42 +1,49 @@
-import { useEffect, useState } from 'react';
+import { Catalog, ChallengeDetails } from './src/Catalog';
+import type { CatalogChallenge } from './src/catalog-client';
+import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { BackHandler, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const modes = [
-  { id: 'duel', title: '1 vs 1', subtitle: 'Fordere jemanden heraus.', description: 'Ein Gegner. Eine Challenge. Euer Duell.', detail: 'Private Duelle für zwei bestätigte Konten kommen als Nächstes. Hier kannst du später eine Challenge auswählen und deinen Gegner einladen.' },
-  { id: 'group', title: 'Gruppe', subtitle: 'Mit deinen Leuten.', description: 'Deine Leute. Eure Challenge.', detail: 'Private Gruppen-Challenges für 3 bis 20 Personen kommen als Nächstes. Einladungen, gemeinsame Fortschritte und Ergebnisse bleiben in eurer Gruppe.' },
-  { id: 'global', title: 'Global', subtitle: 'Miss dich mit den Besten der Welt.', description: 'Wie weit kommst du?', detail: 'Hier findest du künftig die öffentlichen Challenges und Rankings. Deine privaten Battle-Ergebnisse bleiben davon getrennt.' },
+  { id: 'duel', title: '1 vs 1', subtitle: 'Fordere jemanden heraus.', description: 'Ein Gegner. Eine Challenge. Euer Duell.' },
+  { id: 'group', title: 'Gruppe', subtitle: 'Mit deinen Leuten.', description: 'Deine Leute. Eure Challenge.' },
+  { id: 'global', title: 'Global', subtitle: 'Miss dich mit den Besten der Welt.', description: 'Wie weit kommst du?' },
 ] as const;
 type Mode = typeof modes[number];
 
 export default function App() {
   const [selected, setSelected] = useState<Mode | null>(null);
+  const [challenge, setChallenge] = useState<CatalogChallenge | null>(null);
+  const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
+  useEffect(() => { scroll.current?.scrollTo({ y: 0, animated: false }); }, [selected, challenge]);
   useEffect(() => {
     if (!selected) return;
     const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
-      setSelected(null);
+      if (challenge) setChallenge(null);
+      else setSelected(null);
       return true;
     });
     return () => subscription.remove();
-  }, [selected]);
+  }, [selected, challenge]);
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safe}>
         <StatusBar style="light" />
-        <ScrollView contentContainerStyle={styles.page}>
+        <ScrollView ref={scroll} contentContainerStyle={styles.page}>
           <Text style={styles.brand}>CHALLENGEHUB</Text>
           {selected ? (
             <View key={selected.id} style={styles.destination}>
-              <Pressable accessibilityRole="button" accessibilityLabel="Zurück zur Startseite" onPress={() => setSelected(null)} style={styles.back}>
+              <Pressable accessibilityRole="button" accessibilityLabel={challenge ? "Zurück zum Katalog" : "Zurück zur Startseite"} onPress={() => challenge ? setChallenge(null) : setSelected(null)} style={styles.back}>
                 <Text style={styles.backText}>← Zurück</Text>
               </Pressable>
-              <Text accessibilityRole="header" style={styles.heading}>{selected.title}</Text>
-              <Text style={styles.intro}>{selected.description}</Text>
-              <View style={styles.notice}>
-                <Text style={styles.label}>BALD VERFÜGBAR</Text>
-                <Text style={styles.body}>{selected.detail}</Text>
+              {challenge ? <ChallengeDetails challenge={challenge} mode={selected.title} /> : <>
+                <Text accessibilityRole="header" style={styles.heading}>{selected.title}</Text>
+                <Text style={styles.intro}>{selected.description}</Text>
+              </>}
+              <View style={challenge ? { display: 'none' } : undefined}>
+                <Catalog onSelect={setChallenge} />
               </View>
             </View>
           ) : (
@@ -47,10 +54,10 @@ export default function App() {
               <View style={styles.tiles} testID="start-tiles">
                 {modes.map(mode => (
                   <View key={mode.id} style={styles.tileColumn}>
-                  <Pressable accessibilityRole="button" accessibilityLabel={`${mode.title}. ${mode.subtitle}`} accessibilityHint="Öffnet den Einstieg für diesen Modus" onPress={() => setSelected(mode)} style={({ pressed }) => [styles.tile, pressed && styles.pressed]}>
-                    <Text style={styles.tileTitle}>{mode.title}</Text>
-                    <Text style={styles.subtitle}>{mode.subtitle}</Text>
-                  </Pressable>
+                    <Pressable accessibilityRole="button" accessibilityLabel={`${mode.title}. ${mode.subtitle}`} accessibilityHint="Öffnet den Einstieg für diesen Modus" onPress={() => setSelected(mode)} style={({ pressed }) => [styles.tile, pressed && styles.pressed]}>
+                      <Text style={styles.tileTitle}>{mode.title}</Text>
+                      <Text style={styles.subtitle}>{mode.subtitle}</Text>
+                    </Pressable>
                   </View>
                 ))}
               </View>
@@ -80,7 +87,4 @@ const styles = StyleSheet.create({
   destination: { gap: 12 },
   back: { minHeight: 48, justifyContent: 'center', alignSelf: 'flex-start', paddingRight: 20 },
   backText: { color: '#ff8c00', fontSize: 17 },
-  notice: { padding: 20, borderRadius: 16, backgroundColor: '#202224', gap: 12 },
-  label: { color: '#ff8c00', fontSize: 12, fontWeight: '700', letterSpacing: 1 },
-  body: { color: '#cccccc', fontSize: 17, lineHeight: 27 },
 });

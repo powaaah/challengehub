@@ -6,6 +6,7 @@
       "jest",
       "react",
       "react-native"
-    ]
+    ],
+    "allowImportingTsExtensions": true
   }
 }
