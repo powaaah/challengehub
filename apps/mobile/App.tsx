@@ -46,12 +46,13 @@ export default function App() {
               <Text style={styles.intro}>Wähle, wie du dich messen willst.</Text>
               <View style={styles.tiles} testID="start-tiles">
                 {modes.map(mode => (
-                  <Pressable key={mode.id} accessibilityRole="button" accessibilityLabel={`${mode.title}. ${mode.subtitle}`} accessibilityHint="Öffnet den Einstieg für diesen Modus" onPress={() => setSelected(mode)} style={({ pressed }) => [styles.tile, pressed && styles.pressed]}>
+                  <View key={mode.id} style={styles.tileColumn}>
+                  <Pressable accessibilityRole="button" accessibilityLabel={`${mode.title}. ${mode.subtitle}`} accessibilityHint="Öffnet den Einstieg für diesen Modus" onPress={() => setSelected(mode)} style={({ pressed }) => [styles.tile, pressed && styles.pressed]}>
                     <Text accessible={false} style={styles.number}>{mode.symbol}</Text>
                     <Text style={styles.tileTitle}>{mode.title}</Text>
-                    <Text style={styles.subtitle}>{mode.subtitle}</Text>
-                    <Text accessible={false} style={styles.arrow}>↗︎</Text>
                   </Pressable>
+                  <Text style={styles.subtitle}>{mode.subtitle}</Text>
+                  </View>
                 ))}
               </View>
               <Text style={styles.footer}>Deine Challenge. Dein nächster Schritt.</Text>
@@ -71,12 +72,12 @@ const styles = StyleSheet.create({
   heading: { color: '#ffffff', fontWeight: '700', fontSize: 36, lineHeight: 43 },
   intro: { color: '#cccccc', fontSize: 17, lineHeight: 26, marginTop: 16, marginBottom: 32 },
   tiles: { flexDirection: 'row', alignItems: 'stretch', gap: 8 },
-  tile: { flex: 1, minWidth: 0, minHeight: 230, borderRadius: 16, padding: 8, backgroundColor: '#202224', borderWidth: 1, borderColor: '#494b4d' },
+  tileColumn: { flex: 1, minWidth: 0 },
+  tile: { width: '100%', aspectRatio: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 16, padding: 8, backgroundColor: '#202224', borderWidth: 1, borderColor: '#494b4d' },
   pressed: { backgroundColor: '#34302a', borderColor: '#ff8c00' },
-  number: { color: '#ff8c00', fontWeight: '700', fontSize: 24, marginBottom: 24 },
-  tileTitle: { color: '#ffffff', fontWeight: '700', fontSize: 16, marginBottom: 12 },
-  subtitle: { color: '#cccccc', fontSize: 14, lineHeight: 21, flexGrow: 1 },
-  arrow: { color: '#ff8c00', fontSize: 24, marginTop: 24 },
+  number: { color: '#ff8c00', fontWeight: '700', fontSize: 20, marginBottom: 4 },
+  tileTitle: { color: '#ffffff', fontWeight: '700', fontSize: 16, textAlign: 'center' },
+  subtitle: { color: '#cccccc', fontSize: 14, lineHeight: 21, marginTop: 12 },
   footer: { color: '#aaaaaa', fontSize: 14, lineHeight: 22, marginTop: 32 },
   destination: { gap: 12 },
   back: { minHeight: 48, justifyContent: 'center', alignSelf: 'flex-start', paddingRight: 20 },

@@ -3044,3 +3044,9 @@
 - `npm run simulator` exportiert Web und startet einen lokalen Node-Server auf 127.0.0.1:8096; keine neuen Dependencies, kein Deployment. Anleitung in apps/mobile/README.md.
 - Verifikation: Mobile-Lint und TypeScript bestanden, Web-Export erfolgreich. Browserprüfung beider Geräte inklusive Global-Einstieg/Zurück, iframe-Breiten 393/412 und Zoom erfolgreich; keine JavaScript-Fehler. iPhone-Vorschau visuell geprüft.
 - Grenze: Bildschirmvorschau, keine native Betriebssystem- oder Hardware-Emulation.
+
+
+## 2026-11-03 - Quadratische Mobile-Startkacheln
+
+- Auf Nutzerwunsch alle drei Startkacheln auf 1:1 gesetzt; Beschreibungen unter die Quadrate verschoben, horizontale Gleichrangigkeit und Navigation erhalten.
+- Mobile-Lint, TypeScript, vier Tests und Web-Export bestanden. Browserprüfung bei 320/393/412 px bestätigt gleiche Breite/Höhe aller Kacheln; 320-px-Ansicht visuell geprüft. Keine Produktionsänderung.

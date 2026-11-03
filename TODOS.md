@@ -9,6 +9,8 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Drei Mobile-Startkacheln auf gewünschtes quadratisches 1:1-Format mit Unterzeilen umgestellt.
+
 - [x] Lokale interaktive Geräte-Vorschau für iPhone 14 Pro und Galaxy S26 mit Umschaltung und Zoom unter `npm run simulator` ergänzt.
 
 - [x] Issue #12: Architektur-ADR und isoliertes Expo-Grundgerüst mit drei horizontalen Startkacheln und Navigation umgesetzt; Tests, TypeScript, Lint, native Exports und Web-Layout geprüft. Siehe `docs/mobile-architecture.md`.
