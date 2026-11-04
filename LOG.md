@@ -3111,3 +3111,10 @@
 - Auswahl der eigenen Challenge im App-Zustand geführt; Formular schließt beim Öffnen der Details.
 - Verifikation: 32 Mobile-Tests, Mobile-TypeScript, Root-/Mobile-Lint und Web-Export bestanden. Browserablauf Speichern → Zur Challenge → Details → Startseite bei 393, 412 und 1280 Pixeln geprüft.
 - Kein Deployment oder Produktionszugriff. Nächster Produktschritt: separat freizugebende gemeinsame Testumgebung für geräteübergreifende Einladungen.
+
+## 2026-11-04 – Separate Handy-Testumgebung vorbereitet, Zugriff fehlt
+
+- Nutzer hat die Umsetzung/Veröffentlichung der separaten Handy-Testumgebung ausdrücklich freigegeben. Keine erneute Freigabe für diesen Umfang erforderlich.
+- Eigenständiger Node-24-Dienst für Expo-Web-Export, öffentliche Kataloglesezugriffe und eigene SQLite-Duelldatenbank. Loopback-Listener, feste HTTPS-Origin, geprüfte Proxy-Host-/Client-IP-Header, keine Indexierung und keine Referrer. Vorlagen für getrennten systemd-Dienst, Umgebungsvariablen und zusätzlichen Caddy-Host; Installation/Rollback dokumentiert.
+- Lokaler Integrationstest prüft Proxy-/Origin-Ablehnung, zwei Gäste, Einladung, gemeinsamen Start/Abschluss, Sieger und Persistenz über Dienstneustart. Drei Katalog-Proxytests, sieben Duelltests, Root-/Mobile-Lint und Next-Build bestanden. Bestehende lokale Vorschau bleibt ohne Proxykonfiguration nutzbar.
+- Veröffentlichung blockiert: verwaltete Umgebung meldet keine eingerichteten Secrets/Identitäten und keine TCP-Ziele; kein Server-Administration-Workspace oder SSH-Zugang vorhanden. Nutzer um Verbindung des Workspace samt Zugang gebeten. Kein Zugriff auf Server, kein DNS-/Caddy-Eingriff, kein Deployment, kein öffentlicher Testlink. Nächster Schritt nach Verbindung: aktuelle Servernotizen lesen, getrennten Testhost installieren und echten HTTPS-/Zwei-Geräte-Ablauf prüfen.

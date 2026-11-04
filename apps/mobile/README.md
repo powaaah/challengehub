@@ -122,3 +122,18 @@ Der Link mit `localhost` funktioniert nur auf diesem Rechner. Native geräteübe
 Die optionale Next-Route `/api/v1/guest-duels` bleibt standardmäßig 404 und öffnet keine Datenbank. Nur ein ausdrücklich konfigurierter Testbetrieb mit `CHALLENGEHUB_GUEST_DUELS_ENABLED=1` aktiviert sie; optional separate Datei über `CHALLENGEHUB_GUEST_DUELS_DB_PATH`. Keine Variablen auf einem Server gesetzt, kein Deployment. Next verwendet derzeit ein gemeinsames Rate-Limit; vor öffentlichem Betrieb sind vertrauenswürdige Proxy-IP-Auswertung und Betriebskonzept nötig.
 
 Prüfungen vom Repository-Root: `node --test tests/guest-duels.test.mts`. Bei laufender Vorschau prüft `node scripts/mobile-duels-smoke.mjs` zwei unabhängige Browser-Kontexte einschließlich Wiederöffnen nach Reload. Der Test legt lokale Gast-Duelle an.
+
+
+## Freigegebene separate Handy-Testumgebung
+
+Der eigenständige Testdienst und die Installationsvorlagen stehen unter
+[`staging/README.md`](staging/README.md). Sie bedienen den Expo-Web-Export und
+eine eigene Duell-Datenbank hinter einem lokalen HTTPS-Proxy. Der Produktions-
+Next-Server muss dafür nicht gestartet oder verändert werden.
+
+**Status:** Veröffentlichung am 04.11.2026 freigegeben, aber noch nicht erfolgt:
+Server-Zugang und aktuelle Server-Administration-Notizen fehlen in dieser Sitzung.
+Es gibt noch keinen öffentlichen Handy-Testlink.
+
+Lokaler Integrationstest nach Web-Export, vom Repository-Root:
+`node --test apps/mobile/staging/server.test.cjs`.

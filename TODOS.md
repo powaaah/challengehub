@@ -17,7 +17,8 @@ Stand: 2026-10-17
 
 - [x] Mobile-Gast-Katalog: vorhandene öffentliche API ohne Login, Modi → Katalog → Regeln/Ziele/Tipps, Nachladen, Lade-/Leer-/Fehlerzustände und lokaler Web-Proxy.
 - [x] Gast-Duelle: lokale API, Einladung, genau zwei Gäste, gemeinsamer Start, manuelle Einträge und Ergebnisvergleich ohne Login; Zugriffsschutz und Browserablauf geprüft.
-- [ ] Separat freizugebende Testumgebung und native Einladungslinks/Geräteabnahme; HealthKit/Health Connect danach als eigener Slice.
+- [ ] Separate Handy-Testumgebung am 04.11.2026 freigegeben. Isolierter Dienst, Proxy-/Service-Vorlagen und lokale Prüfung vorbereitet; Veröffentlichung blockiert durch fehlenden Server-Zugang und fehlende Server-Administration-Notizen.
+- [ ] Native Einladungslinks/Geräteabnahme; HealthKit/Health Connect danach als eigener Slice.
 
 - [x] Beschreibungstexte auf Wunsch innerhalb der quadratischen Mobile-Kacheln direkt unter dem Titel platziert.
 
