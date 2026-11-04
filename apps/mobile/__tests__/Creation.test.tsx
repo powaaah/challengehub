@@ -99,3 +99,28 @@ test('nutzt die bestehenden Typen für kumulative und einmalige Wertung mit Komm
   expect(validateForm({ ...valid, title: 'a'.repeat(101) }).error).toBeDefined();
   expect(validateForm({ ...valid, rules: Array(21).fill('Regel').join('\n') }).error).toBeDefined();
 });
+
+test('Maximum benötigt keinen Zielwert und öffnet eine gespeicherte Challenge ohne Prozentziel', async () => {
+  await render(<App />);
+  await fillForm();
+  await fireEvent.changeText(screen.getByLabelText('Titel'), 'Max Liegestütze in 10 Minuten');
+  await fireEvent.changeText(screen.getByLabelText('Regeln – eine pro Zeile'), 'So viele saubere Liegestütze wie möglich in 10 Minuten.');
+  await fireEvent.press(screen.getByRole('radio', { name: 'Einmaliges Ergebnis' }));
+  await fireEvent.press(screen.getByRole('radio', { name: 'Maximum (Max)' }));
+  expect(screen.queryByLabelText('Zielwert')).toBeNull();
+  await fireEvent.press(screen.getByRole('button', { name: 'Vorschau' }));
+  expect(screen.getByText('30 Tage · Maximum Wiederholungen · Höchster Wert gewinnt')).toBeOnTheScreen();
+  await fireEvent.press(screen.getByRole('button', { name: 'Challenge speichern' }));
+  await fireEvent.press(await screen.findByRole('button', { name: 'Zur Challenge' }));
+  const stored = decodeChallenges(await AsyncStorage.getItem(STORAGE_KEY));
+  expect(stored[0].definition).toMatchObject({ direction: 'maximize', targetValue: null });
+  await fireEvent.press(screen.getByRole('button', { name: 'Challenge starten' }));
+  expect(screen.queryByRole('progressbar')).toBeNull();
+  await fireEvent.changeText(screen.getByLabelText('Messwert in Wiederholungen'), '45');
+  await fireEvent.press(screen.getByRole('button', { name: 'Messwert speichern' }));
+  expect(await screen.findByText('Bestleistung: 45 Wiederholungen')).toBeOnTheScreen();
+  await fireEvent.changeText(screen.getByLabelText('Messwert in Wiederholungen'), '30');
+  await fireEvent.press(screen.getByRole('button', { name: 'Messwert speichern' }));
+  expect(screen.getByText('Bestleistung: 45 Wiederholungen')).toBeOnTheScreen();
+  expect(screen.queryByText('Ziel erreicht! Dieser Versuch ist abgeschlossen.')).toBeNull();
+});

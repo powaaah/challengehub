@@ -1,7 +1,6 @@
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
-import { parseChallengeDefinition } from "../domain/challenges/challenge-definition.ts";
-import { calculateChallengeOutcome } from "../domain/challenges/challenge-outcome.ts";
+import { parseChallengeDefinition, calculateChallengeOutcome } from "../domain/challenges/competition-definition.ts";
 import { getChallengeBySlug } from "../data/challenges.ts";
 import type { DuelSource, DuelView } from "../domain/guest-duels/types.ts";
 
@@ -138,7 +137,7 @@ export class GuestDuels {
     const definition = parseChallengeDefinition(value.definition);
     if (
       !definition ||
-      definition.targetValue > 1e12 ||
+      (definition.targetValue !== null && definition.targetValue > 1e12) ||
       typeof value.title !== "string" ||
       !value.title.trim() ||
       value.title.length > 100 ||

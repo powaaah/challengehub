@@ -9,6 +9,8 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Maximum-Wertung ohne feste Zielzahl für eigene Challenges und Gast-Duelle: bester Einzelwert, keine Zielprozente oder vorzeitiger Abschluss.
+
 - [x] Nach dem Speichern einer eigenen Challenge führt „Zur Challenge“ direkt zu ihren Details; „Fertig“ bleibt als Rückweg erhalten.
 
 - [x] Persönliche Challenge-Teilnahme ohne Login: Start aus Katalog/eigener Vorlage, Regel-/Zeitraum-Snapshot, tägliche oder metrische Einträge, Verlauf und Abschluss unter „Meine Challenges“, lokale Persistenz und bestätigtes Löschen.

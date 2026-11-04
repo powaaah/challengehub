@@ -5,8 +5,9 @@ import { emptyForm, validateForm, type ChallengeForm, type ChallengeInput } from
 import type { LocalChallengeStore } from './useLocalChallenges';
 
 export const units = [['repetitions', 'Wiederholungen'], ['steps', 'Schritte'], ['kilometers', 'Kilometer'], ['kilograms', 'Kilogramm'], ['seconds', 'Sekunden'], ['minutes', 'Minuten'], ['kilocalories', 'Kilokalorien']] as const;
-export function scoringLabel(input: ChallengeInput) {
+export function scoringLabel(input: Pick<ChallengeInput, 'definition'>) {
   const d = input.definition;
+  if (d.direction === 'maximize') return `Maximum ${units.find(([key]) => key === d.unit)?.[1] ?? d.unit} · Höchster Wert gewinnt`;
   if (d.type === 'daily_boolean') return 'Täglich erledigt / nicht erledigt';
   return `${d.type === 'cumulative_metric' ? 'Insgesamt' : d.direction === 'at_most' ? 'Höchstens' : 'Mindestens'} ${d.targetValue} ${units.find(([key]) => key === d.unit)?.[1] ?? d.unit}`;
 }
@@ -63,9 +64,9 @@ export function CreateChallengeForm({ store, onClose, onSaved, onOpenChallenge }
         {field('Dauer in Tagen', 'days', false, 3)}
         {choices('Wie wird gewertet?', 'type', [['daily_boolean', 'Täglich abhaken'], ['cumulative_metric', 'Werte sammeln'], ['one_time_result', 'Einmaliges Ergebnis']])}
         {form.type !== 'daily_boolean' && <>
-          {field('Zielwert', 'target', false, 20)}
           {choices('Einheit', 'unit', units)}
-          {form.type === 'one_time_result' && choices('Zielrichtung', 'direction', [['at_least', 'Mindestens'], ['at_most', 'Höchstens']])}
+          {form.type === 'one_time_result' && choices('Zielrichtung', 'direction', [['at_least', 'Mindestens'], ['at_most', 'Höchstens'], ['maximize', 'Maximum (Max)']])}
+          {form.type === 'one_time_result' && form.direction === 'maximize' ? <Text style={formStyles.body}>Keine feste Zielanzahl. Dein höchster Wert zählt. Lege das Zeitlimit pro Versuch in den Regeln fest, zum Beispiel 10 Minuten. Die Dauer in Tagen bestimmt, wie lange ihr teilnehmen könnt.</Text> : field('Zielwert', 'target', false, 20)}
         </>}
         {field('Regeln – eine pro Zeile', 'rules', true, 6020)}
         <Pressable accessibilityRole="button" onPress={review} style={formStyles.primary}><Text style={formStyles.primaryText}>Vorschau</Text></Pressable>

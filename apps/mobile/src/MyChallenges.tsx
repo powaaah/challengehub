@@ -55,13 +55,13 @@ function ProgressScreen({ run, store, onClose }: { run: Participation; store: Pa
     <Text style={s.body}>Nur auf diesem Gerät · {run.startDay} bis {addDays(run.endDay, -1)} ({run.timeZone})</Text>
     <Text style={s.body}>{run.goal}</Text><Text style={s.body}>{scoringLabel(run)}</Text>
     <Text accessibilityRole="header" style={s.title}>{state.status}</Text>
-    <View accessible accessibilityRole="progressbar" accessibilityLabel="Dein Fortschritt" accessibilityValue={{ min: 0, max: 100, now: state.percent, text: state.label }} style={{ height: 12, borderRadius: 6, backgroundColor: '#444' }}><View style={{ width: `${state.percent}%`, height: 12, borderRadius: 6, backgroundColor: '#ff8c00' }} /></View>
-    <Text accessibilityLiveRegion="polite" style={s.body}>{state.label} · {state.percent} %</Text>
+    {state.percent !== null && <View accessible accessibilityRole="progressbar" accessibilityLabel="Dein Fortschritt" accessibilityValue={{ min: 0, max: 100, now: state.percent, text: state.label }} style={{ height: 12, borderRadius: 6, backgroundColor: '#444' }}><View style={{ width: `${state.percent}%`, height: 12, borderRadius: 6, backgroundColor: '#ff8c00' }} /></View>}
+    <Text accessibilityLiveRegion="polite" style={s.body}>{state.label}{state.percent !== null ? ` · ${state.percent} %` : ''}</Text>
     {state.status === 'Läuft' && <>
       {!daily && <>
         <Text style={s.label}>Messwert in {unit}</Text>
         <TextInput accessibilityLabel={`Messwert in ${unit}`} value={value} onChangeText={setValue} keyboardType="decimal-pad" maxLength={20} editable={!saving} style={s.input} />
-        <Text style={s.body}>{run.definition.type === 'cumulative_metric' ? 'Trage den neu hinzugekommenen Wert ein. Die Einträge werden addiert.' : 'Trage ein Ergebnis ein. Bis zum Erreichen des Ziels zählt dein bestes Ergebnis.'}</Text>
+        <Text style={s.body}>{run.definition.direction === 'maximize' ? 'Trage die Anzahl aus einem vollständigen Versuch gemäß den Regeln ein. Dein höchster Wert zählt; du kannst ihn bis zum Ende des Zeitraums verbessern.' : run.definition.type === 'cumulative_metric' ? 'Trage den neu hinzugekommenen Wert ein. Die Einträge werden addiert.' : 'Trage ein Ergebnis ein. Bis zum Erreichen des Ziels zählt dein bestes Ergebnis.'}</Text>
       </>}
       <Pressable accessibilityRole="button" accessibilityState={{ disabled: saving || (daily && doneToday), busy: saving }} disabled={saving || (daily && doneToday)} onPress={() => { void submit(); }} style={s.primary}><Text style={s.primaryText}>{saving ? 'Wird gespeichert …' : daily ? doneToday ? 'Heute bereits erledigt' : 'Heute erledigt' : 'Messwert speichern'}</Text></Pressable>
     </>}

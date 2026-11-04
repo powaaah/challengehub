@@ -19,7 +19,7 @@ import {
   readGuest,
   DuelRequestError,
 } from "./duel-client";
-import { formStyles as s } from "./CreateChallengeForm";
+import { formStyles as s, scoringLabel } from "./CreateChallengeForm";
 
 export function GuestDuels({
   source,
@@ -239,6 +239,7 @@ export function GuestDuels({
               <>
                 <Text style={s.heading}>{duel.source.title}</Text>
                 <Text style={s.body}>{duel.source.goal}</Text>
+                <Text style={s.body}>{scoringLabel(duel.source)}</Text>
                 {duel.source.rules.map((rule, i) => (
                   <Text key={i} style={s.body}>
                     {i + 1}. {rule}

@@ -137,3 +137,23 @@ Es gibt noch keinen öffentlichen Handy-Testlink.
 
 Lokaler Integrationstest nach Web-Export, vom Repository-Root:
 `node --test apps/mobile/staging/server.test.cjs`.
+
+
+## Maximum statt Zielanzahl
+
+Für „maximale Liegestütze in 10 Minuten“ bei der Erstellung **Einmaliges Ergebnis →
+Wiederholungen → Maximum (Max)** wählen. Das Zielwertfeld entfällt; das Zeitlimit
+pro Versuch gehört in die Regeln. Die Dauer in Tagen bezeichnet den Teilnahmezeitraum.
+Es gibt keinen eingebauten Zehn-Minuten-Timer.
+
+Der höchste einzelne Messwert zählt, mehrere Versuche werden nicht addiert.
+Persönliche Versuche bleiben bis zum Ende des Teilnahmezeitraums für Verbesserungen
+offen; es gibt keine erfundene Zielquote oder „Ziel erreicht“-Meldung. Gast-Duelle
+vergleichen die Bestleistungen beim bisherigen gemeinsamen Abschluss.
+
+Die zusätzliche Definition liegt in `domain/challenges/competition-definition.ts`
+und wird von Mobile und der Gast-Duell-API geteilt. Bestehende Zieldefinitionen und
+die öffentliche Website-API bleiben unverändert. Client und Gast-Server gemeinsam
+aktualisieren: ältere Versionen kennen die neue Maximum-Definition nicht. Bereits
+angelegte Challenges werden nicht automatisch umgedeutet; zum Wechsel auf Maximum
+ist derzeit eine neue Challenge erforderlich.

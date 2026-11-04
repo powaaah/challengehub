@@ -1,4 +1,4 @@
-import type { ChallengeDefinition } from "../challenges/challenge-definition.ts";
+import type { ChallengeDefinition } from "../challenges/competition-definition.ts";
 export type DuelSource = {
   sourceKey: string;
   title: string;

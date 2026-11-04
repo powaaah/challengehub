@@ -1,5 +1,4 @@
-import { calculateChallengeOutcome } from '../../../domain/challenges/challenge-outcome';
-import { parseChallengeDefinition, type ChallengeDefinition } from '../../../domain/challenges/challenge-definition';
+import { calculateChallengeOutcome, parseChallengeDefinition, type ChallengeDefinition } from '../../../domain/challenges/competition-definition';
 
 export const PARTICIPATION_KEY = 'challengehub.participations.v1';
 export type ParticipationSource = { sourceKey: string; title: string; goal: string; rules: string[]; definition: ChallengeDefinition; durationDays: number | null };

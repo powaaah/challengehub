@@ -3118,3 +3118,11 @@
 - Eigenständiger Node-24-Dienst für Expo-Web-Export, öffentliche Kataloglesezugriffe und eigene SQLite-Duelldatenbank. Loopback-Listener, feste HTTPS-Origin, geprüfte Proxy-Host-/Client-IP-Header, keine Indexierung und keine Referrer. Vorlagen für getrennten systemd-Dienst, Umgebungsvariablen und zusätzlichen Caddy-Host; Installation/Rollback dokumentiert.
 - Lokaler Integrationstest prüft Proxy-/Origin-Ablehnung, zwei Gäste, Einladung, gemeinsamen Start/Abschluss, Sieger und Persistenz über Dienstneustart. Drei Katalog-Proxytests, sieben Duelltests, Root-/Mobile-Lint und Next-Build bestanden. Bestehende lokale Vorschau bleibt ohne Proxykonfiguration nutzbar.
 - Veröffentlichung blockiert: verwaltete Umgebung meldet keine eingerichteten Secrets/Identitäten und keine TCP-Ziele; kein Server-Administration-Workspace oder SSH-Zugang vorhanden. Nutzer um Verbindung des Workspace samt Zugang gebeten. Kein Zugriff auf Server, kein DNS-/Caddy-Eingriff, kein Deployment, kein öffentlicher Testlink. Nächster Schritt nach Verbindung: aktuelle Servernotizen lesen, getrennten Testhost installieren und echten HTTPS-/Zwei-Geräte-Ablauf prüfen.
+
+
+## 2026-11-04 – Maximum-Wertung ohne feste Anzahl
+
+- Nach Nutzerbeispiel „maximale Liegestütze in 10 Minuten“ die Zielrichtung Maximum (Max) für einmalige Ergebnisse ergänzt. Keine Zielzahl erforderlich; Zeitlimit pro Versuch wird ausdrücklich in Regeln beschrieben, Teilnahmezeitraum bleibt in Tagen.
+- Geteilte Wettbewerbsdefinition für Mobile/eigene Vorlagen/Gast-Duelle mit echtem null-Ziel und Bestwertwertung. Keine Addition mehrerer Versuche, keine Zielprozente und kein vorzeitiger Erfolgsabschluss. Bestehende Zielmodelle der Website unverändert. Maximum auch in Duell-Details sichtbar.
+- Verifikation: 291 Root-Tests, 33 Mobile-Tests, Root-/Mobile-TypeScript/Lint, Next-Build, iOS-/Android-/Web-Exporte bestanden. Neue Tests für Schema-/Persistenzvalidierung, Bestleistung und Duellsieger. Browserablauf bei 393, 412 und 1280 Pixeln: ohne Zielzahl erstellen, direkt öffnen, 45/30/60 erfassen, 60 als Bestleistung, Reload mit Erhalt des Ergebnisses; keine JavaScript-Fehler.
+- Keine automatische Umstellung vorhandener Challenges, kein Timer, kein Deployment. Client und Gast-Duell-Server benötigen dieselbe neue Definition; vorhandene Challenge für Maximum derzeit neu anlegen.
