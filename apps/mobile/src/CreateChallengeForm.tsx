@@ -10,12 +10,12 @@ export function scoringLabel(input: ChallengeInput) {
   if (d.type === 'daily_boolean') return 'Täglich erledigt / nicht erledigt';
   return `${d.type === 'cumulative_metric' ? 'Insgesamt' : d.direction === 'at_most' ? 'Höchstens' : 'Mindestens'} ${d.targetValue} ${units.find(([key]) => key === d.unit)?.[1] ?? d.unit}`;
 }
-export function CreateChallengeForm({ store, onClose, onSaved }: { store: LocalChallengeStore; onClose: () => void; onSaved: () => void }) {
+export function CreateChallengeForm({ store, onClose, onSaved, onOpenChallenge }: { store: LocalChallengeStore; onClose: () => void; onSaved: () => void; onOpenChallenge: (id: string) => void }) {
   const [form, setForm] = useState<ChallengeForm>({ ...emptyForm });
   const [preview, setPreview] = useState<ChallengeInput | null>(null);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState<string | null>(null);
   const busy = useRef(false);
   const scroll = useRef<React.ComponentRef<typeof ScrollView>>(null);
   const change = (field: keyof ChallengeForm, value: string) => setForm(previous => ({ ...previous, [field]: value }));
@@ -28,7 +28,7 @@ export function CreateChallengeForm({ store, onClose, onSaved }: { store: LocalC
   async function save() {
     if (!preview || busy.current) return;
     busy.current = true; setSaving(true); setError('');
-    try { await store.save(preview); setSaved(true); onSaved(); }
+    try { const item = await store.save(preview); setSaved(item.id); onSaved(); }
     catch (e) { setError(e instanceof Error ? e.message : 'Speichern fehlgeschlagen. Bitte erneut versuchen.'); }
     finally { busy.current = false; setSaving(false); scroll.current?.scrollTo({ y: 0, animated: false }); }
   }
@@ -46,6 +46,7 @@ export function CreateChallengeForm({ store, onClose, onSaved }: { store: LocalC
       <Pressable accessibilityRole="button" disabled={saving} onPress={onClose} style={formStyles.action}><Text style={formStyles.link}>{saved ? 'Fertig' : 'Abbrechen'}</Text></Pressable>
       <Text accessibilityRole="header" style={formStyles.heading}>{saved ? 'Challenge gespeichert' : preview ? 'Deine Challenge prüfen' : 'Neue Challenge erstellen'}</Text>
       <Text style={formStyles.body}>Wird nur auf diesem Gerät gespeichert. Ohne Login, ohne Veröffentlichung oder Teilen.</Text>
+      {saved && <Pressable accessibilityRole="button" onPress={() => onOpenChallenge(saved)} style={formStyles.primary}><Text style={formStyles.primaryText}>Zur Challenge</Text></Pressable>}
       {!!error && <Text accessibilityRole="alert" style={formStyles.error}>{error}</Text>}
       {preview ? <>
         <Text accessibilityRole="header" style={formStyles.title}>{preview.title}</Text>

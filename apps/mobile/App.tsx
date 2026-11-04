@@ -21,6 +21,7 @@ type Mode = typeof modes[number];
 
 export default function App() {
   const localChallenges = useLocalChallenges();
+  const [localChallengeId, setLocalChallengeId] = useState<string | null>(null);
   const runs = useParticipations();
   const [duelSource, setDuelSource] = useState<DuelSource | null>(null);
   const [runId, setRunId] = useState<string | null>(null);
@@ -74,13 +75,13 @@ export default function App() {
                 ))}
               </View>
               <MyChallenges store={runs} selectedId={runId} onSelect={setRunId} />
-              <LocalChallengeLibrary onDuel={setDuelSource} store={localChallenges} runs={runs} onOpen={openRun} />
+              <LocalChallengeLibrary selectedId={localChallengeId} onSelect={setLocalChallengeId} onDuel={setDuelSource} store={localChallenges} runs={runs} onOpen={openRun} />
               <Text style={styles.footer}>Deine Challenge. Dein nächster Schritt.</Text>
             </View>
           )}
           <GuestDuels source={duelSource} onClear={() => setDuelSource(null)} />
         </ScrollView>
-        <CreateChallengeButton store={localChallenges} onSaved={() => { setSelected(null); setChallenge(null); }} />
+        <CreateChallengeButton onOpenChallenge={id => { setSelected(null); setChallenge(null); setLocalChallengeId(id); }} store={localChallenges} onSaved={() => { setSelected(null); setChallenge(null); }} />
       </SafeAreaView>
     </SafeAreaProvider>
   );

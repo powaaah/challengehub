@@ -3103,3 +3103,11 @@
 - Lokaler Preview-/Metro-Adapter führt Duellschreibzugriffe ausschließlich lokal aus. Next-Route ist standardmäßig deaktiviert (404 ohne Datenbankzugriff); Aktivierung nur per separater Testkonfiguration. Kein Deployment, keine Produktionsänderung und keine Health-Anbindung.
 - Verifikation: 288 Root-Tests plus anschließend ergänzter Datenbank-Neustart-/Gleichstandstest bestanden (7 neue Duelltests insgesamt). 32 Mobile-Tests, 3 Proxytests, Root-/Mobile-Lint, TypeScript, Next-Build und Expo-Exporte für iOS, Android und Web bestanden. Zwei unabhängige Browser-Kontexte (393×852 und 412×915): Einladung, Beitritt, Start, zwei Zeitwerte, gemeinsamer Gewinner und Wiederöffnen nach Reload; keine JavaScript-Fehler/Horizontalüberläufe. Wiederholbarer Smoke-Test unter scripts/mobile-duels-smoke.mjs.
 - Grenzen/Nächstes: lokale Rechner-Vorschau; kein öffentlich erreichbarer Einladungsserver, keine nativen Einladungs-Deep-Links oder Geräteabnahme. Für öffentliche Nutzung separates Betriebs-/Rate-Limit-Konzept und ausdrückliche Deployment-Freigabe; HealthKit/Health Connect bleibt ein eigener Slice. Ergebnisse sind selbst gemeldet.
+
+
+## 2026-11-04 – Direkt zur gerade erstellten Challenge
+
+- Erfolgsansicht nach dem lokalen Speichern um „Zur Challenge“ ergänzt. Gespeicherte ID öffnet dieselbe Detailansicht wie die Bibliothek, mit Regeln, persönlichem Start und Duell-Erstellung. „Fertig“ bleibt erhalten; vor erfolgreichem Speichern erscheint kein Direktlink.
+- Auswahl der eigenen Challenge im App-Zustand geführt; Formular schließt beim Öffnen der Details.
+- Verifikation: 32 Mobile-Tests, Mobile-TypeScript, Root-/Mobile-Lint und Web-Export bestanden. Browserablauf Speichern → Zur Challenge → Details → Startseite bei 393, 412 und 1280 Pixeln geprüft.
+- Kein Deployment oder Produktionszugriff. Nächster Produktschritt: separat freizugebende gemeinsame Testumgebung für geräteübergreifende Einladungen.

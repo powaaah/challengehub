@@ -9,6 +9,8 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Nach dem Speichern einer eigenen Challenge führt „Zur Challenge“ direkt zu ihren Details; „Fertig“ bleibt als Rückweg erhalten.
+
 - [x] Persönliche Challenge-Teilnahme ohne Login: Start aus Katalog/eigener Vorlage, Regel-/Zeitraum-Snapshot, tägliche oder metrische Einträge, Verlauf und Abschluss unter „Meine Challenges“, lokale Persistenz und bestätigtes Löschen.
 
 - [x] Plus-Button mit lokalem Erstellungsformular, Vorschau, dauerhaftem Gerätespeicher und Liste eigener Challenges samt bestätigtem Löschen verbunden. Kein Login oder Upload.

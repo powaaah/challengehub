@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export function CreateChallengeButton({ store, onSaved }: { store: LocalChallengeStore; onSaved: () => void }) {
+export function CreateChallengeButton({ store, onSaved, onOpenChallenge }: { store: LocalChallengeStore; onSaved: () => void; onOpenChallenge: (id: string) => void }) {
   const [open, setOpen] = useState(false);
   const insets = useSafeAreaInsets();
   return <>
@@ -13,7 +13,7 @@ export function CreateChallengeButton({ store, onSaved }: { store: LocalChalleng
       <View accessible={false} style={styles.vertical} />
     </Pressable>
     <Modal visible={open} animationType="slide" onRequestClose={() => setOpen(false)}>
-      {open && <CreateChallengeForm store={store} onClose={() => setOpen(false)} onSaved={onSaved} />}
+      {open && <CreateChallengeForm store={store} onClose={() => setOpen(false)} onSaved={onSaved} onOpenChallenge={id => { setOpen(false); onOpenChallenge(id); }} />}
     </Modal>
   </>;
 }

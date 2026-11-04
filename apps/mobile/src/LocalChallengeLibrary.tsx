@@ -5,19 +5,18 @@ import { useState } from 'react';
 import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { LocalChallengeStore } from './useLocalChallenges';
-import type { LocalChallenge } from './local-challenges';
 import { formStyles as s, scoringLabel } from './CreateChallengeForm';
 
-export function LocalChallengeLibrary({ store, runs, onOpen, onDuel }: { onDuel?: (source: DuelSource) => void; store: LocalChallengeStore; runs: ParticipationStore; onOpen: (id: string) => void }) {
-  const [selected, setSelected] = useState<LocalChallenge | null>(null);
+export function LocalChallengeLibrary({ store, runs, onOpen, onDuel, selectedId, onSelect }: { selectedId: string | null; onSelect: (id: string | null) => void; onDuel?: (source: DuelSource) => void; store: LocalChallengeStore; runs: ParticipationStore; onOpen: (id: string) => void }) {
+  const selected = store.items.find(item => item.id === selectedId) ?? null;
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState('');
-  function close() { if (!deleting) { setSelected(null); setConfirmDelete(false); setError(''); } }
+  function close() { if (!deleting) { onSelect(null); setConfirmDelete(false); setError(''); } }
   async function remove() {
     if (!selected || deleting) return;
     setDeleting(true); setError('');
-    try { await store.remove(selected.id); setSelected(null); setConfirmDelete(false); }
+    try { await store.remove(selected.id); onSelect(null); setConfirmDelete(false); }
     catch (e) { setError(e instanceof Error ? e.message : 'Löschen fehlgeschlagen.'); }
     finally { setDeleting(false); }
   }
@@ -29,7 +28,7 @@ export function LocalChallengeLibrary({ store, runs, onOpen, onDuel }: { onDuel?
   return <View style={{ marginTop: 24, gap: 12 }}>
     <Text accessibilityRole="header" style={s.title}>Deine eigenen Challenges</Text>
     <Text style={s.body}>Nur auf diesem Gerät</Text>
-    {store.items.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.title} öffnen`} onPress={() => setSelected(item)} style={s.choice}>
+    {store.items.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.title} öffnen`} onPress={() => onSelect(item.id)} style={s.choice}>
       <Text style={s.label}>{item.title}</Text><Text style={s.body}>{item.durationDays} Tage · {scoringLabel(item)}</Text>
     </Pressable>)}
     <Modal visible={selected !== null} animationType="slide" onRequestClose={close}>
