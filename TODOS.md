@@ -9,6 +9,33 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Minimum (Min) ohne festen Zielwert: niedrigster positiver Einzelwert, Bestzeit bleibt verbesserbar, korrekte Duellwertung auch ohne Gegenergebnis oder bei Gleichstand.
+
+- [x] Maximum-Wertung ohne feste Zielzahl für eigene Challenges und Gast-Duelle: bester Einzelwert, keine Zielprozente oder vorzeitiger Abschluss.
+
+- [x] Nach dem Speichern einer eigenen Challenge führt „Zur Challenge“ direkt zu ihren Details; „Fertig“ bleibt als Rückweg erhalten.
+
+- [x] Persönliche Challenge-Teilnahme ohne Login: Start aus Katalog/eigener Vorlage, Regel-/Zeitraum-Snapshot, tägliche oder metrische Einträge, Verlauf und Abschluss unter „Meine Challenges“, lokale Persistenz und bestätigtes Löschen.
+
+- [x] Plus-Button mit lokalem Erstellungsformular, Vorschau, dauerhaftem Gerätespeicher und Liste eigener Challenges samt bestätigtem Löschen verbunden. Kein Login oder Upload.
+
+- [x] Mobile-Gast-Katalog: vorhandene öffentliche API ohne Login, Modi → Katalog → Regeln/Ziele/Tipps, Nachladen, Lade-/Leer-/Fehlerzustände und lokaler Web-Proxy.
+- [x] Gast-Duelle: lokale API, Einladung, genau zwei Gäste, gemeinsamer Start, manuelle Einträge und Ergebnisvergleich ohne Login; Zugriffsschutz und Browserablauf geprüft.
+- [ ] Separate Handy-Testumgebung am 04.11.2026 freigegeben. Isolierter Dienst, Proxy-/Service-Vorlagen und lokale Prüfung vorbereitet; Veröffentlichung blockiert durch fehlenden Server-Zugang und fehlende Server-Administration-Notizen.
+- [ ] Native Einladungslinks/Geräteabnahme; HealthKit/Health Connect danach als eigener Slice.
+
+- [x] Beschreibungstexte auf Wunsch innerhalb der quadratischen Mobile-Kacheln direkt unter dem Titel platziert.
+
+- [x] Mobile-Kacheln auf „1 vs 1“, „Gruppe“, „Global“ ohne dekorative Nummern reduziert; Untertexte erhalten.
+
+- [x] Drei Mobile-Startkacheln auf gewünschtes quadratisches 1:1-Format mit Unterzeilen umgestellt.
+
+- [x] Lokale interaktive Geräte-Vorschau für iPhone 14 Pro und Galaxy S26 mit Umschaltung und Zoom unter `npm run simulator` ergänzt.
+
+- [x] Issue #12: Architektur-ADR und isoliertes Expo-Grundgerüst mit drei horizontalen Startkacheln und Navigation umgesetzt; Tests, TypeScript, Lint, native Exports und Web-Layout geprüft. Siehe `docs/mobile-architecture.md`.
+- [ ] Mobile-PR reviewen; installierbare iOS-/Android-Testbuilds und Geräteabnahme folgen separat.
+- [ ] Mobile-Folgeslices: privates Battle-Modell mit Gastzugang, Einladungen, Wertungen und Geräte-/Beta-Tests; native Kontoanbindung später optional.
+
 - [x] Markdown als führende Quelle für die 17 kuratierten Challenges: Migration, Validierung, atomarer DB-Abgleich, Revisionen, Archivierung bei entfernten Dateien und Schutz vorhandener Wertungen. Build-/Start-Abgleich und sieben Browser-Tests erfolgreich. Anleitung: docs/challenge-markdown-backend.md. Mit PR #8 auf theovina.de veroeffentlicht; 15 Dateien nach bestaetigter Entfernung der Liegestuetz-Journey und 10.000-Kalorien-Challenge.
 
 - [x] Leistungs-Challenges mit teilbarer Zeit-Herausforderung statt Mate-Zweitbutton umgesetzt; Liegestütz-Journey und 100 Tage Body Transformation angelegt. Bestzeit wird im Teiltext mit den Regeln verlinkt. Teilnahme, Kalendergrenze und Desktop/Mobil geprüft. Mit PR #7 veröffentlicht.

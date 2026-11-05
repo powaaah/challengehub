@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChallengeHub · Handy-Vorschau</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#151719;color:#f5f5f5;font:16px system-ui,sans-serif}header{max-width:1100px;margin:auto;padding:24px}h1{font-size:24px;margin:0 0 10px}p{color:#bdc2c6;line-height:1.5;margin:8px 0}nav{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 12px}button{font:inherit;color:inherit;background:#25282c;border:1px solid #62676d;border-radius:10px;padding:12px 18px;cursor:pointer}button[aria-pressed=true]{background:#ff8c00;color:#111;border-color:#ff8c00}button:focus-visible,input:focus-visible{outline:3px solid #fff;outline-offset:3px}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:12px}input{accent-color:#ff8c00;width:160px}main{padding:12px 20px 40px;overflow:auto;display:flex;justify-content:center}.stage{flex-shrink:0}.phone{transform-origin:top left;border:8px solid #56595d;border-radius:58px;background:#101112;overflow:hidden;box-shadow:0 24px 80px #0009;position:relative;display:flex;flex-direction:column}.phone.galaxy{border:7px solid #444a51;border-radius:35px}.status{height:59px;flex-shrink:0;position:relative;display:flex;align-items:center;justify-content:space-between;padding:0 27px;font-size:14px;font-weight:600}.island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:126px;height:36px;background:#000;border-radius:30px}.galaxy .status{height:32px}.galaxy .island{top:8px;width:12px;height:12px;border:2px solid #333}iframe{width:100%;flex:1;border:0;min-height:0;background:#101112}.bottom{height:34px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px}.bottom:after{content:'';height:5px;width:132px;background:#eee;border-radius:9px}.galaxy .bottom{height:24px}.galaxy .bottom:after{width:110px;height:4px}.hint{font-size:13px}#dimensions{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<header>
+<h1>ChallengeHub · Handy-Vorschau</h1>
+<p>Wähle ein Gerät und klicke die drei Startkacheln direkt im Bildschirm an.</p>
+<nav aria-label="Gerät auswählen">
+<button type="button" data-device="iphone" aria-pressed="true">iPhone 14 Pro</button>
+<button type="button" data-device="galaxy" aria-pressed="false">Galaxy S26</button>
+</nav>
+<div class="controls"><label for="zoom">Ansichtsgröße</label><input id="zoom" type="range" min="35" max="100" value="75"><output id="zoom-value" for="zoom">75 %</output><span id="dimensions"></span></div>
+<p class="hint">Interaktive Web-Vorschau mit Geräterahmen, keine Betriebssystem-Emulation. Galaxy S26: angenommener Android-Viewport; tatsächliche Darstellung hängt von Anzeige- und Schriftgröße ab.</p>
+</header>
+<main>
+<div class="stage" id="stage"><div class="phone" id="phone">
+<div class="status" aria-hidden="true"><span>9:41</span><span class="island"></span><span>▮▮▮ ▰</span></div>
+<iframe src="/" title="ChallengeHub auf iPhone 14 Pro"></iframe>
+<div class="bottom" aria-hidden="true"></div>
+</div></div>
+</main>
+<script>
+const devices={iphone:{width:393,height:852,label:'iPhone 14 Pro',border:8},galaxy:{width:412,height:915,label:'Galaxy S26',border:7}};
+let selected='iphone';
+const phone=document.querySelector('#phone'),stage=document.querySelector('#stage'),zoom=document.querySelector('#zoom');
+function update(){const d=devices[selected],scale=Number(zoom.value)/100,w=d.width+2*d.border,h=d.height+2*d.border;phone.className='phone '+(selected==='galaxy'?'galaxy':'');phone.style.width=w+'px';phone.style.height=h+'px';phone.style.transform=`scale(${scale})`;stage.style.width=w*scale+'px';stage.style.height=h*scale+'px';document.querySelector('#zoom-value').textContent=zoom.value+' %';document.querySelector('#dimensions').textContent=`${d.width} × ${d.height} logische Pixel`;document.querySelector('iframe').title='ChallengeHub auf '+d.label;}
+document.querySelectorAll('[data-device]').forEach(button=>button.addEventListener('click',()=>{selected=button.dataset.device;document.querySelectorAll('[data-device]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));update();}));
+zoom.addEventListener('input',update);update();
+</script>
+</body>
+</html>

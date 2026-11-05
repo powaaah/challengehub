@@ -1,0 +1,23 @@
+[Unit]
+Description=ChallengeHub separate mobile test environment
+After=network.target
+
+[Service]
+Type=simple
+User=challengehub-test
+Group=challengehub-test
+WorkingDirectory=/opt/challengehub-mobile-test/current
+EnvironmentFile=/etc/challengehub-mobile-test.env
+ExecStart=/usr/bin/node apps/mobile/staging/server.mjs
+Restart=on-failure
+RestartSec=5
+StateDirectory=challengehub-mobile-test
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/challengehub-mobile-test
+
+[Install]
+WantedBy=multi-user.target

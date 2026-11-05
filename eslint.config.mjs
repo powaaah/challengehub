@@ -6,6 +6,7 @@ export default defineConfig([
   ...nextVitals,
   ...nextTs,
   globalIgnores([
+    "apps/mobile/**",
     ".next/**",
     ".next-e2e-*/**",
     ".next-e2e-*.tsconfig.json",

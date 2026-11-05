@@ -1,0 +1,4 @@
+MOBILE_TEST_ORIGIN=https://mobile-test.example.com
+MOBILE_TEST_DATABASE=/var/lib/challengehub-mobile-test/duels.sqlite
+MOBILE_TEST_PORT=8097
+NODE_ENV=production

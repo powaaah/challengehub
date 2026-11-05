@@ -1,0 +1,7 @@
+# Example only: use a separately chosen test hostname after reading server notes.
+mobile-test.example.com {
+    reverse_proxy 127.0.0.1:8097 {
+        header_up Host mobile-test.example.com
+        header_up X-Real-IP {remote_host}
+    }
+}

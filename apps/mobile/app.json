@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "ChallengeHub",
+    "slug": "challengehub-mobile",
+    "version": "0.1.0",
+    "scheme": "challengehub",
+    "userInterfaceStyle": "dark",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "permissions": []
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
+  }
+}

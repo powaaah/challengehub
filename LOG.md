@@ -3026,3 +3026,110 @@
 - Git-/Build-/SQLite-Backup vor Aktivierung; nur ChallengeHub neu gestartet. Live bei 1440/390/320 px: kombinierte Ergebnisse, halbe Sterne, ungültige Teilnehmergrenzen, Reset/Abbrechen, Scrollen und www geprüft. Screenshots kontrolliert, keine JavaScript-Laufzeitfehler. Alle 24 Datenbanktabellen gegen Aktivierungsbackup unverändert, Integrität ok.
 - Bewertungen verwenden vorhandene Inhaltsmetadaten; keine neue Nutzerbewertungsfunktion. Bestehender favicon.ico-404 sowie bekannte lokale Windows-CRLF-Prüfsumme außerhalb dieses Slices. Caddy, DNS, Schema, Dependencies und unabhängige Nutzeränderungen unverändert.
 - Deployment abgeschlossen; weiterer Schritt nur bei gewünschter Anpassung der Filter oder Aufbau echter Nutzerbewertungen.
+
+
+## 2026-11-03 - Mobile-Architektur und Expo-Grundgerüst (Issue #12)
+
+- Ziel: vorhandene Architektur prüfen und den ersten mobilen Slice für iOS/Android auf separatem Branch vorbereiten. Die zunächst ausgefallene Cloud-Umgebung ist wieder erreichbar. AGENTS, Todos, Log und Personas gelesen.
+- Bestandsaufnahme: Next.js/SQLite bleiben aktiv; öffentliche v1-Katalog-API vorhanden, native Session-API und private Battle-Mitgliedschaften fehlen. ADR mit Quellpfaden, Daten-/API-Entwurf, Datenschutz, Wertungsgrenzen und Implementierungsfolge unter `docs/mobile-architecture.md`.
+- Änderungen: eigenständige Expo-58-App unter `apps/mobile`, eigenes Lockfile, drei gleichrangige horizontale Startkacheln mit Global-Unterzeile, eigene Einstiege, Safe Areas und Android-Zurück. Root-Typecheck/Lint schließen Mobile aus; Website-Abhängigkeiten und Runtime bleiben unverändert. Todos und Start-/Prüfanleitung gepflegt.
+- Verifikation: 282 bestehende Tests, Web-Lint und Next-Build bestanden. Mobile-Typecheck, Lint, vier Navigation-/Starttests und native iOS-/Android-Exports bestanden. Expo Doctor 20/20 nach Aktivierung der Node-Proxy-Unterstützung; zuvor waren zwei Netzwerkprüfungen nicht erreichbar. Web-Export und lokale Browserprüfung bei 320/390/768/1440 px: gleiche Kachelbreiten in einer Reihe und alle Hin-/Zurückwege; keine JavaScript-Fehler. 320-px-Screenshot visuell geprüft und Textumbrüche verbessert.
+- Grenzen: keine APK/IPA, Emulator-/Geräteprüfung, native Anmeldung, API-Anbindung oder echten Battles. Die Ziele weisen auf kommende Funktionen hin; keine Demo-Ergebnisse, Produktionszugriffe, Migrationen, Deployments oder Store-Veröffentlichung. Expo-Exports sind keine nativen Testbuilds.
+- Nächster Schritt: PR reviewen; danach Session-/Katalog-Slice und Geräteabnahme gemäß ADR.
+
+
+## 2026-11-03 - Interaktive Handy-Vorschau
+
+- Browser-Vorschau mit iPhone-14-Pro- und Galaxy-S26-Rahmen, Status-/Gestenbereichen, Gerätewechsel und Zoom ergänzt. Die echte Expo-Web-App läuft im iframe und bleibt bedienbar. Galaxy-Viewport ausdrücklich als Annahme markiert.
+- `npm run simulator` exportiert Web und startet einen lokalen Node-Server auf 127.0.0.1:8096; keine neuen Dependencies, kein Deployment. Anleitung in apps/mobile/README.md.
+- Verifikation: Mobile-Lint und TypeScript bestanden, Web-Export erfolgreich. Browserprüfung beider Geräte inklusive Global-Einstieg/Zurück, iframe-Breiten 393/412 und Zoom erfolgreich; keine JavaScript-Fehler. iPhone-Vorschau visuell geprüft.
+- Grenze: Bildschirmvorschau, keine native Betriebssystem- oder Hardware-Emulation.
+
+
+## 2026-11-03 - Quadratische Mobile-Startkacheln
+
+- Auf Nutzerwunsch alle drei Startkacheln auf 1:1 gesetzt; Beschreibungen unter die Quadrate verschoben, horizontale Gleichrangigkeit und Navigation erhalten.
+- Mobile-Lint, TypeScript, vier Tests und Web-Export bestanden. Browserprüfung bei 320/393/412 px bestätigt gleiche Breite/Höhe aller Kacheln; 320-px-Ansicht visuell geprüft. Keine Produktionsänderung.
+
+
+## 2026-11-03 - Startkacheln ohne Nummerierung
+
+- Dekorative Nummern 01/02/03 samt Daten und Styles entfernt, Duell-Titel auf „1 vs 1“ geändert. Quadratische Kacheln und Untertexte bleiben erhalten.
+- Mobile-Lint, TypeScript, vier Navigationstests und Web-Export bestanden. Browserprüfung bei 393/412 px bestätigt Quadrate ohne Nummerierung und neuen Titel. Keine Produktionsänderung.
+
+
+## 2026-11-03 - Beschreibung innerhalb der Kacheln
+
+- Auf Nutzerwunsch Beschreibung direkt unter den Titel in jede quadratische Startkachel gesetzt. Schriftgröße/Zeilenhöhe und Innenabstände angepasst.
+- Lint, TypeScript, vier Tests und Web-Export bestanden. Browserprüfung bei 320/393/412 px bestätigt, dass Titel und Beschreibung vollständig innerhalb der Kacheln liegen; 393-px-Ansicht visuell geprüft. Keine Produktionsänderung.
+
+
+## 2026-11-03 - Öffentlicher Mobile-Katalog ohne Login
+
+- Gemäß Nutzerentscheidung Gastabläufe priorisiert. Alle drei Modi öffnen den vorhandenen öffentlichen Challenge-Katalog; Details zeigen Ziele, Regeln und Tipps. Zehn Einträge pro Seite, Nachladen, Duplikatschutz, Lade-/Leer-/Fehlerzustände, Wiederholen, Timeout und Abbruch beim Verlassen. Katalog bleibt beim Detail-Zurückweg geladen; Android-Zurück berücksichtigt die Detailstufe.
+- Vorhandenen v1-Client/Validator wiederverwendet; DTO-Typen serverunabhängig extrahiert und alte Exporte kompatibel erhalten. Keine Katalogkopie oder neue Datenbank. Metro bindet nur die gemeinsamen clients/domain-Verzeichnisse zusätzlich ein.
+- Öffentliche API auf theovina.de per lesendem Request verifiziert; challengehub.de liefert derzeit 404. Native App verwendet HTTPS ohne Credentials. Lokaler Simulator und Metro-Webserver haben einen auf öffentliche Katalog-GETs begrenzten Proxy ohne Cookie-/Authorization-Weitergabe, ohne Redirects und mit Timeout. Keine Produktions-CORS-/Auth-Änderung.
+- Verifikation: 282 bestehende Tests, Root-Lint/Next-Build, Mobile-Typecheck/Lint, neun UI-/Lade-/Fehlertests und drei Proxytests bestanden. iOS-/Android- und Web-Exports erfolgreich. Beide Geräte-Vorschauen: alle drei Modi, 10 → 15 echte Challenges, Details/Ziele/Regeln, Erhalt der Liste beim Zurückgehen und Fehler/Retry bestanden; keine JavaScript-Fehler. Detailansicht visuell geprüft. Metro-Devproxy separat erfolgreich geprüft.
+- Grenzen: Gast-Battle-Erstellung, Einladungen, Check-ins und öffentliche Rankings folgen separat. Keine Schreibzugriffe auf Produktion, Migration, Veröffentlichung oder native Geräteabnahme. Architektur und README auf Gast-zuerst angepasst.
+
+
+## 2026-11-03 - Weißer Erstellen-Button
+
+- Großen weißen Kreis (72 px) mit schwarzem Plus unten rechts ergänzt, mit Safe-Area-Abstand und Accessibility-Label „Neue Challenge erstellen“. Zusätzlicher Inhaltsabstand verhindert verdeckte letzte Einträge.
+- Button öffnet vorerst einen schließbaren Hinweis auf die noch folgende Erstellung ohne Login; keine vorgetäuschte Speicherung.
+- Mobile-Lint, TypeScript, neun bestehende Tests und Web-Export bestanden. Browserprüfung bei 393/412 px bestätigt Größe, Farbe, Position und Öffnen/Schließen; Ansicht visuell geprüft. Keine Produktionsänderung.
+
+
+## 2026-11-03 - Eigene Challenges ohne Login lokal erstellen
+
+- Plus-Button öffnet vollständiges Formular mit Titel, Ziel, Dauer, Regeln und den bestehenden Wertungstypen (täglich, kumulativ, einmalig mit Einheit/Zielrichtung). Vorschau, Korrektur und Speicherung mit Erfolg erst nach bestätigtem Schreibzugriff.
+- Eigene Challenges erscheinen getrennt vom öffentlichen Katalog auf der Startseite; Details und bestätigtes Löschen ergänzt. AsyncStorage 2.2.0 SDK-kompatibel installiert; versioniertes Format, max. 100 Einträge, Lesefehler/ungültige Daten blockieren überschreibende Schreibzugriffe. Schutz gegen doppelte Speicherklicks, Fehler mit Retry. Keine Gastidentität als Account-Ersatz oder öffentliche Veröffentlichung vorgetäuscht.
+- Verifikation: Mobile-Lint/TypeScript und Root-Lint, 20 Mobile-Tests sowie drei Proxytests bestanden. Native iOS-/Android- und Web-Exports erfolgreich. Beide Geräte-Vorschauen mit Pflichtfeldfehler, metrischer Eingabe, Vorschau, Speichern, Neuladen/Persistenz, Details, Behalten und bestätigtem Löschen geprüft; keine JavaScript-Fehler oder Netzwerk-Schreibanfragen. Vorschau visuell geprüft.
+- Grenzen: lokale Speicherung pro Gerät/Browser-Ursprung; keine Synchronisierung, Einladungen, laufenden Battles oder Server-Schreibwege. Löschen der App-/Browser-Daten entfernt eigene Einträge. Keine Produktionsänderung oder Deployment. Nächster Schritt: Gast-Battles und Einladungen auf Basis bestehender oder eigener Challenges.
+
+
+## 2026-11-03 - Challenges starten und Fortschritt erfassen
+
+- Persönlicher Start aus öffentlichem Katalog und eigener Vorlage ohne Login. Snapshot von Definition/Regeln/Zeitraum/Zeitzone; offene Teilnahme derselben Quelle wird wiederverwendet. „Meine Challenges“ zeigt laufende und beendete Versuche, Fortschritt und Verlauf.
+- Vorhandene Wertungslogik für Summen und Bestwerte wiederverwendet; tägliche Wertung auf einmal je festgelegtem Kalendertag und Anteil am persönlichen Zeitraum ergänzt. Positive Messwerte, exklusive Endgrenze, Start-/Abschlussgrenzen, doppelte Tageshaken und idempotente Eintrags-IDs geprüft. Body Transformation bleibt mangels spezieller Messwerterfassung ausdrücklich nicht startbar.
+- Separater versionierter AsyncStorage-Verlauf, gespeicherte Daten validiert, Fehler überschreiben keinen bisherigen Fortschritt. Bestätigtes Löschen betrifft nur den Versuch, nicht die Vorlage. Zeitstatus aktualisiert sich beim Öffnen/Fortsetzen und alle 30 Sekunden. Kein neuer Account, Server-Schreibweg oder Deployment.
+- Verifikation: 30 Mobile-Tests (inkl. Tagesgrenzen/Sommerzeit, Summe, at_most/at_least, Ablauf, Snapshot, Persistenz, Duplikate, Speicherfehler, beschädigte Daten, Löschbestätigung), drei Proxytests, Mobile-TypeScript/Lint und Root-Lint bestanden. iOS-/Android- und Web-Exports erfolgreich. Beide Geräte-Vorschauen: lokale tägliche/kumulative Challenge und bestehende öffentliche Zeit-Challenge gestartet, Werte eingetragen, abgeschlossen und nach Reload geöffnet; keine JavaScript-Fehler oder Netzwerk-Schreibanfragen. Fortschrittsansicht visuell geprüft.
+- Grenzen: persönlich und lokal, keine Gegenspieler/Einladungen/Ranglisten, Geräteuhr als Zeitquelle, keine native Geräteabnahme. Bei fehlender API-Dauer persönliches Zeitfenster explizit wählbar. Nächster Schritt: geschützter Gast-Battle-/Einladungsablauf.
+
+## 2026-11-03 – Gemeinsame Gast-Duelle ohne Login
+
+- Zweipersonen-Duelle aus öffentlichem Katalog oder eigener Vorlage: Namen/1–7 UTC-Kalendertage, Einladung, Beitritt, Gastgeberstart, manuelle Tages-/Messwerteinträge, bestätigter Abschluss und gemeinsames Ergebnis. Bestehende persönliche Versuche bleiben unabhängig. Body Transformation mangels spezieller Erfassung ausgeschlossen.
+- Getrennte SQLite-Datei, zufällige Gastzugänge und gehashte Geheimnisse, Mitgliederprüfung für alle Duellzugriffe, rotierende 24-Stunden-Einladungen, maximal zwei Mitglieder, Transaktionen und idempotente Schreibvorgänge. UTC-Serverzeit und exklusive Endgrenze; Endstand nach beiden Abschlüssen oder Frist. Gastzugang/Verfügbarkeit 30 Tage; Browserzugang pro Tab in sessionStorage, native Vorbereitung mit SecureStore. Keine Wiederherstellung verlorener Gastzugänge.
+- Lokaler Preview-/Metro-Adapter führt Duellschreibzugriffe ausschließlich lokal aus. Next-Route ist standardmäßig deaktiviert (404 ohne Datenbankzugriff); Aktivierung nur per separater Testkonfiguration. Kein Deployment, keine Produktionsänderung und keine Health-Anbindung.
+- Verifikation: 288 Root-Tests plus anschließend ergänzter Datenbank-Neustart-/Gleichstandstest bestanden (7 neue Duelltests insgesamt). 32 Mobile-Tests, 3 Proxytests, Root-/Mobile-Lint, TypeScript, Next-Build und Expo-Exporte für iOS, Android und Web bestanden. Zwei unabhängige Browser-Kontexte (393×852 und 412×915): Einladung, Beitritt, Start, zwei Zeitwerte, gemeinsamer Gewinner und Wiederöffnen nach Reload; keine JavaScript-Fehler/Horizontalüberläufe. Wiederholbarer Smoke-Test unter scripts/mobile-duels-smoke.mjs.
+- Grenzen/Nächstes: lokale Rechner-Vorschau; kein öffentlich erreichbarer Einladungsserver, keine nativen Einladungs-Deep-Links oder Geräteabnahme. Für öffentliche Nutzung separates Betriebs-/Rate-Limit-Konzept und ausdrückliche Deployment-Freigabe; HealthKit/Health Connect bleibt ein eigener Slice. Ergebnisse sind selbst gemeldet.
+
+
+## 2026-11-04 – Direkt zur gerade erstellten Challenge
+
+- Erfolgsansicht nach dem lokalen Speichern um „Zur Challenge“ ergänzt. Gespeicherte ID öffnet dieselbe Detailansicht wie die Bibliothek, mit Regeln, persönlichem Start und Duell-Erstellung. „Fertig“ bleibt erhalten; vor erfolgreichem Speichern erscheint kein Direktlink.
+- Auswahl der eigenen Challenge im App-Zustand geführt; Formular schließt beim Öffnen der Details.
+- Verifikation: 32 Mobile-Tests, Mobile-TypeScript, Root-/Mobile-Lint und Web-Export bestanden. Browserablauf Speichern → Zur Challenge → Details → Startseite bei 393, 412 und 1280 Pixeln geprüft.
+- Kein Deployment oder Produktionszugriff. Nächster Produktschritt: separat freizugebende gemeinsame Testumgebung für geräteübergreifende Einladungen.
+
+## 2026-11-04 – Separate Handy-Testumgebung vorbereitet, Zugriff fehlt
+
+- Nutzer hat die Umsetzung/Veröffentlichung der separaten Handy-Testumgebung ausdrücklich freigegeben. Keine erneute Freigabe für diesen Umfang erforderlich.
+- Eigenständiger Node-24-Dienst für Expo-Web-Export, öffentliche Kataloglesezugriffe und eigene SQLite-Duelldatenbank. Loopback-Listener, feste HTTPS-Origin, geprüfte Proxy-Host-/Client-IP-Header, keine Indexierung und keine Referrer. Vorlagen für getrennten systemd-Dienst, Umgebungsvariablen und zusätzlichen Caddy-Host; Installation/Rollback dokumentiert.
+- Lokaler Integrationstest prüft Proxy-/Origin-Ablehnung, zwei Gäste, Einladung, gemeinsamen Start/Abschluss, Sieger und Persistenz über Dienstneustart. Drei Katalog-Proxytests, sieben Duelltests, Root-/Mobile-Lint und Next-Build bestanden. Bestehende lokale Vorschau bleibt ohne Proxykonfiguration nutzbar.
+- Veröffentlichung blockiert: verwaltete Umgebung meldet keine eingerichteten Secrets/Identitäten und keine TCP-Ziele; kein Server-Administration-Workspace oder SSH-Zugang vorhanden. Nutzer um Verbindung des Workspace samt Zugang gebeten. Kein Zugriff auf Server, kein DNS-/Caddy-Eingriff, kein Deployment, kein öffentlicher Testlink. Nächster Schritt nach Verbindung: aktuelle Servernotizen lesen, getrennten Testhost installieren und echten HTTPS-/Zwei-Geräte-Ablauf prüfen.
+
+
+## 2026-11-04 – Maximum-Wertung ohne feste Anzahl
+
+- Nach Nutzerbeispiel „maximale Liegestütze in 10 Minuten“ die Zielrichtung Maximum (Max) für einmalige Ergebnisse ergänzt. Keine Zielzahl erforderlich; Zeitlimit pro Versuch wird ausdrücklich in Regeln beschrieben, Teilnahmezeitraum bleibt in Tagen.
+- Geteilte Wettbewerbsdefinition für Mobile/eigene Vorlagen/Gast-Duelle mit echtem null-Ziel und Bestwertwertung. Keine Addition mehrerer Versuche, keine Zielprozente und kein vorzeitiger Erfolgsabschluss. Bestehende Zielmodelle der Website unverändert. Maximum auch in Duell-Details sichtbar.
+- Verifikation: 291 Root-Tests, 33 Mobile-Tests, Root-/Mobile-TypeScript/Lint, Next-Build, iOS-/Android-/Web-Exporte bestanden. Neue Tests für Schema-/Persistenzvalidierung, Bestleistung und Duellsieger. Browserablauf bei 393, 412 und 1280 Pixeln: ohne Zielzahl erstellen, direkt öffnen, 45/30/60 erfassen, 60 als Bestleistung, Reload mit Erhalt des Ergebnisses; keine JavaScript-Fehler.
+- Keine automatische Umstellung vorhandener Challenges, kein Timer, kein Deployment. Client und Gast-Duell-Server benötigen dieselbe neue Definition; vorhandene Challenge für Maximum derzeit neu anlegen.
+
+
+## Minimum-Wertung für schnellste Ergebnisse
+
+- Ergänzung zur Maximum-Wertung: Minimum (Min) ohne Zielzahl, niedrigster positiver Einzelwert für persönliche Versuche und Gast-Duelle. Zeitangabe in Sekunden, Anzeige als Minuten:Sekunden. Kein Prozentziel/automatischer Erfolgsabschluss, Verbesserungen bis zum Zeitraumende. Vorhandene Calisthenics-Zieldefinition unverändert; Zeitlimits eigener Challenges bleiben manuelle Regeln.
+- Verifikation: 293 Root-Tests, 34 Mobile-Tests, Root-/Mobile-TypeScript und Lint, native iOS-/Android- und Web-Exporte bestanden. Minimum-Persistenz, Null/fehlendes Ergebnis, Gleichstand und Sieger getestet. Browser bei 393/412/1280 Pixeln: ohne Zielzahl erstellen, 280/240/260 Sekunden, Bestzeit 4:00 und Wiederöffnen nach Reload.
+- Kein Deployment. Änderungen im bestehenden Mobile-Branch/PR; Client und Gast-Server gemeinsam aktualisieren.
