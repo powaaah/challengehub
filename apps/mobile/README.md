@@ -157,3 +157,18 @@ die öffentliche Website-API bleiben unverändert. Client und Gast-Server gemein
 aktualisieren: ältere Versionen kennen die neue Maximum-Definition nicht. Bereits
 angelegte Challenges werden nicht automatisch umgedeutet; zum Wechsel auf Maximum
 ist derzeit eine neue Challenge erforderlich.
+
+
+## Minimum für die schnellste Zeit
+
+Bei **Einmaliges Ergebnis → Sekunden → Minimum (Min)** entfällt ebenfalls die
+Zielzahl. Die niedrigste positive Zeit eines vollständigen Versuchs zählt. Beispiel:
+280, 240 und 260 Sekunden ergeben 4:00 Minuten. Weitere Verbesserungen bleiben bis
+zum Ende des Teilnahmezeitraums möglich; im Duell gewinnt die kleinere Bestzeit.
+Fehlende Ergebnisse schlagen keine gültige Zeit, gleiche Bestzeiten sind Gleichstand.
+
+Die vollständige Aufgabe und ein zusätzliches Zeitlimit (z. B. fünf Minuten) stehen
+in den Regeln. Freitext-Regeln werden nicht automatisch auf Zeitlimits geprüft.
+Die bestehende kuratierte Calisthenics-Definition mit „höchstens 300 Sekunden“ bleibt
+unverändert; Minimum ist eine zusätzliche Option für eigene Challenges. Client und
+Gast-Server gemeinsam aktualisieren. Keine automatische Umstellung alter Challenges.

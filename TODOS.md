@@ -9,6 +9,8 @@ Stand: 2026-10-17
 
 ## Active
 
+- [x] Minimum (Min) ohne festen Zielwert: niedrigster positiver Einzelwert, Bestzeit bleibt verbesserbar, korrekte Duellwertung auch ohne Gegenergebnis oder bei Gleichstand.
+
 - [x] Maximum-Wertung ohne feste Zielzahl für eigene Challenges und Gast-Duelle: bester Einzelwert, keine Zielprozente oder vorzeitiger Abschluss.
 
 - [x] Nach dem Speichern einer eigenen Challenge führt „Zur Challenge“ direkt zu ihren Details; „Fertig“ bleibt als Rückweg erhalten.

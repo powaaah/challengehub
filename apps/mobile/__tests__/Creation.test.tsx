@@ -124,3 +124,23 @@ test('Maximum benötigt keinen Zielwert und öffnet eine gespeicherte Challenge 
   expect(screen.getByText('Bestleistung: 45 Wiederholungen')).toBeOnTheScreen();
   expect(screen.queryByText('Ziel erreicht! Dieser Versuch ist abgeschlossen.')).toBeNull();
 });
+
+test('Minimum ohne Zielzahl speichert Bestzeit und erlaubt weitere Verbesserungen', async () => {
+  await render(<App />); await fillForm();
+  await fireEvent.press(screen.getByRole('radio', {name:'Einmaliges Ergebnis'}));
+  await fireEvent.press(screen.getByRole('radio', {name:'Sekunden'}));
+  await fireEvent.press(screen.getByRole('radio', {name:'Minimum (Min)'}));
+  expect(screen.queryByLabelText('Zielwert')).toBeNull();
+  await fireEvent.press(screen.getByRole('button', {name:'Vorschau'}));
+  await fireEvent.press(screen.getByRole('button', {name:'Challenge speichern'}));
+  await fireEvent.press(await screen.findByRole('button', {name:'Zur Challenge'}));
+  expect(decodeChallenges(await AsyncStorage.getItem(STORAGE_KEY))[0].definition).toMatchObject({direction:'minimize',targetValue:null});
+  await fireEvent.press(screen.getByRole('button', {name:'Challenge starten'}));
+  for(const value of ['280','240','260']){
+    await fireEvent.changeText(screen.getByLabelText('Messwert in Sekunden'),value);
+    await fireEvent.press(screen.getByRole('button', {name:'Messwert speichern'}));
+  }
+  expect(screen.getByText('Bestleistung: 4:00 Minuten')).toBeOnTheScreen();
+  expect(screen.queryByRole('progressbar')).toBeNull();
+  expect(screen.getByRole('button', {name:'Messwert speichern'})).toBeEnabled();
+});

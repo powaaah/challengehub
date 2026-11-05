@@ -16,10 +16,10 @@ export function validateForm(form: ChallengeForm): { value: ChallengeInput; erro
   }
   const durationDays = Number(form.days);
   if (!/^\d+$/.test(form.days.trim()) || !Number.isInteger(durationDays) || durationDays < 1 || durationDays > 365) return { error: 'Wähle eine Dauer von 1 bis 365 ganzen Tagen.' };
-  const maximum = form.type === 'one_time_result' && form.direction === 'maximize';
+  const bestResult = form.type === 'one_time_result' && (form.direction === 'maximize' || form.direction === 'minimize');
   const target = form.target.trim().replace(',', '.');
-  if (form.type !== 'daily_boolean' && !maximum && !/^\d+(?:\.\d+)?$/.test(target)) return { error: 'Gib einen positiven Zielwert ein, zum Beispiel 100 oder 2,5.' };
-  const definition = createChallengeDefinition({ type: form.type, unit: form.unit, targetValue: maximum ? null : Number(target), direction: form.type === 'cumulative_metric' ? 'at_least' : form.direction });
+  if (form.type !== 'daily_boolean' && !bestResult && !/^\d+(?:\.\d+)?$/.test(target)) return { error: 'Gib einen positiven Zielwert ein, zum Beispiel 100 oder 2,5.' };
+  const definition = createChallengeDefinition({ type: form.type, unit: form.unit, targetValue: bestResult ? null : Number(target), direction: form.type === 'cumulative_metric' ? 'at_least' : form.direction });
   if (!definition) return { error: 'Prüfe Wertungsart, Einheit und positiven Zielwert.' };
   return { value: { title, goal, rules, durationDays, definition } };
 }

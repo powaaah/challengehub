@@ -474,7 +474,7 @@ export class GuestDuels {
     let result: DuelView["result"] = null;
     if (status === "completed" && members.length === 2) {
       const [a, c] = members;
-      const lower = source.definition.direction === "at_most";
+      const lower = source.definition.direction === "at_most" || source.definition.direction === "minimize";
       const tie = a.value === c.value;
       const winner = tie
         ? null

@@ -24,3 +24,28 @@ test('maximum duel persists definition and ranks highest individual attempt',()=
     assert.equal(result.members[0].value,60);assert.equal(result.members[1].value,70);assert.equal(result.result?.winnerId,result.members[1].id);assert.deepEqual(result.source.definition,definition);
   }finally{db.close();}
 });
+
+test('minimum selects lowest positive value, remains open and survives parsing',()=>{
+  const minimum=createChallengeDefinition({type:'one_time_result',unit:'seconds',direction:'minimize',targetValue:null})!;
+  assert.deepEqual(parseChallengeDefinition(JSON.parse(JSON.stringify(minimum))),minimum);
+  assert.equal(parseChallengeDefinition({...minimum,targetValue:300}),null);
+  const result=calculateChallengeOutcome({definition:minimum,checkIns:[300,240,270,0,-1].map(value=>({date:'2026-11-05',value}))});
+  assert.equal(result.value,240);assert.equal(result.completed,false);assert.equal(result.completionRate,null);
+  assert.equal(calculateChallengeOutcome({definition:minimum,checkIns:[]}).value,0);
+});
+test('minimum duel: fastest valid result wins, missing result never beats a time, equal bests tie',()=>{
+  for(const opponent of [null,230,240]){
+    const db=new DatabaseSync(':memory:');
+    try {const s=new GuestDuels(db),a=s.authenticate(s.session().token),b=s.authenticate(s.session().token);
+      const minimum=createChallengeDefinition({type:'one_time_result',unit:'seconds',direction:'minimize',targetValue:null})!;
+      const d=s.create(a,{source:{sourceKey:'local:min',title:'Schnellste Zeit',goal:'So schnell wie möglich',rules:['Vollständige Aufgabe in maximal fünf Minuten'],definition:minimum},name:'Anna',days:1,requestId:randomUUID()});
+      s.join(b,s.invite(a,d.id).token,'Ben');s.start(a,d.id);
+      for(const value of [280,240,260])s.entry(a,d.id,{requestId:randomUUID(),value});
+      assert.throws(()=>s.entry(b,d.id,{requestId:randomUUID(),value:0}));
+      if(opponent!==null)s.entry(b,d.id,{requestId:randomUUID(),value:opponent});
+      s.finish(a,d.id);const result=s.finish(b,d.id);
+      assert.equal(result.members[0].value,240);assert.equal(result.result?.tie,opponent===240);
+      assert.equal(result.result?.winnerId,opponent===240?null:result.members[opponent===230?1:0].id);
+    } finally {db.close();}
+  }
+});

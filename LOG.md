@@ -3126,3 +3126,10 @@
 - Geteilte Wettbewerbsdefinition für Mobile/eigene Vorlagen/Gast-Duelle mit echtem null-Ziel und Bestwertwertung. Keine Addition mehrerer Versuche, keine Zielprozente und kein vorzeitiger Erfolgsabschluss. Bestehende Zielmodelle der Website unverändert. Maximum auch in Duell-Details sichtbar.
 - Verifikation: 291 Root-Tests, 33 Mobile-Tests, Root-/Mobile-TypeScript/Lint, Next-Build, iOS-/Android-/Web-Exporte bestanden. Neue Tests für Schema-/Persistenzvalidierung, Bestleistung und Duellsieger. Browserablauf bei 393, 412 und 1280 Pixeln: ohne Zielzahl erstellen, direkt öffnen, 45/30/60 erfassen, 60 als Bestleistung, Reload mit Erhalt des Ergebnisses; keine JavaScript-Fehler.
 - Keine automatische Umstellung vorhandener Challenges, kein Timer, kein Deployment. Client und Gast-Duell-Server benötigen dieselbe neue Definition; vorhandene Challenge für Maximum derzeit neu anlegen.
+
+
+## Minimum-Wertung für schnellste Ergebnisse
+
+- Ergänzung zur Maximum-Wertung: Minimum (Min) ohne Zielzahl, niedrigster positiver Einzelwert für persönliche Versuche und Gast-Duelle. Zeitangabe in Sekunden, Anzeige als Minuten:Sekunden. Kein Prozentziel/automatischer Erfolgsabschluss, Verbesserungen bis zum Zeitraumende. Vorhandene Calisthenics-Zieldefinition unverändert; Zeitlimits eigener Challenges bleiben manuelle Regeln.
+- Verifikation: 293 Root-Tests, 34 Mobile-Tests, Root-/Mobile-TypeScript und Lint, native iOS-/Android- und Web-Exporte bestanden. Minimum-Persistenz, Null/fehlendes Ergebnis, Gleichstand und Sieger getestet. Browser bei 393/412/1280 Pixeln: ohne Zielzahl erstellen, 280/240/260 Sekunden, Bestzeit 4:00 und Wiederöffnen nach Reload.
+- Kein Deployment. Änderungen im bestehenden Mobile-Branch/PR; Client und Gast-Server gemeinsam aktualisieren.
